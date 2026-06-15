@@ -1,210 +1,102 @@
 {
   "sections": {
-    "image_banner": {
-      "type": "image-banner",
-      "blocks": {
-        "heading": {
-          "type": "heading",
-          "settings": {
-            "heading": "Image banner",
-            "heading_size": "h0"
-          }
-        },
-        "text": {
-          "type": "text",
-          "settings": {
-            "text": "Give customers details about the banner image(s) or content on the template.",
-            "text_style": "body"
-          }
-        },
-        "button": {
-          "type": "buttons",
-          "settings": {
-            "button_label_1": "Shop all",
-            "button_link_1": "shopify://collections/all",
-            "button_style_secondary_1": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
-          }
-        }
-      },
-      "block_order": [
-        "heading",
-        "text",
-        "button"
-      ],
+    "hero": {
+      "type": "hero",
       "settings": {
-        "image_overlay_opacity": 40,
-        "image_height": "large",
-        "desktop_content_position": "bottom-center",
-        "show_text_box": false,
-        "desktop_content_alignment": "center",
-        "color_scheme": "scheme-3",
-        "mobile_content_alignment": "center",
-        "stack_images_on_mobile": false,
-        "show_text_below": false
+        "eyebrow": "Nieuwe collectie",
+        "heading": "Sierkussens die je",
+        "heading_accent": "interieur",
+        "heading_after": "laten leven",
+        "text": "Luxe geweven stoffen, velours en subtiele glans in warme aardetinten. Met de hand samengesteld voor een tijdloze, hotel-chic uitstraling.",
+        "button_label": "Shop sierkussens",
+        "button2_label": "Ontdek de collectie"
       }
     },
-    "rich_text": {
-      "type": "rich-text",
+    "usp": {
+      "type": "usp-bar",
       "blocks": {
-        "heading": {
-          "type": "heading",
-          "settings": {
-            "heading": "Talk about your brand",
-            "heading_size": "h1"
-          }
-        },
-        "text": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.<\/p>"
-          }
-        }
+        "u1": { "type": "item", "settings": { "icon": "diamond", "title": "Premium kwaliteit", "subtitle": "Zorgvuldig geselecteerde stoffen" } },
+        "u2": { "type": "item", "settings": { "icon": "truck", "title": "Gratis verzending v.a. € 75", "subtitle": "Morgen in huis bij NL & BE" } },
+        "u3": { "type": "item", "settings": { "icon": "gift", "title": "Luxe cadeauverpakking", "subtitle": "Gratis bij elk cadeau" } },
+        "u4": { "type": "item", "settings": { "icon": "shield", "title": "30 dagen bedenktijd", "subtitle": "Veilig betalen & gratis retour" } }
       },
-      "block_order": [
-        "heading",
-        "text"
-      ],
-      "settings": {
-        "color_scheme": "scheme-1",
-        "full_width": true,
-        "padding_top": 40,
-        "padding_bottom": 0
-      }
+      "block_order": ["u1", "u2", "u3", "u4"]
     },
-    "featured_collection": {
+    "featured": {
       "type": "featured-collection",
       "settings": {
-        "title": "Featured products",
-        "heading_size": "h2",
-        "collection": "all",
-        "products_to_show": 8,
-        "columns_desktop": 4,
-        "color_scheme": "scheme-1",
-        "show_view_all": false,
-        "swipe_on_mobile": false,
-        "image_ratio": "adapt",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "columns_mobile": "2",
-        "padding_top": 28,
-        "padding_bottom": 36
-      }
-    },
-    "collage": {
-      "type": "collage",
-      "blocks": {
-        "collection-0": {
-          "type": "collection",
-          "settings": {
-            "collection": ""
-          }
-        },
-        "product": {
-          "type": "product",
-          "settings": {
-            "product": "",
-            "second_image": false
-          }
-        },
-        "collection-1": {
-          "type": "collection",
-          "settings": {
-            "collection": ""
-          }
-        }
-      },
-      "block_order": [
-        "collection-0",
-        "product",
-        "collection-1"
-      ],
-      "settings": {
-        "heading": "Multimedia collage",
-        "heading_size": "h2",
-        "desktop_layout": "left",
-        "mobile_layout": "collage",
-        "color_scheme": "scheme-1",
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
-    "video": {
-      "type": "video",
-      "settings": {
-        "heading": "",
-        "video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
-        "heading_size": "h1",
-        "description": "",
-        "full_width": false,
-        "color_scheme": "scheme-1",
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
-    "multicolumn": {
-      "type": "multicolumn",
-      "blocks": {
-        "column1": {
-          "type": "column",
-          "settings": {
-            "title": "Column",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "column2": {
-          "type": "column",
-          "settings": {
-            "title": "Column",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "column3": {
-          "type": "column",
-          "settings": {
-            "title": "Column",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
-            "link_label": "",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "column1",
-        "column2",
-        "column3"
-      ],
-      "settings": {
-        "title": "",
-        "heading_size": "h1",
-        "image_width": "third",
-        "image_ratio": "adapt",
+        "title": "De Sierkussens collectie",
+        "products_to_show": 6,
         "columns_desktop": 3,
-        "column_alignment": "center",
-        "background_style": "none",
-        "button_label": "",
-        "button_link": "",
-        "swipe_on_mobile": false,
-        "color_scheme": "scheme-1",
-        "columns_mobile": "1",
-        "padding_top": 36,
-        "padding_bottom": 36
+        "color_scheme": "scheme-1"
       }
+    },
+    "style": {
+      "type": "shop-by-style",
+      "settings": { "eyebrow": "Vind jouw look", "heading": "Shop op interieurstijl", "text": "Van strak modern tot warm landelijk — filter het assortiment op de stijl die bij jouw huis past." },
+      "blocks": {
+        "s1": { "type": "style", "settings": { "label": "Modern" } },
+        "s2": { "type": "style", "settings": { "label": "Scandinavisch" } },
+        "s3": { "type": "style", "settings": { "label": "Landelijk" } },
+        "s4": { "type": "style", "settings": { "label": "Hotel chic" } },
+        "s5": { "type": "style", "settings": { "label": "Japandi" } },
+        "s6": { "type": "style", "settings": { "label": "Nordic" } }
+      },
+      "block_order": ["s1", "s2", "s3", "s4", "s5", "s6"]
+    },
+    "story": {
+      "type": "brand-story",
+      "settings": {
+        "show_logo": true,
+        "heading": "Breng karakter, rust en elegantie in jouw interieur",
+        "text": "BelaMonte staat voor tijdloze woonaccessoires van hoogwaardige materialen — van geweven sierkussens tot marmeren dienbladen en serene wanddecoratie. Elk stuk is gekozen om generaties mee te gaan en jouw ruimte een warme, luxueuze signatuur te geven."
+      },
+      "blocks": {
+        "b1": { "type": "stat", "settings": { "number": "3", "label": "Hoofdcollecties" } },
+        "b2": { "type": "stat", "settings": { "number": "120+", "label": "Woonaccessoires" } },
+        "b3": { "type": "stat", "settings": { "number": "4.9", "label": "Klantbeoordeling" } }
+      },
+      "block_order": ["b1", "b2", "b3"]
+    },
+    "lookbook": {
+      "type": "lookbook",
+      "settings": { "eyebrow": "Styling inspiratie", "heading": "Zo combineer je het" },
+      "blocks": {
+        "l1": { "type": "look", "settings": { "caption": "Hotel chic woonkamer", "fallback_image": "kussen-07.jpg" } },
+        "l2": { "type": "look", "settings": { "caption": "Warme aardetinten", "fallback_image": "kussen-02.jpg" } },
+        "l3": { "type": "look", "settings": { "caption": "Wanddecoratie & kunst", "fallback_image": "wandkunst-lifestyle.jpg" } }
+      },
+      "block_order": ["l1", "l2", "l3"]
+    },
+    "gift": {
+      "type": "gift-banner",
+      "settings": {
+        "eyebrow": "Cadeausets",
+        "heading": "Geschenken die indruk maken",
+        "text": "Stel een persoonlijke cadeauset samen of kies een kant-en-klaar geschenk. Elk pakket komt in de luxe, mat-zwarte BelaMonte-doos met gouden folie — klaar om te geven.",
+        "button_label": "Stel een cadeau samen",
+        "anchor": "cadeau"
+      }
+    },
+    "reviews": {
+      "type": "reviews",
+      "settings": { "heading": "4.9 / 5 — door 1.240+ klanten" },
+      "blocks": {
+        "r1": { "type": "review", "settings": { "quote": "De sierkussens voelen écht luxe — zwaar, mooi geweven en de kleuren kloppen precies met de foto. Mijn bank is compleet.", "name": "Sanne · Amsterdam" } },
+        "r2": { "type": "review", "settings": { "quote": "Snel geleverd en wat een verpakking! Als cadeau gekocht voor mijn moeder, ze was sprakeloos. Echt een premium ervaring.", "name": "Mark · Eindhoven" } },
+        "r3": { "type": "review", "settings": { "quote": "Eindelijk woonaccessoires die kwaliteit uitstralen zonder kil te zijn. Warm, tijdloos en perfect af te wisselen.", "name": "Laura · Rotterdam" } }
+      },
+      "block_order": ["r1", "r2", "r3"]
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "blocks": {
+        "heading": { "type": "heading", "settings": { "heading": "Ontvang 10% op je eerste bestelling" } },
+        "paragraph": { "type": "paragraph", "settings": { "text": "Schrijf je in voor styling-inspiratie, nieuwe collecties en exclusieve aanbiedingen." } },
+        "email": { "type": "email_form" }
+      },
+      "block_order": ["heading", "paragraph", "email"]
     }
   },
-  "order": [
-    "image_banner",
-    "rich_text",
-    "featured_collection",
-    "collage",
-    "video",
-    "multicolumn"
-  ]
+  "order": ["hero", "usp", "featured", "style", "story", "lookbook", "gift", "reviews", "newsletter"]
 }
