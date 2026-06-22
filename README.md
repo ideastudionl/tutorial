@@ -46,14 +46,39 @@ src/
   lib/
     types.ts              # Task / status / prioriteit types
     seed.ts               # voorbeelddata
+    redis.ts              # Redis-client uit omgevingsvariabelen
     sources/
       types.ts            # TaskSource-interface (de adapter-laag)
       local.ts            # LocalTaskSource (opslag in data/tasks.json)
+      redis.ts            # RedisTaskSource (opslag in Upstash Redis, cloud)
       akiflow.ts          # AkiflowTaskSource (placeholder voor later)
       index.ts            # kiest de actieve bron
 ```
 
-Lokale taken worden bewaard in `data/tasks.json` (genegeerd door git).
+## Opslag
+
+De app kiest automatisch de juiste opslag:
+
+- **Lokaal** (geen database ingesteld): taken in `data/tasks.json`.
+- **Cloud** (Redis ingesteld via env-variabelen): taken in Upstash Redis,
+  zodat ze herstarts van serverless functies overleven.
+
+Zie `.env.example` voor de variabelen.
+
+## Deployen naar Vercel (cloud)
+
+1. Ga naar [vercel.com](https://vercel.com), log in met je GitHub-account.
+2. **Add New → Project** en kies de repo `ideastudionl/tutorial`. Selecteer
+   bij branch `claude/nice-cray-r7t006` (of merge die eerst naar `main`).
+   Vercel herkent Next.js automatisch.
+3. **Database koppelen** (voor blijvende opslag): ga in het project naar het
+   tabblad **Storage → Create Database → Upstash for Redis** (gratis tier).
+   Vercel zet de benodigde env-variabelen (`KV_REST_API_URL` /
+   `KV_REST_API_TOKEN`) automatisch klaar.
+4. **Deploy.** Na een paar minuten krijg je een URL (`...vercel.app`) die je
+   overal — ook op je telefoon — kunt openen.
+
+Zonder gekoppelde database werkt de app ook, maar dan kunnen taken resetten.
 
 ## Akiflow koppelen (later)
 

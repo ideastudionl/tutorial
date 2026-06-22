@@ -1,19 +1,23 @@
 import { LocalTaskSource } from "@/lib/sources/local";
+import { RedisTaskSource } from "@/lib/sources/redis";
 import type { TaskSource } from "@/lib/sources/types";
+import { getRedis } from "@/lib/redis";
 
 /**
  * Centrale plek waar de actieve takenbron wordt gekozen.
  *
- * Nu: LocalTaskSource (voorbeelddata + lokale opslag).
- * Later: vervang dit door de AkiflowTaskSource zodra de koppeling klaar is,
- *        of combineer meerdere bronnen. De rest van de app gebruikt alleen
- *        getTaskSource() en hoeft niet te weten welke bron actief is.
+ * - Is er een Redis-database geconfigureerd (cloud)? -> RedisTaskSource.
+ * - Anders (lokaal zonder database) -> LocalTaskSource met bestand.
+ *
+ * De rest van de app gebruikt alleen getTaskSource() en hoeft niet te
+ * weten welke bron actief is. Een latere Akiflow-bron plugt hier net zo in.
  */
 let instance: TaskSource | null = null;
 
 export function getTaskSource(): TaskSource {
   if (!instance) {
-    instance = new LocalTaskSource();
+    const redis = getRedis();
+    instance = redis ? new RedisTaskSource(redis) : new LocalTaskSource();
   }
   return instance;
 }
