@@ -9,7 +9,9 @@
         "heading_after": "laten leven",
         "text": "Luxe geweven stoffen, velours en subtiele glans in warme aardetinten. Met de hand samengesteld voor een tijdloze, hotel-chic uitstraling.",
         "button_label": "Shop sierkussens",
-        "button2_label": "Ontdek de collectie"
+        "button_link": "/collections/sierkussens",
+        "button2_label": "Ontdek de collectie",
+        "button2_link": "/collections/all"
       }
     },
     "usp": {
@@ -75,6 +77,7 @@
         "heading": "Geschenken die indruk maken",
         "text": "Stel een persoonlijke cadeauset samen of kies een kant-en-klaar geschenk. Elk pakket komt in de luxe, mat-zwarte BelaMonte-doos met gouden folie — klaar om te geven.",
         "button_label": "Stel een cadeau samen",
+        "button_link": "/collections/all",
         "anchor": "cadeau"
       }
     },
@@ -91,8 +94,8 @@
     "newsletter": {
       "type": "newsletter",
       "blocks": {
-        "heading": { "type": "heading", "settings": { "heading": "Ontvang 10% op je eerste bestelling" } },
-        "paragraph": { "type": "paragraph", "settings": { "text": "Schrijf je in voor styling-inspiratie, nieuwe collecties en exclusieve aanbiedingen." } },
+        "heading": { "type": "heading", "settings": { "heading": "Schrijf je in voor de BelaMonte nieuwsbrief" } },
+        "paragraph": { "type": "paragraph", "settings": { "text": "Ontvang styling-inspiratie, nieuwe collecties en exclusieve aanbiedingen als eerste in je inbox." } },
         "email": { "type": "email_form" }
       },
       "block_order": ["heading", "paragraph", "email"]
