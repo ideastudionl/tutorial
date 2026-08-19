@@ -94,8 +94,8 @@
     "newsletter": {
       "type": "newsletter",
       "blocks": {
-        "heading": { "type": "heading", "settings": { "heading": "Schrijf je in voor de BelaMonte nieuwsbrief" } },
-        "paragraph": { "type": "paragraph", "settings": { "text": "Ontvang styling-inspiratie, nieuwe collecties en exclusieve aanbiedingen als eerste in je inbox." } },
+        "heading": { "type": "heading", "settings": { "heading": "Nieuwe items, inspiratie & aanbiedingen" } },
+        "paragraph": { "type": "paragraph", "settings": { "text": "Schrijf je in voor de BelaMonte nieuwsbrief en mis niets — nieuwe binnenkomers, seizoensgebonden styling-tips en exclusieve voordelen voor abonnees, als eerste in je inbox." } },
         "email": { "type": "email_form" }
       },
       "block_order": ["heading", "paragraph", "email"]
