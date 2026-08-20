@@ -9,7 +9,11 @@
 <div class="wrap">
   <nav class="breadcrumb">
     <a href="{{ routes.root_url }}">Home</a> &nbsp;/&nbsp;
-    {%- if p.collections.first -%}<a href="{{ p.collections.first.url }}">{{ p.collections.first.title }}</a> &nbsp;/&nbsp;{%- endif -%}
+    {%- assign crumb_cat = nil -%}
+    {%- for c in p.collections -%}
+      {%- unless c.handle == 'frontpage' -%}{%- assign crumb_cat = c -%}{%- break -%}{%- endunless -%}
+    {%- endfor -%}
+    {%- if crumb_cat -%}<a href="{{ crumb_cat.url }}">{{ crumb_cat.title }}</a> &nbsp;/&nbsp;{%- endif -%}
     {{ p.title }}
   </nav>
 
