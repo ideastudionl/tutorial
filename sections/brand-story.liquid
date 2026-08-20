@@ -1,10 +1,17 @@
 {%- liquid
   assign media = section.settings.image
 -%}
+<style>
+@media(max-width:640px){
+  .editorial__inner{grid-template-columns:1fr!important}
+  .editorial__media{min-height:280px;height:280px;overflow:hidden}
+  .editorial__media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+}
+</style>
 <section class="editorial">
   <div class="editorial__inner">
     <div class="editorial__text">
-      {%- if section.settings.show_logo -%}<img src="{{ 'logo-gold.png' | asset_url }}" alt="{{ shop.name }}">{%- endif -%}
+      {%- if section.settings.show_logo -%}<img src="{{ 'logo-gold.png' | asset_url }}" alt="{{ shop.name }}" width="200" height="80">{%- endif -%}
       <h2>{{ section.settings.heading }}</h2>
       {%- if section.settings.text != blank -%}<p>{{ section.settings.text }}</p>{%- endif -%}
       {%- if section.blocks.size > 0 -%}
@@ -20,9 +27,9 @@
     </div>
     <div class="editorial__media">
       {%- if media != blank -%}
-        <img src="{{ media | image_url: width: 1200 }}" alt="{{ media.alt | escape }}" loading="lazy">
+        <img src="{{ media | image_url: width: 1200 }}" alt="{{ media.alt | escape }}" loading="lazy" width="1200" height="800">
       {%- else -%}
-        <img src="{{ 'kussen-06.jpg' | asset_url }}" alt="BelaMonte interieur" loading="lazy">
+        <img src="{{ 'kussen-06.jpg' | asset_url }}" alt="BelaMonte interieur" loading="lazy" width="1200" height="800">
       {%- endif -%}
     </div>
   </div>
@@ -53,3 +60,4 @@
   ]
 }
 {% endschema %}
+

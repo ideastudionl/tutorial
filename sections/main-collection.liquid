@@ -1,0 +1,222 @@
+{%- liquid
+  assign sub_menu = linklists[section.settings.subcollection_menu]
+  assign banner = section.settings.banner_image
+  if banner == blank
+    assign banner = collection.image
+  endif
+-%}
+
+<style>
+  #coll-{{ section.id }} .coll-banner{position:relative;background:#16130F;color:#F4EEE2;overflow:hidden}
+  #coll-{{ section.id }} .coll-banner__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.4}
+  #coll-{{ section.id }} .coll-banner__veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,13,10,.5),rgba(15,13,10,.82))}
+  #coll-{{ section.id }} .coll-banner__in{position:relative;max-width:var(--page-width);margin:0 auto;padding:54px 32px 48px}
+  #coll-{{ section.id }} .subpills{display:flex;gap:10px;flex-wrap:wrap;padding:28px 0 4px}
+  #coll-{{ section.id }} .subpill{font-size:13px;letter-spacing:.02em;padding:11px 20px;border-radius:40px;border:1px solid #E2D9CA;background:#fff;color:#3A352E;transition:all .25s}
+  #coll-{{ section.id }} .subpill:hover{border-color:#16130F}
+  #coll-{{ section.id }} .subpill.is-active{background:#16130F;color:#F4EEE2;border-color:#16130F}
+  #coll-{{ section.id }} .coll-toolbar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:22px 0 20px;border-bottom:1px solid var(--line)}
+  #coll-{{ section.id }} .coll-grid-wrap{display:grid;grid-template-columns:248px 1fr;gap:44px;padding:28px 0 70px;align-items:start}
+  #coll-{{ section.id }} .fgroup{border-top:1px solid var(--line);padding:20px 0}
+  #coll-{{ section.id }} .fgroup h4{font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;margin:0 0 14px}
+  #coll-{{ section.id }} .fopt{display:flex;align-items:center;gap:10px;padding:7px 0;font-size:13.5px;color:#5C5345}
+  #coll-{{ section.id }} .fopt:hover{color:#16130F}
+  #coll-{{ section.id }} .fopt.is-active{color:#16130F;font-weight:500}
+  #coll-{{ section.id }} .fbox{width:18px;height:18px;border-radius:3px;border:1.5px solid #CFC4B0;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+  #coll-{{ section.id }} .fopt.is-active .fbox{background:#16130F;border-color:#16130F;color:#F4EEE2}
+  #coll-{{ section.id }} .fcount{margin-left:auto;color:#A99C86;font-size:12px}
+  #coll-{{ section.id }} .swatchrow{display:flex;flex-wrap:wrap;gap:11px}
+  #coll-{{ section.id }} .cswatch{position:relative;width:34px;height:34px;border-radius:50%;border:2px solid #E2D9CA;box-shadow:inset 0 0 0 2px #fff}
+  #coll-{{ section.id }} .cswatch.is-active{border-color:#C49A4A}
+  #coll-{{ section.id }} .chip{display:inline-flex;align-items:center;gap:7px;background:#F4F0E9;border:1px solid #E2D9CA;border-radius:30px;padding:7px 12px;font-size:12px;color:#16130F}
+  #coll-{{ section.id }} .bm-filterbtn{display:none}
+  #coll-{{ section.id }} .prod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:24px}
+  @media(max-width:860px){
+    #coll-{{ section.id }} .coll-grid-wrap{grid-template-columns:1fr}
+    #coll-{{ section.id }} .coll-filters{display:none}
+    #coll-{{ section.id }} .coll-filters.is-open{display:block}
+    #coll-{{ section.id }} .bm-filterbtn{display:inline-flex}
+  }
+</style>
+
+<div id="coll-{{ section.id }}">
+  <!-- BANNER -->
+  <section class="coll-banner">
+    {%- if banner != blank -%}<img class="coll-banner__img" src="{{ banner | image_url: width: 2000 }}" alt="">{%- endif -%}
+    <div class="coll-banner__veil"></div>
+    <div class="coll-banner__in">
+      <nav style="font-size:12px;letter-spacing:.06em;color:#C9BFAD;margin-bottom:18px"><a href="{{ routes.root_url }}">Home</a> &nbsp;/&nbsp; <span style="color:#E7C96B">{{ collection.title }}</span></nav>
+      {%- if section.settings.eyebrow != blank -%}<div style="font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:#D4AF37;font-weight:600">{{ section.settings.eyebrow }}</div>{%- endif -%}
+      <h1 style="font-family:'Playfair Display',serif;font-weight:500;font-size:clamp(34px,4.4vw,56px);margin:12px 0 0">{{ collection.title }}</h1>
+      {%- if collection.description != blank -%}<p style="font-size:15px;line-height:1.7;color:#CFC6B6;max-width:520px;margin:16px 0 0;font-weight:300">{{ collection.description | strip_html }}</p>{%- endif -%}
+    </div>
+  </section>
+
+  <div class="wrap">
+    <!-- SUBCATEGORY PILLS -->
+    {%- if sub_menu.links.size > 0 -%}
+      <div class="subpills">
+        {%- for link in sub_menu.links -%}
+          <a href="{{ link.url }}" class="subpill{% if link.active or link.url == collection.url %} is-active{% endif %}">{{ link.title }}</a>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- paginate collection.products by 24 -%}
+    <!-- TOOLBAR -->
+    <div class="coll-toolbar">
+      <div style="display:flex;align-items:center;gap:14px">
+        <button class="bm-filterbtn" data-filter-toggle style="align-items:center;gap:8px;background:#16130F;color:#F4EEE2;border:none;border-radius:3px;padding:11px 16px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><line x1="4" y1="6" x2="20" y2="6"/><line x1="7" y1="12" x2="17" y2="12"/><line x1="10" y1="18" x2="14" y2="18"/></svg>Filters
+        </button>
+        <span style="font-size:13px;color:#6F6658"><strong style="color:#16130F">{{ collection.products_count }}</strong> producten</span>
+      </div>
+      <form method="get" style="display:flex;align-items:center;gap:10px;font-size:13px;color:#6F6658">Sorteer op
+        {%- assign sort = collection.sort_by | default: collection.default_sort_by -%}
+        <select name="sort_by" onchange="this.form.submit()" style="font-family:inherit;font-size:13px;padding:10px 14px;border:1px solid #DCD3C4;border-radius:3px;background:#fff;color:#16130F;cursor:pointer">
+          <option value="manual" {% if sort == 'manual' %}selected{% endif %}>Aanbevolen</option>
+          <option value="best-selling" {% if sort == 'best-selling' %}selected{% endif %}>Best verkocht</option>
+          <option value="price-ascending" {% if sort == 'price-ascending' %}selected{% endif %}>Prijs laag–hoog</option>
+          <option value="price-descending" {% if sort == 'price-descending' %}selected{% endif %}>Prijs hoog–laag</option>
+          <option value="title-ascending" {% if sort == 'title-ascending' %}selected{% endif %}>Naam A–Z</option>
+          <option value="created-descending" {% if sort == 'created-descending' %}selected{% endif %}>Nieuwste eerst</option>
+        </select>
+        {%- for f in collection.filters -%}{%- for v in f.active_values -%}<input type="hidden" name="{{ v.param_name }}" value="{{ v.value }}">{%- endfor -%}{%- endfor -%}
+      </form>
+    </div>
+
+    <!-- LAYOUT -->
+    <div class="coll-grid-wrap">
+      <!-- FILTERS -->
+      <aside class="coll-filters">
+        <form method="get">
+          {%- assign cur_sort = collection.sort_by | default: collection.default_sort_by -%}
+          {%- if cur_sort != blank and cur_sort != 'manual' -%}<input type="hidden" name="sort_by" value="{{ cur_sort }}">{%- endif -%}
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+            <span style="font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:600">Filters</span>
+            {%- if collection.filters != empty -%}<a href="{{ collection.url }}" style="font-size:12px;color:#A8884E;text-decoration:underline">Wis alles</a>{%- endif -%}
+          </div>
+
+          <!-- active chips -->
+          {%- assign active_count = 0 -%}
+          {%- for f in collection.filters -%}{%- assign active_count = active_count | plus: f.active_values.size -%}{%- endfor -%}
+          {%- if active_count > 0 -%}
+            <div style="display:flex;flex-wrap:wrap;gap:8px;padding:14px 0 4px">
+              {%- for f in collection.filters -%}
+                {%- for v in f.active_values -%}
+                  <a href="{{ v.url_to_remove }}" class="chip">{{ v.label }} <span style="color:#A8884E;font-size:14px">×</span></a>
+                {%- endfor -%}
+                {%- if f.type == 'price_range' and f.max_value.value != nil -%}
+                  <a href="{{ f.url_to_remove }}" class="chip">tot {{ f.max_value.value | money }} <span style="color:#A8884E;font-size:14px">×</span></a>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+
+          {%- for f in collection.filters -%}
+            <div class="fgroup">
+              <h4>{{ f.label }}</h4>
+              {%- case f.type -%}
+                {%- when 'list' -%}
+                  {%- assign lbl = f.label | downcase -%}
+                  {%- if lbl contains 'kleur' or lbl contains 'color' -%}
+                    <div class="swatchrow">
+                      {%- for v in f.values -%}
+                        {%- liquid
+                          assign cv = v.label | downcase
+                          assign hex = '#C9B8A3'
+                          if cv contains 'zwart' or cv contains 'black' or cv contains 'noir'
+                            assign hex = '#2B2723'
+                          elsif cv contains 'wit' or cv contains 'creme' or cv contains 'crème' or cv contains 'ivoor' or cv contains 'white'
+                            assign hex = '#EFE9DD'
+                          elsif cv contains 'champagne'
+                            assign hex = '#E6DAC5'
+                          elsif cv contains 'beige'
+                            assign hex = '#DDCFB6'
+                          elsif cv contains 'taupe'
+                            assign hex = '#C9B8A3'
+                          elsif cv contains 'brons' or cv contains 'bronze' or cv contains 'bruin' or cv contains 'brown'
+                            assign hex = '#8A6A3A'
+                          elsif cv contains 'koper' or cv contains 'copper'
+                            assign hex = '#B87333'
+                          elsif cv contains 'grijs' or cv contains 'grey' or cv contains 'gray'
+                            assign hex = '#9FA39C'
+                          elsif cv contains 'goud' or cv contains 'gold'
+                            assign hex = '#C9A36B'
+                          elsif cv contains 'groen' or cv contains 'green'
+                            assign hex = '#5C6B58'
+                          endif
+                        -%}
+                      {%- if v.count > 0 or v.active -%}
+                        <label class="cswatch{% if v.active %} is-active{% endif %}" title="{{ v.label }} ({{ v.count }})" style="background:{{ hex }};cursor:pointer">
+                          <input type="checkbox" name="{{ v.param_name }}" value="{{ v.value }}" {% if v.active %}checked{% endif %} onchange="this.form.submit()" style="position:absolute;width:1px;height:1px;opacity:0">
+                        </label>
+                      {%- endif -%}
+                      {%- endfor -%}
+                    </div>
+                  {%- else -%}
+                    {%- for v in f.values -%}
+                      {%- if v.count > 0 or v.active -%}
+                      <label class="fopt{% if v.active %} is-active{% endif %}" style="cursor:pointer">
+                        <input type="checkbox" name="{{ v.param_name }}" value="{{ v.value }}" {% if v.active %}checked{% endif %} onchange="this.form.submit()" style="position:absolute;width:1px;height:1px;opacity:0">
+                        <span class="fbox">{% if v.active %}<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>{% endif %}</span>
+                        <span>{{ v.label }}</span>
+                        <span class="fcount">{{ v.count }}</span>
+                      </label>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  {%- endif -%}
+                {%- when 'price_range' -%}
+                  <div style="font-size:13px;color:#6F6658;margin-bottom:10px">{{ f.min_value.value | default: 0 | money }} – {{ f.range_max | money }}</div>
+                  <div style="display:flex;gap:8px">
+                    <input type="number" name="{{ f.min_value.param_name }}" value="{% if f.min_value.value %}{{ f.min_value.value | divided_by: 100 }}{% endif %}" placeholder="0" style="width:50%;padding:9px;border:1px solid #DCD3C4;border-radius:3px;font-size:13px">
+                    <input type="number" name="{{ f.max_value.param_name }}" value="{% if f.max_value.value %}{{ f.max_value.value | divided_by: 100 }}{% endif %}" placeholder="{{ f.range_max | divided_by: 100 }}" style="width:50%;padding:9px;border:1px solid #DCD3C4;border-radius:3px;font-size:13px">
+                  </div>
+                  <button type="submit" class="btn btn--outline" style="margin-top:12px;padding:10px 18px;font-size:11px">Toepassen</button>
+              {%- endcase -%}
+            </div>
+          {%- endfor -%}
+          <noscript><button type="submit" class="btn btn--dark" style="margin-top:14px">Filters toepassen</button></noscript>
+        </form>
+      </aside>
+
+      <!-- PRODUCTS -->
+      <div>
+        {%- if collection.products.size > 0 -%}
+          <div class="prod-grid">
+            {%- for product in collection.products -%}
+              {%- render 'product-card', product: product -%}
+            {%- endfor -%}
+          </div>
+          {%- if paginate.pages > 1 -%}
+            <div style="display:flex;justify-content:center;gap:10px;margin-top:48px">
+              {%- for part in paginate.parts -%}
+                {%- if part.is_link -%}<a class="pill" href="{{ part.url }}">{{ part.title }}</a>
+                {%- elsif part.title == paginate.current_page -%}<span class="pill" style="background:#16130F;color:#F4EEE2">{{ part.title }}</span>
+                {%- else -%}<span class="pill">{{ part.title }}</span>{%- endif -%}
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+        {%- else -%}
+          <div style="text-align:center;padding:80px 20px;color:#6F6658">
+            <div style="font-family:'Playfair Display',serif;font-size:24px;color:#16130F">Geen producten gevonden</div>
+            <p style="font-size:14px;margin:12px 0 22px">Pas je filters aan om meer te zien.</p>
+            <a href="{{ collection.url }}" class="btn btn--dark">Wis alle filters</a>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+    {%- endpaginate -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collectie",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Bovenschrift (bv. Woonkamer)" },
+    { "type": "image_picker", "id": "banner_image", "label": "Banner-afbeelding (overschrijft collectie-afbeelding)" },
+    { "type": "link_list", "id": "subcollection_menu", "label": "Subcategorie-menu (pills)", "info": "Maak een menu met sub-collecties, bv. Sierkussens, Vazen, Onderzetters." }
+  ]
+}
+{% endschema %}

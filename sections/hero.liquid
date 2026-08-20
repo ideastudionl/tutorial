@@ -1,73 +1,130 @@
-{%- liquid
-  assign img = section.settings.image
-  assign align = section.settings.alignment | default: 'left'
--%}
-<style>
-  #hero-{{ section.id }} .hero__content{
-    {% if align == 'center' %}margin-left:auto;margin-right:auto;text-align:center;align-items:center;{% elsif align == 'right' %}margin-left:auto;text-align:right;{% else %}margin-right:auto;text-align:left;{% endif %}
-  }
-  #hero-{{ section.id }} .hero__content .hero__eyebrow{ {% if align == 'center' %}justify-content:center;{% elsif align == 'right' %}justify-content:flex-end;{% endif %} }
-  #hero-{{ section.id }} .hero__content .hero__cta{ {% if align == 'center' %}justify-content:center;{% elsif align == 'right' %}justify-content:flex-end;{% endif %} }
-  #hero-{{ section.id }} .hero__img{ transform-origin:60% 50%; will-change:transform; }
-  #hero-{{ section.id }} .bm-rise{ opacity:1; }
-  @media(prefers-reduced-motion:no-preference){
-    #hero-{{ section.id }} .hero__img{ animation:bmKenBurns 20s ease-in-out infinite alternate; }
-    #hero-{{ section.id }} .bm-rise{ opacity:0; animation:bmRise 1s cubic-bezier(.2,.7,.15,1) forwards; }
-  }
-  #hero-{{ section.id }} .bm-rise.d1{ animation-delay:.15s } #hero-{{ section.id }} .bm-rise.d2{ animation-delay:.3s }
-  #hero-{{ section.id }} .bm-rise.d3{ animation-delay:.5s } #hero-{{ section.id }} .bm-rise.d4{ animation-delay:.7s }
-  @keyframes bmRise{ from{opacity:0;transform:translateY(26px)} to{opacity:1;transform:translateY(0)} }
-  @keyframes bmKenBurns{ from{transform:scale(1.04)} to{transform:scale(1.15)} }
-</style>
-<section class="hero" id="hero-{{ section.id }}">
-  {%- if img != blank -%}
-    <img class="hero__img" src="{{ img | image_url: width: 2000 }}" alt="{{ img.alt | escape }}" loading="eager" width="2000" height="1125">
-  {%- else -%}
-    <img class="hero__img" src="{{ 'kussen-03.jpg' | asset_url }}" alt="BelaMonte sierkussens" loading="eager">
-  {%- endif -%}
-  <div class="hero__overlay"></div>
-  <div class="wrap" style="position:relative">
-    <div class="hero__content">
-      {%- if section.settings.eyebrow != blank -%}
-        <div class="hero__eyebrow bm-rise d1"><span>{{ section.settings.eyebrow }}</span><span class="rule"></span></div>
+<section class="hero hero-slider" id="heroslider-{{ section.id }}" data-autoplay="{{ section.settings.autoplay }}" data-interval="{{ section.settings.interval | times: 1000 }}">
+  {%- for block in section.blocks -%}
+    {%- liquid
+      assign img = block.settings.image
+      assign align = block.settings.alignment | default: 'left'
+    -%}
+    <div class="hero-slide{% if forloop.first %} is-active{% endif %}" data-slide {{ block.shopify_attributes }}>
+      {%- if img != blank -%}
+        <img class="hero-slide__img" src="{{ img | image_url: width: 2400 }}" alt="{{ img.alt | escape }}" {% if forloop.first %}loading="eager"{% else %}loading="lazy"{% endif %} width="2400" height="1350">
+      {%- else -%}
+        <img class="hero-slide__img" src="{{ 'kussen-03.jpg' | asset_url }}" alt="BelaMonte sierkussens" loading="eager">
       {%- endif -%}
-      <h1 class="bm-rise d2">{{ section.settings.heading }}{% if section.settings.heading_accent != blank %} <em>{{ section.settings.heading_accent }}</em>{% endif %} {{ section.settings.heading_after }}</h1>
-      {%- if section.settings.text != blank -%}<p class="bm-rise d3">{{ section.settings.text }}</p>{%- endif -%}
-      <div class="hero__cta bm-rise d4">
-        {%- if section.settings.button_label != blank -%}
-          <a href="{{ section.settings.button_link }}" class="btn btn--gold">{{ section.settings.button_label }}
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><line x1="4" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg>
-          </a>
-        {%- endif -%}
-        {%- if section.settings.button2_label != blank -%}
-          <a href="{{ section.settings.button2_link }}" class="btn btn--ghost">{{ section.settings.button2_label }}</a>
-        {%- endif -%}
+      <div class="hero__overlay"></div>
+      <div class="wrap" style="position:relative">
+        <div class="hero__content hero-align-{{ align }}">
+          {%- if block.settings.eyebrow != blank -%}
+            <div class="hero__eyebrow"><span>{{ block.settings.eyebrow }}</span><span class="rule"></span></div>
+          {%- endif -%}
+          <h1>{{ block.settings.heading }}{% if block.settings.heading_accent != blank %} <em>{{ block.settings.heading_accent }}</em>{% endif %} {{ block.settings.heading_after }}</h1>
+          {%- if block.settings.text != blank -%}<p>{{ block.settings.text }}</p>{%- endif -%}
+          <div class="hero__cta">
+            {%- if block.settings.button_label != blank -%}
+              <a href="{{ block.settings.button_link }}" class="btn btn--gold">{{ block.settings.button_label }}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><line x1="4" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg>
+              </a>
+            {%- endif -%}
+            {%- if block.settings.button2_label != blank -%}
+              <a href="{{ block.settings.button2_link }}" class="btn btn--ghost">{{ block.settings.button2_label }}</a>
+            {%- endif -%}
+          </div>
+        </div>
       </div>
     </div>
-  </div>
+  {%- endfor -%}
+
+  {%- if section.blocks.size > 1 -%}
+    <button class="hero-nav hero-nav--prev" type="button" data-hero-prev aria-label="Vorige"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="15 18 9 12 15 6"/></svg></button>
+    <button class="hero-nav hero-nav--next" type="button" data-hero-next aria-label="Volgende"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="9 18 15 12 9 6"/></svg></button>
+    <div class="hero-dots">
+      {%- for block in section.blocks -%}<button class="hero-dot{% if forloop.first %} is-active{% endif %}" type="button" data-hero-dot="{{ forloop.index0 }}" aria-label="Slide {{ forloop.index }}"></button>{%- endfor -%}
+    </div>
+  {%- endif -%}
 </section>
+
+<style>
+  #heroslider-{{ section.id }} .hero-slide{ position:absolute; inset:0; display:flex; align-items:center; opacity:0; visibility:hidden; transition:opacity .9s ease; z-index:1; }
+  #heroslider-{{ section.id }} .hero-slide.is-active{ opacity:1; visibility:visible; z-index:2; }
+  #heroslider-{{ section.id }} .hero-slide__img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.72; transform:scale(1.06); transform-origin:58% 50%; will-change:transform; }
+  @media(prefers-reduced-motion:no-preference){ #heroslider-{{ section.id }} .hero-slide.is-active .hero-slide__img{ animation:bmHeroZoom 22s ease-in-out infinite alternate; } }
+  #heroslider-{{ section.id }} .wrap{ width:100%; }
+  #heroslider-{{ section.id }} .hero-align-center{ margin-left:auto; margin-right:auto; text-align:center; }
+  #heroslider-{{ section.id }} .hero-align-center .hero__eyebrow, #heroslider-{{ section.id }} .hero-align-center .hero__cta{ justify-content:center; }
+  #heroslider-{{ section.id }} .hero-align-right{ margin-left:auto; margin-right:0; text-align:right; }
+  #heroslider-{{ section.id }} .hero-align-right .hero__eyebrow, #heroslider-{{ section.id }} .hero-align-right .hero__cta{ justify-content:flex-end; }
+  #heroslider-{{ section.id }} .hero-nav{ position:absolute; top:50%; transform:translateY(-50%); z-index:5; width:46px; height:46px; border-radius:50%; border:1px solid rgba(244,238,226,.4); background:rgba(15,13,10,.25); color:#F4EEE2; cursor:pointer; display:flex; align-items:center; justify-content:center; backdrop-filter:blur(4px); transition:background .25s,border-color .25s; }
+  #heroslider-{{ section.id }} .hero-nav:hover{ background:rgba(15,13,10,.5); border-color:var(--gold); }
+  #heroslider-{{ section.id }} .hero-nav--prev{ left:22px; }
+  #heroslider-{{ section.id }} .hero-nav--next{ right:22px; }
+  #heroslider-{{ section.id }} .hero-dots{ position:absolute; bottom:26px; left:0; right:0; z-index:5; display:flex; justify-content:center; gap:10px; }
+  #heroslider-{{ section.id }} .hero-dot{ width:9px; height:9px; border-radius:50%; border:none; background:rgba(244,238,226,.4); cursor:pointer; padding:0; transition:background .25s,width .25s; }
+  #heroslider-{{ section.id }} .hero-dot.is-active{ background:var(--gold-bright); width:24px; border-radius:5px; }
+  @keyframes bmHeroZoom{ from{ transform:scale(1.06); } to{ transform:scale(1.17); } }
+  @media(max-width:600px){ #heroslider-{{ section.id }} .hero-nav{ display:none; } }
+</style>
+
+<script>
+  (function(){
+    var root = document.getElementById('heroslider-{{ section.id }}');
+    if(!root) return;
+    var slides = Array.prototype.slice.call(root.querySelectorAll('[data-slide]'));
+    if(slides.length < 2) return;
+    var dots = Array.prototype.slice.call(root.querySelectorAll('[data-hero-dot]'));
+    var i = 0, timer = null;
+    var autoplay = root.getAttribute('data-autoplay') === 'true';
+    var interval = parseInt(root.getAttribute('data-interval'), 10) || 6000;
+    function go(n){
+      slides[i].classList.remove('is-active');
+      if(dots[i]) dots[i].classList.remove('is-active');
+      i = (n + slides.length) % slides.length;
+      slides[i].classList.add('is-active');
+      if(dots[i]) dots[i].classList.add('is-active');
+    }
+    function next(){ go(i + 1); }
+    function prev(){ go(i - 1); }
+    function start(){ stop(); if(autoplay){ timer = setInterval(next, interval); } }
+    function stop(){ if(timer){ clearInterval(timer); timer = null; } }
+    var nx = root.querySelector('[data-hero-next]'); if(nx) nx.addEventListener('click', function(){ next(); start(); });
+    var pv = root.querySelector('[data-hero-prev]'); if(pv) pv.addEventListener('click', function(){ prev(); start(); });
+    dots.forEach(function(d){ d.addEventListener('click', function(){ go(parseInt(d.getAttribute('data-hero-dot'), 10)); start(); }); });
+    root.addEventListener('mouseenter', stop);
+    root.addEventListener('mouseleave', start);
+    start();
+  })();
+</script>
 
 {% schema %}
 {
   "name": "Hero",
   "settings": [
-    { "type": "image_picker", "id": "image", "label": "Achtergrondafbeelding" },
-    { "type": "select", "id": "alignment", "label": "Uitlijning tekst", "default": "left",
-      "options": [
-        { "value": "left", "label": "Links" },
-        { "value": "center", "label": "Gecentreerd" },
-        { "value": "right", "label": "Rechts" }
-      ] },
-    { "type": "text", "id": "eyebrow", "label": "Bovenschrift", "default": "Nieuwe collectie" },
-    { "type": "text", "id": "heading", "label": "Kop deel 1", "default": "Sierkussens die je" },
-    { "type": "text", "id": "heading_accent", "label": "Kop accent (cursief)", "default": "interieur" },
-    { "type": "text", "id": "heading_after", "label": "Kop deel 2", "default": "laten leven" },
-    { "type": "textarea", "id": "text", "label": "Tekst", "default": "Luxe geweven stoffen, velours en subtiele glans in warme aardetinten. Met de hand samengesteld voor een tijdloze, hotel-chic uitstraling." },
-    { "type": "text", "id": "button_label", "label": "Knop 1 label", "default": "Shop sierkussens" },
-    { "type": "url", "id": "button_link", "label": "Knop 1 link" },
-    { "type": "text", "id": "button2_label", "label": "Knop 2 label", "default": "Ontdek de collectie" },
-    { "type": "url", "id": "button2_link", "label": "Knop 2 link" }
+    { "type": "checkbox", "id": "autoplay", "label": "Automatisch wisselen", "default": true },
+    { "type": "range", "id": "interval", "label": "Interval", "min": 3, "max": 10, "step": 1, "unit": "s", "default": 6 }
   ],
-  "presets": [{ "name": "Hero" }]
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Achtergrondafbeelding" },
+        { "type": "select", "id": "alignment", "label": "Uitlijning tekst", "default": "left",
+          "options": [
+            { "value": "left", "label": "Links" },
+            { "value": "center", "label": "Gecentreerd" },
+            { "value": "right", "label": "Rechts" }
+          ] },
+        { "type": "text", "id": "eyebrow", "label": "Bovenschrift", "default": "Nieuwe collectie" },
+        { "type": "text", "id": "heading", "label": "Kop deel 1", "default": "Sierkussens die je" },
+        { "type": "text", "id": "heading_accent", "label": "Kop accent (cursief)", "default": "interieur" },
+        { "type": "text", "id": "heading_after", "label": "Kop deel 2", "default": "laten leven" },
+        { "type": "textarea", "id": "text", "label": "Tekst" },
+        { "type": "text", "id": "button_label", "label": "Knop 1 label", "default": "Shop nu" },
+        { "type": "url", "id": "button_link", "label": "Knop 1 link" },
+        { "type": "text", "id": "button2_label", "label": "Knop 2 label" },
+        { "type": "url", "id": "button2_link", "label": "Knop 2 link" }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [ { "name": "Hero", "blocks": [ { "type": "slide" } ] } ]
 }
 {% endschema %}

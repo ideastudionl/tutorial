@@ -1,22 +1,3 @@
-{%- capture stars5 -%}{%- for i in (1..5) -%}<svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7L12 2Z"/></svg>{%- endfor -%}{%- endcapture -%}
-<section class="section">
-  <div class="wrap">
-    <div class="section__head">
-      <div class="reviews__stars">{%- for i in (1..5) -%}<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7L12 2Z"/></svg>{%- endfor -%}</div>
-      <h2 style="font-size:clamp(28px,3.4vw,42px)">{{ section.settings.heading }}</h2>
-    </div>
-    <div class="review-grid">
-      {%- for block in section.blocks -%}
-        <div class="review-card" {{ block.shopify_attributes }}>
-          <div class="s">{{ stars5 }}</div>
-          <p>&ldquo;{{ block.settings.quote }}&rdquo;</p>
-          <div class="who">{{ block.settings.name }}</div>
-        </div>
-      {%- endfor -%}
-    </div>
-  </div>
-</section>
-
 {% schema %}
 {
   "name": "Reviews",
