@@ -9,3 +9,8 @@ ImgWidthAndHeight:
 # Inline/section scripts are used deliberately in this custom theme.
 ParserBlockingScript:
   enabled: false
+ParserBlockingJavaScript:
+  enabled: false
+# Google Fonts + a few remote assets are intentional design choices here.
+RemoteAsset:
+  enabled: false
