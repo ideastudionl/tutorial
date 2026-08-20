@@ -120,7 +120,8 @@ h1,h2,h3,h4{font-family:'Playfair Display',Georgia,serif;font-weight:500;margin:
 .swatch{ width:15px; height:15px; border-radius:50%; box-shadow:inset 0 0 0 1px rgba(0,0,0,.18); }
 .prod-card__foot{ display:flex; flex-direction:column; gap:12px; margin-top:auto; padding-top:16px; border-top:1px solid #F0EAE0; }
 .prod-card__price{ font-family:'Playfair Display',serif; font-size:21px; color:var(--ink); }
-.btn-add{ display:flex; align-items:center; justify-content:center; gap:10px; width:100%; background:var(--ink); color:var(--cream); font-size:11px; letter-spacing:.14em; text-transform:uppercase; font-weight:500; padding:13px 16px; border:none; border-radius:2px; cursor:pointer; transition:background .3s,color .3s; }
+.btn-add{ display:flex; align-items:center; justify-content:center; gap:10px; width:100%; background:var(--ink); color:var(--cream); font-size:11px; letter-spacing:.14em; text-transform:uppercase; font-weight:500; padding:13px 16px; border:none; border-radius:2px; cursor:pointer; transition:background .3s,color .3s; white-space:nowrap; min-width:0; }
+@media(max-width:560px){ .btn-add{ letter-spacing:.06em; padding:12px 10px; gap:7px; font-size:10px; } .btn-add svg{ width:13px; height:13px; } }
 .btn-add:hover{ background:var(--gold); color:var(--ink); }
 .btn-add svg{ flex-shrink:0; }
 

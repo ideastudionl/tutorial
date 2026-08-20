@@ -20,7 +20,7 @@
 <div class="prod-card">
   <a href="{{ p.url }}" class="prod-card__media">
     {%- if p.featured_image != blank -%}
-      <img src="{{ p.featured_image | image_url: width: 600 }}" alt="{{ p.featured_image.alt | escape | default: p.title }}" loading="lazy">
+      <img src="{{ p.featured_image | image_url: width: 900 }}" alt="{{ p.featured_image.alt | escape | default: p.title }}" loading="lazy">
     {%- else -%}
       <img src="{{ 'kussen-09.jpg' | asset_url }}" alt="{{ p.title | escape }}" loading="lazy">
     {%- endif -%}

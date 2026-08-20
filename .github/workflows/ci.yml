@@ -6,7 +6,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-      - name: Theme Check
-        uses: shopify/theme-check-action@v2
+      - uses: actions/setup-node@v4
         with:
-          token: ${{ github.token }}
+          node-version: '20'
+      - name: Theme Check
+        run: npx --yes @shopify/cli@latest theme check --fail-level=error
