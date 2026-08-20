@@ -2,3 +2,10 @@ MatchingTranslations:
   enabled: false
 TemplateLength:
   enabled: false
+# Images in this theme are sized via CSS (object-fit / aspect-ratio / width:100%),
+# so explicit width/height attributes are intentionally omitted.
+ImgWidthAndHeight:
+  enabled: false
+# Inline/section scripts are used deliberately in this custom theme.
+ParserBlockingScript:
+  enabled: false
