@@ -10,14 +10,20 @@
         {%- if section.settings.eyebrow != blank -%}<div class="eyebrow">{{ section.settings.eyebrow }}</div>{%- endif -%}
         <h2>{{ section.settings.heading }}</h2>
       </div>
-      {%- if coll.url != blank -%}
-        <a href="{{ coll.url }}" class="link-arrow">{{ section.settings.link_label | default: 'Bekijk alles' }}
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><line x1="4" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg>
-        </a>
-      {%- endif -%}
+      <div class="feat-bar-right">
+        {%- if coll.url != blank -%}
+          <a href="{{ coll.url }}" class="link-arrow">{{ section.settings.link_label | default: 'Bekijk alles' }}
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><line x1="4" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg>
+          </a>
+        {%- endif -%}
+        <div class="feat-navs">
+          <button type="button" data-feat-prev="{{ section.id }}" aria-label="Vorige"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="15 6 9 12 15 18"/></svg></button>
+          <button type="button" data-feat-next="{{ section.id }}" aria-label="Volgende"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="9 6 15 12 9 18"/></svg></button>
+        </div>
+      </div>
     </div>
 
-    <div class="prod-grid">
+    <div class="prod-grid prod-carousel" data-feat-track="{{ section.id }}">
       {%- if products_to_show.size > 0 -%}
         {%- for product in products_to_show limit: limit -%}
           {%- render 'product-card', product: product -%}
@@ -60,11 +66,31 @@
   </div>
 </section>
 
+{%- assign _a = section.settings.anchor | default: 'sierkussens' -%}
 <style>
-  #{{ section.settings.anchor | default: 'sierkussens' }} .prod-grid{ grid-template-columns:repeat(4,1fr); }
-  @media(max-width:900px){ #{{ section.settings.anchor | default: 'sierkussens' }} .prod-grid{ grid-template-columns:1fr 1fr; } }
-  @media(max-width:520px){ #{{ section.settings.anchor | default: 'sierkussens' }} .prod-grid{ grid-template-columns:1fr; } }
+  #{{ _a }} .prod-carousel{ display:flex; gap:24px; overflow-x:auto; scroll-snap-type:x mandatory; scroll-behavior:smooth; padding-bottom:10px; -ms-overflow-style:none; scrollbar-width:thin; }
+  #{{ _a }} .prod-carousel::-webkit-scrollbar{ height:6px; }
+  #{{ _a }} .prod-carousel::-webkit-scrollbar-thumb{ background:#DCD3C4; border-radius:3px; }
+  #{{ _a }} .prod-carousel > *{ flex:0 0 calc((100% - 72px) / 4); scroll-snap-align:start; }
+  #{{ _a }} .feat-bar-right{ display:flex; align-items:center; gap:16px; }
+  #{{ _a }} .feat-navs{ display:flex; gap:8px; }
+  #{{ _a }} .feat-navs button{ width:38px; height:38px; display:inline-flex; align-items:center; justify-content:center; border:1px solid var(--line); border-radius:50%; background:#fff; color:#5C5345; cursor:pointer; transition:border-color .2s,color .2s; }
+  #{{ _a }} .feat-navs button:hover{ border-color:var(--gold); color:var(--gold); }
+  @media(max-width:900px){ #{{ _a }} .prod-carousel > *{ flex:0 0 calc((100% - 24px) / 2); } }
+  @media(max-width:520px){ #{{ _a }} .prod-carousel > *{ flex:0 0 82%; } #{{ _a }} .feat-navs{ display:none; } }
 </style>
+<script>
+  (function(){
+    var id = {{ section.id | json }};
+    var track = document.querySelector('[data-feat-track="' + id + '"]');
+    if(!track) return;
+    function step(){ var c = track.querySelector('.prod-card'); return (c ? c.offsetWidth : 260) + 24; }
+    var prev = document.querySelector('[data-feat-prev="' + id + '"]');
+    var next = document.querySelector('[data-feat-next="' + id + '"]');
+    if(prev) prev.addEventListener('click', function(){ track.scrollBy({ left: -step() * 2, behavior: 'smooth' }); });
+    if(next) next.addEventListener('click', function(){ track.scrollBy({ left: step() * 2, behavior: 'smooth' }); });
+  })();
+</script>
 
 {% schema %}
 {
