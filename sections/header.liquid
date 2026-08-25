@@ -1,0 +1,358 @@
+{%- liquid
+  assign menu = linklists[section.settings.menu]
+-%}
+<header class="site-header">
+  <div class="wrap header__inner">
+    <nav class="header__nav" aria-label="Hoofdmenu">
+      {%- for link in menu.links limit: 6 -%}
+        {%- if link.links != blank -%}
+          <div class="header__nav-item has-sub">
+            <a href="{{ link.url }}" class="header__nav-link" aria-haspopup="true" aria-expanded="false">
+              {{ link.title }}
+              {%- if forloop.first -%}<span class="new-dot"></span>{%- endif -%}
+              <svg class="caret" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </a>
+            <div class="header__submenu">
+              <ul>
+                {%- for child in link.links -%}
+                  <li><a href="{{ child.url }}">{{ child.title }}</a></li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          </div>
+        {%- else -%}
+          <a href="{{ link.url }}" class="header__nav-link">
+            {{ link.title }}
+            {%- if forloop.first -%}<span class="new-dot"></span>{%- endif -%}
+          </a>
+        {%- endif -%}
+      {%- endfor -%}
+    </nav>
+
+    <button class="burger" type="button" data-menu-toggle aria-label="Menu" aria-expanded="false" aria-controls="bm-mobile-panel">
+      <span class="burger__box">
+        <span class="burger__line"></span>
+        <span class="burger__line"></span>
+        <span class="burger__line"></span>
+      </span>
+    </button>
+
+    <a href="{{ routes.root_url }}" class="logo">
+      <div class="logo__name">{{ settings.logo_text | default: 'BELAMONTE' }}</div>
+      {%- if settings.logo_tagline != blank -%}<div class="logo__sub">{{ settings.logo_tagline }}</div>{%- endif -%}
+    </a>
+
+    <div class="header__icons">
+      <button type="button" class="iconbtn" aria-label="Zoeken" aria-expanded="false" data-search-toggle>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg>
+      </button>
+      <a href="{{ routes.account_url }}" class="iconbtn iconbtn--account" aria-label="Account">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>
+      </a>
+      <a href="{{ routes.cart_url }}" class="iconbtn" aria-label="Winkelmand" data-cart-toggle>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 8h12l1.2 12.5H4.8L6 8Z"/><path d="M9 9V7a3 3 0 0 1 6 0v2"/></svg>
+        <span class="cart-count" data-cart-count {% if cart.item_count == 0 %}style="display:none"{% endif %}>{{ cart.item_count }}</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="header__search" data-search-panel>
+    <form class="header__search-form" action="{{ routes.search_url }}" method="get" role="search">
+      <svg class="header__search-ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg>
+      <input type="search" name="q" value="{{ search.terms | escape }}" placeholder="Waar ben je naar op zoek?" autocomplete="off" autocorrect="off" aria-label="Zoeken" data-search-input>
+      <button type="submit" class="header__search-btn">Zoeken</button>
+      <button type="button" class="header__search-close" aria-label="Sluiten" data-search-close><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></button>
+    </form>
+  </div>
+
+  <nav class="mobile-panel" id="bm-mobile-panel" aria-label="Mobiel menu">
+    <div class="mobile-panel__inner">
+      {%- assign opened = false -%}
+      {%- for link in menu.links -%}
+        {%- if link.links != blank -%}
+          {%- if opened == false -%}
+            {%- assign is_first = true -%}
+            {%- assign opened = true -%}
+          {%- else -%}
+            {%- assign is_first = false -%}
+          {%- endif -%}
+          <div class="m-item{% if is_first %} is-open{% endif %}" data-m-item{% if is_first %} data-m-default{% endif %}>
+            <button class="m-row m-row--toggle" type="button" data-m-toggle aria-expanded="{% if is_first %}true{% else %}false{% endif %}">
+              <span>{{ link.title }}</span>
+              <svg class="m-caret" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="m-sub" data-m-sub>
+              <a href="{{ link.url }}" class="m-sub-link m-sub-link--all" data-menu-link>Alles in {{ link.title }}</a>
+              {%- for child in link.links -%}
+                <a href="{{ child.url }}" class="m-sub-link" data-menu-link>{{ child.title }}</a>
+              {%- endfor -%}
+            </div>
+          </div>
+        {%- else -%}
+          <a href="{{ link.url }}" class="m-row m-row--link" data-menu-link>{{ link.title }}</a>
+        {%- endif -%}
+      {%- endfor -%}
+
+      <div class="m-foot">
+        <a href="{{ routes.account_url }}" class="m-foot-link" data-menu-link>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>
+          Mijn account
+        </a>
+        <a href="{{ routes.search_url }}" class="m-foot-link" data-menu-link>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg>
+          Zoeken
+        </a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<style>
+  .header__nav { display:flex; align-items:center; gap:1.6rem; }
+  .header__nav .header__nav-link,
+  .header__nav > a { display:inline-flex; align-items:center; gap:.3rem; }
+  .header__nav-item.has-sub { position:relative; }
+  .header__nav-item .caret { transition: transform .2s ease; opacity:.7; }
+  .header__submenu {
+    position:absolute; top:100%; left:0; margin-top:.4rem; min-width:210px;
+    background:#fff; box-shadow:0 12px 34px rgba(0,0,0,.13);
+    border-radius:10px; padding:.5rem 0;
+    opacity:0; visibility:hidden; transform:translateY(6px);
+    transition:opacity .18s ease, transform .18s ease, visibility .18s ease;
+    z-index:60;
+  }
+  .header__nav-item.has-sub::after { content:""; position:absolute; top:100%; left:0; right:0; height:.6rem; }
+  .header__nav-item.has-sub:hover .header__submenu,
+  .header__nav-item.has-sub:focus-within .header__submenu { opacity:1; visibility:visible; transform:translateY(0); }
+  .header__nav-item.has-sub:hover .caret { transform:rotate(180deg); }
+  .header__submenu ul { list-style:none; margin:0; padding:0; }
+  .header__submenu a { display:block; padding:.6rem 1.3rem; white-space:nowrap; font-size:11.5px; letter-spacing:.08em; line-height:1.3; }
+  .header__submenu a:hover { background:rgba(0,0,0,.045); }
+
+  .header__search { max-height:0; overflow:hidden; background:rgba(247,244,239,.98); border-top:1px solid transparent; transition:max-height .42s cubic-bezier(.2,.7,.15,1), border-color .42s ease; }
+  .header__search.open { max-height:200px; border-top-color:var(--line); }
+  .header__search-form { max-width:var(--page-width); margin:0 auto; padding:20px 32px; display:flex; align-items:center; gap:14px; opacity:0; transform:translateY(-8px); transition:opacity .35s ease .06s, transform .4s cubic-bezier(.2,.7,.15,1) .06s; }
+  .header__search.open .header__search-form { opacity:1; transform:translateY(0); }
+  .header__search-ico { color:var(--muted); flex:none; }
+  .header__search-form input { flex:1; min-width:0; font-family:inherit; font-size:16px; padding:12px 2px; border:none; border-bottom:1px solid var(--line); background:transparent; outline:none; color:var(--ink); }
+  .header__search-form input::placeholder { color:#9a9183; }
+  .header__search-form input:focus { border-bottom-color:var(--gold); }
+  .header__search-btn { flex:none; background:var(--ink); color:var(--cream); font-size:12px; letter-spacing:.12em; text-transform:uppercase; font-weight:600; padding:13px 24px; border:none; border-radius:2px; cursor:pointer; transition:background .3s,color .3s; }
+  .header__search-btn:hover { background:var(--gold); color:var(--ink); }
+  .header__search-close { flex:none; background:none; border:none; color:var(--muted); cursor:pointer; display:inline-flex; padding:8px; transition:color .25s; }
+
+  /* ---- Elegante burger met X-animatie ---- */
+  .burger { color:var(--ink); transition:color .25s ease; }
+  .burger__box { position:relative; width:28px; height:19px; display:block; }
+  .burger__line { position:absolute; left:0; height:1.2px; background:currentColor; border-radius:2px; transition:transform .38s cubic-bezier(.2,.7,.15,1), opacity .22s ease, width .34s cubic-bezier(.2,.7,.15,1); }
+  .burger__line:nth-child(1){ top:0; width:100%; }
+  .burger__line:nth-child(2){ top:9px; width:68%; }
+  .burger__line:nth-child(3){ top:18px; width:100%; }
+  .burger:hover { color:var(--gold); }
+  .burger:hover .burger__line:nth-child(2){ width:100%; }
+  .burger.is-open { color:var(--gold); }
+  .burger.is-open .burger__line:nth-child(1){ transform:translateY(9px) rotate(45deg); }
+  .burger.is-open .burger__line:nth-child(2){ opacity:0; width:0; }
+  .burger.is-open .burger__line:nth-child(3){ transform:translateY(-9px) rotate(-45deg); width:100%; }
+
+  /* ---- Mobiel paneel: volledige hoogte ---- */
+  .mobile-panel {
+    position:absolute; top:100%; left:0; right:0;
+    height:calc(100vh - 68px);
+    height:calc(100dvh - 68px);
+    overflow-y:auto; overscroll-behavior:contain; -webkit-overflow-scrolling:touch;
+    background:var(--cream); border-top:1px solid var(--line);
+    display:block; padding:6px 20px 24px; font-size:15px;
+    opacity:0; visibility:hidden; transform:translateY(-10px);
+    transition:opacity .28s ease, transform .36s cubic-bezier(.2,.7,.15,1), visibility .36s;
+    z-index:55; box-shadow:0 24px 40px -28px rgba(22,19,15,.5);
+  }
+  .mobile-panel.open { display:block; opacity:1; visibility:visible; transform:translateY(0); }
+  .mobile-panel__inner { display:flex; flex-direction:column; min-height:100%; }
+
+  .mobile-panel__inner > * { opacity:0; transform:translateY(10px); transition:opacity .32s ease, transform .42s cubic-bezier(.2,.7,.15,1); }
+  .mobile-panel.open .mobile-panel__inner > * { opacity:1; transform:none; }
+  .mobile-panel.open .mobile-panel__inner > *:nth-child(1){ transition-delay:.05s }
+  .mobile-panel.open .mobile-panel__inner > *:nth-child(2){ transition-delay:.10s }
+  .mobile-panel.open .mobile-panel__inner > *:nth-child(3){ transition-delay:.15s }
+  .mobile-panel.open .mobile-panel__inner > *:nth-child(4){ transition-delay:.20s }
+  .mobile-panel.open .mobile-panel__inner > *:nth-child(5){ transition-delay:.25s }
+  .mobile-panel.open .mobile-panel__inner > *:nth-child(n+6){ transition-delay:.30s }
+
+  .mobile-panel .m-row {
+    width:100%; display:flex; align-items:center; justify-content:space-between; gap:12px;
+    padding:17px 2px; border:none; border-bottom:1px solid var(--line);
+    background:none; font-family:inherit; font-size:16px; color:var(--ink);
+    text-align:left; cursor:pointer; transition:color .2s ease;
+  }
+  .mobile-panel .m-row--link { text-decoration:none; }
+  .mobile-panel .m-row:active { color:var(--gold); }
+  .mobile-panel .m-caret { flex:none; opacity:.55; transition:transform .34s cubic-bezier(.2,.7,.15,1), opacity .2s ease; }
+  .mobile-panel .m-item.is-open .m-caret { transform:rotate(180deg); opacity:1; color:var(--gold); }
+  .mobile-panel .m-item.is-open > .m-row { color:var(--gold); border-bottom-color:transparent; }
+
+  .mobile-panel .m-sub {
+    max-height:0; overflow:hidden;
+    transition:max-height .4s cubic-bezier(.2,.7,.15,1);
+    border-bottom:1px solid var(--line);
+  }
+  .mobile-panel .m-sub-link {
+    display:block; padding:13px 2px 13px 16px; font-size:14.5px; color:#5C5345;
+    text-decoration:none; border-left:1px solid var(--line); margin-left:4px;
+    opacity:0; transform:translateX(-6px);
+    transition:opacity .3s ease, transform .3s ease, color .2s ease;
+  }
+  .mobile-panel .m-item.is-open .m-sub-link { opacity:1; transform:none; }
+  .mobile-panel .m-item.is-open .m-sub-link:nth-child(1){ transition-delay:.04s }
+  .mobile-panel .m-item.is-open .m-sub-link:nth-child(2){ transition-delay:.07s }
+  .mobile-panel .m-item.is-open .m-sub-link:nth-child(3){ transition-delay:.10s }
+  .mobile-panel .m-item.is-open .m-sub-link:nth-child(4){ transition-delay:.13s }
+  .mobile-panel .m-item.is-open .m-sub-link:nth-child(5){ transition-delay:.16s }
+  .mobile-panel .m-item.is-open .m-sub-link:nth-child(n+6){ transition-delay:.19s }
+  .mobile-panel .m-sub-link:active { color:var(--gold); }
+  .mobile-panel .m-sub-link--all { color:#A8884E; font-size:12px; letter-spacing:.12em; text-transform:uppercase; font-weight:600; padding-top:14px; }
+
+  .mobile-panel .m-foot { display:flex; gap:10px; margin-top:auto; padding-top:26px; }
+  .mobile-panel .m-foot-link {
+    flex:1; display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    padding:13px 10px; border:1px solid var(--line); border-radius:3px;
+    font-size:13px; color:var(--ink); text-decoration:none; background:#FBF9F5;
+  }
+
+  /* ---- MOBIEL: desktop-nav verbergen, hamburger tonen (moet NA de regels hierboven staan) ---- */
+  @media (max-width: 920px) {
+    .header__nav { display:none !important; }
+    .burger { display:inline-flex !important; align-items:center; justify-content:center; width:48px; height:48px; margin:0 -10px 0 -12px; }
+    .header__inner { height:68px; gap:12px; }
+    .header__icons { gap:4px; }
+    .iconbtn { width:40px; height:40px; }
+    .iconbtn--account { display:none; }
+    .logo__name { font-size:20px; letter-spacing:.2em; padding-left:.2em; }
+    .logo__sub { font-size:7.5px; letter-spacing:.32em; padding-left:.32em; }
+    .header__search-form { padding:14px 20px; gap:10px; }
+    .header__search-btn { padding:12px 18px; }
+  }
+  @media (min-width: 921px) {
+    .mobile-panel { display:none !important; }
+  }
+  @media (max-width: 400px) {
+    .header__search-btn { display:none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-panel, .mobile-panel__inner > *, .m-sub, .m-sub-link, .burger__line, .m-caret { transition:none !important; }
+  }
+</style>
+
+<script>
+  (function(){
+    var sToggle = document.querySelector('[data-search-toggle]');
+    var sPanel = document.querySelector('[data-search-panel]');
+    var burger = document.querySelector('[data-menu-toggle]');
+    var panel = document.getElementById('bm-mobile-panel');
+    var scrollY = 0;
+
+    function setSubHeight(item){
+      if(!item) return;
+      var sub = item.querySelector('[data-m-sub]');
+      if(sub){ sub.style.maxHeight = (sub.scrollHeight + 40) + 'px'; }
+    }
+
+    function lockBody(){
+      scrollY = window.scrollY || window.pageYOffset;
+      document.body.style.position = 'fixed';
+      document.body.style.top = '-' + scrollY + 'px';
+      document.body.style.left = '0';
+      document.body.style.right = '0';
+      document.body.style.width = '100%';
+    }
+    function unlockBody(){
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
+      document.body.style.width = '';
+      window.scrollTo(0, scrollY);
+    }
+    function openMenu(){
+      if(!panel || panel.classList.contains('open')) return;
+      panel.classList.add('open');
+      if(burger){ burger.classList.add('is-open'); burger.setAttribute('aria-expanded','true'); }
+      lockBody();
+      setSubHeight(panel.querySelector('[data-m-item].is-open'));
+    }
+    function closeMenu(){
+      if(!panel || !panel.classList.contains('open')) return;
+      panel.classList.remove('open');
+      if(burger){ burger.classList.remove('is-open'); burger.setAttribute('aria-expanded','false'); }
+      unlockBody();
+    }
+
+    if(sToggle && sPanel){
+      var sInput = sPanel.querySelector('[data-search-input]');
+      var sClose = sPanel.querySelector('[data-search-close]');
+      sToggle.addEventListener('click', function(e){
+        e.preventDefault();
+        var open = sPanel.classList.toggle('open');
+        sToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        if(open){ closeMenu(); window.setTimeout(function(){ if(sInput) sInput.focus(); }, 130); }
+      });
+      if(sClose){ sClose.addEventListener('click', function(){ sPanel.classList.remove('open'); sToggle.setAttribute('aria-expanded','false'); }); }
+    }
+
+    if(burger && panel){
+      burger.addEventListener('click', function(e){
+        e.preventDefault();
+        if(panel.classList.contains('open')){ closeMenu(); }
+        else { if(sPanel){ sPanel.classList.remove('open'); } openMenu(); }
+      });
+    }
+
+    if(panel){
+      /* Eerste hoofdcategorie standaard uitgeklapt */
+      setSubHeight(panel.querySelector('[data-m-default]'));
+
+      panel.addEventListener('click', function(e){
+        var t = e.target.closest('[data-m-toggle]');
+        if(!t) return;
+        var item = t.closest('[data-m-item]');
+        var sub = item.querySelector('[data-m-sub]');
+        var willOpen = !item.classList.contains('is-open');
+
+        panel.querySelectorAll('[data-m-item].is-open').forEach(function(other){
+          if(other === item) return;
+          other.classList.remove('is-open');
+          var os = other.querySelector('[data-m-sub]');
+          if(os){ os.style.maxHeight = '0px'; }
+          var ob = other.querySelector('[data-m-toggle]');
+          if(ob){ ob.setAttribute('aria-expanded','false'); }
+        });
+
+        item.classList.toggle('is-open', willOpen);
+        t.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+        if(sub){ sub.style.maxHeight = willOpen ? (sub.scrollHeight + 40) + 'px' : '0px'; }
+      });
+
+      panel.querySelectorAll('[data-menu-link]').forEach(function(a){
+        a.addEventListener('click', function(){ closeMenu(); });
+      });
+    }
+
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape'){ closeMenu(); if(sPanel){ sPanel.classList.remove('open'); } }
+    });
+
+    window.addEventListener('resize', function(){
+      if(window.innerWidth > 920){ closeMenu(); }
+      else { setSubHeight(panel && panel.querySelector('[data-m-item].is-open')); }
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" }
+  ]
+}
+{% endschema %}

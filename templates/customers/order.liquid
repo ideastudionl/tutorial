@@ -1,0 +1,14 @@
+<div class="wrap" style="min-height:60vh">
+  <div class="page-head"><h1>Bestelling {{ order.name }}</h1><div class="count">{{ order.created_at | date: '%d %B %Y' }}</div></div>
+  <div style="max-width:820px;margin:0 auto 60px">
+    <table style="width:100%;border-collapse:collapse;font-size:14px">
+      <thead><tr style="text-align:left;border-bottom:1px solid var(--line)"><th style="padding:10px 0">Product</th><th>Aantal</th><th>Prijs</th></tr></thead>
+      <tbody>
+        {%- for line in order.line_items -%}
+          <tr style="border-bottom:1px solid var(--line)"><td style="padding:12px 0">{{ line.title }}</td><td>{{ line.quantity }}</td><td>{{ line.final_line_price | money }}</td></tr>
+        {%- endfor -%}
+      </tbody>
+    </table>
+    <p style="text-align:right;margin-top:18px" class="serif">Totaal: {{ order.total_price | money }}</p>
+  </div>
+</div>

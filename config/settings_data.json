@@ -1,0 +1,55 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "current": {
+    "logo_text": "BELAMONTE",
+    "logo_tagline": "Interieur Kunstcollectie",
+    "color_ink": "#16130F",
+    "color_gold": "#C49A4A",
+    "color_gold_bright": "#D4AF37",
+    "color_cream": "#F7F4EF",
+    "color_panel": "#EFEAE1",
+    "sections": {
+      "announcement-bar": {
+        "type": "announcement-bar",
+        "custom_css": [],
+        "settings": {
+          "item_1": "Gratis verzending vanaf € 75",
+          "item_2": "Vandaag besteld, morgen in huis",
+          "item_3": "14 dagen retourtermijn"
+        }
+      },
+      "header": {
+        "type": "header",
+        "settings": {
+          "menu": "main-menu"
+        }
+      },
+      "footer": {
+        "type": "footer",
+        "settings": {
+          "about": "Tijdloze woonaccessoires van hoogwaardige materialen. Met liefde samengesteld in Nederland.",
+          "phone": "",
+          "hours": "Ma–Vr 09:00–17:00 uur",
+          "email": "klantenservice@belamonte.nl",
+          "social_instagram": "",
+          "social_pinterest": "",
+          "social_facebook": "",
+          "social_tiktok": ""
+        }
+      },
+      "cart-drawer": {
+        "type": "cart-drawer",
+        "settings": {}
+      }
+    },
+    "content_for_index": []
+  }
+}

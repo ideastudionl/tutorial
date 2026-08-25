@@ -1,0 +1,19 @@
+{% layout none %}<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ shop.name }} cadeaubon</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+  {{ 'base.css' | asset_url | stylesheet_tag }}
+</head>
+<body style="background:#16130F;color:#F4EEE2;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:30px">
+  <div style="max-width:420px;width:100%;text-align:center;background:#0C0B09;border:1px solid #2A2620;border-radius:6px;padding:44px">
+    <div class="logo__name" style="color:#F4EEE2">{{ shop.name }}</div>
+    <div class="logo__sub">Cadeaubon</div>
+    <div class="serif" style="font-size:44px;margin:26px 0 6px;color:#E7C96B">{{ gift_card.balance | money }}</div>
+    <p style="color:#B6AD9C;font-size:13px;margin-bottom:24px">Tegoed voor jouw volgende aankoop</p>
+    <div style="background:#fff;color:#16130F;border-radius:3px;padding:16px;letter-spacing:.18em;font-weight:600">{{ gift_card.code | format_code }}</div>
+    <a href="{{ shop.url }}" class="btn btn--gold" style="margin-top:26px">Shop nu</a>
+  </div>
+</body>
+</html>

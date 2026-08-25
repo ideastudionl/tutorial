@@ -1,0 +1,251 @@
+<div class="wrap cartpage" data-cartpage>
+  <div class="cartpage__head">
+    <h1>Winkelmand</h1>
+    {%- if cart.item_count > 0 -%}<span class="cartpage__count">{{ cart.item_count }} {% if cart.item_count == 1 %}artikel{% else %}artikelen{% endif %}</span>{%- endif -%}
+  </div>
+
+  {%- if cart.item_count > 0 -%}
+    {%- assign ship_threshold = 7500 -%}
+    <div class="cartpage__grid">
+      <div class="cartpage__main">
+        <div class="cartpage__items">
+          {%- for item in cart.items -%}
+            <div class="citem" data-line="{{ forloop.index }}">
+              <a href="{{ item.url }}" class="citem__media">{%- if item.image -%}<img src="{{ item.image | image_url: width: 220 }}" alt="{{ item.title | escape }}" width="110" height="110">{%- else -%}<div class="citem__ph"></div>{%- endif -%}</a>
+              <div class="citem__info">
+                <a href="{{ item.url }}" class="citem__name">{{ item.product.title }}</a>
+                {%- unless item.product.has_only_default_variant -%}<div class="citem__variant">{{ item.variant.title }}</div>{%- endunless -%}
+                <div class="citem__levertijd">
+                  {%- if item.product.metafields.custom.levertijd != blank -%}{{ item.product.metafields.custom.levertijd }}
+                  {%- elsif item.product.type == 'Sierkussens' -%}Levertijd 4-5 weken
+                  {%- elsif item.product.type == 'Behang' -%}Levertijd 2 weken
+                  {%- else -%}Binnen 1-2 dagen geleverd{%- endif -%}
+                </div>
+                <button type="button" class="citem__remove" data-remove>Verwijderen</button>
+              </div>
+              <div class="citem__right">
+                <div class="citem__qty">
+                  <button type="button" data-qty-down aria-label="Minder">&minus;</button>
+                  <span class="citem__q" data-q>{{ item.quantity }}</span>
+                  <button type="button" data-qty-up aria-label="Meer">+</button>
+                </div>
+                <div class="citem__price" data-line-price>{{ item.final_line_price | money }}</div>
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+        <a href="{{ routes.all_products_collection_url }}" class="link-arrow cartpage__continue">Verder winkelen</a>
+        <div class="cartpage__recs" data-cart-recs data-product-id="{{ cart.items.first.product_id }}"></div>
+      </div>
+
+      <aside class="cartpage__aside">
+        <div class="csum">
+          <h2 class="csum__title">Overzicht</h2>
+          {%- if cart.total_price >= ship_threshold -%}
+            <div class="cart-ship cart-ship--done">
+              <div class="cart-ship__txt"><span class="cart-ship__ico">&#10038;</span> Je hebt <strong>gratis verzending!</strong></div>
+              <div class="cart-ship__bar"><div class="cart-ship__fill" style="width:100%"></div></div>
+            </div>
+          {%- else -%}
+            {%- assign ship_remaining = ship_threshold | minus: cart.total_price -%}
+            {%- assign ship_pct = cart.total_price | times: 100 | divided_by: ship_threshold -%}
+            <div class="cart-ship" data-ship data-threshold="{{ ship_threshold }}">
+              <div class="cart-ship__txt">Nog <strong data-ship-remaining>{{ ship_remaining | money }}</strong> tot <strong>gratis verzending</strong></div>
+              <div class="cart-ship__bar"><div class="cart-ship__fill" data-ship-fill style="width:{{ ship_pct }}%"></div></div>
+            </div>
+          {%- endif -%}
+          <div class="csum__row"><span>Subtotaal</span><span data-subtotal>{{ cart.total_price | money }}</span></div>
+          <div class="csum__row csum__row--muted"><span>Verzending</span><span>Berekend bij checkout</span></div>
+          <form action="{{ routes.cart_url }}" method="post">
+            <button type="submit" name="checkout" class="btn btn--dark csum__checkout">Afrekenen &#8594;</button>
+          </form>
+          <div class="csum__trust">
+            <div class="csum__trust-row"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#C49A4A" stroke-width="1.4"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg> Veilig betalen &middot; SSL-versleuteld</div>
+            <div class="csum__trust-row"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#C49A4A" stroke-width="1.3"><rect x="1" y="6" width="14" height="11" rx="1"/><path d="M15 9h4l3 3v5h-7z"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg> Gratis verzending vanaf &euro; 75 &middot; NL &amp; BE</div>
+            <div class="csum__trust-row"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#C49A4A" stroke-width="1.3"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3Z"/><polyline points="8.5 12 11 14.5 16 9"/></svg> 14 dagen bedenktijd &middot; eenvoudig retour</div>
+          </div>
+          <div class="csum__pay">
+            <img src="{{ 'pay-ideal-wero.png' | asset_url }}" alt="iDEAL en Wero" loading="lazy">
+            <img src="{{ 'pay-klarna.png' | asset_url }}" alt="Klarna" loading="lazy">
+            <img src="{{ 'pay-mastercard.webp' | asset_url }}" alt="Mastercard" loading="lazy">
+          </div>
+        </div>
+      </aside>
+    </div>
+  {%- else -%}
+    <div class="cartpage__empty">
+      <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#C9B8A3" stroke-width="1.2"><path d="M6 8h12l1.2 12.5H4.8L6 8Z"/><path d="M9 9V7a3 3 0 0 1 6 0v2"/></svg>
+      <p>Je winkelmand is nog leeg.</p>
+      <a href="{{ routes.all_products_collection_url }}" class="btn btn--dark">Begin met shoppen</a>
+    </div>
+  {%- endif -%}
+</div>
+
+<style>
+  .cartpage{ padding:40px 0 90px; min-height:50vh; }
+  .cartpage__head{ display:flex; align-items:baseline; gap:14px; margin-bottom:34px; }
+  .cartpage__head h1{ font-family:'Playfair Display',Georgia,serif; font-size:clamp(30px,4vw,44px); margin:0; }
+  .cartpage__count{ font-size:13px; color:var(--muted); letter-spacing:.04em; }
+  .cartpage__grid{ display:grid; grid-template-columns:1fr 370px; gap:48px; align-items:start; }
+  .cartpage__items{ border-top:1px solid var(--line); }
+  .citem{ display:grid; grid-template-columns:110px 1fr auto; gap:22px; padding:24px 0; border-bottom:1px solid var(--line); align-items:start; }
+  .citem__media{ display:block; width:110px; height:110px; border-radius:4px; overflow:hidden; background:var(--panel); }
+  .citem__media img,.citem__ph{ width:100%; height:100%; object-fit:cover; display:block; }
+  .citem__name{ font-family:'Playfair Display',Georgia,serif; font-size:19px; line-height:1.25; color:var(--ink); display:block; }
+  .citem__variant{ font-size:13px; color:var(--muted); margin-top:6px; }
+  .citem__levertijd{ font-size:12.5px; color:#8B8273; margin-top:6px; }
+  .citem__remove{ margin-top:14px; background:none; border:none; padding:0; font-family:inherit; font-size:12.5px; color:var(--muted); text-decoration:underline; cursor:pointer; transition:color .2s; }
+  .citem__remove:hover{ color:#a23; }
+  .citem__right{ display:flex; flex-direction:column; align-items:flex-end; gap:14px; }
+  .citem__qty{ display:inline-flex; align-items:center; border:1px solid var(--line); border-radius:3px; background:#fff; }
+  .citem__qty button{ background:none; border:none; width:34px; height:34px; cursor:pointer; color:var(--ink); font-size:17px; line-height:1; display:inline-flex; align-items:center; justify-content:center; transition:color .2s; }
+  .citem__qty button:hover{ color:var(--gold); }
+  .citem__q{ min-width:34px; text-align:center; font-size:14px; }
+  .citem__price{ font-family:'Playfair Display',Georgia,serif; font-size:19px; color:var(--ink); white-space:nowrap; }
+  .cartpage__continue{ display:inline-flex; margin-top:26px; }
+
+  .cart-ship{ padding:13px 16px; background:#fff; border:1px solid var(--line); border-radius:6px; margin-bottom:18px; }
+  .cart-ship__txt{ font-size:13px; color:#5C5345; display:flex; align-items:center; gap:6px; }
+  .cart-ship__txt strong{ color:var(--ink); }
+  .cart-ship--done .cart-ship__txt strong{ color:#1F8A5B; }
+  .cart-ship__ico{ color:var(--gold); }
+  .cart-ship__bar{ margin-top:9px; height:6px; background:#EFE9DD; border-radius:4px; overflow:hidden; }
+  .cart-ship__fill{ height:100%; background:linear-gradient(90deg,#C49A4A,#E7C96B); border-radius:4px; transition:width .5s cubic-bezier(.2,.7,.15,1); }
+  .cart-ship--done .cart-ship__fill{ background:linear-gradient(90deg,#1F8A5B,#4CAF7D); }
+
+  .csum{ background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:26px; position:sticky; top:100px; }
+  .csum__title{ font-family:'Playfair Display',Georgia,serif; font-size:21px; margin:0 0 18px; }
+  .csum__row{ display:flex; justify-content:space-between; align-items:baseline; font-size:15px; padding:8px 0; }
+  .csum__row span:last-child{ font-weight:600; }
+  .csum__row--muted{ color:var(--muted); font-size:13px; }
+  .csum__row--muted span:last-child{ font-weight:400; }
+  [data-subtotal]{ font-family:'Playfair Display',Georgia,serif; font-size:22px; }
+  .csum__checkout{ width:100%; justify-content:center; margin:16px 0 6px; font-size:13px; }
+  .csum__trust{ margin-top:16px; padding-top:16px; border-top:1px solid var(--line); display:flex; flex-direction:column; gap:11px; }
+  .csum__trust-row{ display:flex; align-items:center; gap:9px; font-size:12.5px; color:#5C5345; }
+  .csum__trust-row svg{ flex-shrink:0; }
+  .csum__pay{ display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-top:18px; }
+  .csum__pay img{ height:22px; width:auto; background:#fff; border:1px solid #E2D9CA; border-radius:4px; padding:3px 6px; }
+
+  .cartpage__recs{ margin-top:44px; }
+  .cartpage__recs:empty{ display:none; }
+  .cartpage__recs .recs__head{ font-family:'Playfair Display',Georgia,serif; font-size:22px; margin:0 0 20px; }
+  .cartpage__recs .recs__row{ display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
+  .prec{ background:#fff; border:1px solid var(--line); border-radius:6px; overflow:hidden; display:flex; flex-direction:column; }
+  .prec__media{ display:block; aspect-ratio:1; background:var(--panel); }
+  .prec__media img{ width:100%; height:100%; object-fit:cover; }
+  .prec__body{ padding:12px 13px 14px; display:flex; flex-direction:column; flex:1; }
+  .prec__name{ font-size:13.5px; line-height:1.35; color:var(--ink); display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+  .prec__price{ font-family:'Playfair Display',Georgia,serif; font-size:15px; color:var(--ink); margin:7px 0 10px; }
+  .prec__add{ margin-top:auto; width:100%; background:var(--ink); color:var(--cream); border:none; border-radius:3px; font-family:inherit; font-size:11.5px; letter-spacing:.06em; font-weight:600; text-transform:uppercase; padding:10px 8px; cursor:pointer; transition:background .25s,color .25s; }
+  .prec__add:hover{ background:var(--gold); color:var(--ink); }
+  .prec__add:disabled{ background:#1F8A5B; color:#fff; cursor:default; }
+
+  .cartpage__empty{ text-align:center; padding:60px 0 90px; display:flex; flex-direction:column; align-items:center; gap:20px; color:var(--muted); }
+  .cartpage__empty p{ margin:0; font-size:16px; }
+
+  @media(max-width:900px){
+    .cartpage__grid{ grid-template-columns:1fr; gap:32px; }
+    .csum{ position:static; }
+    .cartpage__recs .recs__row{ grid-template-columns:1fr 1fr; }
+  }
+  @media(max-width:520px){
+    .citem{ grid-template-columns:84px 1fr; gap:16px; }
+    .citem__media{ width:84px; height:84px; }
+    .citem__right{ grid-column:1 / -1; flex-direction:row; align-items:center; justify-content:space-between; }
+  }
+</style>
+
+<script>
+  (function(){
+    var root = document.querySelector('[data-cartpage]');
+    if(!root) return;
+    function money(c){ return '€' + (c/100).toFixed(2).replace('.', ','); }
+    function updateCounts(n){
+      document.querySelectorAll('[data-cart-count]').forEach(function(el){
+        el.textContent = n;
+        if(el.classList.contains('cart-count')){ el.style.display = n > 0 ? 'flex' : 'none'; }
+      });
+    }
+    function updateShip(total){
+      var ship = root.querySelector('[data-ship]');
+      if(!ship) return;
+      var th = parseInt(ship.getAttribute('data-threshold'), 10) || 7500;
+      var rem = ship.querySelector('[data-ship-remaining]');
+      var fill = ship.querySelector('[data-ship-fill]');
+      if(total >= th){ window.location.reload(); return; }
+      if(rem) rem.textContent = money(th - total);
+      if(fill) fill.style.width = Math.min(100, Math.round(total * 100 / th)) + '%';
+    }
+    function change(line, qty, lineEl){
+      return fetch('{{ routes.cart_change_url }}.js', {
+        method:'POST', headers:{ 'Content-Type':'application/json', 'Accept':'application/json' },
+        body: JSON.stringify({ line: line, quantity: qty })
+      }).then(function(r){ return r.json(); }).then(function(cart){
+        updateCounts(cart.item_count);
+        if(cart.item_count === 0){ window.location.reload(); return; }
+        if(qty === 0 && lineEl){ lineEl.remove(); }
+        else if(lineEl){
+          var it = cart.items[line - 1];
+          if(it){
+            var q = lineEl.querySelector('[data-q]'); if(q) q.textContent = it.quantity;
+            var lp = lineEl.querySelector('[data-line-price]'); if(lp) lp.textContent = money(it.final_line_price);
+          }
+        }
+        var sub = root.querySelector('[data-subtotal]'); if(sub) sub.textContent = money(cart.total_price);
+        updateShip(cart.total_price);
+      }).catch(function(){});
+    }
+    root.addEventListener('click', function(e){
+      var lineEl = e.target.closest('[data-line]');
+      if(!lineEl) return;
+      var line = parseInt(lineEl.getAttribute('data-line'), 10);
+      var qEl = lineEl.querySelector('[data-q]');
+      var q = qEl ? parseInt(qEl.textContent, 10) : 1;
+      if(e.target.closest('[data-qty-up]')){ change(line, q + 1, lineEl); }
+      else if(e.target.closest('[data-qty-down]')){ change(line, Math.max(0, q - 1), lineEl); }
+      else if(e.target.closest('[data-remove]')){ change(line, 0, lineEl); }
+    });
+
+    var recsWrap = root.querySelector('[data-cart-recs]');
+    if(recsWrap){
+      var pid = recsWrap.getAttribute('data-product-id');
+      if(pid){
+        fetch('{{ routes.root_url }}recommendations/products.json?product_id=' + pid + '&intent=related&limit=8')
+          .then(function(r){ return r.json(); })
+          .then(function(data){
+            var items = (data.products || []).filter(function(p){ return p.available; }).slice(0, 4);
+            if(!items.length){ recsWrap.innerHTML = ''; return; }
+            var html = '<div class="recs__head">Maak je bestelling compleet</div><div class="recs__row">';
+            items.forEach(function(p){
+              var v = null; (p.variants || []).forEach(function(x){ if(!v && x.available){ v = x; } });
+              if(!v){ v = (p.variants || [])[0]; } if(!v) return;
+              var price = money(p.price);
+              var img = p.featured_image ? '<img src="' + p.featured_image + '" alt="' + (p.title || '') + '" loading="lazy">' : '';
+              html += '<div class="prec"><a href="' + p.url + '" class="prec__media">' + img + '</a><div class="prec__body">'
+                + '<a href="' + p.url + '" class="prec__name">' + p.title + '</a>'
+                + '<div class="prec__price">' + price + '</div>'
+                + '<button type="button" class="prec__add" data-rec-add="' + v.id + '">In winkelmand</button>'
+                + '</div></div>';
+            });
+            html += '</div>';
+            recsWrap.innerHTML = html;
+          }).catch(function(){ recsWrap.innerHTML = ''; });
+      }
+      recsWrap.addEventListener('click', function(e){
+        var b = e.target.closest('[data-rec-add]');
+        if(!b) return;
+        b.disabled = true; b.textContent = 'Toegevoegd ✓';
+        fetch('{{ routes.cart_add_url }}.js', {
+          method:'POST', headers:{ 'Content-Type':'application/json', 'Accept':'application/json' },
+          body: JSON.stringify({ items: [{ id: b.getAttribute('data-rec-add'), quantity: 1 }] })
+        }).then(function(r){ return r.json(); }).then(function(){ window.location.reload(); })
+          .catch(function(){ b.disabled = false; b.textContent = 'In winkelmand'; });
+      });
+    }
+  })();
+</script>
+
+{% schema %}
+{ "name": "Winkelmand", "settings": [] }
+{% endschema %}

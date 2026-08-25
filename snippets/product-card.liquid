@@ -1,0 +1,88 @@
+{%- comment -%} Renders a product card. Expects: product {%- endcomment -%}
+{%- liquid
+  assign p = product
+  assign size_label = ''
+  assign color_option = null
+  for opt in p.options_with_values
+    assign dn = opt.name | downcase
+    if dn contains 'kleur' or dn contains 'color'
+      assign color_option = opt
+    endif
+    if dn contains 'maat' or dn contains 'size' or dn contains 'afmeting'
+      assign size_label = opt.selected_value | default: opt.values.first
+    endif
+  endfor
+  assign cat_label = p.type
+  if cat_label == blank
+    assign cat_label = p.vendor
+  endif
+-%}
+<div class="prod-card">
+  <a href="{{ p.url }}" class="prod-card__media">
+    {%- if p.featured_image != blank -%}
+      <img src="{{ p.featured_image | image_url: width: 900 }}" alt="{{ p.featured_image.alt | escape | default: p.title }}" loading="lazy">
+    {%- else -%}
+      <img src="{{ 'kussen-09.jpg' | asset_url }}" alt="{{ p.title | escape }}" loading="lazy">
+    {%- endif -%}
+    {%- if p.tags contains 'Nieuw' -%}<span class="prod-card__tag">Nieuw</span>
+    {%- elsif p.tags contains 'Bestseller' -%}<span class="prod-card__tag">Bestseller</span>{%- endif -%}
+  </a>
+  <div class="prod-card__body">
+    {%- if cat_label != blank -%}<div class="prod-card__cat">{{ cat_label }}</div>{%- endif -%}
+    <h3 class="prod-card__name"><a href="{{ p.url }}">{{ p.title }}</a></h3>
+    {%- if size_label != blank -%}<div class="prod-card__sub">{{ size_label }}</div>{%- endif -%}
+
+    {%- if color_option -%}
+      <div class="swatches">
+        {%- for val in color_option.values limit: 5 -%}
+          {%- liquid
+            assign v = val | downcase
+            assign hex = '#C9B8A3'
+            if v contains 'zwart' or v contains 'noir' or v contains 'black'
+              assign hex = '#2B2723'
+            elsif v contains 'wit' or v contains 'white' or v contains 'crème' or v contains 'creme' or v contains 'ivoor'
+              assign hex = '#F2EFE9'
+            elsif v contains 'taupe'
+              assign hex = '#C9B8A3'
+            elsif v contains 'beige'
+              assign hex = '#E0D3BB'
+            elsif v contains 'bruin' or v contains 'brown'
+              assign hex = '#7A5A39'
+            elsif v contains 'grijs' or v contains 'grey' or v contains 'gray'
+              assign hex = '#B9BCB6'
+            elsif v contains 'goud' or v contains 'gold'
+              assign hex = '#C9A36B'
+            elsif v contains 'champagne'
+              assign hex = '#E6DAC5'
+            elsif v contains 'koper' or v contains 'copper'
+              assign hex = '#B87333'
+            elsif v contains 'brons' or v contains 'bronze'
+              assign hex = '#8A6A3A'
+            elsif v contains 'zilver' or v contains 'silver'
+              assign hex = '#D7D4CB'
+            elsif v contains 'antraciet'
+              assign hex = '#3A3A3A'
+            elsif v contains 'groen' or v contains 'green'
+              assign hex = '#7D8A6A'
+            endif
+          -%}
+          <span class="swatch" style="background:{{ hex }}" title="{{ val }}"></span>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    <div class="prod-card__foot">
+      <span class="prod-card__price">{{ p.price | money }}</span>
+      {%- if p.available -%}
+        {%- form 'product', p, class: 'bm-product-form' -%}
+          <input type="hidden" name="id" value="{{ p.selected_or_first_available_variant.id }}">
+          <button type="submit" class="btn-add">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>In winkelwagen
+          </button>
+        {%- endform -%}
+      {%- else -%}
+        <span class="prod-card__sub" style="text-transform:uppercase;letter-spacing:.12em">Uitverkocht</span>
+      {%- endif -%}
+    </div>
+  </div>
+</div>

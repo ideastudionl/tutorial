@@ -1,0 +1,576 @@
+{%- liquid
+  assign p = product
+  assign cur = p.selected_or_first_available_variant
+  assign saving = 0
+  if cur.compare_at_price > cur.price
+    assign saving = cur.compare_at_price | minus: cur.price | times: 100.0 | divided_by: cur.compare_at_price | round
+  endif
+-%}
+<div class="wrap">
+  <nav class="breadcrumb">
+    <a href="{{ routes.root_url }}">Home</a> &nbsp;/&nbsp;
+    {%- assign crumb_cat = nil -%}
+    {%- for c in p.collections -%}
+      {%- unless c.handle == 'frontpage' -%}{%- assign crumb_cat = c -%}{%- break -%}{%- endunless -%}
+    {%- endfor -%}
+    {%- if crumb_cat -%}<a href="{{ crumb_cat.url }}">{{ crumb_cat.title }}</a> &nbsp;/&nbsp;{%- endif -%}
+    {{ p.title }}
+  </nav>
+
+  <div class="pdp">
+    <div class="bm-pdp-gallery">
+      <div class="bm-pdp-main" data-pdp-zoom>
+        {%- if p.featured_image -%}
+         <img data-pdp-main src="{{ p.featured_image | image_url: width: 1100 }}" data-zoom="{{ p.featured_image | image_url: width: 1800 }}" alt="{{ p.featured_image.alt | escape | default: p.title }}" width="1100" height="1100">
+        {%- else -%}
+        <img data-pdp-main src="{{ 'kussen-09.jpg' | asset_url }}" data-zoom="{{ 'kussen-09.jpg' | asset_url }}" alt="{{ p.title | escape }}" width="800" height="800">
+        {%- endif -%}
+        {%- if p.tags contains 'Nieuw' -%}<span style="position:absolute;top:18px;left:18px;background:#16130F;color:#E7C96B;font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:500;padding:7px 12px;border-radius:2px;z-index:2">Nieuw</span>{%- endif -%}
+        <span class="bm-zoom-ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></span>
+      </div>
+      <div class="bm-pdp-thumbs">
+        {%- if p.images.size > 1 -%}
+          {%- for image in p.images limit: 10 -%}
+            <button data-thumb data-full="{{ image | image_url: width: 1100 }}" data-zoom="{{ image | image_url: width: 1800 }}" class="bm-thumb{% if forloop.first %} is-active{% endif %}">
+            <img src="{{ image | image_url: width: 220 }}" alt="{{ image.alt | escape }}" width="220" height="220">
+            </button>
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div class="pdp__info">
+      {%- if p.vendor != blank -%}<div style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#A8884E;font-weight:600">{{ p.vendor }}{% if p.type != blank %} · {{ p.type }}{% endif %}</div>{%- endif -%}
+      <h1>{{ p.title }}</h1>
+
+      <div class="pdp__stars" role="img" aria-label="Beoordeeld met 5 van 5 sterren">
+        <span class="pdp__starrow" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg>
+        </span>
+        <span class="pdp__starcount">5,0 · Uitstekend beoordeeld</span>
+      </div>
+
+      <div class="pdp__price" style="display:flex;align-items:baseline;gap:12px">
+        <span>{{ cur.price | money }}</span>
+        {%- if cur.compare_at_price > cur.price -%}
+          <span style="font-size:16px;color:#9C9384;text-decoration:line-through">{{ cur.compare_at_price | money }}</span>
+          <span style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#16130F;background:#EDDFBE;border-radius:2px;padding:5px 9px;font-weight:600">−{{ saving }}%</span>
+        {%- endif -%}
+      </div>
+     <div style="font-size:12px;color:#8B8273;margin-top:-8px">Incl. btw</div>
+
+      {%- if cur.inventory_management == 'shopify' and cur.inventory_quantity > 0 and cur.inventory_quantity <= 10 -%}
+        <div style="display:flex;align-items:center;gap:10px;margin-top:22px;padding:12px 16px;background:#F7F3EC;border-radius:4px;font-size:13px;color:#5C5345">
+          <span style="width:8px;height:8px;border-radius:50%;background:#C58A3A;box-shadow:0 0 0 3px rgba(197,138,58,.2);flex-shrink:0"></span>
+          <span><strong style="color:#16130F">Nog {{ cur.inventory_quantity }} op voorraad</strong> — populair deze week</span>
+        </div>
+      {%- endif -%}
+
+      {%- form 'product', p, class: 'bm-product-form', style: 'margin-top:18px' -%}
+        {%- unless p.has_only_default_variant -%}
+          {%- for option in p.options_with_values -%}
+            <div class="pdp__opt">
+              <div class="lbl">{{ option.name }}</div>
+              {%- assign option_name_lower = option.name | downcase -%}
+{%- if option_name_lower == 'kleur' -%}
+  <div class="variant-swatches" data-option-index="{{ forloop.index0 }}">
+    {%- assign option_idx = forloop.index0 -%}
+    {%- for value in option.values -%}
+      {%- assign variant_image = nil -%}
+      {%- for variant in product.variants -%}
+        {%- if variant.options[option_idx] == value and variant.featured_image -%}
+          {%- assign variant_image = variant.featured_image -%}
+          {%- break -%}
+        {%- endif -%}
+      {%- endfor -%}
+      <label class="swatch-label {% if option.selected_value == value %}active{% endif %}">
+        <input type="radio" name="options[{{ option.name | escape }}]" value="{{ value | escape }}" {% if option.selected_value == value %}checked{% endif %}>
+        {%- if variant_image -%}
+         <img src="{{ variant_image | image_url: width: 80 }}" alt="{{ value }}" title="{{ value }}" width="80" height="80">
+        {%- else -%}
+          <span>{{ value }}</span>
+        {%- endif -%}
+      </label>
+    {%- endfor -%}
+  </div>
+{%- else -%}
+  <select name="options[{{ option.name | escape }}]">
+    {%- for value in option.values -%}
+      <option value="{{ value | escape }}" {% if option.selected_value == value %}selected{% endif %}>{{ value }}</option>
+    {%- endfor -%}
+  </select>
+{%- endif -%}
+
+            </div>
+          {%- endfor -%}
+        {%- endunless -%}
+
+        <select name="id" class="visually-hidden" aria-hidden="true">
+          {%- for variant in p.variants -%}
+            <option value="{{ variant.id }}" {% if variant == cur %}selected{% endif %} {% unless variant.available %}disabled{% endunless %}>{{ variant.title }}</option>
+          {%- endfor -%}
+        </select>
+
+       <div class="pdp__form">
+          {%- if p.available -%}
+         <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+  <label for="quantity" style="font-size:14px;font-weight:500;">Aantal</label>
+  <div style="display:flex;align-items:center;border:1px solid #ccc;border-radius:4px;overflow:hidden;">
+    <button type="button" onclick="this.nextElementSibling.stepDown()" style="padding:8px 14px;background:none;border:none;font-size:18px;cursor:pointer;">−</button>
+    <input type="number" id="quantity" name="quantity" value="1" min="1" style="width:50px;text-align:center;border:none;border-left:1px solid #ccc;border-right:1px solid #ccc;padding:8px 0;font-size:14px;">
+    <button type="button" onclick="this.previousElementSibling.stepUp()" style="padding:8px 14px;background:none;border:none;font-size:18px;cursor:pointer;">+</button>
+  </div>
+</div>
+
+            <button type="submit" class="btn btn--dark">In winkelmand &nbsp;·&nbsp; {{ cur.price | money }}</button>
+            {% if product.type == 'Behang' or product.type == 'Behang Aanbieding' %}
+<button type="button" class="btn btn--light calc-open-btn" onclick="document.getElementById('wc-overlay').style.display='flex'">
+  BEREKEN AANTAL ROLLEN
+</button>
+{% if product.type == 'Behang' %}
+<button type="button" class="btn btn--light sample-btn" id="sample-add-btn">
+  Bestel een sample &nbsp;·&nbsp; €5,00
+</button>
+<p class="sample-note">+ €7,99 bezorgkosten voor samples</p>
+{% endif %}
+
+
+<style>
+.sample-btn { width: 100%; margin-top: 0.5rem; }
+.sample-note { font-size: 0.78rem; color: #999; text-align: center; margin-top: 0.4rem; }
+</style>
+
+<script>
+document.getElementById('sample-add-btn').addEventListener('click', function() {
+  var btn = this;
+  btn.disabled = true;
+  btn.textContent = 'Wordt toegevoegd…';
+  fetch('/cart/add.js', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      items: [{
+        id: 58631338590533,
+        quantity: 1,
+        properties: { 'Sample van': '{{ product.title | escape }}' }
+      }]
+    })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data.status) {
+      btn.textContent = 'Fout — probeer opnieuw';
+      btn.disabled = false;
+    } else {
+      btn.textContent = '✓ Sample toegevoegd';
+      fetch('/cart.js')
+        .then(r => r.json())
+        .then(function(cart) {
+          var counter = document.querySelector('.cart-count[data-cart-count]');
+          if (counter) {
+            counter.textContent = cart.item_count;
+            counter.style.display = cart.item_count > 0 ? 'flex' : 'none';
+          }
+        });
+      setTimeout(function() {
+        btn.textContent = 'Bestel een sample · €5,00';
+        btn.disabled = false;
+      }, 3000);
+    }
+  })
+  .catch(function() {
+    btn.textContent = 'Fout — probeer opnieuw';
+    btn.disabled = false;
+  });
+});
+</script>
+{% endif %}
+
+
+          {%- else -%}
+            <button type="button" class="btn btn--outline" disabled>Uitverkocht</button>
+          {%- endif -%}
+        </div>
+      {%- endform -%}
+
+      {%- if p.available -%}
+        <div style="margin-top:14px;font-size:13px;color:#6F6658;text-align:center">of <strong style="color:#16130F">3× {{ cur.price | divided_by: 3 | money }}</strong> in 3 termijnen met Klarna — achteraf betalen</div>
+      {%- endif -%}
+      <div style="margin-top:16px;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap">
+        <span style="display:inline-flex;align-items:center;gap:7px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#8B8273">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Veilig betalen met
+        </span>
+        <div style="display:flex;gap:7px;flex-wrap:wrap;align-items:center">
+          <span style="display:inline-flex;align-items:center;height:30px;padding:0 7px;background:#fff;border:1px solid #E2D9CA;border-radius:4px"><img src="{{ 'pay-ideal-wero.png' | asset_url }}" alt="iDEAL en Wero" width="64" height="24" style="height:24px;width:auto;display:block"></span>
+          <span style="display:inline-flex;align-items:center;height:30px;padding:0 7px;background:#fff;border:1px solid #E2D9CA;border-radius:4px"><img src="{{ 'pay-klarna.png' | asset_url }}" alt="Klarna" width="44" height="18" style="height:18px;width:auto;display:block"></span>
+          <span style="display:inline-flex;align-items:center;height:30px;padding:0 8px;background:#fff;border:1px solid #E2D9CA;border-radius:4px"><img src="{{ 'pay-mastercard.webp' | asset_url }}" alt="Mastercard" width="34" height="20" style="height:20px;width:auto;display:block"></span>
+        </div>
+      </div>
+
+{% if product.type == 'Behang' %}
+<div id="wc-overlay" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:9999;align-items:center;justify-content:center;">
+  <div id="wc-modal">
+    <button type="button" class="wc-close" onclick="document.getElementById('wc-overlay').style.display='none'">✕</button>
+    <h2 class="wc-title">Voer de afmetingen in</h2>
+    <p class="wc-subtitle">Voorbeeld: Hoogte 2,50 · Lengte 5,35 · Breedte 4,20</p>
+    <div class="wc-illustration">
+      <svg viewBox="0 0 200 120" width="180">
+        <polygon points="40,90 160,90 190,50 70,50" fill="#e8e0d5" stroke="#c4b49a" stroke-width="1.5"/>
+        <polygon points="40,90 40,20 70,50 70,90" fill="#d4c8b8" stroke="#c4b49a" stroke-width="1.5"/>
+        <polygon points="40,20 160,20 190,50 70,50" fill="#f0ebe3" stroke="#c4b49a" stroke-width="1.5"/>
+        <text x="110" y="108" font-size="10" fill="#888" text-anchor="middle">Lengte</text>
+        <text x="28" y="58" font-size="10" fill="#888" text-anchor="middle" transform="rotate(-90,28,58)">Hoogte</text>
+        <text x="178" y="75" font-size="10" fill="#888" text-anchor="middle" transform="rotate(30,178,75)">Breedte</text>
+      </svg>
+    </div>
+    <div class="wc-fields">
+      <div class="wc-field">
+        <label>Hoogte (m)</label>
+        <input type="number" id="wc-height" min="0" step="0.01" placeholder="2.50">
+      </div>
+      <div class="wc-field">
+        <label>Lengte (m)</label>
+        <input type="number" id="wc-length" min="0" step="0.01" placeholder="5.35">
+      </div>
+      <div class="wc-field" id="wc-width-field">
+        <label>Breedte (m)</label>
+        <input type="number" id="wc-width" min="0" step="0.01" placeholder="4.20">
+      </div>
+    </div>
+    <label class="wc-checkbox">
+      <input type="checkbox" id="wc-onewall"> Berekening voor één muur
+    </label>
+    <p class="wc-note">* Voer afmetingen in meters in met een punt (.) als scheidingsteken.<br>Deuren en ramen worden niet afgetrokken; de marge van 10% compenseert dit.</p>
+    <div class="wc-buttons">
+      <button type="button" class="btn btn--dark" onclick="wcCalculate()">Berekenen</button>
+      <button type="button" class="btn btn--light" onclick="wcReset()">Wissen</button>
+      <button type="button" class="btn btn--light" onclick="document.getElementById('wc-overlay').style.display='none'">Sluiten</button>
+    </div>
+    <div id="wc-result" style="display:none;"></div>
+    <div id="wc-error" style="display:none;"></div>
+  </div>
+</div>
+
+<style>
+.calc-open-btn { margin: 1rem 0; width: 100%; }
+#wc-modal { background: #faf8f5; border: 1px solid #d4c5a9; padding: 2.5rem; max-width: 480px; width: 90%; position: relative; max-height: 90vh; overflow-y: auto; }
+.wc-close { position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #666; }
+.wc-title { font-size: 1.3rem; letter-spacing: 0.06em; margin-bottom: 0.3rem; color: #1a1a1a; }
+.wc-subtitle { font-size: 0.85rem; color: #888; margin-bottom: 1.2rem; }
+.wc-illustration { text-align: center; margin-bottom: 1.5rem; }
+.wc-fields { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.8rem; margin-bottom: 1rem; }
+.wc-field label { display: block; font-size: 0.75rem; letter-spacing: 0.05em; text-transform: uppercase; color: #666; margin-bottom: 0.3rem; }
+.wc-field input { width: 100%; border: 1px solid #d4c5a9; padding: 0.5rem 0.6rem; background: #fff; font-size: 0.95rem; color: #1a1a1a; outline: none; box-sizing: border-box; }
+.wc-field input:focus { border-color: #1a1a1a; }
+.wc-checkbox { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: #444; margin-bottom: 1rem; cursor: pointer; }
+.wc-note { font-size: 0.78rem; color: #999; margin-bottom: 1.2rem; line-height: 1.5; }
+.wc-buttons { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-bottom: 1rem; }
+#wc-result { border-top: 1px solid #d4c5a9; padding-top: 1.2rem; text-align: center; font-size: 1rem; color: #1a1a1a; }
+#wc-result .wc-number { font-size: 2.5rem; font-weight: 600; display: block; margin: 0.3rem 0; }
+#wc-result .wc-sub { font-size: 0.8rem; color: #999; }
+#wc-error { border-top: 1px solid #d4c5a9; padding-top: 1rem; color: #999; font-size: 0.85rem; font-style: italic; }
+</style>
+
+<script>
+(function() {
+  const MARGIN = 1.10;
+  const desc = {{ product.description | strip_html | json }};
+  function parseNL(str) { return parseFloat(String(str).replace(',', '.')); }
+  function extractInfo() {
+    const dekkingMatch = desc.match(/Dekking per rol[:\s]+([0-9,\.]+)\s*m/i);
+    if (dekkingMatch) return { type: 'rol', coverage: parseNL(dekkingMatch[1]) };
+    const oppMatch = desc.match(/Oppervlakte[:\s]+([0-9,\.]+)\s*m/i);
+    if (oppMatch) return { type: 'paneel', coverage: parseNL(oppMatch[1]) };
+    return null;
+  }
+  window.wcCalculate = function() {
+    const height = parseFloat(document.getElementById('wc-height').value);
+    const length = parseFloat(document.getElementById('wc-length').value);
+    const oneWall = document.getElementById('wc-onewall').checked;
+    const resultEl = document.getElementById('wc-result');
+    const errorEl = document.getElementById('wc-error');
+    resultEl.style.display = 'none';
+    errorEl.style.display = 'none';
+    if (!height || height <= 0 || !length || length <= 0) {
+      errorEl.textContent = 'Vul minimaal hoogte en lengte in.';
+      errorEl.style.display = 'block';
+      return;
+    }
+    let area;
+    if (oneWall) {
+      area = height * length;
+    } else {
+      const width = parseFloat(document.getElementById('wc-width').value);
+      if (!width || width <= 0) {
+        errorEl.textContent = 'Vul ook de breedte in voor een kamerberekening.';
+        errorEl.style.display = 'block';
+        return;
+      }
+      area = height * 2 * (length + width);
+    }
+    const info = extractInfo();
+    if (!info) {
+      errorEl.textContent = 'Productgegevens niet gevonden. Neem contact op voor advies.';
+      errorEl.style.display = 'block';
+      return;
+    }
+    const units = Math.ceil(Math.ceil(area / info.coverage) * MARGIN);
+    const label = info.type === 'paneel' ? (units === 1 ? 'set' : 'sets') : (units === 1 ? 'rol' : 'rollen');
+    resultEl.innerHTML = `<p>U heeft</p><span class="wc-number">${units} ${label}</span><p class="wc-sub">nodig · incl. 10% marge · ${info.coverage} m² per ${info.type}</p>`;
+    resultEl.style.display = 'block';
+  };
+  window.wcReset = function() {
+    ['wc-height','wc-length','wc-width'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('wc-onewall').checked = false;
+    document.getElementById('wc-result').style.display = 'none';
+    document.getElementById('wc-error').style.display = 'none';
+  };
+  document.getElementById('wc-onewall').addEventListener('change', function() {
+    document.getElementById('wc-width-field').style.opacity = this.checked ? '0.3' : '1';
+    document.getElementById('wc-width-field').style.pointerEvents = this.checked ? 'none' : 'auto';
+  });
+})();
+</script>
+{% endif %}
+
+
+
+      {%- assign free_threshold = 7500 -%}
+      {%- assign remaining = free_threshold | minus: cur.price -%}
+      {%- assign pct = cur.price | times: 100 | divided_by: free_threshold -%}
+      {%- if pct > 100 %}{% assign pct = 100 %}{% endif -%}
+      <div style="margin-top:22px;padding:14px 16px;border:1px solid #EAE3D6;border-radius:4px">
+        <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#5C5345">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C49A4A" stroke-width="1.5"><rect x="1" y="6" width="14" height="11" rx="1"/><path d="M15 9h4l3 3v5h-7z"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg>
+          {%- if remaining > 0 -%}
+            <span>Nog <strong style="color:#16130F">{{ remaining | money }}</strong> tot gratis verzending</span>
+          {%- else -%}
+            <span>Je komt in aanmerking voor <strong style="color:#1F8A5B">gratis verzending</strong></span>
+          {%- endif -%}
+        </div>
+        <div style="margin-top:10px;height:5px;background:#EFE9DD;border-radius:3px;overflow:hidden">
+          <div style="height:100%;width:{{ pct }}%;background:linear-gradient(90deg,#C49A4A,#E7C96B);border-radius:3px"></div>
+        </div>
+      </div>
+
+      <div style="margin-top:26px;border:1px solid #EAE3D6;border-radius:4px;padding:6px 20px">
+        <div style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid #F0EAE0">
+          <span style="color:#C49A4A;flex-shrink:0"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="1" y="6" width="14" height="11" rx="1"/><path d="M15 9h4l3 3v5h-7z"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg></span>
+          <div style="font-size:13.5px">
+            {%- if p.metafields.custom.levertijd != blank -%}
+              <strong style="font-weight:600">{{ p.metafields.custom.levertijd }}</strong>
+            {%- elsif p.type == 'Sierkussens' -%}
+              <strong style="font-weight:600">Levertijd 4-5 weken</strong>
+            {%- elsif p.type == 'Behang' -%}
+              <strong style="font-weight:600">Levertijd 2 weken</strong>
+            {%- else -%}
+              <strong style="font-weight:600">Binnen 1-2 dagen geleverd</strong>
+            {%- endif -%}
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid #F0EAE0">
+          <span style="color:#C49A4A;flex-shrink:0"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="1" y="6" width="14" height="11" rx="1"/><path d="M15 9h4l3 3v5h-7z"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg></span>
+          <div style="font-size:13.5px"><strong style="font-weight:600">Gratis verzending vanaf € 75</strong> — binnen NL &amp; BE</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;padding:14px 0">
+          <span style="color:#C49A4A;flex-shrink:0"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3Z"/><polyline points="8.5 12 11 14.5 16 9"/></svg></span>
+          <div style="font-size:13.5px"><strong style="font-weight:600">14 dagen retour</strong> — Eenvoudig retourneren</div>
+        </div>
+      </div>
+
+      <div style="margin-top:30px;border-top:1px solid #EAE3D6">
+        <details open style="border-bottom:1px solid #EAE3D6">
+          <summary style="cursor:pointer;list-style:none;padding:20px 2px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;font-weight:600">Productdetails</summary>
+          <div style="font-size:14px;line-height:1.8;color:#5C5345;padding:0 2px 22px">{{ p.description | default: 'Voeg hier een productbeschrijving toe.' }}</div>
+        </details>
+        {%- if p.metafields.custom.afmetingen != blank -%}
+        <details style="border-bottom:1px solid #EAE3D6">
+          <summary style="cursor:pointer;list-style:none;padding:20px 2px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;font-weight:600">Afmetingen &amp; materiaal</summary>
+          <div style="font-size:14px;line-height:1.8;color:#5C5345;padding:0 2px 22px">{{ p.metafields.custom.afmetingen }}</div>
+        </details>
+        {%- endif -%}
+        <details style="border-bottom:1px solid #EAE3D6">
+          <summary style="cursor:pointer;list-style:none;padding:20px 2px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;font-weight:600">Levering &amp; retour</summary>
+          <div style="font-size:14px;line-height:1.8;color:#5C5345;padding:0 2px 22px">Gratis verzending vanaf € 75. Levertijd: 1 à 2 werkdagen, tenzij anders aangegeven. 14 dagen retour — Eenvoudig retourneren.</div>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  {%- assign rec = p.collections.first.products -%}
+  {%- if rec.size > 1 -%}
+    <section style="padding:0 0 80px">
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:30px;gap:16px">
+        <h2 style="font-family:'Playfair Display',serif;font-weight:500;font-size:clamp(24px,2.6vw,34px);margin:0">Maak het compleet</h2>
+        <div style="display:flex;align-items:center;gap:14px;flex-shrink:0">
+          <a href="{{ p.collections.first.url }}" class="link-arrow">Meer uit {{ p.collections.first.title }}</a>
+          <div class="pdp-recs-navs">
+            <button type="button" class="pdp-recs-nav" data-recs-prev aria-label="Vorige">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="15 6 9 12 15 18"/></svg>
+            </button>
+            <button type="button" class="pdp-recs-nav" data-recs-next aria-label="Volgende">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="9 6 15 12 9 18"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="pdp-recs" data-recs-track>
+        {%- assign shown = 0 -%}
+        {%- for rp in rec -%}
+          {%- if rp.id != p.id and shown < 8 -%}
+            {%- render 'product-card', product: rp -%}
+            {%- assign shown = shown | plus: 1 -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </section>
+    <script>
+      (function(){
+        var track = document.querySelector('[data-recs-track]');
+        if(!track) return;
+        function step(){ var c = track.querySelector('.prod-card'); return (c ? c.offsetWidth : 260) + 20; }
+        var prev = document.querySelector('[data-recs-prev]'), next = document.querySelector('[data-recs-next]');
+        if(prev) prev.addEventListener('click', function(){ track.scrollBy({left: -step()*2, behavior:'smooth'}); });
+        if(next) next.addEventListener('click', function(){ track.scrollBy({left: step()*2, behavior:'smooth'}); });
+      })();
+    </script>
+  {%- endif -%}
+</div>
+
+<div class="bm-lightbox" id="bm-lightbox" hidden>
+  <button class="bm-lightbox__close" data-lightbox-close aria-label="Sluiten">&times;</button>
+ <img id="bm-lightbox-img" src="" alt="" width="800" height="800">
+</div>
+
+{%- if p.available -%}
+<div class="bm-sticky-buy" id="bm-sticky-buy">
+  <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;gap:20px;padding:12px 32px">
+    <div style="display:flex;align-items:center;gap:14px;min-width:0">
+      {%- if p.featured_image -%}<img src="{{ p.featured_image | image_url: width: 96 }}" alt="{{ p.title | escape }}" width="46" height="46" style="width:46px;height:46px;border-radius:4px;object-fit:cover;flex-shrink:0">{%- endif -%}
+      <div style="min-width:0">
+        <div style="font-family:'Playfair Display',serif;font-size:15px;color:#16130F;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ p.title }}</div>
+        <div style="font-size:12px;color:#6F6658">{{ cur.price | money }}</div>
+      </div>
+    </div>
+    <button type="button" data-sticky-add class="btn btn--dark" style="flex-shrink:0">In winkelmand</button>
+  </div>
+</div>
+{%- endif -%}
+<script>
+  var productData = {{ product | json }};
+  var variants = productData.variants;
+
+  function findVariant(options) {
+    return variants.find(function(v) {
+      return v.options.every(function(opt, i) {
+        var key = 'options[' + productData.options[i] + ']';
+        return options[key] === opt;
+      });
+    });
+  }
+
+  function updateProduct(variant) {
+    if (!variant) return;
+    var priceEl = document.querySelector('.pdp__price');
+    if (priceEl) priceEl.textContent = '€' + (variant.price / 100).toFixed(2).replace('.', ',');
+    if (variant.featured_image) {
+      var mainImg = document.querySelector('.bm-pdp-main img');
+      if (mainImg) mainImg.src = variant.featured_image.src;
+    }
+    var idInput = document.querySelector('select[name="id"], input[name="id"]');
+    if (idInput) {
+      idInput.value = variant.id;
+      if (idInput.tagName === 'SELECT') {
+        var option = idInput.querySelector('option[value="' + variant.id + '"]');
+        if (option) option.selected = true;
+      }
+    }
+    history.replaceState({}, '', '?variant=' + variant.id);
+  }
+
+  function initSwatches() {
+    var labels = document.querySelectorAll('.swatch-label');
+    if (labels.length === 0) {
+      setTimeout(initSwatches, 100);
+      return;
+    }
+    labels.forEach(function(label) {
+      label.addEventListener('click', function() {
+        var radio = this.querySelector('input[type="radio"]');
+        if (!radio) return;
+        var options = {};
+        productData.options.forEach(function(optName) {
+          var selected = document.querySelector('input[name="options[' + optName + ']"]:checked');
+          if (selected) options['options[' + optName + ']'] = selected.value;
+        });
+        options['options[Kleur]'] = radio.value;
+        labels.forEach(function(l) { l.classList.remove('active'); });
+        this.classList.add('active');
+        var variant = findVariant(options);
+        updateProduct(variant);
+      });
+    });
+  }
+
+  initSwatches();
+</script>
+
+
+
+
+<style>
+  .pdp{ display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:start; }
+  .pdp > *{ min-width:0; }
+  .pdp__stars{ display:flex; align-items:center; gap:9px; margin:10px 0 2px; }
+  .pdp__starrow{ display:inline-flex; gap:2px; color:#C49A4A; line-height:0; }
+  .pdp__starcount{ font-size:12.5px; color:#6F6658; letter-spacing:.01em; }
+  .bm-pdp-gallery{ display:flex; flex-direction:column; gap:14px; min-width:0; max-width:100%; }
+  .bm-pdp-main{ position:relative; border-radius:6px; overflow:hidden; background:var(--panel); aspect-ratio:1/1; }
+  .bm-pdp-main img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .bm-pdp-thumbs{ display:flex; flex-direction:row; flex-wrap:nowrap; gap:10px; overflow-x:auto; padding-bottom:4px; -ms-overflow-style:none; scrollbar-width:thin; min-width:0; max-width:100%; }
+  .bm-pdp-thumbs::-webkit-scrollbar{ height:5px; }
+  .bm-pdp-thumbs::-webkit-scrollbar-thumb{ background:#DCD3C4; border-radius:3px; }
+  .bm-pdp-thumbs .bm-thumb{ width:72px; height:72px; padding:0; border:1px solid var(--line); border-radius:4px; overflow:hidden; background:none; cursor:pointer; transition:border-color .2s; flex:0 0 72px; }
+  .bm-pdp-thumbs .bm-thumb.is-active{ border-color:var(--gold); }
+  .bm-pdp-thumbs .bm-thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .pdp__info{ position:sticky; top:100px; align-self:start; }
+  @media(max-width:900px){ .pdp{ grid-template-columns:1fr; gap:26px; } .pdp__info{ position:static; } }
+
+  /* Maak het compleet — horizontale carousel */
+  .pdp-recs{ display:flex; gap:20px; overflow-x:auto; scroll-snap-type:x mandatory; scroll-behavior:smooth; padding-bottom:12px; -ms-overflow-style:none; scrollbar-width:thin; }
+  .pdp-recs::-webkit-scrollbar{ height:6px; }
+  .pdp-recs::-webkit-scrollbar-thumb{ background:#DCD3C4; border-radius:3px; }
+  .pdp-recs > *{ flex:0 0 calc((100% - 60px) / 4); scroll-snap-align:start; }
+  .pdp-recs-navs{ display:flex; gap:8px; }
+  .pdp-recs-nav{ width:38px; height:38px; display:inline-flex; align-items:center; justify-content:center; border:1px solid var(--line); border-radius:50%; background:#fff; color:#5C5345; cursor:pointer; transition:border-color .2s,color .2s; }
+  .pdp-recs-nav:hover{ border-color:var(--gold); color:var(--gold); }
+  @media(max-width:900px){ .pdp-recs > *{ flex:0 0 calc((100% - 20px) / 2); } .pdp-recs-navs{ display:none; } }
+  @media(max-width:520px){ .pdp-recs > *{ flex:0 0 82%; } }
+</style>
+
+{% schema %}
+{
+  "name": "Product",
+  "settings": [
+    { "type": "header", "content": "Reviews" },
+    { "type": "textarea", "id": "review_quotes", "label": "Review-citaten (gescheiden door |)", "default": "Echt luxe uitstraling, het marmer voelt zwaar en stevig. Precies zoals op de foto.|Mooi verpakt en snel geleverd. Staan prachtig op onze eettafel.|Als cadeau gegeven — groot succes." },
+    { "type": "textarea", "id": "review_names", "label": "Review-namen (gescheiden door |)", "default": "Sanne · Utrecht|Thomas · Den Haag|Eline · Haarlem" }
+  ]
+}
+{% endschema %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const minQty = {{ product.metafields.custom.minimum_hoeveelheid | default: 1 }};
+    const qtyInput = document.querySelector('input[name="quantity"]');
+    if (qtyInput && minQty > 1) {
+      qtyInput.setAttribute('min', minQty);
+      if (parseInt(qtyInput.value) < minQty) {
+        qtyInput.value = minQty;
+      }
+    }
+  });
+</script>

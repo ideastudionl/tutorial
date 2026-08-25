@@ -1,0 +1,23 @@
+{%- liquid
+  assign i1 = section.settings.item_1
+  assign i2 = section.settings.item_2
+  assign i3 = section.settings.item_3
+-%}
+<div class="announcement">
+  <div class="announcement__row wrap">
+    {%- if i1 != blank -%}<span><span class="star">&#10038;</span> {{ i1 }}</span>{%- endif -%}
+    {%- if i2 != blank -%}<span class="dot">&middot;</span><span>{{ i2 }}</span>{%- endif -%}
+    {%- if i3 != blank -%}<span class="dot">&middot;</span><span><span class="star">&#10038;</span> {{ i3 }}</span>{%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Aankondigingsbalk",
+  "settings": [
+    { "type": "text", "id": "item_1", "label": "Item 1", "default": "Gratis verzending vanaf € 75" },
+    { "type": "text", "id": "item_2", "label": "Item 2", "default": "Voor 22:00 besteld, morgen in huis" },
+    { "type": "text", "id": "item_3", "label": "Item 3", "default": "Luxe cadeauverpakking" }
+  ]
+}
+{% endschema %}

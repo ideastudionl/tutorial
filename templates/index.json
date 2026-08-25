@@ -1,0 +1,468 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "blocks": {
+        "slide1": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/Banner_Belamonte.png",
+            "alignment": "left",
+            "eyebrow": "Waar luxe thuiskomt",
+            "heading": "Breng tijdloze luxe in jouw",
+            "heading_accent": "interieur",
+            "heading_after": "",
+            "text": "Ontdek de exclusieve collectie woonaccessoires van Belamonte, waar verfijnd design, hoogwaardige materialen en warme natuurlijke tinten samenkomen. Elk item is zorgvuldig geselecteerd om een interieur te creëren dat rust, elegantie en een gevoel van tijdloze luxe uitstraalt.",
+            "button_label": "Shop sierkussens",
+            "button_link": "shopify://collections/sierkussens",
+            "button2_label": "Ontdek de collectie",
+            "button2_link": "shopify://collections/behang"
+          }
+        }
+      },
+      "block_order": [
+        "slide1"
+      ],
+      "settings": {
+        "autoplay": true,
+        "interval": 6
+      }
+    },
+    "usp": {
+      "type": "usp-bar",
+      "blocks": {
+        "u1": {
+          "type": "item",
+          "settings": {
+            "icon": "shield",
+            "title": "Zorgvuldig vervaardigd",
+            "subtitle": "Kwaliteit boven snelheid"
+          }
+        },
+        "u2": {
+          "type": "item",
+          "settings": {
+            "icon": "truck",
+            "title": "Met zorg verpakt",
+            "subtitle": "Snelle levering in Nederland & België"
+          }
+        },
+        "u3": {
+          "type": "item",
+          "settings": {
+            "icon": "gift",
+            "title": "Gratis verzending vanaf € 75",
+            "subtitle": "Binnen NL & BE"
+          }
+        },
+        "u4": {
+          "type": "item",
+          "settings": {
+            "icon": "heart",
+            "title": "14 dagen retour",
+            "subtitle": "Eenvoudig retourneren"
+          }
+        }
+      },
+      "block_order": [
+        "u1",
+        "u2",
+        "u3",
+        "u4"
+      ],
+      "settings": {}
+    },
+    "subcats": {
+      "type": "category-carousel",
+      "disabled": true,
+      "blocks": {
+        "n6": {
+          "type": "category",
+          "settings": {
+            "collection": "behang",
+            "label": "",
+            "link": ""
+          }
+        },
+        "n1": {
+          "type": "category",
+          "settings": {
+            "collection": "sierkussens",
+            "label": "",
+            "link": ""
+          }
+        },
+        "n2": {
+          "type": "category",
+                    "settings": {
+            "collection": "vazen",
+            "label": "",
+            "link": ""
+          }
+        },
+        "n3": {
+          "type": "category",
+                    "settings": {
+            "collection": "onderzetters",
+            "label": "",
+            "link": ""
+          }
+        },
+        "n4": {
+          "type": "category",
+          "disabled": true,
+          "settings": {
+            "collection": "spiegels",
+            "label": "",
+            "link": ""
+          }
+        },
+        "n5": {
+          "type": "category",
+                    "settings": {
+            "collection": "kaarsen-houders",
+            "label": "",
+            "link": ""
+          }
+        },
+        "category_pJVRWk": {
+          "type": "category",
+                    "settings": {
+            "collection": "keuken-accessoires",
+            "label": "Keukenrolhouders",
+            "image": "shopify://shop_images/81ae259e-a452-40f7-84f3-775de498411b.png",
+            "link": ""
+          }
+        },
+        "n13": {
+          "type": "category",
+          "settings": {
+            "collection": "snijplanken",
+            "label": "",
+            "image": "shopify://shop_images/foto_snijplank_3.png",
+            "link": ""
+          }
+        },
+        "n16": {
+          "type": "category",
+                    "settings": {
+            "collection": "dienbladen",
+            "label": "",
+            "image": "shopify://shop_images/dienblad.jpg",
+            "link": ""
+          }
+        },
+        "category_CBwTff": {
+          "type": "category",
+                    "settings": {
+            "collection": "badkamer-accessoires",
+            "label": "Zeepdispensers & Tandborstelhouders",
+            "image": "shopify://shop_images/d621353e-3dff-4aef-93cd-e503a55b3c89.jpg",
+            "link": ""
+          }
+        },
+        "n8": {
+          "type": "category",
+                    "settings": {
+            "collection": "badmatten",
+            "label": "",
+            "image": "shopify://shop_images/Foto_9.png",
+            "link": ""
+          }
+        },
+        "n7": {
+          "type": "category",
+          "disabled": true,
+          "settings": {
+            "collection": "handdoeken",
+            "label": "",
+            "link": ""
+          }
+        },
+        "n9": {
+          "type": "category",
+          "disabled": true,
+          "settings": {
+            "collection": "wasmanden",
+            "label": "",
+            "link": ""
+          }
+        },
+        "n10": {
+          "type": "category",
+          "disabled": true,
+          "settings": {
+            "collection": "opbergers",
+            "label": "",
+            "link": ""
+          }
+        },
+        "n11": {
+          "type": "category",
+          "disabled": true,
+          "settings": {
+            "collection": "toiletborstels",
+            "label": "",
+            "link": ""
+          }
+        },
+        "n12": {
+          "type": "category",
+          "disabled": true,
+          "settings": {
+            "collection": "serveerschalen",
+            "label": "",
+            "link": ""
+          }
+        },
+        "n14": {
+          "type": "category",
+          "disabled": true,
+          "settings": {
+            "collection": "bestek-servies",
+            "label": "",
+            "link": ""
+          }
+        },
+        "n15": {
+          "type": "category",
+          "disabled": true,
+          "settings": {
+            "collection": "keukentextiel",
+            "label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "n6",
+        "n1",
+        "n2",
+        "n3",
+        "n4",
+        "n5",
+        "category_pJVRWk",
+        "n13",
+        "n16",
+        "category_CBwTff",
+        "n8",
+        "n7",
+        "n9",
+        "n10",
+        "n11",
+        "n12",
+        "n14",
+        "n15"
+      ],
+      "settings": {
+        "eyebrow": "Categorieën",
+        "heading": "Ontdek per categorie",
+        "link_label": "Alle collecties",
+        "link": "shopify://collections"
+      }
+    },
+    "categories": {
+      "type": "collection-list",
+      "blocks": {
+        "c1": {
+          "type": "category",
+          "settings": {
+            "collection": "sierkussens",
+            "heading": "Sierkussens",
+            "subtitle": "Velours · geweven · franje",
+            "badge": "Nieuw",
+            "fallback_image": "kussen-05.jpg",
+            "link": ""
+          }
+        },
+        "category_mcdGKc": {
+          "type": "category",
+          "settings": {
+            "collection": "behang",
+            "heading": "Behang",
+            "subtitle": "Vliesbehang · fotobehang · stroken",
+            "badge": "Nieuw",
+            "image": "shopify://shop_images/blok_foto.png",
+            "fallback_image": "",
+            "link": ""
+          }
+        },
+        "c2": {
+          "type": "category",
+          "settings": {
+            "collection": "speciale-aanbiedingen",
+            "heading": "Aanbiedingen",
+            "subtitle": "Tijdelijk voordeel · op = op",
+            "badge": "Sale",
+            "fallback_image": "wandkunst-lifestyle.jpg",
+            "link": ""
+          }
+        },
+        "c3": {
+          "type": "category",
+          "settings": {
+            "collection": "onderzetters",
+            "heading": "Onderzetters",
+            "subtitle": "Marmer & croco-leer",
+            "badge": "Nieuw",
+            "fallback_image": "kussen-08.jpg",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "category_mcdGKc",
+        "c2",
+        "c3"
+      ],
+      "custom_css": [],
+      "settings": {
+        "eyebrow": "Het assortiment",
+        "heading": "Shop per categorie"
+      }
+    },
+    "featured": {
+      "type": "featured-collection",
+      "settings": {
+        "eyebrow": "Nieuw binnen · Sierkussens",
+        "heading": "Sierkussencollectie",
+        "collection": "frontpage",
+        "products_to_show": 8,
+        "link_label": "Alle sierkussens",
+        "anchor": "Sierkussens"
+      }
+    },
+    "featured_collection_M8KCnc": {
+      "type": "featured-collection",
+      "name": "Uitgelichte collectie",
+      "settings": {
+        "eyebrow": "Nieuw binnen · Behang",
+        "heading": "Behangcollectie",
+        "collection": "behang",
+        "products_to_show": 8,
+        "link_label": "Alle behang",
+        "anchor": "Behang"
+      }
+    },
+    "story": {
+      "type": "brand-story",
+      "blocks": {
+        "stat_AUgQH8": {
+          "type": "stat",
+          "settings": {
+            "number": "120+",
+            "label": "Woonaccessoires"
+          }
+        },
+        "b1": {
+          "type": "stat",
+          "settings": {
+            "number": "3",
+            "label": "Hoofdcollecties"
+          }
+        },
+        "b2": {
+          "type": "stat",
+          "settings": {
+            "number": "14",
+            "label": "Dagen bedenktijd"
+          }
+        }
+      },
+      "block_order": [
+        "stat_AUgQH8",
+        "b1",
+        "b2"
+      ],
+      "settings": {
+        "show_logo": true,
+        "heading": "Breng karakter, rust en elegantie in jouw interieur",
+        "text": "Belamonte staat voor tijdloze luxe en verfijnd wonen. Onze collectie bestaat uit zorgvuldig geselecteerde woonaccessoires in hoogwaardige materialen, natuurlijke tinten en elegante vormen. Van sfeervolle decoratie tot in Nederland vervaardigde sierkussens: ieder item is gekozen om warmte, karakter en een blijvende luxe uitstraling aan het interieur te geven.",
+        "image": "shopify://shop_images/1_ac407bf0-4f10-4506-b07e-551632148bed.png"
+      }
+    },
+    "lookbook": {
+      "type": "lookbook",
+      "blocks": {
+        "l1": {
+          "type": "look",
+          "settings": {
+            "fallback_image": "kussen-07.jpg",
+            "caption": "Hotel chic woonkamer",
+            "link": ""
+          }
+        },
+        "l2": {
+          "type": "look",
+          "settings": {
+            "image": "shopify://shop_images/badkamer.webp",
+            "fallback_image": "kussen-02.jpg",
+            "caption": "Luxe onderzetters",
+            "link": ""
+          }
+        },
+        "l3": {
+          "type": "look",
+          "settings": {
+            "image": "shopify://shop_images/vazen.webp",
+            "fallback_image": "wandkunst-lifestyle.jpg",
+            "caption": "Vazen & kunst",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "l1",
+        "l2",
+        "l3"
+      ],
+      "disabled": true,
+      "settings": {
+        "eyebrow": "Styling inspiratie",
+        "heading": "Zo combineer je het"
+      }
+    },
+    "gift": {
+      "type": "gift-banner",
+      "disabled": true,
+      "settings": {
+        "eyebrow": "Cadeausets",
+        "heading": "Geschenken die indruk maken",
+        "text": "Stel een persoonlijke cadeauset samen of kies een kant-en-klaar geschenk.",
+        "button_label": "Stel een cadeau samen",
+        "button_link": "",
+        "anchor": "cadeau"
+      }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "eyebrow": "BelaMonte nieuwsbrief",
+        "heading": "Nieuwe items, inspiratie & aanbiedingen",
+        "text": "Schrijf je in voor de BelaMonte nieuwsbrief en mis niets — nieuwe binnenkomers, seizoensgebonden styling-tips en exclusieve voordelen voor abonnees, als eerste in je inbox."
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "usp",
+    "subcats",
+    "categories",
+    "featured",
+    "featured_collection_M8KCnc",
+    "story",
+    "lookbook",
+    "gift",
+    "newsletter"
+  ]
+}
