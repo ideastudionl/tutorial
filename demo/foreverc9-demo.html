@@ -1,0 +1,2185 @@
+<title>ForeverC9 Storefront Prototype</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Figtree:wght@400;500;600;700;800&display=swap">
+<style>
+/* ============================================================
+   ForeverC9 — storefront prototype
+   Design tokens mirror theme/assets/base.css so the prototype
+   and the Shopify theme stay one system.
+   ============================================================ */
+
+:root {
+  color-scheme: light;
+
+  --ink:        #14201c;
+  --ink-soft:   #4f605a;
+  --ink-faint:  #7d8c86;
+  --brand:      #1f4d3d;
+  --brand-hi:   #28624e;
+  --accent:     #c98a3c;
+  --surface:    #ffffff;
+  --raised:     #ffffff;
+  --sand:       #f6f3ee;
+  --sand-deep:  #ece7de;
+  --line:       #e3ded6;
+  --line-soft:  #efebe4;
+  --sale:       #b4432f;
+  --success:    #2f7d5b;
+  --cta:        #1f4d3d;
+  --cta-ink:    #ffffff;
+  --shadow-1:   0 1px 2px rgba(20,32,28,.04), 0 8px 24px rgba(20,32,28,.07);
+  --shadow-2:   0 4px 12px rgba(20,32,28,.08), 0 24px 60px rgba(20,32,28,.16);
+  --chrome-bg:  #101613;
+  --chrome-ink: #dfe7e2;
+
+  --r-sm: 6px;
+  --r-md: 12px;
+  --r-lg: 20px;
+  --r-pill: 999px;
+
+  --sp-1:.25rem; --sp-2:.5rem; --sp-3:.75rem; --sp-4:1rem; --sp-5:1.25rem;
+  --sp-6:1.5rem; --sp-8:2rem; --sp-10:2.5rem; --sp-12:3rem; --sp-16:4rem;
+
+  --gutter: clamp(1rem, .5rem + 2.5vw, 2.5rem);
+  --section-y: clamp(3rem, 2rem + 4.5vw, 5.5rem);
+  --page-w: 1280px;
+
+  --ease: cubic-bezier(.2,.7,.3,1);
+  --dur: 220ms;
+
+  --font-display: "Fraunces", "Iowan Old Style", Georgia, serif;
+  --font-ui: "Figtree", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --ink:       #eaf0ec;
+    --ink-soft:  #a6b5ae;
+    --ink-faint: #7f8f88;
+    --brand:     #6fb394;
+    --brand-hi:  #8ac7ab;
+    --accent:    #dda863;
+    --surface:   #0e1512;
+    --raised:    #151e1a;
+    --sand:      #141c18;
+    --sand-deep: #1a241f;
+    --line:      #26332d;
+    --line-soft: #1e2a25;
+    --sale:      #e08a76;
+    --success:   #63b58e;
+    --cta:       #6fb394;
+    --cta-ink:   #08120e;
+    --shadow-1:  0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35);
+    --shadow-2:  0 4px 12px rgba(0,0,0,.45), 0 24px 60px rgba(0,0,0,.55);
+    --chrome-bg: #07100c;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --ink:       #eaf0ec;
+  --ink-soft:  #a6b5ae;
+  --ink-faint: #7f8f88;
+  --brand:     #6fb394;
+  --brand-hi:  #8ac7ab;
+  --accent:    #dda863;
+  --surface:   #0e1512;
+  --raised:    #151e1a;
+  --sand:      #141c18;
+  --sand-deep: #1a241f;
+  --line:      #26332d;
+  --line-soft: #1e2a25;
+  --sale:      #e08a76;
+  --success:   #63b58e;
+  --cta:       #6fb394;
+  --cta-ink:   #08120e;
+  --shadow-1:  0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35);
+  --shadow-2:  0 4px 12px rgba(0,0,0,.45), 0 24px 60px rgba(0,0,0,.55);
+  --chrome-bg: #07100c;
+}
+
+*,*::before,*::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,h2,h3,h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-variation-settings: "SOFT" 0, "WONK" 0;
+  line-height: 1.14;
+  letter-spacing: -.015em;
+  margin: 0 0 var(--sp-4);
+  text-wrap: balance;
+  color: var(--ink);
+}
+h1 { font-size: clamp(2rem, 1.3rem + 2.9vw, 3.4rem); }
+h2 { font-size: clamp(1.55rem, 1.2rem + 1.5vw, 2.25rem); }
+h3 { font-size: clamp(1.15rem, 1.05rem + .5vw, 1.4rem); }
+h4 { font-size: 1.0625rem; font-family: var(--font-ui); font-weight: 700; letter-spacing: 0; }
+
+p { margin: 0 0 var(--sp-4); }
+p:last-child { margin-bottom: 0; }
+a { color: inherit; }
+img, svg { display: block; max-width: 100%; }
+button { font: inherit; color: inherit; }
+ul, ol { margin: 0; padding: 0; list-style: none; }
+
+:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; border-radius: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+  html { scroll-behavior: auto; }
+}
+
+/* --- prototype chrome ------------------------------------- */
+
+.chrome {
+  position: sticky; top: 0; z-index: 300;
+  background: var(--chrome-bg); color: var(--chrome-ink);
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  font-size: .8125rem;
+}
+.chrome__in {
+  max-width: 1600px; margin-inline: auto;
+  padding: .55rem var(--gutter);
+  display: flex; align-items: center; gap: var(--sp-4); flex-wrap: wrap;
+}
+.chrome__tag {
+  font-weight: 700; letter-spacing: .09em; text-transform: uppercase;
+  font-size: .6875rem; color: var(--accent);
+}
+.chrome__views { display: flex; gap: 2px; background: rgba(255,255,255,.07); padding: 3px; border-radius: var(--r-pill); }
+.chrome__views button {
+  border: 0; background: transparent; color: inherit; cursor: pointer;
+  padding: .3rem .85rem; border-radius: var(--r-pill); font-size: .8125rem; font-weight: 600;
+}
+.chrome__views button[aria-pressed="true"] { background: rgba(255,255,255,.16); }
+.chrome__spacer { flex: 1; }
+.chrome__toggle {
+  display: inline-flex; align-items: center; gap: .4rem;
+  border: 1px solid rgba(255,255,255,.2); background: transparent; color: inherit;
+  border-radius: var(--r-pill); padding: .3rem .8rem; cursor: pointer; font-size: .8125rem; font-weight: 600;
+}
+.chrome__toggle[aria-pressed="true"] { background: rgba(255,255,255,.16); border-color: transparent; }
+.chrome__note {
+  background: rgba(201,138,60,.14); color: var(--chrome-ink);
+  border-top: 1px solid rgba(255,255,255,.08);
+  font-size: .75rem; line-height: 1.5;
+}
+.chrome__note div { max-width: 1600px; margin-inline: auto; padding: .5rem var(--gutter); }
+.chrome__note strong { color: var(--accent); }
+
+/* mobile frame mode */
+.stage { background: var(--surface); }
+body.frame-mobile .stage {
+  max-width: 390px;
+  margin: var(--sp-8) auto;
+  border: 10px solid #10171400;
+  box-shadow: 0 0 0 10px var(--sand-deep), var(--shadow-2);
+  border-radius: 34px;
+  overflow: hidden;
+  container-type: inline-size;
+}
+body.frame-mobile { background: var(--sand); }
+
+/* --- shared ------------------------------------------------ */
+
+.wrap { width: 100%; max-width: var(--page-w); margin-inline: auto; padding-inline: var(--gutter); }
+.section { padding-block: var(--section-y); }
+.section--tight { padding-block: clamp(2rem,1.5rem+2.5vw,3.5rem); }
+.section--sand { background: var(--sand); }
+.section--brand { background: var(--brand); }
+:root[data-theme="dark"] .section--brand,
+:root:not([data-theme="light"]) .section--brand { background: var(--sand-deep); }
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) .section--brand { background: var(--brand); } }
+.section--brand, .section--brand h2, .section--brand h3 { color: #fff; }
+:root[data-theme="dark"] .section--brand, :root[data-theme="dark"] .section--brand h2 { color: var(--ink); }
+
+.eyebrow {
+  display: block; font-size: .6875rem; font-weight: 700;
+  letter-spacing: .11em; text-transform: uppercase; color: var(--brand);
+  margin-bottom: var(--sp-3);
+}
+.section--brand .eyebrow { color: var(--accent); }
+.lede { color: var(--ink-soft); max-width: 60ch; font-size: 1.0625rem; }
+.section--brand .lede { color: rgba(255,255,255,.78); }
+:root[data-theme="dark"] .section--brand .lede { color: var(--ink-soft); }
+
+.head { display: flex; align-items: end; justify-content: space-between; gap: var(--sp-6); flex-wrap: wrap; margin-bottom: var(--sp-8); }
+.head h2 { margin-bottom: var(--sp-2); }
+.head__text { max-width: 56ch; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+  min-height: 48px; padding: .75rem 1.5rem;
+  border: 1px solid var(--cta); border-radius: 8px;
+  background: var(--cta); color: var(--cta-ink);
+  font-family: var(--font-ui); font-size: 1rem; font-weight: 600; line-height: 1.2;
+  text-decoration: none; cursor: pointer;
+  transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+.btn:hover { background: var(--brand-hi); border-color: var(--brand-hi); }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.btn--ghost { background: transparent; color: var(--ink); border-color: var(--line); }
+.btn--ghost:hover { background: var(--sand); border-color: var(--line); color: var(--ink); }
+.btn--outline { background: transparent; color: var(--ink); border-color: var(--ink); }
+.btn--outline:hover { background: var(--ink); border-color: var(--ink); color: var(--surface); }
+.btn--light { background: #fff; color: var(--brand); border-color: #fff; }
+.btn--light:hover { background: rgba(255,255,255,.87); border-color: transparent; color: var(--brand); }
+.btn--lightghost { background: transparent; color: #fff; border-color: rgba(255,255,255,.55); }
+.btn--lightghost:hover { background: rgba(255,255,255,.14); border-color: #fff; color: #fff; }
+.btn--full { width: 100%; }
+.btn--lg { min-height: 56px; font-size: 1.0625rem; padding-inline: 1.75rem; }
+.btn--sm { min-height: 40px; font-size: .875rem; padding: .45rem 1rem; }
+
+.link {
+  display: inline-flex; align-items: center; gap: .4rem;
+  color: var(--brand); font-weight: 600; font-size: .9375rem;
+  text-decoration: underline; text-underline-offset: .2em; cursor: pointer;
+  background: none; border: 0; padding: 0;
+}
+.section--brand .link { color: #fff; }
+
+.iconbtn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px; border: 0; border-radius: 8px;
+  background: transparent; cursor: pointer; position: relative;
+  transition: background var(--dur) var(--ease);
+}
+.iconbtn:hover { background: var(--sand); }
+.iconbtn svg { width: 21px; height: 21px; }
+
+.badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 4px 9px; border-radius: var(--r-pill);
+  font-size: .6875rem; font-weight: 700; line-height: 1.3; white-space: nowrap;
+}
+.badge--sale { background: var(--sale); color: #fff; }
+:root[data-theme="dark"] .badge--sale { color: #2a0d06; }
+.badge--accent { background: var(--accent); color: #241704; }
+.badge--soft { background: var(--sand-deep); color: var(--ink-soft); }
+.badge--demo {
+  background: transparent; border: 1px dashed var(--line);
+  color: var(--ink-faint); font-weight: 600; letter-spacing: .04em; text-transform: uppercase; font-size: .625rem;
+}
+
+.stars { display: inline-flex; gap: 1px; color: var(--accent); }
+.stars svg { width: 14px; height: 14px; }
+.rating { display: inline-flex; align-items: center; gap: .45rem; font-size: .8125rem; color: var(--ink-soft); }
+.rating--lg { font-size: .9375rem; }
+.rating--lg .stars svg { width: 17px; height: 17px; }
+
+.price { display: flex; align-items: baseline; gap: .5rem; flex-wrap: wrap; }
+.price b { font-weight: 700; font-size: 1.0625rem; font-variant-numeric: tabular-nums; }
+.price s { color: var(--ink-faint); font-size: .875rem; }
+.price em { font-style: normal; font-size: .75rem; font-weight: 700; color: var(--sale); }
+.price--lg b { font-size: 1.85rem; }
+.price--lg s { font-size: 1rem; }
+.price--sale b { color: var(--sale); }
+</style>
+<style>
+/* ============================================================
+   Storefront chrome. Layout is mobile-first; desktop rules are
+   gated on body.vp-desktop, which JS sets from the real width
+   OR clears when the mobile frame is on — so the frame toggle
+   shows the genuine mobile layout, not a squeezed desktop one.
+   ============================================================ */
+
+/* --- announcement ------------------------------------------ */
+.anno { background: var(--brand); color: #fff; font-size: .8125rem; }
+:root[data-theme="dark"] .anno { background: var(--sand-deep); color: var(--ink); }
+.anno__in { display: flex; align-items: center; justify-content: center; gap: var(--sp-3); min-height: 40px; }
+.anno__slides { display: grid; flex: 1; place-items: center; text-align: center; }
+.anno__slide {
+  grid-area: 1/1; display: flex; align-items: center; gap: .45rem;
+  opacity: 0; visibility: hidden; transition: opacity var(--dur) var(--ease);
+}
+.anno__slide.on { opacity: 1; visibility: visible; }
+.anno__slide svg { width: 15px; height: 15px; flex: none; }
+.anno__nav { display: none; gap: 2px; }
+.vp-desktop .anno__nav { display: flex; }
+.anno__nav button {
+  width: 26px; height: 26px; display: grid; place-items: center;
+  border: 0; background: transparent; color: inherit; cursor: pointer; border-radius: 50%; opacity: .65;
+}
+.anno__nav button:hover { opacity: 1; background: rgba(255,255,255,.16); }
+.anno__nav svg { width: 13px; height: 13px; }
+
+/* --- header ------------------------------------------------ */
+.hdr {
+  position: sticky; top: 0; z-index: 60;
+  background: var(--surface); border-bottom: 1px solid var(--line);
+  transition: box-shadow var(--dur) var(--ease);
+}
+.hdr.stuck { box-shadow: 0 1px 14px rgba(20,32,28,.08); }
+.hdr__in { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: var(--sp-2); min-height: 62px; }
+.vp-desktop .hdr__in { min-height: 74px; gap: var(--sp-5); }
+
+.logo {
+  display: inline-flex; align-items: baseline; gap: .12rem;
+  font-family: var(--font-display); font-weight: 700; font-size: 1.3rem;
+  letter-spacing: -.03em; color: var(--brand); text-decoration: none;
+  background: none; border: 0; padding: 0; cursor: pointer;
+}
+.logo span { color: var(--accent); }
+
+.nav { display: none; }
+.vp-desktop .nav { display: flex; align-items: center; gap: 2px; justify-self: center; }
+.nav__item { position: relative; }
+.nav__btn {
+  display: inline-flex; align-items: center; gap: .3rem;
+  padding: .65rem .7rem; border: 0; background: none; cursor: pointer;
+  font-size: .9375rem; font-weight: 600; color: var(--ink); border-radius: 8px; white-space: nowrap;
+}
+.nav__btn:hover, .nav__item.open .nav__btn { color: var(--brand); }
+.nav__btn svg { width: 11px; height: 11px; transition: transform var(--dur) var(--ease); }
+.nav__item.open .nav__btn svg { transform: rotate(180deg); }
+
+.mega {
+  position: absolute; top: calc(100% + 6px); left: 50%;
+  transform: translateX(-50%) translateY(-6px);
+  width: min(940px, calc(100vw - 3rem));
+  padding: var(--sp-8); background: var(--raised);
+  border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--shadow-2);
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
+  display: grid; grid-template-columns: 1fr 1fr 250px; gap: var(--sp-8);
+}
+.nav__item.open .mega { opacity: 1; visibility: visible; pointer-events: auto; transform: translateX(-50%); }
+.mega__ttl {
+  font-size: .6875rem; font-weight: 700; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-faint); margin-bottom: var(--sp-3);
+}
+.mega__list button {
+  display: flex; align-items: baseline; gap: .5rem; width: 100%;
+  padding: .45rem .6rem; margin-inline: -.6rem;
+  border: 0; background: none; cursor: pointer; text-align: left;
+  border-radius: 8px; font-size: .9375rem; font-weight: 500; color: var(--ink);
+}
+.mega__list button:hover { background: var(--sand); color: var(--brand); }
+.mega__list small { color: var(--ink-faint); font-size: .75rem; }
+.mega__promo {
+  border-radius: var(--r-md); background: var(--sand); padding: var(--sp-5);
+  display: flex; flex-direction: column; gap: var(--sp-3); border: 0; cursor: pointer; text-align: left;
+}
+.mega__promo:hover { background: var(--sand-deep); }
+.mega__promo strong { font-size: 1rem; }
+.mega__promo p { font-size: .8125rem; color: var(--ink-soft); margin: 0; }
+
+.hdr__acts { display: flex; align-items: center; gap: 0; justify-self: end; }
+.hdr__acts .is-desk { display: none; }
+.vp-desktop .hdr__acts .is-desk { display: inline-flex; }
+.vp-desktop .hdr__burger { display: none; }
+.cartdot {
+  position: absolute; top: 5px; right: 5px;
+  min-width: 18px; height: 18px; padding-inline: 4px;
+  display: grid; place-items: center; border-radius: var(--r-pill);
+  background: var(--brand); color: var(--surface);
+  font-size: 11px; font-weight: 800; line-height: 1;
+}
+:root[data-theme="dark"] .cartdot { color: #08120e; }
+.cartdot[hidden] { display: none; }
+
+/* --- overlay + drawers ------------------------------------- */
+.ovl {
+  position: fixed; inset: 0; background: rgba(12,20,17,.5); backdrop-filter: blur(2px);
+  opacity: 0; visibility: hidden; z-index: 80; transition: opacity var(--dur) var(--ease), visibility var(--dur);
+  border: 0; padding: 0; cursor: pointer;
+}
+.ovl.on { opacity: 1; visibility: visible; }
+
+.drawer {
+  position: fixed; top: 0; bottom: 0; width: min(420px, 100vw);
+  display: flex; flex-direction: column; background: var(--surface);
+  z-index: 90; box-shadow: var(--shadow-2); visibility: hidden;
+  transition: transform 320ms var(--ease), visibility 320ms;
+}
+.drawer--r { right: 0; transform: translateX(100%); }
+.drawer--l { left: 0; transform: translateX(-100%); }
+.drawer.on { transform: none; visibility: visible; }
+.drawer__hd {
+  flex: none; display: flex; align-items: center; justify-content: space-between;
+  gap: var(--sp-4); padding: var(--sp-4) var(--sp-5); border-bottom: 1px solid var(--line);
+}
+.drawer__hd h3 { margin: 0; font-size: 1.0625rem; }
+.drawer__bd { flex: 1; overflow-y: auto; overscroll-behavior: contain; }
+.drawer__ft { flex: none; padding: var(--sp-5); border-top: 1px solid var(--line); background: var(--surface); }
+
+body.frame-mobile .drawer--r { right: calc(50% - 195px); width: 390px; }
+body.frame-mobile .drawer--l { left: calc(50% - 195px); width: 390px; }
+body.frame-mobile .srch { left: calc(50% - 195px); right: auto; width: 390px; }
+body.frame-mobile .satc { left: calc(50% - 195px); right: auto; width: 390px; }
+
+/* --- mobile nav -------------------------------------------- */
+.mnav__row {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3);
+  width: 100%; min-height: 54px; padding: var(--sp-3) var(--sp-5);
+  border: 0; background: none; cursor: pointer; text-align: left;
+  font-size: 1.0625rem; font-weight: 600; color: var(--ink);
+}
+.mnav__row svg { width: 13px; height: 13px; flex: none; transition: transform var(--dur) var(--ease); }
+.mnav__row[aria-expanded="true"] svg { transform: rotate(180deg); }
+.mnav__panel { display: none; padding-bottom: var(--sp-2); }
+.mnav__panel.on { display: block; }
+.mnav__panel button {
+  display: block; width: 100%; text-align: left;
+  padding: .6rem var(--sp-5) .6rem var(--sp-8);
+  border: 0; background: none; cursor: pointer;
+  font-size: .9375rem; color: var(--ink-soft);
+}
+.mnav__panel button:hover { color: var(--brand); }
+.mnav__meta { padding: var(--sp-5); border-top: 1px solid var(--line); margin-top: var(--sp-3); display: grid; gap: var(--sp-3); font-size: .875rem; }
+.mnav__meta a { display: flex; align-items: center; gap: .6rem; text-decoration: none; }
+.mnav__meta svg { width: 17px; height: 17px; color: var(--brand); flex: none; }
+
+/* --- search panel ------------------------------------------ */
+.srch {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 90;
+  background: var(--surface); box-shadow: var(--shadow-2);
+  transform: translateY(-100%); visibility: hidden;
+  transition: transform 320ms var(--ease), visibility 320ms;
+  max-height: 100dvh; display: flex; flex-direction: column;
+}
+.srch.on { transform: none; visibility: visible; }
+.srch__hd { display: flex; align-items: center; gap: var(--sp-3); padding-block: var(--sp-4); }
+.srch__field { position: relative; flex: 1; display: flex; align-items: center; }
+.srch__field svg { position: absolute; left: .9rem; width: 19px; height: 19px; color: var(--ink-faint); pointer-events: none; }
+.srch__bd { overflow-y: auto; padding-bottom: var(--sp-8); }
+.srch__grid { display: grid; gap: var(--sp-6); padding-block: var(--sp-4) var(--sp-6); }
+.vp-desktop .srch__grid { grid-template-columns: 260px 1fr; gap: var(--sp-10); }
+.srch__gt { font-size: .6875rem; font-weight: 700; letter-spacing: .11em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: var(--sp-3); }
+.srch__chips { display: flex; flex-wrap: wrap; gap: .4rem; }
+.srch__chips button {
+  border: 1px solid var(--line); background: transparent; color: var(--ink-soft);
+  border-radius: var(--r-pill); padding: .3rem .75rem; font-size: .8125rem; cursor: pointer;
+}
+.srch__chips button:hover { border-color: var(--brand); color: var(--brand); }
+.srch__hits { display: grid; gap: 2px; }
+.srch__hit {
+  display: flex; align-items: center; gap: var(--sp-3); padding: var(--sp-2);
+  border: 0; background: none; cursor: pointer; text-align: left; border-radius: var(--r-md); width: 100%;
+}
+.srch__hit:hover { background: var(--sand); }
+.srch__hit .thumb { width: 56px; height: 56px; flex: none; border-radius: var(--r-sm); }
+.srch__hit strong { display: block; font-size: .9375rem; font-weight: 600; }
+.srch__hit small { color: var(--ink-faint); font-size: .75rem; }
+.srch__empty { padding-block: var(--sp-10); text-align: center; color: var(--ink-soft); }
+
+.input {
+  width: 100%; min-height: 48px; padding: .7rem .9rem;
+  border: 1px solid var(--line); border-radius: 8px;
+  background: var(--surface); color: var(--ink);
+  font-family: var(--font-ui); font-size: 1rem;
+}
+.input:focus { border-color: var(--brand); box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 20%, transparent); outline: none; }
+.srch__field .input { padding-left: 2.7rem; min-height: 52px; }
+.select {
+  min-height: 44px; padding: .5rem 2.2rem .5rem .8rem;
+  border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink);
+  font-family: var(--font-ui); font-size: .9375rem; appearance: none; cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5l5-5' fill='none' stroke='%23667' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right .8rem center; background-size: 11px;
+}
+</style>
+<style>
+/* ============================================================
+   Content sections, product cards, PDP, cart, footer
+   ============================================================ */
+
+/* --- product artwork ---------------------------------------
+   No external images are reachable from a published artifact,
+   so pack shots are drawn: a tinted panel per product family
+   with a silhouette that matches the real pack format. */
+.thumb {
+  position: relative; aspect-ratio: 1/1; border-radius: var(--r-md);
+  background: var(--art-bg, var(--sand)); overflow: hidden; display: grid; place-items: center;
+}
+.thumb svg { width: 58%; height: 58%; overflow: visible; }
+.thumb__glow {
+  position: absolute; inset: 0;
+  background: radial-gradient(120% 80% at 50% 8%, rgba(255,255,255,.55), transparent 62%);
+  pointer-events: none;
+}
+:root[data-theme="dark"] .thumb__glow { background: radial-gradient(120% 80% at 50% 8%, rgba(255,255,255,.1), transparent 62%); }
+
+/* --- hero --------------------------------------------------- */
+.hero { background: var(--sand); border-bottom: 1px solid var(--line-soft); }
+.hero__in { display: grid; gap: var(--sp-8); padding-block: clamp(2.5rem,2rem+4vw,4.5rem); align-items: center; }
+.vp-desktop .hero__in { grid-template-columns: 1.05fr .95fr; gap: var(--sp-16); padding-block: clamp(3rem,2rem+4vw,5rem); }
+.hero h1 { margin-bottom: var(--sp-5); }
+.hero__cta { display: flex; flex-wrap: wrap; gap: var(--sp-3); margin-top: var(--sp-6); }
+.hero__proof { display: flex; align-items: center; gap: var(--sp-4); margin-top: var(--sp-6); flex-wrap: wrap; font-size: .875rem; color: var(--ink-soft); }
+.hero__art { position: relative; }
+.hero__art .thumb { aspect-ratio: 4/3; border-radius: var(--r-lg); }
+.vp-desktop .hero__art .thumb { aspect-ratio: 1/1; }
+.hero__tag {
+  position: absolute; left: var(--sp-4); bottom: var(--sp-4);
+  background: var(--surface); border-radius: var(--r-md); padding: .7rem .9rem;
+  box-shadow: var(--shadow-1); display: flex; align-items: center; gap: .6rem; font-size: .8125rem;
+}
+.hero__tag svg { width: 20px; height: 20px; color: var(--success); flex: none; }
+
+/* --- trust bar ---------------------------------------------- */
+.trust { border-bottom: 1px solid var(--line); background: var(--surface); }
+.trust ul {
+  display: grid; grid-auto-flow: column; grid-auto-columns: max-content; gap: var(--sp-5);
+  overflow-x: auto; scrollbar-width: none; padding-block: var(--sp-4);
+  margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter);
+}
+.trust ul::-webkit-scrollbar { display: none; }
+.vp-desktop .trust ul {
+  grid-auto-flow: row; grid-template-columns: repeat(5,1fr);
+  justify-items: center; overflow: visible; margin-inline: 0; padding-inline: 0;
+}
+.trust li { display: flex; align-items: center; gap: .5rem; font-size: .875rem; font-weight: 600; white-space: nowrap; }
+.trust svg { width: 19px; height: 19px; color: var(--brand); flex: none; }
+.trust .muted { color: var(--ink-faint); font-weight: 500; }
+
+/* --- generic grids ------------------------------------------ */
+.grid { display: grid; gap: var(--sp-4); }
+.g2 { grid-template-columns: repeat(2,minmax(0,1fr)); }
+.vp-desktop .g3 { grid-template-columns: repeat(3,minmax(0,1fr)); }
+.vp-desktop .g4 { grid-template-columns: repeat(4,minmax(0,1fr)); }
+.vp-desktop .grid { gap: var(--sp-6); }
+.g3, .g4 { grid-template-columns: repeat(2,minmax(0,1fr)); }
+
+/* --- need cards --------------------------------------------- */
+.need {
+  display: flex; flex-direction: column; gap: var(--sp-3);
+  border: 1px solid var(--line); border-radius: var(--r-md); padding: var(--sp-4);
+  background: var(--surface); cursor: pointer; text-align: left;
+  transition: border-color var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+.need:hover { border-color: var(--brand); transform: translateY(-2px); }
+.need .thumb { aspect-ratio: 3/2; }
+.need strong { font-size: .9375rem; }
+.need small { color: var(--ink-faint); font-size: .75rem; }
+
+/* --- product card ------------------------------------------- */
+.card { position: relative; display: flex; flex-direction: column; height: 100%; }
+.card__media { position: relative; margin-bottom: var(--sp-3); }
+.card__badges { position: absolute; top: .6rem; left: .6rem; display: flex; flex-direction: column; align-items: start; gap: .3rem; z-index: 2; }
+.card__ttl { font-size: .9375rem; font-weight: 600; line-height: 1.35; margin: 0 0 .3rem; font-family: var(--font-ui); letter-spacing: 0; }
+.card__ttl button { border: 0; background: none; padding: 0; cursor: pointer; text-align: left; font: inherit; color: inherit; }
+.card__ttl button::after { content: ""; position: absolute; inset: 0; z-index: 1; }
+.card__ben { font-size: .8125rem; color: var(--ink-soft); line-height: 1.45; margin-bottom: var(--sp-3); }
+.card__foot { margin-top: auto; display: grid; gap: var(--sp-2); }
+.card__add { position: relative; z-index: 2; }
+.card .rating { margin-bottom: .35rem; }
+
+/* --- feature blocks ----------------------------------------- */
+.feat { display: flex; gap: var(--sp-4); }
+.feat__ic { flex: none; width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; background: var(--sand); color: var(--brand); }
+.section--brand .feat__ic { background: rgba(255,255,255,.13); color: #fff; }
+:root[data-theme="dark"] .section--brand .feat__ic { background: var(--sand); color: var(--brand); }
+.feat__ic svg { width: 21px; height: 21px; }
+.feat h4 { margin-bottom: .3rem; }
+.feat p { font-size: .875rem; color: var(--ink-soft); margin: 0; }
+.section--brand .feat p { color: rgba(255,255,255,.75); }
+:root[data-theme="dark"] .section--brand .feat p { color: var(--ink-soft); }
+
+/* --- featured C9 -------------------------------------------- */
+.spot { display: grid; gap: var(--sp-8); align-items: center; }
+.vp-desktop .spot { grid-template-columns: .95fr 1.05fr; gap: var(--sp-16); }
+.spot__list { display: grid; gap: var(--sp-3); margin-block: var(--sp-5); }
+.spot__list li { display: flex; gap: .65rem; font-size: .9375rem; align-items: start; }
+.spot__list svg { width: 18px; height: 18px; color: var(--success); flex: none; margin-top: 3px; }
+.spot__box { border: 1px solid var(--line); border-radius: var(--r-md); padding: var(--sp-4); background: var(--surface); margin-block: var(--sp-5); }
+.spot__box h4 { margin-bottom: var(--sp-2); }
+.spot__box ol { display: grid; gap: .4rem; counter-reset: s; }
+.spot__box li { display: flex; gap: .6rem; font-size: .875rem; color: var(--ink-soft); }
+.spot__box li b { color: var(--brand); font-variant-numeric: tabular-nums; }
+
+/* --- testimonials ------------------------------------------- */
+.tmn {
+  display: flex; flex-direction: column; gap: var(--sp-3); height: 100%;
+  padding: var(--sp-5); background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md);
+}
+.tmn p { font-size: .9375rem; line-height: 1.55; margin: 0; }
+.tmn__ft { margin-top: auto; display: flex; align-items: center; gap: .6rem; font-size: .8125rem; color: var(--ink-faint); flex-wrap: wrap; }
+
+/* --- accordion / FAQ ---------------------------------------- */
+.acc { border-top: 1px solid var(--line); }
+.acc:last-of-type { border-bottom: 1px solid var(--line); }
+.acc summary {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--sp-4);
+  padding: var(--sp-4) 0; font-weight: 600; list-style: none; cursor: pointer;
+}
+.acc summary::-webkit-details-marker { display: none; }
+.acc summary:hover { color: var(--brand); }
+.acc summary svg { width: 16px; height: 16px; flex: none; transition: transform var(--dur) var(--ease); }
+.acc[open] summary svg { transform: rotate(45deg); }
+.acc__bd { padding-bottom: var(--sp-5); font-size: .9375rem; color: var(--ink-soft); }
+.acc__bd > :last-child { margin-bottom: 0; }
+
+/* --- editorial ---------------------------------------------- */
+.post { display: flex; flex-direction: column; gap: var(--sp-3); text-align: left; border: 0; background: none; padding: 0; cursor: pointer; }
+.post .thumb { aspect-ratio: 16/10; }
+.post h4 { margin: 0; }
+.post small { color: var(--ink-faint); font-size: .75rem; }
+
+/* --- newsletter --------------------------------------------- */
+.nl { display: flex; gap: var(--sp-3); flex-wrap: wrap; max-width: 460px; }
+.nl .input { flex: 1 1 200px; }
+
+/* --- breadcrumbs -------------------------------------------- */
+.crumbs { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; font-size: .8125rem; color: var(--ink-faint); padding-block: var(--sp-4); }
+.crumbs button { border: 0; background: none; padding: 0; cursor: pointer; color: inherit; font: inherit; text-decoration: underline; text-underline-offset: .2em; }
+.crumbs button:hover { color: var(--brand); }
+.crumbs span[aria-current] { color: var(--ink); }
+
+/* --- collection --------------------------------------------- */
+.coll { display: grid; gap: var(--sp-6); }
+.vp-desktop .coll { grid-template-columns: 250px 1fr; gap: var(--sp-10); align-items: start; }
+.filters { display: grid; gap: var(--sp-5); }
+.vp-desktop .filters { position: sticky; top: 96px; }
+.filters__grp { border-bottom: 1px solid var(--line); padding-bottom: var(--sp-4); }
+.filters__grp h4 { font-size: .8125rem; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: var(--sp-3); }
+.filters label { display: flex; align-items: center; gap: .6rem; padding: .3rem 0; font-size: .9375rem; cursor: pointer; }
+.filters input { width: 18px; height: 18px; accent-color: var(--brand); flex: none; }
+.filters label span.n { margin-left: auto; color: var(--ink-faint); font-size: .8125rem; font-variant-numeric: tabular-nums; }
+.coll__bar { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); flex-wrap: wrap; margin-bottom: var(--sp-5); }
+.coll__count { font-size: .875rem; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.chips { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: var(--sp-4); }
+.chips button {
+  display: inline-flex; align-items: center; gap: .35rem;
+  border: 1px solid var(--line); background: var(--sand); color: var(--ink);
+  border-radius: var(--r-pill); padding: .3rem .7rem; font-size: .8125rem; cursor: pointer;
+}
+.chips button:hover { border-color: var(--brand); }
+.chips svg { width: 11px; height: 11px; }
+.mfilter { display: block; }
+.vp-desktop .mfilter { display: none; }
+.vp-desktop .filters-wrap { display: block !important; }
+</style>
+<style>
+/* ============================================================
+   PDP, cart drawer, sticky ATC, footer
+   ============================================================ */
+
+.pdp { display: grid; gap: var(--sp-8); align-items: start; }
+.vp-desktop .pdp { grid-template-columns: 1.05fr .95fr; gap: var(--sp-12); }
+.vp-desktop .pdp__buy { position: sticky; top: 96px; }
+
+/* gallery — swipe-first on mobile, thumbs on desktop */
+.gal__track {
+  display: grid; grid-auto-flow: column; grid-auto-columns: 100%;
+  gap: var(--sp-2); overflow-x: auto; scroll-snap-type: x mandatory;
+  scrollbar-width: none; border-radius: var(--r-md);
+}
+.gal__track::-webkit-scrollbar { display: none; }
+.gal__track > * { scroll-snap-align: center; }
+.gal__count {
+  display: inline-flex; margin-top: var(--sp-3); font-size: .75rem; color: var(--ink-faint);
+  font-variant-numeric: tabular-nums; background: var(--sand); border-radius: var(--r-pill); padding: .2rem .6rem;
+}
+.vp-desktop .gal__count { display: none; }
+.gal__thumbs { display: none; }
+.vp-desktop .gal__thumbs { display: grid; grid-template-columns: repeat(5,1fr); gap: var(--sp-2); margin-top: var(--sp-3); }
+.gal__thumbs button { border: 2px solid transparent; border-radius: var(--r-sm); padding: 0; background: none; cursor: pointer; overflow: hidden; }
+.gal__thumbs button.on { border-color: var(--brand); }
+.gal__thumbs .thumb { border-radius: 4px; }
+
+.buy__top { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; margin-bottom: var(--sp-3); }
+.buy h1 { font-size: clamp(1.6rem,1.3rem+1.4vw,2.2rem); margin-bottom: var(--sp-3); hyphens: none; overflow-wrap: break-word; }
+.buy__ben { font-size: 1.0625rem; color: var(--ink-soft); margin-bottom: var(--sp-5); }
+.buy__price { margin-bottom: var(--sp-5); }
+.buy__stock { display: inline-flex; align-items: center; gap: .4rem; font-size: .875rem; font-weight: 600; color: var(--success); margin-bottom: var(--sp-5); }
+.buy__stock svg { width: 15px; height: 15px; }
+
+.opt { margin-bottom: var(--sp-5); }
+.opt__lbl { display: flex; justify-content: space-between; font-size: .875rem; font-weight: 600; margin-bottom: var(--sp-2); }
+.opt__lbl span { color: var(--ink-soft); font-weight: 500; }
+.opt__vals { display: flex; flex-wrap: wrap; gap: .5rem; }
+.opt__vals input { position: absolute; opacity: 0; pointer-events: none; }
+.opt__vals label {
+  border: 1px solid var(--line); border-radius: var(--r-pill);
+  padding: .5rem 1rem; font-size: .9375rem; cursor: pointer; background: var(--surface);
+  transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease);
+}
+.opt__vals label:hover { border-color: var(--brand); }
+.opt__vals input:checked + label { border-color: var(--brand); background: var(--brand); color: var(--surface); }
+:root[data-theme="dark"] .opt__vals input:checked + label { color: #08120e; }
+.opt__vals input:focus-visible + label { outline: 2px solid var(--brand); outline-offset: 2px; }
+
+/* quantity breaks */
+.qb { display: grid; gap: .5rem; margin-bottom: var(--sp-5); }
+.qb__opt { position: relative; }
+.qb__opt input { position: absolute; opacity: 0; pointer-events: none; }
+.qb__opt label {
+  display: flex; align-items: center; gap: var(--sp-3);
+  border: 1px solid var(--line); border-radius: var(--r-md); padding: .8rem 1rem;
+  cursor: pointer; background: var(--surface); transition: border-color var(--dur) var(--ease);
+}
+.qb__opt label:hover { border-color: var(--brand); }
+.qb__opt input:checked + label { border-color: var(--brand); box-shadow: inset 0 0 0 1px var(--brand); }
+.qb__opt input:focus-visible + label { outline: 2px solid var(--brand); outline-offset: 2px; }
+.qb__dot { width: 18px; height: 18px; border: 2px solid var(--line); border-radius: 50%; flex: none; display: grid; place-items: center; }
+.qb__opt input:checked + label .qb__dot { border-color: var(--brand); }
+.qb__opt input:checked + label .qb__dot::after { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--brand); }
+.qb__txt { flex: 1; }
+.qb__txt strong { display: block; font-size: .9375rem; }
+.qb__txt small { color: var(--ink-faint); font-size: .75rem; font-variant-numeric: tabular-nums; }
+.qb__price { text-align: right; font-variant-numeric: tabular-nums; }
+.qb__price b { display: block; font-size: .9375rem; }
+.qb__price em { font-style: normal; font-size: .75rem; font-weight: 700; color: var(--sale); }
+
+.buy__row { display: flex; gap: var(--sp-3); margin-bottom: var(--sp-3); }
+.qty { display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; flex: none; }
+.qty button { width: 44px; height: 46px; border: 0; background: none; cursor: pointer; display: grid; place-items: center; }
+.qty button:hover { background: var(--sand); }
+.qty button:disabled { opacity: .3; cursor: not-allowed; }
+.qty svg { width: 13px; height: 13px; }
+.qty input {
+  width: 42px; height: 46px; border: 0; text-align: center; background: transparent;
+  font: inherit; font-weight: 700; color: var(--ink); -moz-appearance: textfield;
+  font-variant-numeric: tabular-nums;
+}
+.qty input::-webkit-outer-spin-button, .qty input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+.buy__trust { display: grid; gap: .7rem; margin-top: var(--sp-5); padding-top: var(--sp-5); border-top: 1px solid var(--line); }
+.buy__trust div { display: flex; gap: .65rem; align-items: start; font-size: .875rem; }
+.buy__trust svg { width: 18px; height: 18px; color: var(--brand); flex: none; margin-top: 2px; }
+.buy__trust b { font-weight: 600; }
+.buy__trust span { color: var(--ink-soft); }
+
+.pay { display: flex; align-items: center; gap: .4rem; flex-wrap: wrap; margin-top: var(--sp-4); }
+.pay svg { height: 22px; width: auto; border-radius: 3px; }
+
+/* sticky ATC */
+.satc {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 70;
+  background: var(--surface); border-top: 1px solid var(--line);
+  box-shadow: 0 -6px 24px rgba(20,32,28,.1);
+  padding: .7rem var(--gutter) calc(.7rem + env(safe-area-inset-bottom));
+  display: flex; align-items: center; gap: var(--sp-3);
+  transform: translateY(110%); transition: transform 280ms var(--ease);
+}
+.satc.on { transform: none; }
+.satc__info { flex: 1; min-width: 0; }
+.satc__info strong { display: block; font-size: .875rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.satc__info span { font-size: .8125rem; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.satc .btn { flex: none; }
+
+/* cross-sell */
+.xsell { border: 1px solid var(--line); border-radius: var(--r-md); padding: var(--sp-4); display: grid; gap: var(--sp-3); }
+.xsell__row { display: flex; align-items: center; gap: var(--sp-3); }
+.xsell__row .thumb { width: 60px; height: 60px; flex: none; border-radius: var(--r-sm); }
+.xsell__row div { flex: 1; min-width: 0; }
+.xsell__row strong { display: block; font-size: .875rem; font-weight: 600; }
+.xsell__row small { font-size: .8125rem; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+
+/* --- cart drawer -------------------------------------------- */
+.ship { display: grid; gap: .5rem; padding: var(--sp-4) var(--sp-5); border-bottom: 1px solid var(--line); background: var(--sand); }
+.ship p { font-size: .8125rem; margin: 0; }
+.ship b { color: var(--brand); }
+.ship__track { height: 6px; border-radius: var(--r-pill); background: var(--sand-deep); overflow: hidden; }
+.ship__fill { height: 100%; border-radius: inherit; background: var(--success); transition: width 320ms var(--ease); }
+.ship.done p { color: var(--success); font-weight: 600; }
+
+.line { display: flex; gap: var(--sp-3); padding: var(--sp-4) var(--sp-5); border-bottom: 1px solid var(--line-soft); }
+.line .thumb { width: 76px; height: 76px; flex: none; border-radius: var(--r-sm); }
+.line__bd { flex: 1; min-width: 0; display: grid; gap: .4rem; align-content: start; }
+.line__bd strong { font-size: .9375rem; font-weight: 600; line-height: 1.3; }
+.line__bd small { font-size: .8125rem; color: var(--ink-faint); }
+.line__ft { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-2); margin-top: .2rem; }
+.line__rm { border: 0; background: none; padding: 0; cursor: pointer; font-size: .8125rem; color: var(--ink-faint); text-decoration: underline; text-underline-offset: .2em; }
+.line__rm:hover { color: var(--sale); }
+.cart__empty { padding: var(--sp-12) var(--sp-5); text-align: center; color: var(--ink-soft); }
+.cart__up { padding: var(--sp-4) var(--sp-5); border-top: 1px solid var(--line); background: var(--sand); }
+.cart__up h4 { font-size: .75rem; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: var(--sp-3); }
+.cart__tot { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: .3rem; }
+.cart__tot b { font-size: 1.25rem; font-variant-numeric: tabular-nums; }
+.cart__note { font-size: .75rem; color: var(--ink-faint); margin-bottom: var(--sp-3); }
+
+/* --- footer -------------------------------------------------- */
+.ftr { background: var(--brand); color: rgba(255,255,255,.8); font-size: .875rem; }
+:root[data-theme="dark"] .ftr { background: var(--sand-deep); color: var(--ink-soft); }
+.ftr a, .ftr button { color: inherit; text-decoration: none; border: 0; background: none; padding: 0; cursor: pointer; font: inherit; text-align: left; }
+.ftr a:hover, .ftr button:hover { color: #fff; text-decoration: underline; }
+:root[data-theme="dark"] .ftr a:hover, :root[data-theme="dark"] .ftr button:hover { color: var(--ink); }
+.ftr__top { display: grid; gap: var(--sp-8); padding-block: var(--sp-12); }
+.vp-desktop .ftr__top { grid-template-columns: 1.5fr 1fr 1fr 1.2fr; gap: var(--sp-10); }
+.ftr__ttl { color: #fff; font-size: .6875rem; font-weight: 700; letter-spacing: .11em; text-transform: uppercase; margin-bottom: var(--sp-4); }
+:root[data-theme="dark"] .ftr__ttl { color: var(--ink); }
+.ftr__list { display: grid; gap: .5rem; }
+.ftr dl { display: grid; gap: .45rem; margin: 0; font-size: .8125rem; }
+.ftr dl div { display: flex; gap: .5rem; }
+.ftr dt { color: rgba(255,255,255,.55); min-width: 74px; }
+:root[data-theme="dark"] .ftr dt { color: var(--ink-faint); }
+.ftr dd { margin: 0; }
+.ftr__gap { color: var(--accent); font-style: italic; }
+.ftr__contact { display: grid; gap: .7rem; }
+.ftr__contact a, .ftr__contact span { display: flex; align-items: center; gap: .55rem; }
+.ftr__contact svg { width: 16px; height: 16px; color: var(--accent); flex: none; }
+.ftr__bot {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: var(--sp-4); padding-block: var(--sp-5);
+  border-top: 1px solid rgba(255,255,255,.15); font-size: .75rem;
+}
+:root[data-theme="dark"] .ftr__bot { border-color: var(--line); }
+.ftr__pay { display: flex; gap: .4rem; flex-wrap: wrap; align-items: center; }
+.ftr__pay svg { height: 22px; width: auto; border-radius: 3px; }
+
+/* --- misc ---------------------------------------------------- */
+.view { display: none; }
+.view.on { display: block; }
+.sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.demoflag {
+  display: inline-flex; align-items: center; gap: .35rem;
+  font-size: .6875rem; color: var(--ink-faint); font-weight: 600;
+  letter-spacing: .04em; text-transform: uppercase;
+}
+.demoflag::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+.notice {
+  border: 1px dashed var(--line); border-radius: var(--r-md);
+  padding: var(--sp-4); background: var(--sand); font-size: .875rem; color: var(--ink-soft);
+}
+.notice b { color: var(--ink); }
+.toast {
+  position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 200%);
+  opacity: 0; visibility: hidden;
+  background: var(--ink); color: var(--surface); border-radius: var(--r-pill);
+  padding: .65rem 1.2rem; font-size: .875rem; font-weight: 600; z-index: 200;
+  transition: transform 280ms var(--ease); box-shadow: var(--shadow-2);
+}
+:root[data-theme="dark"] .toast { background: var(--ink); color: var(--surface); }
+.toast.on { transform: translate(-50%, 0); opacity: 1; visibility: visible; }
+.seo { columns: 1; font-size: .9375rem; color: var(--ink-soft); }
+.vp-desktop .seo { columns: 2; column-gap: var(--sp-10); }
+.seo h3 { color: var(--ink); font-size: 1.05rem; }
+</style>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="i-checkc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.5 2.5 4.5-5"/></symbol>
+    <symbol id="i-down" viewBox="0 0 12 8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M1 1.5 6 6.5l5-5"/></symbol>
+    <symbol id="i-left" viewBox="0 0 8 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6.5 1 1.5 6l5 5"/></symbol>
+    <symbol id="i-right" viewBox="0 0 8 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="m1.5 1 5 5-5 5"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 6h13M9.5 1.5 14 6l-4.5 4.5"/></symbol>
+    <symbol id="i-x" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="m1.5 1.5 11 11m0-11-11 11"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M7 1.5v11M1.5 7h11"/></symbol>
+    <symbol id="i-minus" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M1.5 7h11"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m16.5 16.5 4 4"/></symbol>
+    <symbol id="i-cart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2.2l2.1 11.2a1.6 1.6 0 0 0 1.6 1.3h8.4a1.6 1.6 0 0 0 1.6-1.3L20.5 8H6"/><circle cx="9.5" cy="20" r="1.3"/><circle cx="17.5" cy="20" r="1.3"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M3.5 7h17M3.5 12h17M3.5 17h17"/></symbol>
+    <symbol id="i-truck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 6.5h12v9h-12z"/><path d="M13.5 10h3.6l2.9 3v2.5h-6.5z"/><circle cx="6" cy="17.5" r="1.8"/><circle cx="16.5" cy="17.5" r="1.8"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5 4.5 5.5v6c0 4.5 3.1 8.4 7.5 10 4.4-1.6 7.5-5.5 7.5-10v-6z"/><path d="m8.8 12 2.2 2.2 4.2-4.4"/></symbol>
+    <symbol id="i-return" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12a8.5 8.5 0 1 1 2.6 6.1"/><path d="M3 6.5V12h5.5"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10" width="15" height="10.5" rx="2"/><path d="M8 10V7.5a4 4 0 0 1 8 0V10"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5h3l1.6 4-2 1.4a12 12 0 0 0 6.5 6.5l1.4-2 4 1.6v3a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4 5.7 2 2 0 0 1 6 3.5z"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="m3.5 7 8.5 6 8.5-6"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5.2l3.2 2"/></symbol>
+    <symbol id="i-star" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.6l2.5 5.1 5.6.8-4 4 .9 5.6-5-2.7-5 2.7.9-5.6-4-4 5.6-.8z"/></symbol>
+    <symbol id="i-starh" viewBox="0 0 20 20"><defs><linearGradient id="hg"><stop offset="50%" stop-color="currentColor"/><stop offset="50%" stop-color="currentColor" stop-opacity=".28"/></linearGradient></defs><path fill="url(#hg)" d="M10 1.6l2.5 5.1 5.6.8-4 4 .9 5.6-5-2.7-5 2.7.9-5.6-4-4 5.6-.8z"/></symbol>
+    <symbol id="i-stare" viewBox="0 0 20 20" fill="currentColor" opacity=".28"><path d="M10 1.6l2.5 5.1 5.6.8-4 4 .9 5.6-5-2.7-5 2.7.9-5.6-4-4 5.6-.8z"/></symbol>
+    <symbol id="i-leaf" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20c0-8 5-14 16-15 0 10-5 15-12 15H4z"/><path d="M9 15c2.5-3 5-4.8 8-6"/></symbol>
+    <symbol id="i-box" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.8 3.5 7v10L12 21.2 20.5 17V7z"/><path d="M3.7 7 12 11.4 20.3 7M12 11.4v9.8"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 12c0 4.1-3.8 7.4-8.5 7.4-1 0-2-.15-2.9-.42L4 20.5l1.6-3.7A7 7 0 0 1 3.5 12c0-4.1 3.8-7.4 8.5-7.4s8.5 3.3 8.5 7.4z"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z"/></symbol>
+    <symbol id="i-phoneicon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="7" y="2.5" width="10" height="19" rx="2.4"/><path d="M11 5.5h2"/></symbol>
+
+    <!-- pack silhouettes -->
+    <symbol id="p-box" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"><path d="M50 8 14 24v52l36 16 36-16V24z"/><path d="M14.4 24 50 40l35.6-16M50 40v52"/></g><rect x="30" y="46" width="40" height="7" rx="3.5" fill="currentColor" opacity=".55"/><rect x="34" y="58" width="32" height="4" rx="2" fill="currentColor" opacity=".3"/></symbol>
+    <symbol id="p-bottle" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"><path d="M42 6h16v10c0 4 8 8 8 16v54a6 6 0 0 1-6 6H40a6 6 0 0 1-6-6V32c0-8 8-12 8-16z"/></g><rect x="34" y="44" width="32" height="20" fill="currentColor" opacity=".5"/><rect x="40" y="50" width="20" height="3.4" rx="1.7" fill="var(--surface)" opacity=".9"/><rect x="40" y="57" width="13" height="2.6" rx="1.3" fill="var(--surface)" opacity=".7"/></symbol>
+    <symbol id="p-jar" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"><rect x="20" y="34" width="60" height="52" rx="8"/><rect x="26" y="18" width="48" height="16" rx="5"/></g><rect x="30" y="52" width="40" height="16" fill="currentColor" opacity=".5"/><rect x="37" y="57" width="26" height="3.4" rx="1.7" fill="var(--surface)" opacity=".9"/></symbol>
+    <symbol id="p-pouch" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"><path d="M28 16h44l6 12v58a6 6 0 0 1-6 6H28a6 6 0 0 1-6-6V28z"/><path d="M22 28h56"/></g><rect x="32" y="46" width="36" height="18" fill="currentColor" opacity=".5"/><rect x="38" y="52" width="24" height="3.4" rx="1.7" fill="var(--surface)" opacity=".9"/></symbol>
+    <symbol id="p-tub" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"><path d="M24 30h52l-5 52a6 6 0 0 1-6 6H35a6 6 0 0 1-6-6z"/><rect x="20" y="16" width="60" height="14" rx="6"/></g><rect x="32" y="48" width="36" height="16" fill="currentColor" opacity=".5"/><rect x="38" y="53" width="24" height="3.4" rx="1.7" fill="var(--surface)" opacity=".9"/></symbol>
+
+    <!-- payment marks: neutral wordmarks, not brand logos -->
+    <symbol id="pay-ideal" viewBox="0 0 46 24"><rect width="46" height="24" rx="4" fill="#fff" stroke="#d8d8d8"/><text x="23" y="16" font-family="Figtree,sans-serif" font-size="9.5" font-weight="800" fill="#cc0066" text-anchor="middle">iDEAL</text></symbol>
+    <symbol id="pay-visa" viewBox="0 0 46 24"><rect width="46" height="24" rx="4" fill="#fff" stroke="#d8d8d8"/><text x="23" y="16" font-family="Figtree,sans-serif" font-size="10" font-weight="800" fill="#1a1f71" text-anchor="middle">VISA</text></symbol>
+    <symbol id="pay-mc" viewBox="0 0 46 24"><rect width="46" height="24" rx="4" fill="#fff" stroke="#d8d8d8"/><circle cx="19" cy="12" r="6.4" fill="#eb001b"/><circle cx="27" cy="12" r="6.4" fill="#f79e1b" opacity=".85"/></symbol>
+    <symbol id="pay-pp" viewBox="0 0 46 24"><rect width="46" height="24" rx="4" fill="#fff" stroke="#d8d8d8"/><text x="23" y="16" font-family="Figtree,sans-serif" font-size="9" font-weight="800" fill="#003087" text-anchor="middle">PayPal</text></symbol>
+    <symbol id="pay-bc" viewBox="0 0 46 24"><rect width="46" height="24" rx="4" fill="#fff" stroke="#d8d8d8"/><text x="23" y="16" font-family="Figtree,sans-serif" font-size="8.5" font-weight="800" fill="#005498" text-anchor="middle">Bancontact</text></symbol>
+    <symbol id="pay-klarna" viewBox="0 0 46 24"><rect width="46" height="24" rx="4" fill="#ffb3c7" stroke="#e9a1b4"/><text x="23" y="16" font-family="Figtree,sans-serif" font-size="9" font-weight="800" fill="#0b051d" text-anchor="middle">Klarna</text></symbol>
+  </defs>
+</svg>
+<!-- ============================ prototype chrome ============================ -->
+<div class="chrome">
+  <div class="chrome__in">
+    <span class="chrome__tag">Prototype</span>
+    <div class="chrome__views" role="group" aria-label="Kies een pagina">
+      <button type="button" data-go="home" aria-pressed="true">Home</button>
+      <button type="button" data-go="collection" aria-pressed="false">Categorie</button>
+      <button type="button" data-go="product" aria-pressed="false">Product</button>
+    </div>
+    <span class="chrome__spacer"></span>
+    <button type="button" class="chrome__toggle" id="frameBtn" aria-pressed="false">
+      <svg width="14" height="14" aria-hidden="true"><use href="#i-phoneicon"/></svg> Mobiel
+    </button>
+    <button type="button" class="chrome__toggle" id="themeBtn" aria-pressed="false">
+      <svg width="14" height="14" aria-hidden="true"><use href="#i-moon"/></svg> <span id="themeLbl">Donker</span>
+    </button>
+  </div>
+  <div class="chrome__note">
+    <div>
+      <strong>Demodata.</strong> Prijzen, beoordelingen en reviews in deze prototype zijn plaatsvervangend en moeten vóór livegang
+      worden vervangen door echte, geverifieerde gegevens. Bedrijfsgegevens en claims (klantenaantal, levertijd) zijn bewust
+      leeg gelaten waar ze nog niet onderbouwd zijn — zie de audit in <code>docs/01-audit.md</code>.
+    </div>
+  </div>
+</div>
+
+<div class="stage" id="stage">
+
+  <!-- ============================ announcement ============================ -->
+  <div class="anno" id="anno">
+    <div class="wrap anno__in">
+      <div class="anno__nav">
+        <button type="button" data-anno="-1" aria-label="Vorige melding"><svg aria-hidden="true"><use href="#i-left"/></svg></button>
+      </div>
+      <div class="anno__slides" aria-live="off">
+        <p class="anno__slide on"><svg aria-hidden="true"><use href="#i-truck"/></svg> Gratis verzending binnen Nederland</p>
+        <p class="anno__slide"><svg aria-hidden="true"><use href="#i-return"/></svg> 14 dagen bedenktijd — niet goed, geld terug</p>
+        <p class="anno__slide"><svg aria-hidden="true"><use href="#i-leaf"/></svg> Originele Forever-producten, direct uit eigen voorraad</p>
+      </div>
+      <div class="anno__nav">
+        <button type="button" data-anno="1" aria-label="Volgende melding"><svg aria-hidden="true"><use href="#i-right"/></svg></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================ header ============================ -->
+  <header class="hdr" id="hdr">
+    <div class="wrap hdr__in">
+      <button type="button" class="logo" data-go="home" aria-label="ForeverC9 — naar de homepage">Forever<span>C9</span></button>
+
+      <nav class="nav" id="nav" aria-label="Hoofdmenu">
+        <div class="nav__item" data-mega>
+          <button type="button" class="nav__btn" aria-expanded="false">Shop <svg aria-hidden="true"><use href="#i-down"/></svg></button>
+          <div class="mega">
+            <div>
+              <p class="mega__ttl">Waar ben je naar op zoek?</p>
+              <ul class="mega__list">
+                <li><button type="button" data-cat="programmas">Programma's <small>C9 &amp; F15</small></button></li>
+                <li><button type="button" data-cat="dranken">Dranken <small>Aloë vera</small></button></li>
+                <li><button type="button" data-cat="supplementen">Supplementen</button></li>
+                <li><button type="button" data-cat="sport">Sport &amp; Fitness</button></li>
+              </ul>
+            </div>
+            <div>
+              <p class="mega__ttl">Verzorging</p>
+              <ul class="mega__list">
+                <li><button type="button" data-cat="huidverzorging">Huidverzorging</button></li>
+                <li><button type="button" data-cat="persoonlijk">Persoonlijke verzorging</button></li>
+                <li><button type="button" data-cat="bijen">Bijenproducten</button></li>
+                <li><button type="button" data-cat="all">Alle producten</button></li>
+              </ul>
+            </div>
+            <button type="button" class="mega__promo" data-product="c9">
+              <span class="badge badge--accent" style="align-self:start">Bestseller</span>
+              <strong>De C9 kuur</strong>
+              <p>Het 9-daagse startprogramma van Forever — in vijf smaken.</p>
+              <span class="link">Ontdek C9 <svg aria-hidden="true"><use href="#i-arrow"/></svg></span>
+            </button>
+          </div>
+        </div>
+        <div class="nav__item"><button type="button" class="nav__btn" data-cat="programmas">C9 &amp; F15</button></div>
+        <div class="nav__item"><button type="button" class="nav__btn" data-cat="sport">Sport</button></div>
+        <div class="nav__item"><button type="button" class="nav__btn" data-cat="huidverzorging">Huidverzorging</button></div>
+        <div class="nav__item"><button type="button" class="nav__btn" data-page="about">Over ons</button></div>
+      </nav>
+
+      <div class="hdr__acts">
+        <button type="button" class="iconbtn" id="searchBtn" aria-label="Zoeken openen"><svg aria-hidden="true"><use href="#i-search"/></svg></button>
+        <button type="button" class="iconbtn is-desk" aria-label="Mijn account"><svg aria-hidden="true"><use href="#i-user"/></svg></button>
+        <button type="button" class="iconbtn" id="cartBtn" aria-label="Winkelwagen openen">
+          <svg aria-hidden="true"><use href="#i-cart"/></svg>
+          <span class="cartdot" id="cartDot" hidden>0</span>
+        </button>
+        <button type="button" class="iconbtn hdr__burger" id="menuBtn" aria-label="Menu openen"><svg aria-hidden="true"><use href="#i-menu"/></svg></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="view on" id="view-home"></section>
+    <section class="view" id="view-collection"></section>
+    <section class="view" id="view-product"></section>
+  </main>
+
+  <!-- ============================ footer ============================ -->
+  <footer class="ftr">
+    <div class="wrap ftr__top">
+      <div>
+        <p class="logo" style="color:#fff;font-size:1.35rem;margin-bottom:.9rem">Forever<span>C9</span></p>
+        <p style="max-width:34ch">Onafhankelijke Nederlandse webshop voor Forever Living producten. Originele producten uit eigen voorraad.</p>
+        <div class="ftr__contact" style="margin-top:1.4rem">
+          <span><svg aria-hidden="true"><use href="#i-mail"/></svg> info@foreverc9.nl</span>
+          <span><svg aria-hidden="true"><use href="#i-phone"/></svg> <em class="ftr__gap">telefoonnummer nog toe te voegen</em></span>
+          <span><svg aria-hidden="true"><use href="#i-clock"/></svg> <em class="ftr__gap">openingstijden nog toe te voegen</em></span>
+        </div>
+      </div>
+      <div>
+        <p class="ftr__ttl">Winkel</p>
+        <ul class="ftr__list">
+          <li><button type="button" data-cat="programmas">C9 &amp; F15</button></li>
+          <li><button type="button" data-cat="dranken">Dranken</button></li>
+          <li><button type="button" data-cat="supplementen">Supplementen</button></li>
+          <li><button type="button" data-cat="sport">Sport &amp; Fitness</button></li>
+          <li><button type="button" data-cat="huidverzorging">Huidverzorging</button></li>
+          <li><button type="button" data-cat="bijen">Bijenproducten</button></li>
+        </ul>
+      </div>
+      <div>
+        <p class="ftr__ttl">Klantenservice</p>
+        <ul class="ftr__list">
+          <li><button type="button">Contact</button></li>
+          <li><button type="button">Verzending &amp; levertijd</button></li>
+          <li><button type="button">Retourneren</button></li>
+          <li><button type="button">Veelgestelde vragen</button></li>
+          <li><button type="button">Algemene voorwaarden</button></li>
+          <li><button type="button">Privacybeleid</button></li>
+        </ul>
+      </div>
+      <div>
+        <p class="ftr__ttl">Bedrijfsgegevens</p>
+        <dl>
+          <div><dt>Adres</dt><dd>Keizersgracht 391-A<br>1016 EJ Amsterdam</dd></div>
+          <div><dt>KvK</dt><dd class="ftr__gap">nog in te vullen</dd></div>
+          <div><dt>BTW-nr.</dt><dd class="ftr__gap">nog in te vullen</dd></div>
+        </dl>
+        <p style="font-size:.75rem;margin-top:1rem;opacity:.75">
+          Volledige bedrijfsgegevens zijn wettelijk verplicht en het snelst werkende vertrouwenssignaal dat er is.
+        </p>
+      </div>
+    </div>
+    <div class="wrap ftr__bot">
+      <span>© <span id="yr"></span> ForeverC9. Alle rechten voorbehouden.</span>
+      <ul class="ftr__pay" aria-label="Betaalmethodes">
+        <li><svg viewBox="0 0 46 24" aria-label="iDEAL" role="img"><use href="#pay-ideal"/></svg></li>
+        <li><svg viewBox="0 0 46 24" aria-label="Bancontact" role="img"><use href="#pay-bc"/></svg></li>
+        <li><svg viewBox="0 0 46 24" aria-label="Visa" role="img"><use href="#pay-visa"/></svg></li>
+        <li><svg viewBox="0 0 46 24" aria-label="Mastercard" role="img"><use href="#pay-mc"/></svg></li>
+        <li><svg viewBox="0 0 46 24" aria-label="PayPal" role="img"><use href="#pay-pp"/></svg></li>
+        <li><svg viewBox="0 0 46 24" aria-label="Klarna" role="img"><use href="#pay-klarna"/></svg></li>
+      </ul>
+    </div>
+  </footer>
+</div>
+
+<!-- ============================ overlays ============================ -->
+<button type="button" class="ovl" id="ovl" aria-label="Sluiten" tabindex="-1"></button>
+
+<aside class="drawer drawer--l" id="menuDrawer" aria-label="Menu" aria-hidden="true">
+  <div class="drawer__hd">
+    <h3>Menu</h3>
+    <button type="button" class="iconbtn" data-close aria-label="Menu sluiten"><svg aria-hidden="true"><use href="#i-x"/></svg></button>
+  </div>
+  <div class="drawer__bd" id="mnav"></div>
+</aside>
+
+<aside class="drawer drawer--r" id="cartDrawer" aria-label="Winkelwagen" aria-hidden="true">
+  <div class="drawer__hd">
+    <h3>Winkelwagen <span id="cartHdCount" class="badge badge--soft"></span></h3>
+    <button type="button" class="iconbtn" data-close aria-label="Winkelwagen sluiten"><svg aria-hidden="true"><use href="#i-x"/></svg></button>
+  </div>
+  <div id="shipBar"></div>
+  <div class="drawer__bd" id="cartBody"></div>
+  <div class="drawer__ft" id="cartFoot"></div>
+</aside>
+
+<div class="srch" id="srch" aria-label="Zoeken" aria-hidden="true">
+  <div class="wrap srch__hd">
+    <div class="srch__field">
+      <svg aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="search" class="input" id="srchInput" placeholder="Zoek naar C9, aloë vera, supplementen…" aria-label="Zoekterm" autocomplete="off">
+    </div>
+    <button type="button" class="iconbtn" data-close aria-label="Zoeken sluiten"><svg aria-hidden="true"><use href="#i-x"/></svg></button>
+  </div>
+  <div class="srch__bd"><div class="wrap"><div class="srch__grid" id="srchGrid"></div></div></div>
+</div>
+
+<div class="satc" id="satc" aria-hidden="true">
+  <div class="satc__info"><strong id="satcName"></strong><span id="satcPrice"></span></div>
+  <button type="button" class="btn" id="satcAdd">In winkelwagen</button>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+(function () {
+  'use strict';
+
+  /* =========================================================================
+     DATA
+     Product names, categories and handles follow the live foreverc9.nl
+     catalogue. Prices, ratings and review counts are DEMO PLACEHOLDERS —
+     see the notice in the prototype bar.
+     ========================================================================= */
+
+  var CATS = {
+    programmas:     { label: "Programma's",           blurb: "De 9-daagse C9 en het 15-daagse F15 vervolgprogramma van Forever.", art: 'p-box',    hue: 158 },
+    dranken:        { label: 'Dranken',               blurb: 'Aloë vera drinkgels — puur of met vruchtensmaak.',                   art: 'p-bottle', hue: 176 },
+    supplementen:   { label: 'Supplementen',          blurb: 'Dagelijkse voedingssupplementen uit het Forever-assortiment.',       art: 'p-pouch',  hue: 38  },
+    sport:          { label: 'Sport & Fitness',       blurb: 'Voor wie traint: eiwitten, gewrichten en dagelijkse ondersteuning.',  art: 'p-tub',    hue: 205 },
+    huidverzorging: { label: 'Huidverzorging',        blurb: 'Verzorging met aloë vera als eerste ingrediënt.',                     art: 'p-jar',    hue: 96  },
+    persoonlijk:    { label: 'Persoonlijke verzorging', blurb: 'Dagelijkse verzorging voor het hele gezin.',                        art: 'p-tub',    hue: 260 },
+    bijen:          { label: 'Bijenproducten',        blurb: 'Propolis, royal jelly en honing uit de Forever-bijenstal.',           art: 'p-jar',    hue: 44  }
+  };
+
+  var PRODUCTS = [
+    { id:'c9', h:'forever-c9', t:'Forever C9 — 9-daags programma', cat:'programmas', art:'p-box', hue:158,
+      price:12995, was:14995, rating:4.6, reviews:184, stock:true, badge:'Bestseller',
+      ben:'Het complete 9-daagse startprogramma van Forever, met alles wat je nodig hebt in één doos.',
+      opts:{ name:'Smaak', values:['Vanille','Chocolade','Perzik','Mango','Bessen'] },
+      contents:['2× Forever Aloe Vera Gel 1 liter','1× Forever Lite Ultra shake','1× Forever Therm','1× Forever Garcinia Plus','1× Forever Fiber','Stap-voor-stap programmaboekje'] },
+    { id:'f15', h:'forever-f15', t:'Forever F15 — vervolgprogramma', cat:'programmas', art:'p-box', hue:150,
+      price:11495, was:0, rating:4.4, reviews:52, stock:true, badge:'',
+      ben:'Het 15-daagse vervolg op C9, in twee niveaus.',
+      opts:{ name:'Niveau', values:['Beginner 1','Beginner 2','Intermediate 1'] } },
+    { id:'gel', h:'forever-aloe-vera-gel', t:'Forever Aloe Vera Gel', cat:'dranken', art:'p-bottle', hue:176,
+      price:2795, was:0, rating:4.7, reviews:311, stock:true, badge:'Meest gekozen',
+      ben:'99,7% pure aloë vera gel om te drinken. 1 liter.', qb:true },
+    { id:'berry', h:'forever-aloe-berry-nectar', t:'Forever Aloe Berry Nectar', cat:'dranken', art:'p-bottle', hue:330,
+      price:2795, was:0, rating:4.6, reviews:142, stock:true, badge:'',
+      ben:'Aloë vera met cranberry en appel. 1 liter.', qb:true },
+    { id:'peaches', h:'forever-aloe-peaches', t:'Forever Aloe Peaches', cat:'dranken', art:'p-bottle', hue:24,
+      price:2795, was:0, rating:4.5, reviews:98, stock:true, badge:'',
+      ben:'Aloë vera met perzikpuree. 1 liter.', qb:true },
+    { id:'daily', h:'forever-daily', t:'Forever Daily', cat:'supplementen', art:'p-pouch', hue:38,
+      price:2195, was:2595, rating:4.4, reviews:76, stock:true, badge:'',
+      ben:'Multivitamine met 55 voedingsstoffen voor elke dag.' },
+    { id:'therm', h:'forever-therm', t:'Forever Therm', cat:'supplementen', art:'p-pouch', hue:12,
+      price:3495, was:0, rating:4.2, reviews:41, stock:true, badge:'' ,
+      ben:'Groene thee-extract en B-vitamines, onderdeel van C9.' },
+    { id:'fiber', h:'forever-fiber', t:'Forever Fiber', cat:'supplementen', art:'p-pouch', hue:52,
+      price:3295, was:0, rating:4.3, reviews:37, stock:true, badge:'',
+      ben:'5 gram vezels per sachet, oplosbaar in water.' },
+    { id:'garcinia', h:'forever-garcinia-plus', t:'Forever Garcinia Plus', cat:'supplementen', art:'p-pouch', hue:88,
+      price:2895, was:0, rating:4.1, reviews:29, stock:false, badge:'',
+      ben:'Onderdeel van het C9-programma.' },
+    { id:'move', h:'forever-move', t:'Forever Move', cat:'sport', art:'p-tub', hue:205,
+      price:6495, was:0, rating:4.5, reviews:63, stock:true, badge:'',
+      ben:'Voor sporters die hun gewrichten en spieren belasten.' },
+    { id:'lite', h:'forever-lite-ultra', t:'Forever Lite Ultra shake', cat:'sport', art:'p-tub', hue:192,
+      price:3895, was:0, rating:4.3, reviews:58, stock:true, badge:'',
+      ben:'Eiwitshake met 17 gram eiwit per portie.',
+      opts:{ name:'Smaak', values:['Vanille','Chocolade'] } },
+    { id:'propcreme', h:'aloe-propolis-creme', t:'Aloe Propolis Crème', cat:'huidverzorging', art:'p-jar', hue:96,
+      price:2495, was:0, rating:4.8, reviews:207, stock:true, badge:'Bestseller',
+      ben:'Rijke crème met aloë vera en bijenpropolis.' },
+    { id:'scrub', h:'forever-aloe-scrub', t:'Forever Aloe Scrub', cat:'huidverzorging', art:'p-jar', hue:110,
+      price:1995, was:2395, rating:4.5, reviews:88, stock:true, badge:'' ,
+      ben:'Milde scrub met jojoba-korrels.' },
+    { id:'deo', h:'aloe-ever-shield', t:'Aloe Ever-Shield deodorant', cat:'persoonlijk', art:'p-tub', hue:260,
+      price:1495, was:0, rating:4.7, reviews:164, stock:true, badge:'',
+      ben:'Deodorant zonder aluminiumzouten.' },
+    { id:'propolis', h:'forever-bee-propolis', t:'Forever Bee Propolis', cat:'bijen', art:'p-jar', hue:44,
+      price:4295, was:0, rating:4.4, reviews:45, stock:true, badge:'',
+      ben:'Propolis uit eigen bijenstallen, in tabletvorm.' },
+    { id:'honey', h:'forever-bee-honey', t:'Forever Bee Honey', cat:'bijen', art:'p-jar', hue:36,
+      price:1795, was:0, rating:4.6, reviews:71, stock:true, badge:'',
+      ben:'Ongefilterde honing, 500 gram.' }
+  ];
+
+  var byId = {};
+  PRODUCTS.forEach(function (p) { byId[p.id] = p; });
+
+  /* =========================================================================
+     HELPERS
+     ========================================================================= */
+
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+
+  function euro(cents) {
+    return '€' + (cents / 100).toFixed(2).replace('.', ',');
+  }
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  // Pack artwork: a tinted panel plus the silhouette matching the pack format.
+  function art(p, cls) {
+    var dark = document.documentElement.getAttribute('data-theme') === 'dark' ||
+      (!document.documentElement.getAttribute('data-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    var bg = 'hsl(' + p.hue + ' ' + (dark ? '26% 14%' : '38% 93%') + ')';
+    var fg = 'hsl(' + p.hue + ' ' + (dark ? '34% 58%' : '34% 34%') + ')';
+    return '<div class="thumb ' + (cls || '') + '" style="--art-bg:' + bg + ';color:' + fg + '">' +
+      '<svg aria-hidden="true"><use href="#' + p.art + '"/></svg><span class="thumb__glow"></span></div>';
+  }
+
+  function stars(rating, cls) {
+    var out = '<span class="stars" aria-hidden="true">';
+    for (var i = 1; i <= 5; i++) {
+      var id = rating >= i ? 'i-star' : (rating >= i - 0.5 ? 'i-starh' : 'i-stare');
+      out += '<svg><use href="#' + id + '"/></svg>';
+    }
+    return out + '</span>';
+  }
+
+  function ratingHtml(p, cls) {
+    if (!p.reviews) return '';
+    return '<span class="rating ' + (cls || '') + '">' + stars(p.rating) +
+      '<span class="sr">' + p.rating + ' van 5 sterren</span>' +
+      '<span>' + p.rating.toFixed(1).replace('.', ',') + ' (' + p.reviews + ')</span></span>';
+  }
+
+  function priceHtml(p, cls) {
+    var sale = p.was && p.was > p.price;
+    var out = '<span class="price ' + (cls || '') + (sale ? ' price--sale' : '') + '">';
+    out += '<b>' + euro(p.price) + '</b>';
+    if (sale) {
+      out += '<s>' + euro(p.was) + '</s><em>bespaar ' + euro(p.was - p.price) + '</em>';
+    }
+    return out + '</span>';
+  }
+
+  /* =========================================================================
+     CART
+     ========================================================================= */
+
+  var FREE_SHIP = 5000; // demo threshold, in cents
+  var cart = [];
+
+  function cartCount() { return cart.reduce(function (n, l) { return n + l.qty; }, 0); }
+  function cartTotal() { return cart.reduce(function (n, l) { return n + l.price * l.qty; }, 0); }
+
+  function addToCart(id, qty, variant, unitPrice) {
+    var p = byId[id];
+    if (!p || !p.stock) return;
+    var key = id + '|' + (variant || '');
+    var line = cart.filter(function (l) { return l.key === key; })[0];
+    if (line) line.qty += qty || 1;
+    else cart.push({ key: key, id: id, variant: variant || '', qty: qty || 1, price: unitPrice || p.price });
+    renderCart();
+    openSurface(cartDrawer);
+    toast(p.t + ' toegevoegd');
+  }
+
+  function renderCart() {
+    var n = cartCount();
+    var dot = $('#cartDot');
+    dot.textContent = n;
+    dot.hidden = n === 0;
+    $('#cartHdCount').textContent = n ? n + (n === 1 ? ' artikel' : ' artikelen') : '';
+
+    // free shipping progress
+    var total = cartTotal();
+    var left = Math.max(0, FREE_SHIP - total);
+    var pct = Math.min(100, Math.round((total / FREE_SHIP) * 100));
+    $('#shipBar').innerHTML = n === 0 ? '' :
+      '<div class="ship' + (left === 0 ? ' done' : '') + '">' +
+        '<p>' + (left === 0
+          ? 'Je bestelling wordt gratis verzonden.'
+          : 'Nog <b>' + euro(left) + '</b> tot gratis verzending.') + '</p>' +
+        '<div class="ship__track"><div class="ship__fill" style="width:' + pct + '%"></div></div>' +
+      '</div>';
+
+    // lines
+    var body = $('#cartBody');
+    if (!cart.length) {
+      body.innerHTML =
+        '<div class="cart__empty"><p><strong>Je winkelwagen is nog leeg</strong></p>' +
+        '<p>Ontdek onze programma\'s, dranken en supplementen.</p>' +
+        '<button type="button" class="btn" data-cat="all" data-close>Bekijk alle producten</button></div>';
+      $('#cartFoot').innerHTML = '';
+      return;
+    }
+
+    body.innerHTML = cart.map(function (l, i) {
+      var p = byId[l.id];
+      return '<div class="line">' + art(p) +
+        '<div class="line__bd">' +
+          '<strong>' + esc(p.t) + '</strong>' +
+          (l.variant ? '<small>' + esc(l.variant) + '</small>' : '') +
+          '<div class="line__ft">' +
+            '<span class="qty qty--sm">' +
+              '<button type="button" data-line="' + i + '" data-delta="-1" aria-label="Aantal verlagen"><svg aria-hidden="true"><use href="#i-minus"/></svg></button>' +
+              '<input type="text" value="' + l.qty + '" readonly aria-label="Aantal">' +
+              '<button type="button" data-line="' + i + '" data-delta="1" aria-label="Aantal verhogen"><svg aria-hidden="true"><use href="#i-plus"/></svg></button>' +
+            '</span>' +
+            '<b style="font-variant-numeric:tabular-nums">' + euro(l.price * l.qty) + '</b>' +
+          '</div>' +
+          '<button type="button" class="line__rm" data-remove="' + i + '">Verwijderen</button>' +
+        '</div></div>';
+    }).join('');
+
+    // upsell: cheapest in-stock product not already in the cart
+    var inCart = cart.map(function (l) { return l.id; });
+    var up = PRODUCTS.filter(function (p) { return p.stock && inCart.indexOf(p.id) === -1 && p.price < 3000; })[0];
+    if (up) {
+      body.innerHTML += '<div class="cart__up"><h4>Maak je bestelling compleet</h4>' +
+        '<div class="xsell__row">' + art(up) +
+        '<div><strong>' + esc(up.t) + '</strong><small>' + euro(up.price) + '</small></div>' +
+        '<button type="button" class="btn btn--ghost btn--sm" data-add="' + up.id + '">Toevoegen</button></div></div>';
+    }
+
+    $('#cartFoot').innerHTML =
+      '<div class="cart__tot"><span>Subtotaal</span><b>' + euro(total) + '</b></div>' +
+      '<p class="cart__note">Verzendkosten en kortingen worden berekend bij het afrekenen.</p>' +
+      '<button type="button" class="btn btn--full btn--lg" data-checkout>Afrekenen</button>' +
+      '<div style="display:flex;gap:.35rem;justify-content:center;margin-top:.8rem;flex-wrap:wrap">' +
+        ['ideal', 'bc', 'visa', 'mc', 'pp'].map(function (m) {
+          return '<svg viewBox="0 0 46 24" style="height:20px;width:auto;border-radius:3px" aria-hidden="true"><use href="#pay-' + m + '"/></svg>';
+        }).join('') + '</div>';
+  }
+
+  /* =========================================================================
+     OVERLAY SURFACES
+     ========================================================================= */
+
+  var ovl = $('#ovl'), cartDrawer = $('#cartDrawer'), menuDrawer = $('#menuDrawer'), srch = $('#srch');
+  var openEl = null, lastFocus = null;
+  var FOCUSABLE = 'a[href],button:not([disabled]),input:not([disabled]),select,textarea,[tabindex]:not([tabindex="-1"])';
+
+  function openSurface(el, trigger) {
+    if (openEl === el) return;
+    if (openEl) closeSurface(true);
+    openEl = el;
+    lastFocus = trigger || document.activeElement;
+    el.classList.add('on');
+    el.setAttribute('aria-hidden', 'false');
+    ovl.classList.add('on');
+    document.body.style.overflow = 'hidden';
+    requestAnimationFrame(function () {
+      var f = el.querySelector('input:not([readonly])') || el.querySelector(FOCUSABLE);
+      if (f) f.focus();
+    });
+  }
+
+  function closeSurface(silent) {
+    if (!openEl) return;
+    openEl.classList.remove('on');
+    openEl.setAttribute('aria-hidden', 'true');
+    openEl = null;
+    if (!silent) {
+      ovl.classList.remove('on');
+      document.body.style.overflow = '';
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    }
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (!openEl) return;
+    if (e.key === 'Escape') { e.preventDefault(); closeSurface(); return; }
+    if (e.key !== 'Tab') return;
+    var nodes = $$(FOCUSABLE, openEl).filter(function (n) { return n.offsetParent !== null; });
+    if (!nodes.length) return;
+    var first = nodes[0], last = nodes[nodes.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  });
+
+  ovl.addEventListener('click', function () { closeSurface(); });
+
+  var toastTimer;
+  function toast(msg) {
+    var t = $('#toast');
+    t.textContent = msg;
+    t.classList.add('on');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { t.classList.remove('on'); }, 2400);
+  }
+
+  /* =========================================================================
+     PRODUCT CARD
+     ========================================================================= */
+
+  function cardHtml(p) {
+    var sale = p.was && p.was > p.price;
+    return '<article class="card">' +
+      '<div class="card__media">' + art(p) +
+        '<div class="card__badges">' +
+          (sale ? '<span class="badge badge--sale">-' + Math.round((1 - p.price / p.was) * 100) + '%</span>' : '') +
+          (p.badge ? '<span class="badge badge--accent">' + esc(p.badge) + '</span>' : '') +
+          (!p.stock ? '<span class="badge badge--soft">Uitverkocht</span>' : '') +
+        '</div>' +
+      '</div>' +
+      (p.reviews ? ratingHtml(p) : '') +
+      '<h3 class="card__ttl"><button type="button" data-product="' + p.id + '">' + esc(p.t) + '</button></h3>' +
+      '<p class="card__ben">' + esc(p.ben) + '</p>' +
+      '<div class="card__foot">' + priceHtml(p) +
+        (p.stock
+          ? '<button type="button" class="btn btn--ghost btn--sm card__add" data-add="' + p.id + '">Snel toevoegen</button>'
+          : '<button type="button" class="btn btn--ghost btn--sm card__add" disabled>Uitverkocht</button>') +
+      '</div></article>';
+  }
+
+  /* =========================================================================
+     HOME
+     ========================================================================= */
+
+  function renderHome() {
+    var c9 = byId.c9;
+    var best = ['gel', 'propcreme', 'c9', 'deo'].map(function (id) { return byId[id]; });
+
+    $('#view-home').innerHTML =
+      /* hero */
+      '<section class="hero"><div class="wrap hero__in">' +
+        '<div>' +
+          '<span class="eyebrow">Forever Living — officieel assortiment</span>' +
+          '<h1>Aloë vera van Forever, zonder gedoe besteld.</h1>' +
+          '<p class="lede">Het complete Forever-assortiment uit eigen voorraad in Nederland. Van de 9-daagse C9 tot de dagelijkse drinkgel — met eerlijke levertijden en een klantenservice die antwoordt.</p>' +
+          '<div class="hero__cta">' +
+            '<button type="button" class="btn btn--lg" data-product="c9">Bekijk de C9 kuur</button>' +
+            '<button type="button" class="btn btn--ghost btn--lg" data-cat="all">Alle producten</button>' +
+          '</div>' +
+          '<div class="hero__proof">' +
+            '<span style="display:inline-flex;align-items:center;gap:.4rem"><svg width="16" height="16" style="color:var(--success)" aria-hidden="true"><use href="#i-checkc"/></svg> Originele Forever-producten</span>' +
+            '<span style="display:inline-flex;align-items:center;gap:.4rem"><svg width="16" height="16" style="color:var(--success)" aria-hidden="true"><use href="#i-checkc"/></svg> Eigen voorraad</span>' +
+          '</div>' +
+        '</div>' +
+        '<div class="hero__art">' + art(c9) +
+          '<div class="hero__tag"><svg aria-hidden="true"><use href="#i-box"/></svg><div><strong>C9 — 9 dagen</strong><br><span class="text-soft" style="color:var(--ink-soft)">Alles in één doos</span></div></div>' +
+        '</div>' +
+      '</div></section>' +
+
+      /* trust bar */
+      '<section class="trust"><div class="wrap"><ul>' +
+        '<li><svg aria-hidden="true"><use href="#i-truck"/></svg> Gratis verzending in NL</li>' +
+        '<li><svg aria-hidden="true"><use href="#i-return"/></svg> 14 dagen bedenktijd</li>' +
+        '<li><svg aria-hidden="true"><use href="#i-box"/></svg> Uit eigen voorraad</li>' +
+        '<li><svg aria-hidden="true"><use href="#i-lock"/></svg> Veilig betalen met iDEAL</li>' +
+        '<li><svg aria-hidden="true"><use href="#i-chat"/></svg> <span class="muted">Klantenservice — tijden volgen</span></li>' +
+      '</ul></div></section>' +
+
+      /* shop by need */
+      '<section class="section"><div class="wrap">' +
+        '<div class="head"><div class="head__text"><span class="eyebrow">Vind sneller wat je zoekt</span>' +
+        '<h2>Waar ben je naar op zoek?</h2>' +
+        '<p class="lede">Zestien producten, zeven categorieën. Begin bij je doel in plaats van bij de catalogus.</p></div></div>' +
+        '<div class="grid g4">' + Object.keys(CATS).map(function (k) {
+          var c = CATS[k];
+          var n = PRODUCTS.filter(function (p) { return p.cat === k; }).length;
+          return '<button type="button" class="need" data-cat="' + k + '">' +
+            art({ art: c.art, hue: c.hue }) +
+            '<div><strong>' + esc(c.label) + '</strong><br><small>' + n + ' product' + (n === 1 ? '' : 'en') + '</small></div>' +
+            '</button>';
+        }).join('') + '</div>' +
+      '</div></section>' +
+
+      /* featured C9 */
+      '<section class="section section--sand"><div class="wrap"><div class="spot">' +
+        '<div>' + art(c9) + '</div>' +
+        '<div>' +
+          '<span class="eyebrow">Het bekendste programma</span>' +
+          '<h2>C9 — negen dagen, één doos</h2>' +
+          '<p class="lede">Het startprogramma van Forever. Je krijgt alle producten voor negen dagen plus een boekje dat per dag uitlegt wat je neemt en wanneer.</p>' +
+          '<ul class="spot__list">' +
+            '<li><svg aria-hidden="true"><use href="#i-check"/></svg> Alles voor 9 dagen in één doos — niets los bij te bestellen</li>' +
+            '<li><svg aria-hidden="true"><use href="#i-check"/></svg> Verkrijgbaar in vijf smaken</li>' +
+            '<li><svg aria-hidden="true"><use href="#i-check"/></svg> Nederlandstalig programmaboekje inbegrepen</li>' +
+          '</ul>' +
+          '<div class="spot__box"><h4>Wat zit erin?</h4><ol>' +
+            c9.contents.map(function (x) { return '<li><b>·</b> ' + esc(x) + '</li>'; }).join('') +
+          '</ol></div>' +
+          '<div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">' +
+            '<button type="button" class="btn btn--lg" data-product="c9">Ontdek C9</button>' +
+            priceHtml(c9, 'price--lg') +
+          '</div>' +
+        '</div>' +
+      '</div></div></section>' +
+
+      /* bestsellers */
+      '<section class="section"><div class="wrap">' +
+        '<div class="head"><div class="head__text"><h2>Veelgekozen producten</h2>' +
+        '<p class="lede">De producten die het vaakst besteld worden.</p></div>' +
+        '<button type="button" class="link" data-cat="all">Alle producten <svg aria-hidden="true"><use href="#i-arrow"/></svg></button></div>' +
+        '<div class="grid g4">' + best.map(cardHtml).join('') + '</div>' +
+      '</div></section>' +
+
+      /* why us */
+      '<section class="section section--brand"><div class="wrap">' +
+        '<div class="head"><div class="head__text"><span class="eyebrow">Waarom hier bestellen</span>' +
+        '<h2>Waar we op afgerekend willen worden</h2>' +
+        '<p class="lede">Geen marketingbeloftes maar controleerbare afspraken.</p></div></div>' +
+        '<div class="grid g3">' +
+          feat('i-box', 'Eigen voorraad', 'Wat op voorraad staat, ligt hier in het magazijn. Is iets uitverkocht, dan staat dat op de productpagina — niet pas in de bevestigingsmail.') +
+          feat('i-truck', 'Eerlijke levertijd', 'Je ziet vóór het afrekenen wanneer je bestelling aankomt. Liever een realistische datum dan een belofte die we niet halen.') +
+          feat('i-chat', 'Bereikbare klantenservice', 'Per e-mail en telefoon, met een reactietermijn die we publiceren en nakomen.') +
+          feat('i-return', '14 dagen bedenktijd', 'Het wettelijke herroepingsrecht, zonder extra voorwaarden. Ongeopend retour betekent je geld terug, inclusief verzendkosten.') +
+          feat('i-leaf', 'Originele producten', 'Alles komt via de officiële Forever-distributie. Geen parallelimport, geen restpartijen.') +
+          feat('i-lock', 'Veilig betalen', 'iDEAL, Bancontact, creditcard en PayPal via een beveiligde checkout.') +
+        '</div>' +
+      '</div></section>' +
+
+      /* social proof */
+      '<section class="section"><div class="wrap">' +
+        '<div class="head"><div class="head__text"><span class="eyebrow">Wat klanten zeggen</span>' +
+        '<h2>Reviews van echte bestellingen</h2></div></div>' +
+        '<div class="notice" style="margin-bottom:1.5rem">' +
+          '<b>Placeholder.</b> Dit blok is bewust nog niet gevuld. Reviews horen hier pas te staan wanneer ze uit een ' +
+          'geverifieerd platform komen (Trustpilot, Kiyoh of Shopify Product Reviews) en aan een echte order gekoppeld zijn. ' +
+          'Verzonnen testimonials zijn hier het slechtst denkbare middel: de shop heeft juist een reputatieprobleem op te lossen, ' +
+          'en nepreviews maken dat aantoonbaar erger zodra iemand ze naast het publieke profiel legt.' +
+        '</div>' +
+        '<div class="grid g3">' +
+          ph('Reviewkaart', 'Sterren · citaat · naam · "geverifieerde aankoop" · datum') +
+          ph('Reviewkaart', 'Koppel aan order-ID zodat het label klopt') +
+          ph('Reviewscore', 'Gemiddelde score + totaal aantal, live opgehaald') +
+        '</div>' +
+      '</div></section>' +
+
+      /* editorial */
+      '<section class="section section--sand"><div class="wrap">' +
+        '<div class="head"><div class="head__text"><span class="eyebrow">Uitleg</span><h2>Meer weten voor je begint</h2>' +
+        '<p class="lede">Wellnessproducten verkopen zichzelf niet. Uitleg neemt twijfel weg en levert bovendien organisch verkeer op.</p></div>' +
+        '<button type="button" class="link">Alle artikelen <svg aria-hidden="true"><use href="#i-arrow"/></svg></button></div>' +
+        '<div class="grid g3">' +
+          post('p-box', 158, 'Hoe werkt de C9 in negen dagen?', 'Dag voor dag wat je neemt en wat je kunt verwachten.', '6 min') +
+          post('p-bottle', 176, 'Aloë vera drinkgel: de verschillen', 'Puur, berry of peaches — wat past bij jou?', '4 min') +
+          post('p-tub', 205, 'Forever voor sporters', 'Welke producten passen bij een trainingsschema.', '5 min') +
+        '</div>' +
+      '</div></section>' +
+
+      /* FAQ */
+      '<section class="section"><div class="wrap" style="max-width:820px">' +
+        '<h2 style="text-align:center;margin-bottom:2rem">Veelgestelde vragen</h2>' +
+        faq('Hoe snel is mijn bestelling in huis?', 'Bestellingen die op werkdagen vóór de aangegeven tijd binnen zijn, gaan dezelfde dag de deur uit. De verwachte bezorgdatum staat op de productpagina en in de winkelwagen, zodat je die vóór het afrekenen ziet.') +
+        faq('Kan ik retourneren?', 'Ja. Je hebt 14 dagen bedenktijd vanaf ontvangst en daarna nog eens 14 dagen om het product terug te sturen. Je krijgt het volledige orderbedrag inclusief de standaard verzendkosten terug.') +
+        faq('Hoe werkt de C9?', 'De C9 is een programma van negen dagen. In de doos zit alles wat je in die negen dagen gebruikt, plus een boekje dat per dag beschrijft wat je neemt en wanneer.') +
+        faq('Zijn de producten origineel?', 'Ja, alle producten komen via de officiële Forever-distributie en worden uit eigen voorraad verzonden.') +
+        faq('Welke betaalmethodes kan ik gebruiken?', 'iDEAL, Bancontact, creditcard (Visa en Mastercard), PayPal en Klarna. De betaling loopt via de beveiligde checkout van Shopify.') +
+        faq('Ik heb een vraag over mijn bestelling. Hoe bereik ik jullie?', 'Via info@foreverc9.nl. Telefoonnummer en openingstijden worden op de contactpagina gepubliceerd zodra de telefonische bereikbaarheid is ingeregeld.') +
+      '</div></section>' +
+
+      /* final CTA + newsletter */
+      '<section class="section section--brand"><div class="wrap" style="display:grid;gap:2.5rem">' +
+        '<div style="max-width:56ch">' +
+          '<h2>Klaar om te bestellen?</h2>' +
+          '<p class="lede">Bekijk het volledige assortiment of begin bij de C9.</p>' +
+          '<div class="hero__cta">' +
+            '<button type="button" class="btn btn--light btn--lg" data-cat="all">Bekijk de collectie</button>' +
+            '<button type="button" class="btn btn--lightghost btn--lg" data-product="c9">Start met C9</button>' +
+          '</div>' +
+        '</div>' +
+        '<div style="border-top:1px solid rgba(255,255,255,.18);padding-top:2rem">' +
+          '<h3 style="font-size:1.1rem">Tips en aanbiedingen in je inbox</h3>' +
+          '<form class="nl" id="nlForm"><input type="email" class="input" placeholder="jouw@email.nl" aria-label="E-mailadres" required>' +
+          '<button type="submit" class="btn btn--light">Aanmelden</button></form>' +
+          '<p style="font-size:.75rem;margin-top:.8rem;opacity:.75">Je kunt je op elk moment afmelden.</p>' +
+        '</div>' +
+      '</div></section>';
+  }
+
+  function feat(icon, title, body) {
+    return '<div class="feat"><span class="feat__ic"><svg aria-hidden="true"><use href="#' + icon + '"/></svg></span>' +
+      '<div><h4>' + esc(title) + '</h4><p>' + esc(body) + '</p></div></div>';
+  }
+  function ph(title, body) {
+    return '<div class="tmn" style="border-style:dashed"><span class="demoflag">' + esc(title) + '</span>' +
+      '<p style="color:var(--ink-faint)">' + esc(body) + '</p></div>';
+  }
+  function post(a, hue, title, body, read) {
+    return '<button type="button" class="post">' + art({ art: a, hue: hue }) +
+      '<div><h4>' + esc(title) + '</h4><p style="font-size:.875rem;color:var(--ink-soft);margin:.2rem 0 .4rem">' + esc(body) + '</p>' +
+      '<small>' + esc(read) + ' leestijd</small></div></button>';
+  }
+  function faq(q, a) {
+    return '<details class="acc"><summary>' + esc(q) + '<svg aria-hidden="true"><use href="#i-plus"/></svg></summary>' +
+      '<div class="acc__bd"><p>' + esc(a) + '</p></div></details>';
+  }
+
+  /* =========================================================================
+     COLLECTION
+     ========================================================================= */
+
+  var coll = { cat: 'all', cats: [], inStock: false, maxPrice: 0, sort: 'best' };
+
+  function collMatches(p) {
+    if (coll.cat !== 'all' && p.cat !== coll.cat) return false;
+    if (coll.cats.length && coll.cats.indexOf(p.cat) === -1) return false;
+    if (coll.inStock && !p.stock) return false;
+    if (coll.maxPrice && p.price > coll.maxPrice) return false;
+    return true;
+  }
+
+  function collSorted(list) {
+    var l = list.slice();
+    if (coll.sort === 'price-asc') l.sort(function (a, b) { return a.price - b.price; });
+    else if (coll.sort === 'price-desc') l.sort(function (a, b) { return b.price - a.price; });
+    else if (coll.sort === 'rating') l.sort(function (a, b) { return b.rating - a.rating; });
+    else if (coll.sort === 'title') l.sort(function (a, b) { return a.t.localeCompare(b.t, 'nl'); });
+    else l.sort(function (a, b) { return b.reviews - a.reviews; });
+    return l;
+  }
+
+  function renderCollection() {
+    var meta = coll.cat === 'all'
+      ? { label: 'Alle producten', blurb: 'Het volledige Forever-assortiment dat wij op voorraad houden.' }
+      : CATS[coll.cat];
+
+    // Facet counts are computed against everything except the facet itself,
+    // so a count never reads zero for an option that would return results.
+    var base = PRODUCTS.filter(function (p) { return coll.cat === 'all' || p.cat === coll.cat; });
+    var hits = collSorted(PRODUCTS.filter(collMatches));
+
+    var catFacets = coll.cat === 'all' ? Object.keys(CATS) : [];
+    var chips = [];
+    coll.cats.forEach(function (c) { chips.push({ k: 'cat', v: c, label: CATS[c].label }); });
+    if (coll.inStock) chips.push({ k: 'stock', v: '1', label: 'Op voorraad' });
+    if (coll.maxPrice) chips.push({ k: 'price', v: '1', label: 'Tot ' + euro(coll.maxPrice) });
+
+    $('#view-collection').innerHTML =
+      '<div class="wrap">' +
+        '<nav class="crumbs" aria-label="Kruimelpad"><button type="button" data-go="home">Home</button>' +
+        '<span aria-hidden="true">/</span><span aria-current="page">' + esc(meta.label) + '</span></nav>' +
+        '<header style="max-width:60ch;margin-bottom:2rem"><h1>' + esc(meta.label) + '</h1>' +
+        '<p class="lede">' + esc(meta.blurb) + '</p></header>' +
+
+        '<div class="coll">' +
+          '<aside>' +
+            '<button type="button" class="btn btn--ghost btn--full mfilter" id="filterToggle" aria-expanded="false">Filters</button>' +
+            '<div class="filters-wrap" id="filtersWrap" style="display:none">' +
+            '<form class="filters" id="filters">' +
+              (catFacets.length ? '<fieldset class="filters__grp" style="border:0;padding:0 0 1rem;margin:0"><h4>Categorie</h4>' +
+                catFacets.map(function (k) {
+                  var n = PRODUCTS.filter(function (p) { return p.cat === k; }).length;
+                  return '<label><input type="checkbox" name="cat" value="' + k + '"' +
+                    (coll.cats.indexOf(k) > -1 ? ' checked' : '') + '> ' + esc(CATS[k].label) +
+                    '<span class="n">' + n + '</span></label>';
+                }).join('') + '</fieldset>' : '') +
+              '<fieldset class="filters__grp" style="border:0;padding:0 0 1rem;margin:0"><h4>Beschikbaarheid</h4>' +
+                '<label><input type="checkbox" name="stock"' + (coll.inStock ? ' checked' : '') + '> Alleen op voorraad' +
+                '<span class="n">' + base.filter(function (p) { return p.stock; }).length + '</span></label>' +
+              '</fieldset>' +
+              '<fieldset class="filters__grp" style="border:0;padding:0 0 1rem;margin:0"><h4>Prijs</h4>' +
+                '<label style="display:block"><span class="sr">Maximumprijs</span>' +
+                '<input type="range" name="price" min="1000" max="15000" step="500" value="' + (coll.maxPrice || 15000) + '" style="width:100%;accent-color:var(--brand)"></label>' +
+                '<p style="font-size:.8125rem;color:var(--ink-soft);margin:.4rem 0 0">Tot ' +
+                euro(coll.maxPrice || 15000) + '</p>' +
+              '</fieldset>' +
+              (chips.length ? '<button type="button" class="link" id="clearFilters">Alle filters wissen</button>' : '') +
+            '</form></div>' +
+          '</aside>' +
+
+          '<div>' +
+            (chips.length ? '<div class="chips">' + chips.map(function (c) {
+              return '<button type="button" data-chip="' + c.k + '" data-val="' + c.v + '">' + esc(c.label) +
+                '<svg aria-hidden="true"><use href="#i-x"/></svg></button>';
+            }).join('') + '</div>' : '') +
+            '<div class="coll__bar">' +
+              '<p class="coll__count">' + hits.length + ' van ' + base.length + ' product' + (base.length === 1 ? '' : 'en') + '</p>' +
+              '<label style="display:flex;align-items:center;gap:.5rem;font-size:.875rem">Sorteren' +
+                '<select class="select" id="sort">' +
+                  [['best', 'Populair'], ['price-asc', 'Prijs laag → hoog'], ['price-desc', 'Prijs hoog → laag'], ['rating', 'Best beoordeeld'], ['title', 'Naam A → Z']]
+                    .map(function (o) { return '<option value="' + o[0] + '"' + (coll.sort === o[0] ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') +
+                '</select></label>' +
+            '</div>' +
+            (hits.length
+              ? '<div class="grid g3">' + hits.map(cardHtml).join('') + '</div>'
+              : '<div class="notice"><b>Geen producten gevonden.</b> Pas je filters aan of bekijk de volledige collectie.</div>') +
+          '</div>' +
+        '</div>' +
+
+        '<section class="section section--tight" style="border-top:1px solid var(--line);margin-top:3rem">' +
+          '<div class="seo">' +
+            '<h3>Over ' + esc(meta.label.toLowerCase()) + '</h3>' +
+            '<p>' + esc(meta.blurb) + ' Alle producten in deze categorie komen via de officiële Forever-distributie en worden vanuit onze eigen voorraad in Nederland verzonden.</p>' +
+            '<p>Twijfel je welk product bij je past? Bekijk de uitleg per product of neem contact op met de klantenservice. Voedingssupplementen zijn geen vervanging van een gevarieerde voeding en een gezonde leefstijl.</p>' +
+          '</div>' +
+        '</section>' +
+      '</div>';
+
+    var fw = $('#filtersWrap');
+    if (fw && document.body.classList.contains('vp-desktop')) fw.style.display = 'block';
+  }
+
+  /* =========================================================================
+     PRODUCT
+     ========================================================================= */
+
+  var pdp = { id: 'c9', variant: null, qty: 1, pack: 1 };
+
+  function packOptions(p) {
+    return [
+      { n: 1, off: 0,  label: '1 stuk' },
+      { n: 2, off: .05, label: '2 stuks' },
+      { n: 3, off: .10, label: '3 stuks' }
+    ].map(function (o) {
+      var unit = Math.round(p.price * (1 - o.off));
+      return { n: o.n, label: o.label, unit: unit, total: unit * o.n, off: o.off };
+    });
+  }
+
+  function renderProduct() {
+    var p = byId[pdp.id];
+    if (!pdp.variant && p.opts) pdp.variant = p.opts.values[0];
+    if (!p.opts) pdp.variant = null;
+
+    var packs = p.qb ? packOptions(p) : null;
+    var chosen = packs ? packs.filter(function (o) { return o.n === pdp.pack; })[0] || packs[0] : null;
+    var effPrice = chosen ? chosen.unit : p.price;
+
+    var related = PRODUCTS.filter(function (x) { return x.id !== p.id && x.cat === p.cat; }).slice(0, 4);
+    if (related.length < 4) {
+      related = related.concat(PRODUCTS.filter(function (x) {
+        return x.id !== p.id && related.indexOf(x) === -1;
+      }).slice(0, 4 - related.length));
+    }
+    var addon = PRODUCTS.filter(function (x) { return x.id !== p.id && x.stock && x.price < 2600; })[0];
+
+    var slides = [p, { art: p.art, hue: p.hue + 12 }, { art: p.art, hue: p.hue - 14 }, { art: 'p-box', hue: p.hue }];
+
+    $('#view-product').innerHTML =
+      '<div class="wrap">' +
+        '<nav class="crumbs" aria-label="Kruimelpad"><button type="button" data-go="home">Home</button>' +
+          '<span aria-hidden="true">/</span><button type="button" data-cat="' + p.cat + '">' + esc(CATS[p.cat].label) + '</button>' +
+          '<span aria-hidden="true">/</span><span aria-current="page">' + esc(p.t) + '</span></nav>' +
+
+        '<div class="pdp">' +
+          /* gallery */
+          '<div class="gal">' +
+            '<div class="gal__track" id="galTrack">' +
+              slides.map(function (s, i) { return '<div data-slide="' + i + '">' + art(s) + '</div>'; }).join('') +
+            '</div>' +
+            '<span class="gal__count" id="galCount">1 / ' + slides.length + '</span>' +
+            '<div class="gal__thumbs">' + slides.map(function (s, i) {
+              return '<button type="button" data-thumb="' + i + '" class="' + (i === 0 ? 'on' : '') + '" aria-label="Afbeelding ' + (i + 1) + '">' + art(s) + '</button>';
+            }).join('') + '</div>' +
+          '</div>' +
+
+          /* buy box */
+          '<div class="buy pdp__buy">' +
+            '<div class="buy__top">' + ratingHtml(p, 'rating--lg') +
+              (p.badge ? '<span class="badge badge--accent">' + esc(p.badge) + '</span>' : '') + '</div>' +
+            '<h1>' + esc(p.t) + '</h1>' +
+            '<p class="buy__ben">' + esc(p.ben) + '</p>' +
+            '<div class="buy__price">' + priceHtml({ price: effPrice, was: p.was }, 'price--lg') + '</div>' +
+            (p.stock
+              ? '<p class="buy__stock"><svg aria-hidden="true"><use href="#i-checkc"/></svg> Op voorraad — vandaag verzendklaar</p>'
+              : '<p class="buy__stock" style="color:var(--ink-faint)">Tijdelijk uitverkocht</p>') +
+
+            (p.opts ? '<div class="opt"><div class="opt__lbl"><span>' + esc(p.opts.name) + '</span><span>' + esc(pdp.variant) + '</span></div>' +
+              '<div class="opt__vals">' + p.opts.values.map(function (v, i) {
+                return '<span style="position:relative"><input type="radio" name="opt" id="opt' + i + '" value="' + esc(v) + '"' +
+                  (v === pdp.variant ? ' checked' : '') + '><label for="opt' + i + '">' + esc(v) + '</label></span>';
+              }).join('') + '</div></div>' : '') +
+
+            (packs ? '<div class="qb"><p style="font-size:.8125rem;font-weight:600;margin:0 0 .2rem">Meer voordeel bij meerdere</p>' +
+              packs.map(function (o, i) {
+                return '<div class="qb__opt"><input type="radio" name="pack" id="pack' + i + '" value="' + o.n + '"' +
+                  (o.n === pdp.pack ? ' checked' : '') + '><label for="pack' + i + '"><span class="qb__dot"></span>' +
+                  '<span class="qb__txt"><strong>' + o.label + (o.off ? ' — ' + Math.round(o.off * 100) + '% korting' : '') + '</strong>' +
+                  '<small>' + euro(o.unit) + ' per stuk</small></span>' +
+                  '<span class="qb__price"><b>' + euro(o.total) + '</b>' +
+                  (o.off ? '<em>bespaar ' + euro(p.price * o.n - o.total) + '</em>' : '') + '</span></label></div>';
+              }).join('') + '</div>' : '') +
+
+            '<div class="buy__row">' +
+              '<span class="qty"><button type="button" id="qtyDown" aria-label="Aantal verlagen"' + (pdp.qty <= 1 ? ' disabled' : '') + '><svg aria-hidden="true"><use href="#i-minus"/></svg></button>' +
+              '<input type="text" id="qtyVal" value="' + pdp.qty + '" readonly aria-label="Aantal">' +
+              '<button type="button" id="qtyUp" aria-label="Aantal verhogen"><svg aria-hidden="true"><use href="#i-plus"/></svg></button></span>' +
+              '<button type="button" class="btn btn--full btn--lg" id="pdpAdd"' + (p.stock ? '' : ' disabled') + ' data-atc-anchor>' +
+              (p.stock ? 'In winkelwagen' : 'Uitverkocht') + '</button>' +
+            '</div>' +
+            (p.stock ? '<button type="button" class="btn btn--outline btn--full" id="pdpBuy">Direct afrekenen</button>' : '') +
+
+            '<div class="pay">' + ['ideal', 'bc', 'visa', 'mc', 'pp', 'klarna'].map(function (m) {
+              return '<svg viewBox="0 0 46 24" aria-hidden="true"><use href="#pay-' + m + '"/></svg>';
+            }).join('') + '</div>' +
+
+            '<div class="buy__trust">' +
+              '<div><svg aria-hidden="true"><use href="#i-truck"/></svg><span><b>Gratis verzending in Nederland.</b> België €5,95. Verwachte bezorging wordt vóór het afrekenen getoond.</span></div>' +
+              '<div><svg aria-hidden="true"><use href="#i-return"/></svg><span><b>14 dagen bedenktijd.</b> Ongeopend retour betekent het volledige orderbedrag terug.</span></div>' +
+              '<div><svg aria-hidden="true"><use href="#i-leaf"/></svg><span><b>Origineel Forever-product</b> uit eigen voorraad in Nederland.</span></div>' +
+            '</div>' +
+
+            (addon ? '<div class="xsell" style="margin-top:1.5rem"><h4 style="font-size:.75rem;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-faint);margin:0">Past goed bij</h4>' +
+              '<div class="xsell__row">' + art(addon) +
+              '<div><strong>' + esc(addon.t) + '</strong><small>' + euro(addon.price) + '</small></div>' +
+              '<button type="button" class="btn btn--ghost btn--sm" data-add="' + addon.id + '">Toevoegen</button></div></div>' : '') +
+          '</div>' +
+        '</div>' +
+
+        /* information accordions */
+        '<section class="section section--tight" style="max-width:820px">' +
+          '<h2>Productinformatie</h2>' +
+          faq('Waarom dit product?', p.ben + ' Alle producten komen via de officiële Forever-distributie.') +
+          (p.contents ? faq('Wat zit erin?', p.contents.join(' · ')) : '') +
+          faq('Hoe gebruik je het?', 'De gebruiksaanwijzing staat op de verpakking. Bij programma\'s zoals C9 en F15 zit een Nederlandstalig boekje in de doos dat per dag beschrijft wat je neemt.') +
+          faq('Voor wie is dit geschikt?', 'Voor volwassenen. Gebruik je medicijnen, ben je zwanger of geef je borstvoeding? Overleg dan eerst met je huisarts of apotheker. Voedingssupplementen zijn geen vervanging van een gevarieerde voeding en een gezonde leefstijl.') +
+          faq('Ingrediënten en specificaties', 'De volledige ingrediëntenlijst en voedingswaarden staan op het etiket en worden per product als productgegeven in Shopify vastgelegd.') +
+          faq('Verzending en retour', 'Gratis verzending binnen Nederland, €5,95 naar België. Je hebt 14 dagen bedenktijd en daarna 14 dagen om het product terug te sturen.') +
+        '</section>' +
+
+        /* reviews placeholder */
+        '<section class="section section--tight" style="max-width:820px">' +
+          '<h2>Reviews</h2>' +
+          '<div class="notice"><b>Nog te koppelen.</b> De sterren bovenaan deze pagina staan hier om het component te tonen; ' +
+          'ze horen gevoed te worden door een reviewapp met geverifieerde aankopen. Zolang die koppeling er niet is, ' +
+          'moeten de sterren van de productpagina af — een beoordeling tonen zonder onderliggende reviews is misleidend ' +
+          'en levert bovendien een handmatige actie van Google op als het als Review-schema wordt gepubliceerd.</div>' +
+        '</section>' +
+
+        /* related */
+        '<section class="section section--tight">' +
+          '<div class="head"><div class="head__text"><h2>Anderen bekeken ook</h2></div></div>' +
+          '<div class="grid g4">' + related.map(cardHtml).join('') + '</div>' +
+        '</section>' +
+      '</div>';
+
+    // sticky bar mirrors the buy box
+    $('#satcName').textContent = p.t + (pdp.variant ? ' — ' + pdp.variant : '');
+    $('#satcPrice').textContent = euro(effPrice) + (pdp.qty > 1 ? ' × ' + pdp.qty : '');
+    $('#satcAdd').disabled = !p.stock;
+
+    bindGallery();
+  }
+
+  function bindGallery() {
+    var track = $('#galTrack');
+    if (!track) return;
+    var slides = $$('[data-slide]', track);
+    var thumbs = $$('[data-thumb]');
+    var count = $('#galCount');
+
+    function current() {
+      var mid = track.scrollLeft + track.clientWidth / 2, best = 0, d = Infinity;
+      slides.forEach(function (s, i) {
+        var dist = Math.abs(s.offsetLeft + s.clientWidth / 2 - mid);
+        if (dist < d) { d = dist; best = i; }
+      });
+      return best;
+    }
+    function sync() {
+      var i = current();
+      if (count) count.textContent = (i + 1) + ' / ' + slides.length;
+      thumbs.forEach(function (t, n) { t.classList.toggle('on', n === i); });
+    }
+    track.addEventListener('scroll', function () {
+      clearTimeout(track.__t);
+      track.__t = setTimeout(sync, 70);
+    }, { passive: true });
+    thumbs.forEach(function (t, i) {
+      t.addEventListener('click', function () {
+        track.scrollTo({ left: slides[i].offsetLeft, behavior: 'smooth' });
+      });
+    });
+  }
+
+  /* =========================================================================
+     MOBILE NAV
+     ========================================================================= */
+
+  function renderMobileNav() {
+    $('#mnav').innerHTML =
+      '<div>' +
+        '<button type="button" class="mnav__row" aria-expanded="false" data-mrow="shop">Shop <svg aria-hidden="true"><use href="#i-down"/></svg></button>' +
+        '<div class="mnav__panel" id="mpanel-shop">' +
+          Object.keys(CATS).map(function (k) {
+            return '<button type="button" data-cat="' + k + '" data-close>' + esc(CATS[k].label) + '</button>';
+          }).join('') +
+          '<button type="button" data-cat="all" data-close>Alle producten</button>' +
+        '</div>' +
+        '<button type="button" class="mnav__row" data-product="c9" data-close>C9 kuur</button>' +
+        '<button type="button" class="mnav__row" data-cat="sport" data-close>Sport &amp; Fitness</button>' +
+        '<button type="button" class="mnav__row" data-cat="huidverzorging" data-close>Huidverzorging</button>' +
+        '<button type="button" class="mnav__row" data-page="about" data-close>Over ons</button>' +
+      '</div>' +
+      '<div class="mnav__meta">' +
+        '<a href="#" onclick="return false"><svg aria-hidden="true"><use href="#i-user"/></svg> Mijn account</a>' +
+        '<a href="mailto:info@foreverc9.nl"><svg aria-hidden="true"><use href="#i-mail"/></svg> info@foreverc9.nl</a>' +
+        '<span style="display:flex;gap:.6rem;align-items:center;color:var(--ink-faint)"><svg width="17" height="17" style="color:var(--brand)" aria-hidden="true"><use href="#i-truck"/></svg> Gratis verzending in Nederland</span>' +
+      '</div>';
+  }
+
+  /* =========================================================================
+     SEARCH
+     ========================================================================= */
+
+  function renderSearch(term) {
+    var grid = $('#srchGrid');
+    term = (term || '').trim().toLowerCase();
+
+    var side =
+      '<div>' +
+        '<p class="srch__gt">Populair gezocht</p>' +
+        '<div class="srch__chips">' +
+          ['C9', 'Aloe Vera Gel', 'F15', 'Propolis', 'Deodorant', 'Sport'].map(function (t) {
+            return '<button type="button" data-term="' + esc(t) + '">' + esc(t) + '</button>';
+          }).join('') +
+        '</div>' +
+        '<p class="srch__gt" style="margin-top:1.5rem">Categorieën</p>' +
+        '<div class="srch__chips">' +
+          Object.keys(CATS).map(function (k) {
+            return '<button type="button" data-cat="' + k + '" data-close>' + esc(CATS[k].label) + '</button>';
+          }).join('') +
+        '</div>' +
+      '</div>';
+
+    if (term.length < 2) {
+      grid.innerHTML = side + '<div><p class="srch__gt">Veelgekozen</p><div class="srch__hits">' +
+        ['c9', 'gel', 'propcreme'].map(hitHtml).join('') + '</div></div>';
+      return;
+    }
+
+    var hits = PRODUCTS.filter(function (p) {
+      return (p.t + ' ' + p.ben + ' ' + CATS[p.cat].label).toLowerCase().indexOf(term) > -1;
+    });
+
+    grid.innerHTML = side + '<div>' +
+      (hits.length
+        ? '<p class="srch__gt">' + hits.length + ' resultaat' + (hits.length === 1 ? '' : 'en') + '</p>' +
+          '<div class="srch__hits">' + hits.slice(0, 8).map(function (p) { return hitHtml(p.id); }).join('') + '</div>'
+        : '<div class="srch__empty"><p><strong>Geen resultaten voor “' + esc(term) + '”</strong></p>' +
+          '<p>Probeer een andere zoekterm of kies een categorie.</p></div>') +
+      '</div>';
+  }
+
+  function hitHtml(id) {
+    var p = byId[id];
+    return '<button type="button" class="srch__hit" data-product="' + p.id + '" data-close>' + art(p) +
+      '<span style="flex:1;min-width:0"><strong>' + esc(p.t) + '</strong>' +
+      '<small>' + esc(CATS[p.cat].label) + ' · ' + euro(p.price) + '</small></span></button>';
+  }
+
+  /* =========================================================================
+     ROUTING
+     ========================================================================= */
+
+  function show(view) {
+    $$('.view').forEach(function (v) { v.classList.toggle('on', v.id === 'view-' + view); });
+    $$('.chrome__views button').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-go') === view));
+    });
+    $('#satc').classList.remove('on');
+    window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+    if (view === 'product') watchAtc();
+  }
+
+  function goHome() { renderHome(); show('home'); }
+  function goCat(cat) {
+    coll.cat = cat; coll.cats = []; coll.inStock = false; coll.maxPrice = 0;
+    renderCollection(); show('collection');
+  }
+  function goProduct(id) {
+    pdp.id = id; pdp.variant = null; pdp.qty = 1; pdp.pack = 1;
+    renderProduct(); show('product');
+  }
+
+  /* sticky ATC visibility */
+  var atcObserver = null;
+  function watchAtc() {
+    if (atcObserver) atcObserver.disconnect();
+    var anchor = $('[data-atc-anchor]');
+    var bar = $('#satc');
+    if (!anchor || !('IntersectionObserver' in window)) return;
+    atcObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        var past = !e.isIntersecting && e.boundingClientRect.top < 0;
+        bar.classList.toggle('on', past);
+        bar.setAttribute('aria-hidden', String(!past));
+      });
+    }, { threshold: 0 });
+    atcObserver.observe(anchor);
+  }
+
+  /* =========================================================================
+     EVENTS
+     ========================================================================= */
+
+  document.addEventListener('click', function (e) {
+    var t = e.target;
+
+    var close = t.closest('[data-close]');
+    var go = t.closest('[data-go]');
+    var cat = t.closest('[data-cat]');
+    var prod = t.closest('[data-product]');
+    var add = t.closest('[data-add]');
+    var term = t.closest('[data-term]');
+    var chip = t.closest('[data-chip]');
+    var page = t.closest('[data-page]');
+
+    if (t.closest('[data-anno]')) {
+      annoStep(parseInt(t.closest('[data-anno]').getAttribute('data-anno'), 10));
+      return;
+    }
+
+    if (add) { addToCart(add.getAttribute('data-add'), 1); return; }
+
+    if (term) { $('#srchInput').value = term.getAttribute('data-term'); renderSearch(term.getAttribute('data-term')); return; }
+
+    if (chip) {
+      var k = chip.getAttribute('data-chip');
+      if (k === 'cat') coll.cats = coll.cats.filter(function (c) { return c !== chip.getAttribute('data-val'); });
+      if (k === 'stock') coll.inStock = false;
+      if (k === 'price') coll.maxPrice = 0;
+      renderCollection();
+      return;
+    }
+
+    if (t.closest('#clearFilters')) { coll.cats = []; coll.inStock = false; coll.maxPrice = 0; renderCollection(); return; }
+
+    if (t.closest('#filterToggle')) {
+      var ft = $('#filterToggle'), fw = $('#filtersWrap');
+      var open = ft.getAttribute('aria-expanded') === 'true';
+      ft.setAttribute('aria-expanded', String(!open));
+      fw.style.display = open ? 'none' : 'block';
+      return;
+    }
+
+    var mrow = t.closest('[data-mrow]');
+    if (mrow) {
+      var panel = $('#mpanel-' + mrow.getAttribute('data-mrow'));
+      var isOpen = mrow.getAttribute('aria-expanded') === 'true';
+      mrow.setAttribute('aria-expanded', String(!isOpen));
+      panel.classList.toggle('on', !isOpen);
+      return;
+    }
+
+    /* cart line controls */
+    var lineBtn = t.closest('[data-delta]');
+    if (lineBtn) {
+      var i = +lineBtn.getAttribute('data-line');
+      cart[i].qty += +lineBtn.getAttribute('data-delta');
+      if (cart[i].qty < 1) cart.splice(i, 1);
+      renderCart();
+      return;
+    }
+    var rm = t.closest('[data-remove]');
+    if (rm) { cart.splice(+rm.getAttribute('data-remove'), 1); renderCart(); return; }
+
+    if (t.closest('[data-checkout]')) {
+      toast('Checkout — in de echte shop gaat dit naar Shopify Checkout');
+      return;
+    }
+
+    /* PDP controls */
+    if (t.closest('#qtyDown')) { pdp.qty = Math.max(1, pdp.qty - 1); renderProduct(); return; }
+    if (t.closest('#qtyUp')) { pdp.qty = Math.min(99, pdp.qty + 1); renderProduct(); return; }
+    if (t.closest('#pdpAdd')) {
+      var pp = byId[pdp.id];
+      var packs = pp.qb ? packOptions(pp) : null;
+      var ch = packs ? packs.filter(function (o) { return o.n === pdp.pack; })[0] : null;
+      addToCart(pdp.id, pdp.qty * (ch ? ch.n : 1), pdp.variant, ch ? ch.unit : pp.price);
+      return;
+    }
+    if (t.closest('#pdpBuy')) { toast('Direct afrekenen — gaat naar Shopify Checkout'); return; }
+    if (t.closest('#satcAdd')) { $('#pdpAdd') && $('#pdpAdd').click(); return; }
+
+    /* navigation — checked after the controls above so buttons win */
+    if (prod) { closeSurface(); goProduct(prod.getAttribute('data-product')); return; }
+    if (cat) { closeSurface(); goCat(cat.getAttribute('data-cat')); return; }
+    if (page) { closeSurface(); toast('“Over ons” — pagina-template zit in de Shopify theme'); return; }
+    if (go) { closeSurface(); if (go.getAttribute('data-go') === 'home') goHome(); else show(go.getAttribute('data-go')); return; }
+    if (close) { closeSurface(); return; }
+  });
+
+  document.addEventListener('change', function (e) {
+    var t = e.target;
+    if (t.name === 'opt') { pdp.variant = t.value; renderProduct(); }
+    if (t.name === 'pack') { pdp.pack = +t.value; renderProduct(); }
+    if (t.id === 'sort') { coll.sort = t.value; renderCollection(); }
+    if (t.name === 'cat') {
+      var v = t.value;
+      if (t.checked) coll.cats.push(v);
+      else coll.cats = coll.cats.filter(function (c) { return c !== v; });
+      renderCollection();
+    }
+    if (t.name === 'stock') { coll.inStock = t.checked; renderCollection(); }
+  });
+
+  document.addEventListener('input', function (e) {
+    if (e.target.name === 'price') {
+      coll.maxPrice = +e.target.value >= 15000 ? 0 : +e.target.value;
+      clearTimeout(window.__pt);
+      window.__pt = setTimeout(renderCollection, 180);
+    }
+    if (e.target.id === 'srchInput') renderSearch(e.target.value);
+  });
+
+  document.addEventListener('submit', function (e) {
+    if (e.target.id === 'nlForm') { e.preventDefault(); e.target.reset(); toast('Bedankt — je staat op de lijst'); }
+  });
+
+  $('#cartBtn').addEventListener('click', function () { openSurface(cartDrawer, this); });
+  $('#menuBtn').addEventListener('click', function () { openSurface(menuDrawer, this); });
+  $('#searchBtn').addEventListener('click', function () { renderSearch(''); openSurface(srch, this); });
+
+  /* mega menu: hover on pointer devices, focus for keyboard */
+  $$('[data-mega]').forEach(function (item) {
+    var btn = $('.nav__btn', item);
+    function open() { item.classList.add('open'); btn.setAttribute('aria-expanded', 'true'); }
+    function shut() { item.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); }
+    item.addEventListener('mouseenter', open);
+    item.addEventListener('mouseleave', shut);
+    item.addEventListener('focusin', open);
+    item.addEventListener('focusout', function (e) { if (!item.contains(e.relatedTarget)) shut(); });
+    btn.addEventListener('click', function () {
+      item.classList.contains('open') ? shut() : open();
+    });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') shut(); });
+  });
+
+  /* announcement rotator */
+  var annoI = 0;
+  function annoStep(d) {
+    var slides = $$('.anno__slide');
+    annoI = (annoI + d + slides.length) % slides.length;
+    slides.forEach(function (s, n) { s.classList.toggle('on', n === annoI); });
+  }
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    setInterval(function () { annoStep(1); }, 5200);
+  }
+
+  /* sticky header shadow */
+  window.addEventListener('scroll', function () {
+    $('#hdr').classList.toggle('stuck', window.scrollY > 6);
+  }, { passive: true });
+
+  /* viewport class — desktop layout only off-frame and wide enough */
+  function syncViewport() {
+    var wide = window.innerWidth >= 900 && !document.body.classList.contains('frame-mobile');
+    document.body.classList.toggle('vp-desktop', wide);
+  }
+  window.addEventListener('resize', function () {
+    syncViewport();
+    if ($('#view-collection').classList.contains('on')) renderCollection();
+  });
+
+  $('#frameBtn').addEventListener('click', function () {
+    var on = document.body.classList.toggle('frame-mobile');
+    this.setAttribute('aria-pressed', String(on));
+    syncViewport();
+    if ($('#view-collection').classList.contains('on')) renderCollection();
+  });
+
+  $('#themeBtn').addEventListener('click', function () {
+    var dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    document.documentElement.setAttribute('data-theme', dark ? 'light' : 'dark');
+    this.setAttribute('aria-pressed', String(!dark));
+    $('#themeLbl').textContent = dark ? 'Donker' : 'Licht';
+    $('#themeBtn').querySelector('use').setAttribute('href', dark ? '#i-moon' : '#i-sun');
+    // artwork tints are computed per theme, so re-render the visible view
+    rerender();
+  });
+
+  function rerender() {
+    if ($('#view-home').classList.contains('on')) renderHome();
+    else if ($('#view-collection').classList.contains('on')) renderCollection();
+    else renderProduct();
+    renderCart();
+    renderMobileNav();
+  }
+
+  /* =========================================================================
+     INIT
+     ========================================================================= */
+
+  $('#yr').textContent = new Date().getFullYear();
+  syncViewport();
+  renderMobileNav();
+  renderHome();
+  renderCollection();
+  renderProduct();
+  renderCart();
+  show('home');
+}());
+</script>

@@ -1,0 +1,409 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "ForeverC9 — Premium Wellness",
+    "theme_version": "1.0.0",
+    "theme_author": "ForeverC9 redesign",
+    "theme_documentation_url": "https://foreverc9.nl",
+    "theme_support_url": "https://foreverc9.nl/pages/contact"
+  },
+  {
+    "name": "t:settings.colors.name",
+    "settings": [
+      {
+        "type": "header",
+        "content": "t:settings.colors.header_brand"
+      },
+      {
+        "type": "color",
+        "id": "color_brand",
+        "label": "t:settings.colors.brand",
+        "default": "#1f4d3d"
+      },
+      {
+        "type": "color",
+        "id": "color_brand_hover",
+        "label": "t:settings.colors.brand_hover",
+        "default": "#28624e"
+      },
+      {
+        "type": "color",
+        "id": "color_accent",
+        "label": "t:settings.colors.accent",
+        "default": "#c98a3c",
+        "info": "t:settings.colors.accent_info"
+      },
+      {
+        "type": "header",
+        "content": "t:settings.colors.header_text"
+      },
+      {
+        "type": "color",
+        "id": "color_ink",
+        "label": "t:settings.colors.ink",
+        "default": "#14201c"
+      },
+      {
+        "type": "color",
+        "id": "color_ink_soft",
+        "label": "t:settings.colors.ink_soft",
+        "default": "#4a5b54"
+      },
+      {
+        "type": "header",
+        "content": "t:settings.colors.header_surface"
+      },
+      {
+        "type": "color",
+        "id": "color_surface",
+        "label": "t:settings.colors.surface",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "color_sand",
+        "label": "t:settings.colors.sand",
+        "default": "#f6f3ee"
+      },
+      {
+        "type": "color",
+        "id": "color_line",
+        "label": "t:settings.colors.line",
+        "default": "#e3ded6"
+      },
+      {
+        "type": "header",
+        "content": "t:settings.colors.header_state"
+      },
+      {
+        "type": "color",
+        "id": "color_cta",
+        "label": "t:settings.colors.cta",
+        "default": "#1f4d3d",
+        "info": "t:settings.colors.cta_info"
+      },
+      {
+        "type": "color",
+        "id": "color_cta_text",
+        "label": "t:settings.colors.cta_text",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "color_sale",
+        "label": "t:settings.colors.sale",
+        "default": "#b4432f"
+      },
+      {
+        "type": "color",
+        "id": "color_success",
+        "label": "t:settings.colors.success",
+        "default": "#2f7d5b"
+      }
+    ]
+  },
+  {
+    "name": "t:settings.typography.name",
+    "settings": [
+      {
+        "type": "font_picker",
+        "id": "font_heading",
+        "label": "t:settings.typography.heading",
+        "default": "assistant_n7"
+      },
+      {
+        "type": "font_picker",
+        "id": "font_body",
+        "label": "t:settings.typography.body",
+        "default": "assistant_n4"
+      },
+      {
+        "type": "range",
+        "id": "font_body_scale",
+        "label": "t:settings.typography.body_scale",
+        "min": 90,
+        "max": 115,
+        "step": 5,
+        "unit": "%",
+        "default": 100
+      },
+      {
+        "type": "range",
+        "id": "font_heading_scale",
+        "label": "t:settings.typography.heading_scale",
+        "min": 90,
+        "max": 120,
+        "step": 5,
+        "unit": "%",
+        "default": 100
+      },
+      {
+        "type": "select",
+        "id": "heading_transform",
+        "label": "t:settings.typography.heading_transform",
+        "options": [
+          { "value": "none", "label": "t:settings.typography.transform_none" },
+          { "value": "uppercase", "label": "t:settings.typography.transform_upper" }
+        ],
+        "default": "none"
+      }
+    ]
+  },
+  {
+    "name": "t:settings.layout.name",
+    "settings": [
+      {
+        "type": "range",
+        "id": "page_width",
+        "label": "t:settings.layout.page_width",
+        "min": 1200,
+        "max": 1600,
+        "step": 40,
+        "unit": "px",
+        "default": 1360
+      },
+      {
+        "type": "range",
+        "id": "radius_card",
+        "label": "t:settings.layout.radius_card",
+        "min": 0,
+        "max": 24,
+        "step": 2,
+        "unit": "px",
+        "default": 12
+      },
+      {
+        "type": "range",
+        "id": "radius_button",
+        "label": "t:settings.layout.radius_button",
+        "min": 0,
+        "max": 32,
+        "step": 2,
+        "unit": "px",
+        "default": 8
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_animations",
+        "label": "t:settings.layout.animations",
+        "info": "t:settings.layout.animations_info",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "t:settings.product_card.name",
+    "settings": [
+      {
+        "type": "select",
+        "id": "card_image_ratio",
+        "label": "t:settings.product_card.ratio",
+        "options": [
+          { "value": "square", "label": "t:settings.product_card.ratio_square" },
+          { "value": "portrait", "label": "t:settings.product_card.ratio_portrait" },
+          { "value": "natural", "label": "t:settings.product_card.ratio_natural" }
+        ],
+        "default": "square"
+      },
+      {
+        "type": "checkbox",
+        "id": "card_show_rating",
+        "label": "t:settings.product_card.show_rating",
+        "info": "t:settings.product_card.show_rating_info",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "card_show_benefit",
+        "label": "t:settings.product_card.show_benefit",
+        "info": "t:settings.product_card.show_benefit_info",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "card_show_savings",
+        "label": "t:settings.product_card.show_savings",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "card_quick_add",
+        "label": "t:settings.product_card.quick_add",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "card_second_image",
+        "label": "t:settings.product_card.second_image",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "t:settings.cart.name",
+    "settings": [
+      {
+        "type": "select",
+        "id": "cart_type",
+        "label": "t:settings.cart.type",
+        "options": [
+          { "value": "drawer", "label": "t:settings.cart.type_drawer" },
+          { "value": "page", "label": "t:settings.cart.type_page" }
+        ],
+        "default": "drawer"
+      },
+      {
+        "type": "checkbox",
+        "id": "free_shipping_enabled",
+        "label": "t:settings.cart.free_shipping_enabled",
+        "info": "t:settings.cart.free_shipping_info",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "free_shipping_threshold",
+        "label": "t:settings.cart.free_shipping_threshold",
+        "info": "t:settings.cart.free_shipping_threshold_info"
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_show_note",
+        "label": "t:settings.cart.show_note",
+        "default": false
+      }
+    ]
+  },
+  {
+    "name": "t:settings.company.name",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "t:settings.company.intro"
+      },
+      {
+        "type": "text",
+        "id": "company_legal_name",
+        "label": "t:settings.company.legal_name"
+      },
+      {
+        "type": "text",
+        "id": "company_address",
+        "label": "t:settings.company.address"
+      },
+      {
+        "type": "text",
+        "id": "company_kvk",
+        "label": "t:settings.company.kvk",
+        "info": "t:settings.company.kvk_info"
+      },
+      {
+        "type": "text",
+        "id": "company_vat",
+        "label": "t:settings.company.vat"
+      },
+      {
+        "type": "text",
+        "id": "company_phone",
+        "label": "t:settings.company.phone",
+        "info": "t:settings.company.phone_info"
+      },
+      {
+        "type": "text",
+        "id": "company_email",
+        "label": "t:settings.company.email"
+      },
+      {
+        "type": "text",
+        "id": "support_hours",
+        "label": "t:settings.company.support_hours",
+        "info": "t:settings.company.support_hours_info"
+      }
+    ]
+  },
+  {
+    "name": "t:settings.claims.name",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "t:settings.claims.warning"
+      },
+      {
+        "type": "text",
+        "id": "claim_customer_count",
+        "label": "t:settings.claims.customer_count",
+        "info": "t:settings.claims.customer_count_info"
+      },
+      {
+        "type": "text",
+        "id": "claim_delivery",
+        "label": "t:settings.claims.delivery",
+        "info": "t:settings.claims.delivery_info"
+      },
+      {
+        "type": "text",
+        "id": "claim_returns",
+        "label": "t:settings.claims.returns",
+        "default": "14 dagen bedenktijd"
+      },
+      {
+        "type": "header",
+        "content": "t:settings.claims.header_reviews"
+      },
+      {
+        "type": "text",
+        "id": "review_platform_name",
+        "label": "t:settings.claims.review_platform"
+      },
+      {
+        "type": "url",
+        "id": "review_platform_url",
+        "label": "t:settings.claims.review_url"
+      },
+      {
+        "type": "text",
+        "id": "review_platform_score",
+        "label": "t:settings.claims.review_score",
+        "info": "t:settings.claims.review_score_info"
+      }
+    ]
+  },
+  {
+    "name": "t:settings.social.name",
+    "settings": [
+      { "type": "text", "id": "social_instagram", "label": "Instagram" },
+      { "type": "text", "id": "social_facebook", "label": "Facebook" },
+      { "type": "text", "id": "social_tiktok", "label": "TikTok" },
+      { "type": "text", "id": "social_youtube", "label": "YouTube" }
+    ]
+  },
+  {
+    "name": "t:settings.seo.name",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "share_image",
+        "label": "t:settings.seo.share_image"
+      },
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "t:settings.seo.logo"
+      },
+      {
+        "type": "range",
+        "id": "logo_width",
+        "label": "t:settings.seo.logo_width",
+        "min": 80,
+        "max": 260,
+        "step": 10,
+        "unit": "px",
+        "default": 150
+      },
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "t:settings.seo.favicon"
+      }
+    ]
+  }
+]

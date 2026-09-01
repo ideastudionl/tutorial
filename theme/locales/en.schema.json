@@ -1,0 +1,106 @@
+{
+  "settings": {
+    "colors": {
+      "name": "Colors",
+      "header_brand": "Brand colors",
+      "brand": "Brand color",
+      "brand_hover": "Brand color (hover)",
+      "accent": "Accent color",
+      "accent_info": "Warm accent for badges and editorial elements. Do not use it for body text on white — the contrast ratio is too low.",
+      "header_text": "Text",
+      "ink": "Text color",
+      "ink_soft": "Secondary text color",
+      "header_surface": "Backgrounds",
+      "surface": "Page color",
+      "sand": "Soft section background",
+      "line": "Borders and rules",
+      "header_state": "Buttons and states",
+      "cta": "Primary button color",
+      "cta_info": "Do not use this color as a fill anywhere else. A single CTA color is what makes the button findable.",
+      "cta_text": "Text on primary button",
+      "sale": "Sale color",
+      "success": "Confirmation color (in stock, progress)"
+    },
+    "typography": {
+      "name": "Typography",
+      "heading": "Headings",
+      "body": "Body text",
+      "body_scale": "Body text scale",
+      "heading_scale": "Heading scale",
+      "heading_transform": "Heading case",
+      "transform_none": "Normal",
+      "transform_upper": "Uppercase"
+    },
+    "layout": {
+      "name": "Layout",
+      "page_width": "Page width",
+      "radius_card": "Card corner radius",
+      "radius_button": "Button corner radius",
+      "animations": "Enable subtle animations",
+      "animations_info": "Elements fade in gently on scroll. Automatically disabled for visitors who prefer reduced motion."
+    },
+    "product_card": {
+      "name": "Product cards",
+      "ratio": "Image ratio",
+      "ratio_square": "Square",
+      "ratio_portrait": "Portrait",
+      "ratio_natural": "Original",
+      "show_rating": "Show rating",
+      "show_rating_info": "Stars appear only when the product actually has reviews (reviews.rating metafield). Stars are never shown without underlying reviews.",
+      "show_benefit": "Show short product benefit",
+      "show_benefit_info": "Uses the custom.short_benefit metafield.",
+      "show_savings": "Show savings on sale items",
+      "quick_add": "Enable quick add",
+      "second_image": "Show second image on hover"
+    },
+    "cart": {
+      "name": "Cart",
+      "type": "Cart type",
+      "type_drawer": "Drawer (recommended)",
+      "type_page": "Separate page",
+      "free_shipping_enabled": "Show free shipping progress bar",
+      "free_shipping_info": "Only enable this if a free shipping threshold genuinely applies. Turn it off when shipping is always free.",
+      "free_shipping_threshold": "Threshold amount",
+      "free_shipping_threshold_info": "Amount in whole euros, e.g. 50. Must exactly match your Shopify shipping settings.",
+      "show_note": "Show order note field"
+    },
+    "company": {
+      "name": "Company details",
+      "intro": "These details appear in the footer and on the contact page. Complete, verifiable company details are a legal requirement for a Dutch webshop and one of the strongest trust signals available to you. Do not leave any field empty.",
+      "legal_name": "Registered company name",
+      "address": "Business address",
+      "kvk": "Chamber of Commerce number",
+      "kvk_info": "Required for Dutch businesses.",
+      "vat": "VAT identification number",
+      "phone": "Phone number",
+      "phone_info": "A visible phone number is the difference between a webshop and a risk. Fill this in as soon as phone support is in place.",
+      "email": "Customer service email",
+      "support_hours": "Availability",
+      "support_hours_info": "For example: Mon–Fri 9:00–17:00. Only promise hours you actually staff."
+    },
+    "claims": {
+      "name": "Claims and reviews",
+      "warning": "Important: leave these fields empty unless you can substantiate the claim. An unsubstantiated claim about customer numbers or delivery time is a misleading commercial practice under Dutch and EU law, and damages your credibility more than an empty space does. All fields below are therefore empty by default.",
+      "customer_count": "Customer count",
+      "customer_count_info": "For example: 25,000+ customers. Only fill this in if you can evidence the figure from order data.",
+      "delivery": "Delivery promise",
+      "delivery_info": "For example: order before 4pm, delivered tomorrow. Enter the delivery time you actually achieve — not the one you would like to achieve. A missed promise costs more revenue than an honest, longer delivery time.",
+      "returns": "Returns promise",
+      "header_reviews": "Review platform",
+      "review_platform": "Platform name",
+      "review_url": "Link to your review profile",
+      "review_score": "Score",
+      "review_score_info": "Enter your actual score, or leave empty. The score is only shown if you enter it here; the theme never invents a figure."
+    },
+    "social": {
+      "name": "Social media"
+    },
+    "seo": {
+      "name": "Brand and SEO",
+      "share_image": "Social sharing image",
+      "logo": "Logo",
+      "logo_width": "Logo width",
+      "favicon": "Favicon"
+    }
+  }
+}

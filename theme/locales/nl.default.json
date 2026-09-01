@@ -1,0 +1,290 @@
+{
+  "accessibility": {
+    "skip_to_content": "Ga naar inhoud",
+    "close": "Sluiten",
+    "menu": "Menu",
+    "open_menu": "Menu openen",
+    "search": "Zoeken",
+    "open_search": "Zoeken openen",
+    "cart": "Winkelwagen",
+    "open_cart": "Winkelwagen openen",
+    "account": "Account",
+    "next": "Volgende",
+    "previous": "Vorige",
+    "next_slide": "Volgende afbeelding",
+    "previous_slide": "Vorige afbeelding",
+    "star_rating": "{{ rating }} van {{ max }} sterren",
+    "loading": "Laden",
+    "results_announcement": "{{ count }} resultaten gevonden"
+  },
+  "general": {
+    "meta": {
+      "tags": "Tags: {{ tags }}",
+      "page": "Pagina {{ page }}"
+    },
+    "search": {
+      "title": "Zoeken",
+      "placeholder": "Zoek naar C9, aloe vera, supplementen…",
+      "submit": "Zoeken",
+      "clear": "Zoekopdracht wissen",
+      "results_for": "Resultaten voor “{{ terms }}”",
+      "no_results": "Geen resultaten voor “{{ terms }}”",
+      "no_results_help": "Probeer een andere zoekterm of bekijk onze categorieën.",
+      "products": "Producten",
+      "collections": "Categorieën",
+      "pages": "Pagina's",
+      "articles": "Artikelen",
+      "suggestions": "Suggesties",
+      "popular": "Populair gezocht",
+      "view_all": "Bekijk alle resultaten",
+      "results_count": {
+        "one": "{{ count }} resultaat",
+        "other": "{{ count }} resultaten"
+      }
+    },
+    "pagination": {
+      "label": "Paginering",
+      "page": "Pagina {{ number }}",
+      "next": "Volgende pagina",
+      "previous": "Vorige pagina"
+    },
+    "newsletter": {
+      "email": "E-mailadres",
+      "email_placeholder": "jouw@email.nl",
+      "submit": "Aanmelden",
+      "success": "Bedankt! Je staat op de lijst.",
+      "privacy": "Je kunt je op elk moment afmelden. Lees ons privacybeleid."
+    },
+    "share": {
+      "label": "Delen",
+      "copied": "Link gekopieerd"
+    },
+    "continue_shopping": "Verder winkelen",
+    "read_more": "Lees meer",
+    "view_all": "Bekijk alles",
+    "learn_more": "Meer informatie"
+  },
+  "sections": {
+    "header": {
+      "announcement": "Aankondiging",
+      "menu": "Hoofdmenu",
+      "log_in": "Inloggen",
+      "account": "Mijn account",
+      "cart_count": {
+        "one": "{{ count }} artikel",
+        "other": "{{ count }} artikelen"
+      },
+      "help": "Hulp nodig?"
+    },
+    "footer": {
+      "company_details": "Bedrijfsgegevens",
+      "kvk": "KvK",
+      "vat": "BTW-nummer",
+      "address": "Adres",
+      "contact": "Contact",
+      "support_hours": "Bereikbaar",
+      "payment_methods": "Betaalmethodes",
+      "copyright": "Alle rechten voorbehouden.",
+      "follow_us": "Volg ons"
+    },
+    "cart": {
+      "title": "Winkelwagen",
+      "empty": "Je winkelwagen is nog leeg",
+      "empty_help": "Ontdek onze programma's, dranken en supplementen.",
+      "subtotal": "Subtotaal",
+      "shipping_note": "Verzendkosten en kortingen worden berekend bij het afrekenen.",
+      "checkout": "Afrekenen",
+      "view_cart": "Winkelwagen bekijken",
+      "remove": "Verwijderen",
+      "quantity": "Aantal",
+      "update": "Bijwerken",
+      "added": "Toegevoegd aan je winkelwagen",
+      "error": "Er ging iets mis. Probeer het opnieuw.",
+      "note": "Opmerking bij je bestelling",
+      "free_shipping_progress": "Nog {{ amount }} tot gratis verzending",
+      "free_shipping_reached": "Je hebt gratis verzending!",
+      "upsell_title": "Maak je bestelling compleet",
+      "product_total": "Totaal"
+    },
+    "collection": {
+      "products_count": {
+        "one": "{{ count }} product",
+        "other": "{{ count }} producten"
+      },
+      "empty": "Geen producten gevonden",
+      "empty_help": "Pas je filters aan of bekijk de volledige collectie.",
+      "filters": "Filters",
+      "filter_by": "Filter op",
+      "sort_by": "Sorteren op",
+      "clear": "Wissen",
+      "clear_all": "Alle filters wissen",
+      "apply": "Toon resultaten",
+      "price_from": "Van",
+      "price_to": "Tot",
+      "show_filters": "Filters tonen",
+      "hide_filters": "Filters verbergen",
+      "active_filters": "Actieve filters"
+    },
+    "blog": {
+      "read_time": "{{ minutes }} min leestijd",
+      "all_articles": "Alle artikelen",
+      "back_to_blog": "Terug naar het overzicht",
+      "posted_on": "Geplaatst op"
+    },
+    "faq": {
+      "title": "Veelgestelde vragen"
+    }
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "In winkelwagen",
+      "quick_add": "Snel toevoegen",
+      "quick_add_for": "{{ title }} toevoegen aan winkelwagen",
+      "added": "Toegevoegd",
+      "sold_out": "Uitverkocht",
+      "unavailable": "Niet beschikbaar",
+      "on_sale": "In de aanbieding",
+      "save_amount": "Bespaar {{ amount }}",
+      "save_percent": "-{{ percent }}%",
+      "from_price": "Vanaf {{ price }}",
+      "regular_price": "Normale prijs",
+      "sale_price": "Aanbiedingsprijs",
+      "unit_price": "Stukprijs",
+      "in_stock": "Op voorraad",
+      "out_of_stock": "Tijdelijk uitverkocht",
+      "low_stock": "Nog {{ count }} op voorraad",
+      "quantity": "Aantal",
+      "quantity_error": "Dit aantal is niet beschikbaar",
+      "decrease_quantity": "Aantal verlagen",
+      "increase_quantity": "Aantal verhogen",
+      "variant_label": "{{ name }}",
+      "choose_option": "Kies {{ name }}",
+      "vendor": "Merk",
+      "sku": "Artikelnummer",
+      "description": "Omschrijving",
+      "view_details": "Bekijk product",
+      "media_gallery": "Productafbeeldingen",
+      "image_of": "Afbeelding {{ index }} van {{ total }}",
+      "reviews": {
+        "one": "{{ count }} review",
+        "other": "{{ count }} reviews"
+      },
+      "no_reviews": "Nog geen reviews",
+      "read_reviews": "Lees reviews",
+      "shipping_info": "Verzending",
+      "returns_info": "Retourneren",
+      "payment_info": "Betalen",
+      "complete_order": "Maak je bestelling compleet",
+      "often_bought": "Vaak samen gekocht",
+      "goes_well_with": "Past goed bij",
+      "related": "Anderen bekeken ook",
+      "recently_viewed": "Recent bekeken",
+      "bundle_save": "Meer voordeel bij meerdere",
+      "quantity_break": "{{ quantity }} stuks",
+      "quantity_break_save": "bespaar {{ percent }}%",
+      "per_unit": "{{ price }} per stuk",
+      "most_chosen": "Meest gekozen"
+    }
+  },
+  "customer": {
+    "account": {
+      "title": "Mijn account",
+      "details": "Accountgegevens",
+      "view_addresses": "Adressen bekijken",
+      "return": "Terug naar accountgegevens",
+      "orders": "Bestellingen",
+      "no_orders": "Je hebt nog geen bestellingen geplaatst."
+    },
+    "orders": {
+      "order_number": "Bestelling",
+      "date": "Datum",
+      "payment_status": "Betaling",
+      "fulfillment_status": "Verzending",
+      "total": "Totaal",
+      "product": "Product",
+      "quantity": "Aantal",
+      "price": "Prijs",
+      "track_shipment": "Volg je pakket"
+    },
+    "login": {
+      "title": "Inloggen",
+      "email": "E-mailadres",
+      "password": "Wachtwoord",
+      "forgot_password": "Wachtwoord vergeten?",
+      "submit": "Inloggen",
+      "no_account": "Nog geen account?",
+      "create_account": "Account aanmaken",
+      "guest_title": "Verder als gast",
+      "guest_continue": "Doorgaan als gast"
+    },
+    "recover_password": {
+      "title": "Wachtwoord herstellen",
+      "subtext": "We sturen je een e-mail om je wachtwoord opnieuw in te stellen.",
+      "submit": "Verstuur",
+      "success": "We hebben je een e-mail gestuurd met een herstellink.",
+      "cancel": "Annuleren"
+    },
+    "reset_password": {
+      "title": "Nieuw wachtwoord instellen",
+      "password": "Nieuw wachtwoord",
+      "password_confirm": "Bevestig wachtwoord",
+      "submit": "Opslaan"
+    },
+    "register": {
+      "title": "Account aanmaken",
+      "first_name": "Voornaam",
+      "last_name": "Achternaam",
+      "email": "E-mailadres",
+      "password": "Wachtwoord",
+      "submit": "Account aanmaken",
+      "has_account": "Heb je al een account?",
+      "login": "Inloggen"
+    },
+    "addresses": {
+      "title": "Adressen",
+      "add_new": "Nieuw adres toevoegen",
+      "edit": "Bewerken",
+      "delete": "Verwijderen",
+      "delete_confirm": "Weet je zeker dat je dit adres wilt verwijderen?",
+      "default": "Standaardadres",
+      "set_default": "Instellen als standaardadres",
+      "first_name": "Voornaam",
+      "last_name": "Achternaam",
+      "company": "Bedrijf",
+      "address1": "Adres",
+      "address2": "Toevoeging",
+      "city": "Plaats",
+      "country": "Land",
+      "province": "Provincie",
+      "zip": "Postcode",
+      "phone": "Telefoonnummer",
+      "save": "Opslaan",
+      "cancel": "Annuleren",
+      "none": "Je hebt nog geen adressen opgeslagen."
+    },
+    "log_out": "Uitloggen"
+  },
+  "contact": {
+    "form": {
+      "name": "Naam",
+      "email": "E-mailadres",
+      "phone": "Telefoonnummer",
+      "order_number": "Bestelnummer (optioneel)",
+      "message": "Je bericht",
+      "send": "Versturen",
+      "success": "Bedankt voor je bericht. We reageren zo snel mogelijk.",
+      "error": "Controleer de gemarkeerde velden."
+    }
+  },
+  "404": {
+    "title": "Deze pagina bestaat niet",
+    "subtext": "De pagina die je zoekt is verplaatst of bestaat niet meer.",
+    "search_prompt": "Zoek naar een product",
+    "back_home": "Terug naar de homepage",
+    "popular": "Populaire categorieën"
+  },
+  "onboarding": {
+    "product_title": "Voorbeeldproduct",
+    "collection_title": "Voorbeeldcategorie"
+  }
+}

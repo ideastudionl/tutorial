@@ -1,0 +1,147 @@
+<!doctype html>
+<html
+  lang="{{ request.locale.iso_code }}"
+  class="no-js"
+>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="{{ settings.color_brand }}">
+
+    <link rel="canonical" href="{{ canonical_url }}">
+    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+      <link rel="apple-touch-icon" href="{{ settings.favicon | image_url: width: 180, height: 180 }}">
+    {%- endif -%}
+
+    <title>
+      {{ page_title }}
+      {%- if current_tags %} &ndash; {{ 'general.meta.tags' | t: tags: current_tags | join: ', ' }}{% endif -%}
+      {%- if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+    </title>
+
+    {%- if page_description -%}
+      <meta name="description" content="{{ page_description | escape }}">
+    {%- endif -%}
+
+    {% render 'meta-tags' %}
+
+    {%- comment -%}
+      Fonts are loaded through Shopify's font service so the merchant can change
+      them in the theme editor. font_display: swap avoids invisible text.
+    {%- endcomment -%}
+    {%- assign heading_font = settings.font_heading -%}
+    {%- assign body_font = settings.font_body -%}
+    {%- assign body_font_bold = body_font | font_modify: 'weight', 'bold' -%}
+    {%- assign body_font_italic = body_font | font_modify: 'style', 'italic' -%}
+
+    {{ heading_font | font_face: font_display: 'swap' }}
+    {{ body_font | font_face: font_display: 'swap' }}
+    {{ body_font_bold | font_face: font_display: 'swap' }}
+    {{ body_font_italic | font_face: font_display: 'swap' }}
+
+    <style>
+      :root {
+        --font-heading: {{ heading_font.family }}, {{ heading_font.fallback_families }};
+        --font-heading-weight: {{ heading_font.weight }};
+        --font-heading-style: {{ heading_font.style }};
+        --font-body: {{ body_font.family }}, {{ body_font.fallback_families }};
+        --font-body-weight: {{ body_font.weight }};
+        --font-body-style: {{ body_font.style }};
+        --font-body-scale: {{ settings.font_body_scale | divided_by: 100.0 }};
+        --font-heading-scale: {{ settings.font_heading_scale | divided_by: 100.0 }};
+        --heading-transform: {{ settings.heading_transform }};
+
+        --c-brand: {{ settings.color_brand }};
+        --c-brand-hover: {{ settings.color_brand_hover }};
+        --c-accent: {{ settings.color_accent }};
+        --c-ink: {{ settings.color_ink }};
+        --c-ink-soft: {{ settings.color_ink_soft }};
+        --c-surface: {{ settings.color_surface }};
+        --c-sand: {{ settings.color_sand }};
+        --c-line: {{ settings.color_line }};
+        --c-cta: {{ settings.color_cta }};
+        --c-cta-text: {{ settings.color_cta_text }};
+        --c-sale: {{ settings.color_sale }};
+        --c-success: {{ settings.color_success }};
+
+        --page-width: {{ settings.page_width }}px;
+        --r-card: {{ settings.radius_card }}px;
+        --r-button: {{ settings.radius_button }}px;
+        --r-sm: 6px;
+        --r-pill: 999px;
+        --logo-width: {{ settings.logo_width }}px;
+      }
+    </style>
+
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+    {{ 'components.css' | asset_url | stylesheet_tag }}
+
+    <script>
+      // Set as early as possible so CSS can distinguish JS from no-JS states
+      // without a flash of hidden content.
+      document.documentElement.classList.remove('no-js');
+      document.documentElement.classList.add('js');
+    </script>
+
+    <script>
+      window.themeStrings = {
+        addToCart: {{ 'products.product.add_to_cart' | t | json }},
+        soldOut: {{ 'products.product.sold_out' | t | json }},
+        unavailable: {{ 'products.product.unavailable' | t | json }},
+        added: {{ 'products.product.added' | t | json }},
+        cartError: {{ 'sections.cart.error' | t | json }},
+        quantityError: {{ 'products.product.quantity_error' | t | json }}
+      };
+      window.themeConfig = {
+        cartType: {{ settings.cart_type | json }},
+        moneyFormat: {{ shop.money_format | json }},
+        routes: {
+          cart: {{ routes.cart_url | json }},
+          cartAdd: {{ routes.cart_add_url | json }},
+          cartChange: {{ routes.cart_change_url | json }},
+          cartUpdate: {{ routes.cart_update_url | json }},
+          predictiveSearch: {{ routes.predictive_search_url | json }},
+          search: {{ routes.search_url | json }}
+        },
+        animations: {{ settings.enable_animations | json }}
+      };
+    </script>
+
+    <script src="{{ 'theme.js' | asset_url }}" defer></script>
+
+    {{ content_for_header }}
+  </head>
+
+  <body class="template-{{ template.name | handle }}">
+    <a class="skip-link" href="#MainContent">{{ 'accessibility.skip_to_content' | t }}</a>
+
+    {% sections 'header-group' %}
+
+    <main id="MainContent" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+
+    {% sections 'footer-group' %}
+
+    {%- comment -%}
+      The cart drawer lives outside the section groups so it is available on
+      every template, including cart and checkout-adjacent pages.
+    {%- endcomment -%}
+    {%- if settings.cart_type == 'drawer' -%}
+      {% section 'cart-drawer' %}
+    {%- endif -%}
+
+    <div class="overlay" data-overlay hidden></div>
+
+    {% render 'icon-sprite' %}
+
+    {%- if request.page_type == 'index' -%}
+      {% render 'schema-organization' %}
+    {%- endif -%}
+  </body>
+</html>
