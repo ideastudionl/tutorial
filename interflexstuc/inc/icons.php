@@ -55,12 +55,15 @@ function ifs_icon( $name, $size = 24 ) {
 		return '';
 	}
 
-	$fill = in_array( $name, array( 'star' ), true ) ? 'currentColor' : 'none';
+	// Gevulde iconen krijgen geen contourlijn: die maakt de vorm op kleine
+	// formaten onnodig zwaar en modderig.
+	$filled = in_array( $name, array( 'star' ), true );
 
 	return sprintf(
-		'<svg width="%1$d" height="%1$d" viewBox="0 0 24 24" fill="%2$s" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">%3$s</svg>',
+		'<svg width="%1$d" height="%1$d" viewBox="0 0 24 24" fill="%2$s" stroke="%3$s" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">%4$s</svg>',
 		absint( $size ),
-		esc_attr( $fill ),
+		$filled ? 'currentColor' : 'none',
+		$filled ? 'none' : 'currentColor',
 		$paths[ $name ]
 	);
 }
