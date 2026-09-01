@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Winkelwagen — Tegelloods BV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<main class="wrap">
+  <nav class="breadcrumbs"><a href="index.html">Home</a> › <span class="muted">Winkelwagen</span></nav>
+  <h1>Winkelwagen</h1>
+  <div class="appt-grid" style="margin-top:1.4rem">
+    <div class="panel" id="cart"></div>
+    <div>
+      <div class="panel" style="margin-bottom:18px" id="totals"></div>
+      <div class="panel" style="margin-bottom:18px">
+        <h3>Vergeet je niets?</h3>
+        <div id="addons"></div>
+      </div>
+      <div class="panel">
+        <h3>Twijfel je nog?</h3>
+        <p class="small muted">Beter één keer extra kijken dan een verkeerde vloer. Wij houden je winkelwagen bewaard.</p>
+        <div class="secondary-actions">
+          <a class="btn btn-ghost btn-block" href="samples.html">Eerst gratis stalen</a>
+          <a class="btn btn-navy btn-block" href="showroom.html">Showroombezoek plannen</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+(function(){
+  TL.renderChrome();
+  var I = TL.icon, euro = TL.euro, num = TL.num;
+
+  function paint(){
+    var c = TL.state.cart, el = document.getElementById('cart');
+    if(!c.length){
+      el.innerHTML = '<div class="empty-state">'+I('cart',34)+'<p>Je winkelwagen is leeg.</p><a class="btn btn-primary" href="collectie.html">Bekijk de collectie</a></div>';
+      document.getElementById('totals').innerHTML = '';
+      document.getElementById('addons').innerHTML = '<p class="small muted">Zodra je tegels toevoegt, rekenen we hier automatisch de benodigde lijm en voeg uit.</p>';
+      return;
+    }
+    el.innerHTML = c.map(function(l){
+      return '<div class="line-item"><div class="li-thumb" style="background-image:'+l.tex+'"></div>'+
+        '<div style="flex:1"><div class="li-title">'+TL.esc(l.naam)+'</div>'+
+        '<div class="li-meta">'+TL.esc(l.kleur)+' · '+TL.esc(l.maat)+'</div>'+
+        '<div class="li-meta">'+l.aantal+' '+l.eenheid+(l.m2?' · '+num(l.m2)+' m² incl. snijverlies':'')+'</div>'+
+        '<button class="li-remove" data-x="'+TL.esc(l.key)+'">Verwijderen</button></div>'+
+        '<div style="text-align:right"><b>'+euro(l.aantal*l.prijsPerEenheid)+'</b><div class="small muted">'+euro(l.prijsPerEenheid)+' p/'+l.eenheid.replace(/en$/,'')+'</div></div></div>';
+    }).join('');
+    TL.$$('[data-x]').forEach(function(b){ b.addEventListener('click', function(){ TL.removeLine('cart', b.dataset.x); paint(); }); });
+
+    var sub = c.reduce(function(a,l){ return a + l.aantal*l.prijsPerEenheid; }, 0);
+    var m2 = c.reduce(function(a,l){ return a + (l.m2||0); }, 0);
+    var verzend = sub >= TL.shop.gratisVerzendVanaf ? 0 : TL.shop.verzendkosten;
+    document.getElementById('totals').innerHTML =
+      '<h3>Totaal</h3>'+
+      '<div style="display:flex;justify-content:space-between"><span>Subtotaal'+(m2?' ('+num(m2)+' m²)':'')+'</span><b>'+euro(sub)+'</b></div>'+
+      '<div style="display:flex;justify-content:space-between;margin:.35rem 0"><span>Bezorging</span><span>'+(verzend?euro(verzend):'Gratis')+'</span></div>'+
+      (verzend?'<p class="small" style="color:var(--clay-600)">Nog '+euro(TL.shop.gratisVerzendVanaf-sub)+' tot gratis bezorging.</p>':'')+
+      '<div style="display:flex;justify-content:space-between;font-size:1.2rem;margin:.6rem 0 1rem"><b>Te betalen</b><b>'+euro(sub+verzend)+'</b></div>'+
+      '<button class="btn btn-primary btn-lg btn-block" onclick="TL.toast(\'Demo — hier neemt Shopify Checkout het over.\')">Naar Shopify Checkout</button>'+
+      '<div class="pay-row" style="margin-top:.9rem">'+['iDEAL','Klarna','in3','VISA','Mastercard','PayPal'].map(function(x){return '<span class="pay">'+x+'</span>';}).join('')+'</div>'+
+      '<p class="small muted center" style="margin:0">Achteraf betalen met Klarna · in 3 termijnen met in3</p>';
+
+    var lijm = Math.ceil(m2*4.5/25), voeg = Math.ceil(m2*0.4/5);
+    document.getElementById('addons').innerHTML = m2 ?
+      '<p class="small muted">Voor '+num(m2)+' m² adviseren wij:</p><ul class="delivery-list">'+
+      '<li>'+I('check',17)+'<span><b>'+lijm+' zak</b> tegellijm flex 25 kg — '+euro(lijm*21.95)+'</span></li>'+
+      '<li>'+I('check',17)+'<span><b>'+voeg+' emmer</b> voegmiddel 5 kg — '+euro(voeg*14.95)+'</span></li></ul>'+
+      '<a class="btn btn-ghost btn-sm btn-block" href="collectie.html?cat=toebehoren">Toevoegen aan bestelling</a>'
+      : '<p class="small muted">Voeg tegels toe; wij rekenen dan de lijm en voeg voor je uit.</p>';
+  }
+  paint();
+})();
+</script>
+</body>
+</html>

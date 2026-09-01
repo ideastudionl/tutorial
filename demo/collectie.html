@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Collectie — Tegelloods BV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<main class="wrap">
+  <nav class="breadcrumbs"><a href="index.html">Home</a> › <span class="muted" id="crumb">Tegels</span></nav>
+  <header style="margin-bottom:1.6rem">
+    <h1 id="plpTitle">Tegels</h1>
+    <p class="muted" id="plpIntro" style="max-width:70ch"></p>
+  </header>
+  <div class="plp">
+    <aside class="filters" id="filters"></aside>
+    <div>
+      <div class="plp-bar">
+        <span class="muted small" id="resultCount"></span>
+        <label class="small muted">Sorteren op
+          <select id="sort">
+            <option value="pop">Populariteit</option>
+            <option value="asc">Prijs laag → hoog</option>
+            <option value="desc">Prijs hoog → laag</option>
+            <option value="rating">Best beoordeeld</option>
+          </select>
+        </label>
+      </div>
+      <div class="active-filters" id="activeFilters"></div>
+      <div class="product-grid" id="grid"></div>
+      <div id="emptyState"></div>
+    </div>
+  </div>
+</main>
+
+<section class="section"><div class="wrap panel" style="display:flex;gap:1.5rem;align-items:center;justify-content:space-between;flex-wrap:wrap">
+  <div style="max-width:52ch"><h3 style="margin-bottom:.3em">Kom je er niet uit?</h3>
+  <p class="small muted" style="margin:0">Stuur ons een foto van je ruimte via WhatsApp of plan een half uur in de showroom. Wij denken mee over formaat, kleur en legpatroon — zonder verplichtingen.</p></div>
+  <div style="display:flex;gap:.6rem;flex-wrap:wrap">
+    <a class="btn btn-navy" href="showroom.html">Afspraak maken</a>
+    <a class="btn btn-ghost" href="samples.html">Gratis stalen</a>
+  </div>
+</div></section>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+(function(){
+  TL.renderChrome();
+  var I = TL.icon;
+
+  var CAT_MAP = {
+    vloertegels:{test:function(p){ return p.toepassing.indexOf('vloer')>-1 && p.toepassing.indexOf('binnen')>-1; }, titel:'Vloertegels',
+      intro:'Vloertegels voor binnen in beton-, hout-, marmer- en natuursteenlook. Allemaal 1e sortering en geschikt voor vloerverwarming.'},
+    wandtegels:{test:function(p){ return p.toepassing.indexOf('wand')>-1; }, titel:'Wandtegels',
+      intro:'Van de klassieke metrotegel tot handgevormde zellige. Voor de keukenachterwand, de badkamer en het toilet.'},
+    buitentegels:{test:function(p){ return p.toepassing.indexOf('buiten')>-1; }, titel:'Buitentegels & terrastegels',
+      intro:'Keramische buitentegels van 2 cm: vorstbestendig, kleurvast en nagenoeg onderhoudsvrij.'},
+    toebehoren:{test:function(p){ return p.look==='toebehoren'; }, titel:'Lijm, voeg & toebehoren',
+      intro:'Alles om je tegels vakkundig te leggen: flexibele lijm, voegmiddel, kit en kruisjes — afgestemd op onze collecties.'}
+  };
+
+  var cat = TL.qp('cat'), look = TL.qp('look');
+  var filters = { look:[], ruimte:[], prijs:[], voorraad:[] };
+  if(look) filters.look.push(look);
+
+  var base = PRODUCTS.filter(function(p){ return p.look!=='toebehoren'; });
+  if(cat && CAT_MAP[cat]) base = PRODUCTS.filter(CAT_MAP[cat].test);
+
+  var titel = cat && CAT_MAP[cat] ? CAT_MAP[cat].titel : (look ? look.charAt(0).toUpperCase()+look.slice(1) : 'Alle tegels');
+  var intro = cat && CAT_MAP[cat] ? CAT_MAP[cat].intro : 'Een scherpe selectie tegels die wij zelf zouden leggen. Bij elke tegel bereken je direct het aantal dozen en bestel je een gratis staal.';
+  document.getElementById('plpTitle').textContent = titel;
+  document.getElementById('crumb').textContent = titel;
+  document.getElementById('plpIntro').textContent = intro;
+  document.title = titel + ' — Tegelloods BV';
+
+  var LOOKS = ['betonlook','houtlook','marmerlook','natuursteenlook','terrazzo','effen'];
+  var RUIMTES = ['badkamer','keuken','woonkamer','toilet','hal','tuin'];
+  var PRIJZEN = [['0-25','tot € 25 p/m²'],['25-35','€ 25 – € 35 p/m²'],['35-999','vanaf € 35 p/m²']];
+
+  function count(fn){ return base.filter(fn).length; }
+
+  function renderFilters(){
+    function group(titel, key, items){
+      return '<div class="filter-group"><h4>'+titel+'</h4>'+ items.map(function(it){
+        var val = it[0], label = it[1], n = it[2];
+        return '<label class="check"><input type="checkbox" data-f="'+key+'" value="'+val+'" '+(filters[key].indexOf(val)>-1?'checked':'')+'>'+
+          label+'<span class="n">'+n+'</span></label>';
+      }).join('') +'</div>';
+    }
+    document.getElementById('filters').innerHTML =
+      '<h3 style="font-size:1rem;margin-bottom:.9rem">Filter</h3>'+
+      group('Look','look', LOOKS.map(function(l){ return [l, l.charAt(0).toUpperCase()+l.slice(1), count(function(p){return p.look===l;})]; }).filter(function(x){return x[2]>0;}))+
+      group('Ruimte','ruimte', RUIMTES.map(function(r){ return [r, r.charAt(0).toUpperCase()+r.slice(1), count(function(p){return p.ruimte.indexOf(r)>-1;})]; }).filter(function(x){return x[2]>0;}))+
+      group('Prijs per m²','prijs', PRIJZEN.map(function(pz){
+        var b = pz[0].split('-');
+        return [pz[0], pz[1], count(function(p){ return p.maten[0].prijs>=+b[0] && p.maten[0].prijs<+b[1]; })];
+      }))+
+      group('Beschikbaarheid','voorraad', [['op voorraad','Direct leverbaar', count(function(p){return p.voorraad==='op voorraad';})]])+
+      '<div class="filter-group"><button class="btn btn-ghost btn-sm btn-block" id="resetF">Filters wissen</button></div>';
+
+    TL.$$('[data-f]').forEach(function(cb){
+      cb.addEventListener('change', function(){
+        var arr = filters[cb.dataset.f];
+        if(cb.checked){ if(arr.indexOf(cb.value)<0) arr.push(cb.value); }
+        else { filters[cb.dataset.f] = arr.filter(function(v){ return v!==cb.value; }); }
+        render();
+      });
+    });
+    document.getElementById('resetF').addEventListener('click', function(){
+      filters = { look:[], ruimte:[], prijs:[], voorraad:[] }; render();
+    });
+  }
+
+  function apply(){
+    return base.filter(function(p){
+      if(filters.look.length && filters.look.indexOf(p.look)<0) return false;
+      if(filters.ruimte.length && !filters.ruimte.some(function(r){ return p.ruimte.indexOf(r)>-1; })) return false;
+      if(filters.voorraad.length && p.voorraad!=='op voorraad') return false;
+      if(filters.prijs.length){
+        var ok = filters.prijs.some(function(pz){ var b = pz.split('-'); return p.maten[0].prijs>=+b[0] && p.maten[0].prijs<+b[1]; });
+        if(!ok) return false;
+      }
+      return true;
+    });
+  }
+
+  function render(){
+    renderFilters();
+    var list = apply();
+    var s = document.getElementById('sort').value;
+    if(s==='asc')  list.sort(function(a,b){ return a.maten[0].prijs - b.maten[0].prijs; });
+    if(s==='desc') list.sort(function(a,b){ return b.maten[0].prijs - a.maten[0].prijs; });
+    if(s==='rating') list.sort(function(a,b){ return b.rating - a.rating || b.reviews - a.reviews; });
+    if(s==='pop')  list.sort(function(a,b){ return b.reviews - a.reviews; });
+
+    document.getElementById('resultCount').textContent = list.length + ' van ' + base.length + ' producten';
+    document.getElementById('grid').innerHTML = list.map(TL.productCard).join('');
+    document.getElementById('emptyState').innerHTML = list.length ? '' :
+      '<div class="panel center" style="padding:2.5rem"><h3>Geen tegels binnen deze filters</h3>'+
+      '<p class="muted small">Zet een filter uit, of laat ons meedenken — vaak hebben we buiten de webshop nog een passende serie op voorraad.</p>'+
+      '<a class="btn btn-navy" href="showroom.html">Vraag het ons</a></div>';
+
+    var chips = [];
+    ['look','ruimte','prijs','voorraad'].forEach(function(k){
+      filters[k].forEach(function(v){
+        var label = k==='prijs' ? (PRIJZEN.filter(function(p){return p[0]===v;})[0]||['',v])[1] : v.charAt(0).toUpperCase()+v.slice(1);
+        chips.push('<button class="chip" data-chip="'+k+'|'+v+'">'+label+' ×</button>');
+      });
+    });
+    document.getElementById('activeFilters').innerHTML = chips.join('');
+    TL.$$('[data-chip]').forEach(function(c){
+      c.addEventListener('click', function(){
+        var pr = c.dataset.chip.split('|');
+        filters[pr[0]] = filters[pr[0]].filter(function(v){ return v!==pr[1]; });
+        render();
+      });
+    });
+    TL.bindCards();
+  }
+
+  document.getElementById('sort').addEventListener('change', render);
+  render();
+})();
+</script>
+</body>
+</html>

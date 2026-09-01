@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Showroombezoek plannen — Tegelloods BV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<main class="wrap">
+  <nav class="breadcrumbs"><a href="index.html">Home</a> › <span class="muted">Showroombezoek</span></nav>
+  <header style="margin-bottom:1.8rem;max-width:70ch">
+    <p class="eyebrow">Telgenweg 4, Heeten · op afspraak</p>
+    <h1>Plan je showroombezoek</h1>
+    <p class="muted">Wij werken op afspraak, zodat je nooit hoeft te wachten en we alle tijd voor je project hebben. Zet vooraf je favorieten op je lijst — dan liggen ze klaar op groot formaat als je binnenkomt.</p>
+  </header>
+
+  <div class="appt-grid">
+    <form class="panel" id="apptForm">
+      <h3>1. Kies een moment</h3>
+      <div class="field"><label for="datum">Datum</label><input type="date" id="datum" required></div>
+      <div class="field"><label>Tijdslot</label><div class="slot-grid" id="slots"></div></div>
+
+      <h3 style="margin-top:1.8rem">2. Waar gaat het over?</h3>
+      <div class="field"><label for="project">Type project</label>
+        <select id="project">
+          <option>Badkamer</option><option>Keuken / achterwand</option><option>Woonkamer of hal</option>
+          <option>Toilet</option><option>Terras of tuin</option><option>Volledige verbouwing</option>
+          <option>Zakelijk / projectmatig</option>
+        </select>
+      </div>
+      <div class="field"><label for="m2">Geschatte oppervlakte (m²)</label><input type="number" id="m2" min="1" placeholder="bijv. 24"></div>
+      <div class="field"><label for="opm">Waar wil je het over hebben?</label><textarea id="opm" rows="3" placeholder="Bijv. twijfel tussen betonlook en houtlook, vloerverwarming, legpatroon..."></textarea></div>
+
+      <h3 style="margin-top:1.8rem">3. Je gegevens</h3>
+      <div class="grid-2" style="gap:0 16px">
+        <div class="field"><label for="naam">Naam</label><input id="naam" required></div>
+        <div class="field"><label for="tel">Telefoon</label><input id="tel" type="tel" required></div>
+      </div>
+      <div class="field"><label for="mail">E-mailadres</label><input id="mail" type="email" required></div>
+
+      <button class="btn btn-primary btn-lg btn-block" type="submit">Afspraak aanvragen</button>
+      <p class="small muted center" style="margin:.8rem 0 0">Je ontvangt binnen één werkdag een bevestiging. Liever direct schakelen? <a href="tel:+31629029495" style="text-decoration:underline">06 - 29 02 94 95</a></p>
+      <div id="apptDone"></div>
+    </form>
+
+    <div>
+      <div class="panel" style="margin-bottom:18px">
+        <h3>Op je lijst voor dit bezoek</h3>
+        <div id="showroomList"></div>
+      </div>
+      <div class="panel" style="margin-bottom:18px">
+        <h3>Praktisch</h3>
+        <ul class="delivery-list" id="praktisch"></ul>
+      </div>
+      <div class="panel" id="offerte">
+        <h3>Liever eerst een offerte?</h3>
+        <p class="small muted">Stuur je afmetingen of een plattegrond via WhatsApp. Je krijgt een sluitende materiaalstaat terug: tegels, lijm, voeg en kit — inclusief snijverlies.</p>
+        <a class="btn btn-wa btn-block" id="waBtn" target="_blank" rel="noopener"></a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+(function(){
+  TL.renderChrome();
+  var I = TL.icon;
+
+  /* Tijdsloten */
+  var SLOTS = ['09:00','10:00','11:00','13:00','14:00','15:00','16:00','18:30','19:30'];
+  var gekozen = null;
+  document.getElementById('slots').innerHTML = SLOTS.map(function(s,i){
+    return '<button type="button" class="slot" data-slot="'+s+'" '+(i===4?'disabled':'')+'>'+s+'</button>';
+  }).join('');
+  TL.$$('[data-slot]').forEach(function(b){
+    b.addEventListener('click', function(){
+      TL.$$('[data-slot]').forEach(function(x){ x.classList.remove('is-active'); });
+      b.classList.add('is-active'); gekozen = b.dataset.slot;
+    });
+  });
+
+  /* Vroegste datum = morgen */
+  var d = new Date(); d.setDate(d.getDate()+1);
+  var inp = document.getElementById('datum');
+  inp.min = d.toISOString().slice(0,10); inp.value = d.toISOString().slice(0,10);
+
+  /* Lijst met meegenomen tegels */
+  function paintList(){
+    var el = document.getElementById('showroomList');
+    if(!TL.state.showroom.length){
+      el.innerHTML = '<p class="small muted">Nog niets op je lijst. Zet tegels erop vanaf een productpagina — dan leggen wij ze klaar op groot formaat.</p>'+
+        '<a class="btn btn-ghost btn-sm" href="collectie.html">Bekijk de collectie</a>';
+      return;
+    }
+    el.innerHTML = TL.state.showroom.map(function(l){
+      return '<div class="line-item"><div class="li-thumb" style="background-image:'+l.tex+'"></div>'+
+        '<div style="flex:1"><div class="li-title">'+TL.esc(l.naam)+'</div><div class="li-meta">'+TL.esc(l.kleur)+' · '+TL.esc(l.maat)+'</div>'+
+        '<button class="li-remove" data-x="'+TL.esc(l.key)+'">Verwijderen</button></div></div>';
+    }).join('') + '<p class="small muted" style="margin-top:.9rem">'+I('check',14)+' Wij leggen deze klaar vóór je komt.</p>';
+    TL.$$('[data-x]').forEach(function(b){
+      b.addEventListener('click', function(){ TL.removeLine('showroom', b.dataset.x); paintList(); });
+    });
+  }
+  paintList();
+
+  document.getElementById('praktisch').innerHTML = [
+    ['pin','Telgenweg 4, 8111 CM Heeten — gratis parkeren voor de deur'],
+    ['clock','Ma t/m vr 09:00-17:00 en op afspraak \'s avonds; za op afspraak'],
+    ['phone','06 - 29 02 94 95 · info@tegelloodsbv.nl'],
+    ['box','Neem gerust je eigen stalen, kleurmonsters of plattegrond mee'],
+    ['truck','Direct meenemen kan: veel series liggen op voorraad']
+  ].map(function(x){ return '<li>'+I(x[0],18)+'<span>'+x[1]+'</span></li>'; }).join('');
+
+  var waTekst = 'Hallo Tegelloods, ik wil graag een offerte. Mijn project: ';
+  var wa = document.getElementById('waBtn');
+  wa.href = 'https://wa.me/'+TL.shop.telRaw+'?text='+encodeURIComponent(waTekst);
+  wa.innerHTML = I('whatsapp',19)+' Offerte via WhatsApp';
+
+  document.getElementById('apptForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    if(!gekozen){ TL.toast('Kies eerst een tijdslot.'); return; }
+    var lijst = TL.state.showroom.length;
+    document.getElementById('apptDone').innerHTML =
+      '<div class="panel" style="margin-top:1rem;background:var(--green-bg);border-color:#bfe3d1">'+
+      '<h3 style="margin-bottom:.3em">Aanvraag verstuurd (demo)</h3>'+
+      '<p class="small" style="margin:0">We zien je op <b>'+document.getElementById('datum').value+' om '+gekozen+'</b>. '+
+      (lijst? 'De <b>'+lijst+' tegel'+(lijst>1?'s':'')+'</b> van je lijst leggen we klaar op groot formaat.' : 'Neem gerust je eigen stalen mee.')+'</p></div>';
+    TL.toast('Afspraakaanvraag verstuurd — je krijgt binnen één werkdag bevestiging.');
+    document.getElementById('apptDone').scrollIntoView({behavior:'smooth', block:'center'});
+  });
+})();
+</script>
+</body>
+</html>

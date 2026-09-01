@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tegelloods BV — tegels met persoonlijk advies uit Heeten</title>
+<meta name="description" content="Zorgvuldig geselecteerde wand- en vloertegels, eerlijke prijzen en 15+ jaar ervaring. Gratis stalen, showroom op afspraak in Heeten.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<section class="hero">
+  <div class="wrap hero-inner">
+    <div>
+      <p class="eyebrow" style="color:var(--amber-400)">Tegelspecialist met showroom · Heeten</p>
+      <h1>Tegels waar je vijftien jaar<br>blij mee blijft</h1>
+      <p class="lead">Geen eindeloze catalogus, maar een scherpe selectie die wij zelf zouden leggen. Bereken direct hoeveel je nodig hebt, bestel gratis stalen en zie ze op groot formaat in onze showroom.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary btn-lg" href="collectie.html">Bekijk de collectie</a>
+        <a class="btn btn-ghost btn-lg" href="showroom.html" id="heroAppt">Plan een showroombezoek</a>
+      </div>
+      <div class="hero-proof">
+        <div><strong>4,9/5</strong>uit 180+ reviews</div>
+        <div><strong>15+ jaar</strong>ervaring in tegelwerk</div>
+        <div><strong>1e sortering</strong>uitsluitend A-kwaliteit</div>
+        <div><strong>4 gratis</strong>stalen thuisbezorgd</div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="tile-grid" id="heroGrid"></div>
+      <div class="hero-tag"><b>Urban Betonlook 60x120</b><span>vanaf € 24,95 p/m² · op voorraad</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="usp-strip"><div class="wrap" id="uspStrip"></div></section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <div><p class="eyebrow">Waar zoek je naar?</p><h2>Kies je categorie</h2></div>
+      <a class="link-arrow" href="collectie.html">Alle tegels</a>
+    </div>
+    <div class="cat-grid" id="catGrid"></div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--bg-alt)">
+  <div class="wrap">
+    <div class="section-head">
+      <div><p class="eyebrow">Meest gekozen</p><h2>Onze bestsellers</h2>
+      <p>Deze tegels leggen we het vaakst — betaalbaar, sterk en tijdloos. Bij elke tegel bestel je direct een gratis staal.</p></div>
+      <a class="link-arrow" href="collectie.html">Hele collectie →</a>
+    </div>
+    <div class="product-grid" id="best"></div>
+  </div>
+</section>
+
+<!-- Rekenmodule als losse tool -->
+<section class="section" id="rekenen">
+  <div class="wrap">
+    <div class="grid-2" style="align-items:center;gap:40px">
+      <div>
+        <p class="eyebrow">Nooit meer te weinig bestellen</p>
+        <h2>Bereken in één keer hoeveel tegels je nodig hebt</h2>
+        <p>De meest gestelde vraag in onze showroom is: <em>"hoeveel moet ik bestellen?"</em> Op elke productpagina staat daarom een rekenmodule: vul je oppervlakte in, kies je snijverlies en je ziet direct het aantal dozen én de totaalprijs.</p>
+        <ul class="delivery-list">
+          <li><span id="i1"></span><span>Standaard 10% snijverlies — 15% bij visgraat of diagonaal leggen</span></li>
+          <li><span id="i2"></span><span>Altijd naar boven afgerond op hele dozen, want tegels worden per doos verkocht</span></li>
+          <li><span id="i3"></span><span>Ongeopende restdozen mag je binnen 30 dagen retourneren</span></li>
+        </ul>
+        <a class="btn btn-navy" href="product.html?id=urban-beton">Probeer de rekenmodule →</a>
+      </div>
+      <div class="panel" id="miniCalc"></div>
+    </div>
+  </div>
+</section>
+
+<!-- Showroom -->
+<section class="section" style="background:var(--navy-900);color:#fff">
+  <div class="wrap grid-2" style="align-items:center;gap:40px">
+    <div>
+      <p class="eyebrow" style="color:var(--amber-400)">Showroom op afspraak · Telgenweg 4, Heeten</p>
+      <h2 style="color:#fff">Online kiezen, in het echt beslissen</h2>
+      <p style="color:#c3d4e4">Een tegel op je scherm is een andere tegel dan op de vloer. Zet je favorieten op je showroomlijst — wij leggen ze klaar op groot formaat, bij daglicht, naast je keukenblad of badkamermeubel. Neem gerust je eigen stalen mee.</p>
+      <p style="color:#c3d4e4"><b>Op afspraak</b> betekent: geen wachttijd en alle tijd voor jouw project. Vaak al binnen twee dagen terecht, ook 's avonds.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary btn-lg" href="showroom.html">Kies een datum &amp; tijd</a>
+        <a class="btn btn-ghost btn-lg" href="samples.html">Liever eerst stalen thuis</a>
+      </div>
+    </div>
+    <div class="panel" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.16);color:#e7eef5">
+      <h3 style="color:#fff">Wat je meeneemt uit een bezoek</h3>
+      <ul class="delivery-list" id="showroomList"></ul>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="kennis">
+  <div class="wrap">
+    <div class="section-head"><div><p class="eyebrow">Kennisbank</p><h2>Eerst even goed uitzoeken</h2></div></div>
+    <div class="grid-3">
+      <a class="panel" href="product.html?id=urban-beton"><h3>Welk formaat past in mijn ruimte?</h3><p class="small muted">Grote formaten maken een kleine badkamer juist ruimer, mits je het legpatroon goed kiest. Zo bepaal je het formaat.</p><span class="link-arrow small">Lees verder →</span></a>
+      <a class="panel" href="product.html?id=quartz-buiten"><h3>R10, R11 of A+B+C: welke antislip?</h3><p class="small muted">Voor een douchevloer of terras gelden andere eisen dan voor de woonkamer. De waardes uitgelegd in gewone taal.</p><span class="link-arrow small">Lees verder →</span></a>
+      <a class="panel" href="collectie.html?cat=toebehoren"><h3>Hoeveel lijm en voeg heb ik nodig?</h3><p class="small muted">Reken op 4-5 kg lijm per m² en circa 0,4 kg voegmiddel. Wij rekenen het bij je bestelling automatisch mee.</p><span class="link-arrow small">Lees verder →</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="reviews" style="background:var(--bg-alt)">
+  <div class="wrap">
+    <div class="section-head"><div><p class="eyebrow">Klanten uit Salland en omstreken</p><h2>4,9 gemiddeld uit 180+ reviews</h2></div></div>
+    <div class="grid-2" id="reviewGrid"></div>
+  </div>
+</section>
+
+<section class="section" id="verzenden">
+  <div class="wrap grid-3">
+    <div class="panel"><h3>Bezorging</h3><p class="small muted">Voorraadtegels binnen 1-3 werkdagen op pallet aan de stoep. Gratis vanaf € 250,-, daaronder € 39,95. Je kiest zelf de bezorgdag.</p></div>
+    <div class="panel"><h3>Afhalen in Heeten</h3><p class="small muted">Zelf ophalen aan de Telgenweg 4 kan op afspraak, ook 's avonds. Je betaalt dan geen bezorgkosten.</p></div>
+    <div class="panel"><h3>Retour &amp; garantie</h3><p class="small muted">Ongeopende dozen retour binnen 30 dagen. Op alle tegels 2 jaar productgarantie; wij leveren uitsluitend 1e sortering.</p></div>
+  </div>
+</section>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+(function(){
+  TL.renderChrome();
+  var I = TL.icon, euro = TL.euro, num = TL.num;
+
+  /* Hero mozaïek */
+  var picks = ['urban-beton','carrara-statuario','nordic-eiken','travertin-classic','terrazzo-venice','especta-beige','quartz-buiten','zellige-groen','metro-wit'];
+  document.getElementById('heroGrid').innerHTML = picks.map(function(id){
+    var p = TL.byId(id); return '<div style="background-image:'+p.kleuren[0].tex+'"></div>';
+  }).join('');
+
+  /* USP strip */
+  document.getElementById('uspStrip').innerHTML = [
+    ['swatch','4 gratis stalen','Thuisbezorgd binnen 2 werkdagen'],
+    ['ruler','Rekenmodule per tegel','Direct het juiste aantal dozen'],
+    ['calendar','Showroom op afspraak','Alle tijd, geen wachtrij'],
+    ['shield','Alleen 1e sortering','Geen restpartijen of B-keus']
+  ].map(function(u){
+    return '<div class="usp-item">'+I(u[0],22)+'<div><strong>'+u[1]+'</strong><span>'+u[2]+'</span></div></div>';
+  }).join('');
+
+  /* Categorieën */
+  document.getElementById('catGrid').innerHTML = CATEGORIES.map(function(c){
+    return '<a class="cat-card" href="collectie.html?cat='+c.slug+'"><div class="thumb" style="background-image:'+c.tex+'"></div>'+
+      '<div class="label">'+c.naam+'<span>'+c.sub+'</span></div></a>';
+  }).join('');
+
+  /* Bestsellers */
+  var best = ['urban-beton','nordic-eiken','carrara-statuario','especta-beige'].map(TL.byId);
+  document.getElementById('best').innerHTML = best.map(TL.productCard).join('');
+  TL.bindCards();
+
+  /* Reviews */
+  document.getElementById('reviewGrid').innerHTML = REVIEWS.map(function(r){
+    return '<div class="review">'+TL.stars(r.score)+'<h3 style="margin:.5rem 0 .3rem;font-size:1rem">'+TL.esc(r.titel)+'</h3>'+
+      '<p class="small" style="margin:0">'+TL.esc(r.tekst)+'</p>'+
+      '<div class="who"><span class="avatar">'+TL.esc(r.naam.charAt(0))+'</span>'+TL.esc(r.naam)+' · '+TL.esc(r.plaats)+'</div></div>';
+  }).join('');
+
+  ['i1','i2','i3'].forEach(function(id){ document.getElementById(id).innerHTML = I('check',18); });
+  document.getElementById('showroomList').innerHTML = [
+    'Je favorieten liggen klaar op groot formaat',
+    'Eerlijk advies over ondergrond, lijm en legpatroon',
+    'Een sluitende materiaalstaat: tegels, lijm, voeg en kit',
+    'Een offerte op maat — ook voor je tegelzetter'
+  ].map(function(t){ return '<li>'+I('check',18)+'<span>'+t+'</span></li>'; }).join('');
+
+  /* Mini-rekenmodule op de homepage */
+  var mp = TL.byId('urban-beton'), mm = mp.maten[0], m2 = 24, verlies = 10;
+  var el = document.getElementById('miniCalc');
+  function paint(){
+    var dozen = Math.max(1, Math.ceil(m2*(1+verlies/100)/mm.m2PerDoos));
+    var totaal = dozen * mm.prijs * mm.m2PerDoos;
+    el.innerHTML =
+      '<div class="calc" style="border:0;box-shadow:none;padding:0">'+
+      '<div class="calc-head"><h3>Snel rekenen</h3><span class="small muted">'+mp.naam+' · '+mm.maat+'</span></div>'+
+      '<div class="calc-row">'+
+        '<div class="calc-field"><label>Oppervlakte</label><div class="calc-input"><input id="mM2" type="number" min="1" step="1" value="'+m2+'"><span class="suffix">m²</span></div></div>'+
+        '<div class="calc-op">+</div>'+
+        '<div class="calc-field"><label>Snijverlies (%)</label><div class="stepper"><button type="button" id="mMin">−</button><input id="mV" type="number" value="'+verlies+'"><button type="button" id="mPlus">+</button></div></div>'+
+        '<div class="calc-op">=</div>'+
+        '<div class="calc-field"><label>Benodigd</label><div class="calc-out">'+dozen+' dozen<span>= '+num(dozen*mm.m2PerDoos)+' m²</span></div></div>'+
+      '</div>'+
+      '<div class="total-line"><span class="lbl">Totaalprijs</span><span class="amt">'+euro(totaal)+'</span><span class="sub">incl. btw</span></div>'+
+      '</div>';
+    document.getElementById('mM2').addEventListener('input', function(e){ m2 = Math.max(0, +e.target.value||0); paint(); document.getElementById('mM2').focus(); });
+    document.getElementById('mV').addEventListener('input', function(e){ verlies = Math.min(30,Math.max(0,+e.target.value||0)); paint(); });
+    document.getElementById('mMin').addEventListener('click', function(){ verlies = Math.max(0,verlies-5); paint(); });
+    document.getElementById('mPlus').addEventListener('click', function(){ verlies = Math.min(30,verlies+5); paint(); });
+  }
+  paint();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gratis stalen bestellen — Tegelloods BV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<main class="wrap">
+  <nav class="breadcrumbs"><a href="index.html">Home</a> › <span class="muted">Gratis stalen</span></nav>
+  <header style="margin-bottom:1.8rem;max-width:70ch">
+    <p class="eyebrow">Maximaal 4 stalen · gratis thuisbezorgd</p>
+    <h1>Eerst voelen, dan bestellen</h1>
+    <p class="muted">Kleur op een scherm is nooit de kleur op je vloer. Kies tot vier tegels, dan sturen wij stalen van 20x20 cm gratis op — meestal binnen twee werkdagen op de mat. Terugsturen hoeft niet.</p>
+  </header>
+
+  <div class="appt-grid">
+    <div>
+      <div class="panel" style="margin-bottom:18px">
+        <h3>Jouw samplebox <span class="muted small" id="cnt"></span></h3>
+        <div id="list"></div>
+      </div>
+      <form class="panel" id="sampleForm">
+        <h3>Waar mogen we ze naartoe sturen?</h3>
+        <div class="grid-2" style="gap:0 16px">
+          <div class="field"><label for="naam">Naam</label><input id="naam" required></div>
+          <div class="field"><label for="tel">Telefoon</label><input id="tel" type="tel"></div>
+        </div>
+        <div class="field"><label for="mail">E-mailadres</label><input id="mail" type="email" required></div>
+        <div class="grid-2" style="gap:0 16px">
+          <div class="field"><label for="pc">Postcode</label><input id="pc" placeholder="8111 CM" required></div>
+          <div class="field"><label for="hn">Huisnummer</label><input id="hn" required></div>
+        </div>
+        <button class="btn btn-primary btn-lg btn-block" type="submit">Stalen gratis opsturen</button>
+        <p class="small muted center" style="margin:.8rem 0 0">Geen verplichtingen en geen nieuwsbrief-spam. We bellen alleen na als je dat zelf aangeeft.</p>
+        <div id="done"></div>
+      </form>
+    </div>
+    <div>
+      <div class="panel" style="margin-bottom:18px">
+        <h3>Zo werkt het</h3>
+        <ul class="delivery-list" id="hoe"></ul>
+      </div>
+      <div class="panel">
+        <h3>Liever meteen zeker weten?</h3>
+        <p class="small muted">In de showroom zie je de tegel op groot formaat bij daglicht — dat vertelt meer dan vier stalen samen.</p>
+        <a class="btn btn-navy btn-block" href="showroom.html">Plan een showroombezoek</a>
+      </div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="section-head"><div><p class="eyebrow">Populair om te vergelijken</p><h2>Voeg nog een staal toe</h2></div></div>
+    <div class="product-grid" id="suggest"></div>
+  </section>
+</main>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+(function(){
+  TL.renderChrome();
+  var I = TL.icon, max = TL.shop.maxGratisSamples;
+
+  function paint(){
+    document.getElementById('cnt').textContent = '('+TL.state.samples.length+'/'+max+')';
+    var el = document.getElementById('list');
+    if(!TL.state.samples.length){
+      el.innerHTML = '<p class="small muted">Je hebt nog geen stalen gekozen. Klik op <b>Gratis staal</b> bij een tegel hieronder of in de collectie.</p>';
+      return;
+    }
+    el.innerHTML = TL.state.samples.map(function(l){
+      return '<div class="line-item"><div class="li-thumb" style="background-image:'+l.tex+'"></div>'+
+      '<div style="flex:1"><div class="li-title">'+TL.esc(l.naam)+'</div><div class="li-meta">'+TL.esc(l.kleur)+' · staal 20x20 cm</div>'+
+      '<button class="li-remove" data-x="'+TL.esc(l.key)+'">Verwijderen</button></div>'+
+      '<div style="font-weight:700;color:var(--green)">Gratis</div></div>';
+    }).join('');
+    TL.$$('[data-x]').forEach(function(b){ b.addEventListener('click', function(){ TL.removeLine('samples', b.dataset.x); paint(); }); });
+  }
+  paint();
+
+  document.getElementById('hoe').innerHTML = [
+    ['swatch','Kies maximaal '+max+' tegels — stalen zijn 20x20 cm'],
+    ['truck','Binnen 2 werkdagen gratis op de mat, met PostNL'],
+    ['clock','Leg ze een dag in de ruimte: ochtendlicht en avondlicht verschillen enorm'],
+    ['box','Terugsturen hoeft niet; houd ze als reserve bij je administratie'],
+    ['check','Besteld? Dan gaan we samen de hoeveelheid narekenen']
+  ].map(function(x){ return '<li>'+I(x[0],18)+'<span>'+x[1]+'</span></li>'; }).join('');
+
+  var sug = PRODUCTS.filter(function(p){ return p.look!=='toebehoren'; }).slice(0,4);
+  document.getElementById('suggest').innerHTML = sug.map(TL.productCard).join('');
+  TL.bindCards();
+  document.addEventListener('click', function(e){ if(e.target.closest('[data-sample]')) setTimeout(paint, 30); });
+
+  document.getElementById('sampleForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    if(!TL.state.samples.length){ TL.toast('Kies eerst minimaal één staal.'); return; }
+    document.getElementById('done').innerHTML =
+      '<div class="panel" style="margin-top:1rem;background:var(--green-bg);border-color:#bfe3d1">'+
+      '<h3 style="margin-bottom:.3em">Onderweg (demo)</h3><p class="small" style="margin:0">'+
+      TL.state.samples.length+' staal/stalen gaan gratis naar je toe. Je krijgt een mailtje met track & trace.</p></div>';
+    TL.toast('Stalen aangevraagd — gratis onderweg.');
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Productpagina — Tegelloods BV</title>
+<meta name="description" content="Tegels kopen met rekenmodule: bereken direct hoeveel dozen je nodig hebt inclusief snijverlies.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="pdp-page">
+<main class="wrap">
+  <nav class="breadcrumbs" id="crumbs"></nav>
+  <div class="pdp" id="pdp"></div>
+</main>
+<section class="section" style="padding-top:0"><div class="wrap" id="detail"></div></section>
+<section class="section" style="background:var(--bg-alt)"><div class="wrap" id="related"></div></section>
+
+<div class="sticky-buy" id="stickyBuy"></div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+(function(){
+  TL.renderChrome();
+
+  var p = TL.byId(TL.qp('id') || '') || PRODUCTS[0];
+  var kleurIdx = 0, maatIdx = 0;
+  var m2 = 10, verlies = 10, dozen = 1;
+  var euro = TL.euro, num = TL.num, I = TL.icon, esc = TL.esc;
+
+  document.title = p.naam + ' — Tegelloods BV';
+
+  /* ---- Breadcrumbs ---- */
+  document.getElementById('crumbs').innerHTML =
+    '<a href="index.html">Home</a> › <a href="collectie.html">Tegels</a> › ' +
+    '<a href="collectie.html?look='+p.look+'">'+p.look.charAt(0).toUpperCase()+p.look.slice(1)+'</a> › <span class="muted">'+esc(p.naam)+'</span>';
+
+  function maat(){ return p.maten[maatIdx]; }
+  function kleur(){ return p.kleuren[kleurIdx]; }
+  function prijsPerDoos(){ return maat().prijs * (p.perStuk ? 1 : maat().m2PerDoos); }
+  function eenheid(){ return p.perStuk ? (p.eenheid||'stuks') : 'dozen'; }
+  function eenheidLabel(n){
+    if(p.perStuk){
+      var e = p.eenheid||'stuk';
+      return n===1 ? e : (e==='zak' ? 'zakken' : e==='emmer' ? 'emmers' : e+'s');
+    }
+    return n===1 ? 'doos' : 'dozen';
+  }
+
+  /* ---- Rekenmodule: m² + snijverlies -> dozen ---- */
+  function berekenDozen(){
+    var benodigd = m2 * (1 + verlies/100);
+    return Math.max(1, Math.ceil(benodigd / maat().m2PerDoos));
+  }
+  function syncFromM2(){ dozen = berekenDozen(); paintCalc(); }
+  function syncFromDozen(){
+    // omgekeerd: dozen -> netto m² (zonder snijverlies) zodat het veld blijft kloppen
+    m2 = Math.round((dozen * maat().m2PerDoos) / (1 + verlies/100) * 100) / 100;
+    paintCalc();
+  }
+
+  function paintCalc(){
+    var d = document;
+    if(d.getElementById('inM2') && d.activeElement !== d.getElementById('inM2')) d.getElementById('inM2').value = String(m2);
+    if(d.getElementById('inVerlies')) d.getElementById('inVerlies').value = verlies;
+    var totaalM2 = dozen * maat().m2PerDoos;
+    var totaal = dozen * prijsPerDoos();
+    if(d.getElementById('outDozen')) d.getElementById('outDozen').innerHTML = dozen + ' ' + eenheidLabel(dozen) + '<span>= '+num(totaalM2)+' m²</span>';
+    if(d.getElementById('qtyVal')) d.getElementById('qtyVal').innerHTML = '<b>'+dozen+'</b><span>'+eenheidLabel(dozen)+'</span>';
+    if(d.getElementById('totaalAmt')) d.getElementById('totaalAmt').textContent = euro(totaal);
+    if(d.getElementById('totaalSub')) d.getElementById('totaalSub').textContent = 'incl. btw' + (p.perStuk ? '' : '  ('+num(totaalM2)+' m²)');
+    if(d.getElementById('totaalCalc')) d.getElementById('totaalCalc').textContent = dozen + ' × ' + euro(prijsPerDoos());
+    if(d.getElementById('sbPrice')) d.getElementById('sbPrice').innerHTML = euro(totaal)+'<span>'+dozen+' '+eenheidLabel(dozen)+' · '+num(totaalM2)+' m²</span>';
+  }
+
+  /* ---- Galerij ---- */
+  function gallery(){
+    var k = kleur();
+    var korting = maat().oud ? Math.round((1 - maat().prijs/maat().oud)*100) : 0;
+    return '<div class="gallery">'+
+      '<div class="gallery-main" id="galMain" style="background-image:'+k.tex+'">'+
+        '<span class="gm-badges">'+
+          (korting?'<span class="badge badge-sale">-'+korting+'%</span>':'')+
+          (p.badge && p.badge.filter(function(b){return b.indexOf('%')<0 && !(p.nieuw && b==='Nieuw');}).map(function(b){return '<span class="badge badge-navy">'+b+'</span>';}).join(''))+
+        '</span>'+
+      '</div>'+
+      '<div class="gallery-thumbs">'+ p.kleuren.map(function(c,i){
+          return '<button class="'+(i===kleurIdx?'is-active':'')+'" data-gal="'+i+'" style="background-image:'+c.tex+'" aria-label="'+esc(c.naam)+'"></button>';
+        }).join('') +'</div>'+
+      '<div class="panel" style="margin-top:14px;padding:1rem 1.15rem">'+
+        '<div style="display:flex;gap:.6rem;align-items:flex-start">'+I('info',18)+
+        '<p class="small" style="margin:0">Kleuren op je scherm wijken altijd af van de werkelijkheid. Bestel een <b>gratis staal</b> of leg de tegel op je <b>showroomlijst</b> — dan zie je \'m op groot formaat bij daglicht.</p></div>'+
+      '</div>'+
+    '</div>';
+  }
+
+  /* ---- Koopblok (rechterkolom) ---- */
+  function buybox(){
+    var m = maat(), k = kleur();
+    var korting = m.oud ? Math.round((1 - m.prijs/m.oud)*100) : 0;
+    var wa = 'https://wa.me/'+TL.shop.telRaw+'?text='+encodeURIComponent('Hallo Tegelloods, ik wil graag een offerte voor '+p.naam+' ('+k.naam+', '+m.maat+').');
+
+    return '<div class="buybox">'+
+      '<div class="pdp-badges">'+
+        (korting?'<span class="badge badge-sale">-'+korting+'%</span>':'')+
+        (p.badge && p.badge.filter(function(b){return b.indexOf('%')<0 && !(p.nieuw && b==='Nieuw');}).map(function(b){return '<span class="badge badge-navy">'+b+'</span>';}).join(''))+
+      '</div>'+
+      '<h1>'+esc(p.naam)+'</h1>'+
+
+      /* Kleur */
+      '<div class="opt-label">Kleur: <span class="val">'+esc(k.naam)+'</span></div>'+
+      '<div class="swatches">'+ p.kleuren.map(function(c,i){
+        return '<button class="swatch '+(i===kleurIdx?'is-active':'')+'" data-kleur="'+i+'" aria-label="'+esc(c.naam)+'"><i style="background-image:'+c.tex+'"></i></button>';
+      }).join('') +'</div>'+
+
+      /* Maat */
+      '<div class="opt-label">Maatvoering</div>'+
+      '<select class="select-lg" id="selMaat">'+ p.maten.map(function(x,i){
+        return '<option value="'+i+'" '+(i===maatIdx?'selected':'')+'>'+x.maat+' — '+euro(x.prijs)+(p.perStuk?' per '+(p.eenheid||'stuk'):' per m²')+'</option>';
+      }).join('') +'</select>'+
+
+      '<hr class="rule">'+
+
+      /* Prijs */
+      '<div class="price-block">'+
+        '<div><span class="now">'+euro(m.prijs)+'</span><span class="per">'+(p.perStuk?'per '+(p.eenheid||'stuk'):'per m²')+'</span></div>'+
+        (p.perStuk?'':'<div class="box">'+euro(prijsPerDoos())+' per doos ('+num(m.m2PerDoos)+' m² · '+m.stuksPerDoos+' stuks)</div>')+
+        (m.oud?'<div class="was">'+euro(m.oud)+'</div>':'')+
+        '<div class="rating-line">'+TL.stars(p.rating)+'<b>'+num(p.rating,1)+'</b> op Google · <a href="#reviews" style="text-decoration:underline">'+p.reviews+' beoordelingen</a></div>'+
+      '</div>'+
+
+      '<div style="height:1.4rem"></div>'+
+
+      /* ======== REKENMODULE ======== */
+      '<div class="calc">'+
+        '<div class="calc-head"><h3>Hoeveel heb je er nodig?</h3>'+
+          '<button class="calc-help" id="calcHelp">Hoe reken ik dit uit?</button></div>'+
+        '<div class="calc-row">'+
+          '<div class="calc-field"><label for="inM2">Oppervlakte</label>'+
+            '<div class="calc-input"><input id="inM2" type="number" min="0.5" step="0.5" value="'+m2+'" inputmode="decimal"><span class="suffix">m²</span></div>'+
+          '</div>'+
+          '<div class="calc-op">+</div>'+
+          '<div class="calc-field"><label for="inVerlies">Snijverlies (%)</label>'+
+            '<div class="stepper"><button type="button" data-verlies="-5" aria-label="Minder snijverlies">−</button>'+
+            '<input id="inVerlies" type="number" min="0" max="30" step="1" value="'+verlies+'" inputmode="numeric">'+
+            '<button type="button" data-verlies="5" aria-label="Meer snijverlies">+</button></div>'+
+          '</div>'+
+          '<div class="calc-op">=</div>'+
+          '<div class="calc-field"><label>Benodigd</label><div class="calc-out" id="outDozen"></div></div>'+
+        '</div>'+
+        '<p class="calc-note" id="calcNote">Wij rekenen standaard met 10% snijverlies. Leg je in visgraat of diagonaal? Reken dan met 15%.</p>'+
+      '</div>'+
+
+      /* Totaal */
+      '<div class="total-line"><span class="lbl">Totaalprijs</span><span class="amt" id="totaalAmt"></span><span class="sub" id="totaalSub"></span></div>'+
+      '<div class="total-sub" id="totaalCalc"></div>'+
+
+      /* Levering */
+      '<ul class="delivery-list">'+
+        '<li>'+I('clock',18)+'<span>'+(p.voorraad==='op voorraad'?'Op voorraad — <b>binnen 1-3 werkdagen</b> geleverd':'Op bestelling — <b>'+p.levertijd+'</b> geleverd')+'</span></li>'+
+        '<li>'+I('pin',18)+'<span>Zelf afhalen in Heeten mogelijk (op afspraak)</span></li>'+
+        '<li>'+I('truck',18)+'<span>Gratis bezorgd vanaf '+euro(TL.shop.gratisVerzendVanaf)+' · daaronder '+euro(TL.shop.verzendkosten)+'</span></li>'+
+        '<li>'+I('box',18)+'<span>Ongeopende restdozen retour binnen 30 dagen</span></li>'+
+      '</ul>'+
+
+      /* Kopen */
+      '<div class="buy-row">'+
+        '<div class="qty-box"><button type="button" data-qty="-1" aria-label="Minder">−</button>'+
+        '<div class="qv" id="qtyVal"></div>'+
+        '<button type="button" data-qty="1" aria-label="Meer">+</button></div>'+
+        '<button class="btn btn-primary btn-lg" id="addCart">'+I('cart',19)+' Voeg toe aan winkelwagen</button>'+
+      '</div>'+
+
+      '<div class="pay-row">'+ ['iDEAL','Klarna','in3','VISA','Mastercard','PayPal','Apple Pay','SEPA','Overboeking']
+        .map(function(x){ return '<span class="pay">'+x+'</span>'; }).join('') +'</div>'+
+
+      /* Twijfelknoppen — sample + showroom */
+      '<div class="secondary-actions">'+
+        '<button class="btn btn-ghost btn-block" id="addSample">'+I('swatch',18)+' Gratis staal van deze tegel bestellen</button>'+
+        '<button class="btn btn-outline-navy btn-block" id="addShowroom">'+I('calendar',18)+' Toevoegen aan showroombezoek</button>'+
+        '<a class="btn btn-navy btn-block" href="showroom.html">'+I('calendar',18)+' Direct een afspraak maken in de showroom</a>'+
+      '</div>'+
+
+      /* Offerte */
+      '<div class="quote-box">'+
+        '<p>Groot project? Vraag nu een offerte aan!</p>'+
+        '<a class="btn btn-wa" href="'+wa+'" target="_blank" rel="noopener">'+I('whatsapp',19)+' Offerte via WhatsApp</a>'+
+      '</div>'+
+    '</div>';
+  }
+
+  /* ---- Detailblok onder de vouw ---- */
+  function detail(){
+    var m = maat();
+    var rijen = [
+      ['Merk', p.merk], ['Materiaal', p.materiaal], ['Formaat', m.maat], ['Kleur', kleur().naam],
+      ['Afwerking', p.afwerking], ['Dikte', p.dikte], ['Antislip', p.antislip],
+      ['Slijtvastheid', p.slijtvastheid], ['Sortering', p.sortering],
+      ['Toepassing', p.toepassing.join(', ')], ['Geschikt voor vloerverwarming', p.vloerverwarming?'Ja':'Nee'],
+      ['Inhoud per doos', p.perStuk ? '1 '+(p.eenheid||'stuk') : num(m.m2PerDoos)+' m² ('+m.stuksPerDoos+' stuks)'],
+      ['Levertijd', p.levertijd]
+    ];
+    return '<div class="tabs" id="tabs">'+
+        '<button class="is-active" data-tab="omschrijving">Omschrijving</button>'+
+        '<button data-tab="specs">Specificaties</button>'+
+        '<button data-tab="leggen">Leggen &amp; onderhoud</button>'+
+        '<button data-tab="reviews">Reviews ('+p.reviews+')</button>'+
+      '</div>'+
+      '<div id="tab-omschrijving" class="tabpane"><div class="grid-2">'+
+        '<div class="panel"><h3>Over deze tegel</h3><p>'+esc(p.omschrijving)+'</p>'+
+        '<p class="small muted">Advies nodig over ondergrond, tegellijm of het legpatroon? Bel '+TL.shop.tel+' of loop binnen op afspraak — we werken zelf al ruim 15 jaar in tegelwerk en afwerking.</p></div>'+
+        '<div class="panel"><h3>Vergeet niet mee te bestellen</h3>'+
+        '<p class="small muted">Voor circa '+num(dozen*m.m2PerDoos)+' m² heb je ongeveer nodig:</p>'+
+        '<ul class="delivery-list">'+
+          '<li>'+I('check',17)+'<span><b>'+Math.ceil(dozen*m.m2PerDoos*4.5/25)+' zak</b> flexibele tegellijm (25 kg)</span></li>'+
+          '<li>'+I('check',17)+'<span><b>'+Math.ceil(dozen*m.m2PerDoos*0.4/5)+' emmer</b> voegmiddel (5 kg)</span></li>'+
+          '<li>'+I('check',17)+'<span>Tegelkruisjes 2 mm en een koker sanitairkit</span></li>'+
+        '</ul>'+
+        '<a class="btn btn-ghost btn-sm" href="collectie.html?cat=toebehoren">Bekijk lijm &amp; voeg '+I('arrow',15)+'</a></div>'+
+      '</div></div>'+
+      '<div id="tab-specs" class="tabpane hidden"><table class="spec-table">'+
+        rijen.map(function(r){ return '<tr><td>'+r[0]+'</td><td>'+esc(r[1])+'</td></tr>'; }).join('') +'</table></div>'+
+      '<div id="tab-leggen" class="tabpane hidden"><div class="grid-3">'+
+        '<div class="panel"><h3>1. Voorbereiden</h3><p class="small">Zorg voor een vlakke, droge en stofvrije ondergrond. Meng de tegels uit meerdere dozen door elkaar zodat kleurnuances gelijkmatig verdeeld liggen.</p></div>'+
+        '<div class="panel"><h3>2. Leggen</h3><p class="small">Gebruik flexibele lijm (C2TE S1) en werk bij grootformaat volvlaks. Houd 2 mm voeg aan bij gerectificeerde tegels en laat een dilatatievoeg langs de wanden.</p></div>'+
+        '<div class="panel"><h3>3. Onderhoud</h3><p class="small">Keramiek is nagenoeg onderhoudsvrij: dweilen met een pH-neutrale reiniger volstaat. Gebruik geen schuurmiddel op gepolijste tegels.</p></div>'+
+      '</div></div>'+
+      '<div id="tab-reviews" class="tabpane hidden"><div class="grid-2">'+
+        REVIEWS.map(function(r){
+          return '<div class="review">'+TL.stars(r.score)+'<h3 style="margin:.5rem 0 .3rem;font-size:1rem">'+esc(r.titel)+'</h3>'+
+          '<p class="small" style="margin:0">'+esc(r.tekst)+'</p>'+
+          '<div class="who"><span class="avatar">'+esc(r.naam.charAt(0))+'</span>'+esc(r.naam)+' · '+esc(r.plaats)+' · geverifieerde koper</div></div>';
+        }).join('') +'</div></div>';
+  }
+
+  function related(){
+    var others = PRODUCTS.filter(function(x){ return x.id!==p.id && x.look!=='toebehoren'; }).slice(0,4);
+    return '<div class="section-head"><div><p class="eyebrow">Past hier goed bij</p><h2>Anderen bekeken ook</h2></div>'+
+      '<a class="link-arrow" href="collectie.html">Hele collectie '+I('arrow',16)+'</a></div>'+
+      '<div class="product-grid">'+ others.map(TL.productCard).join('') +'</div>';
+  }
+
+  /* ---- Render + events ---- */
+  function render(){
+    document.getElementById('pdp').innerHTML = gallery() + buybox();
+    document.getElementById('detail').innerHTML = detail();
+    document.getElementById('related').innerHTML = related();
+    document.getElementById('stickyBuy').innerHTML =
+      '<div class="sb-price" id="sbPrice"></div>'+
+      '<button class="btn btn-primary" style="flex:1" id="sbAdd">'+I('cart',18)+' In winkelwagen</button>';
+    bind();
+    paintCalc();
+    TL.bindCards();
+  }
+
+  function bind(){
+    TL.$$('[data-kleur]').forEach(function(b){ b.addEventListener('click', function(){ kleurIdx = +b.dataset.kleur; render(); }); });
+    TL.$$('[data-gal]').forEach(function(b){ b.addEventListener('click', function(){ kleurIdx = +b.dataset.gal; render(); }); });
+
+    var sel = document.getElementById('selMaat');
+    sel.addEventListener('change', function(){ maatIdx = +sel.value; dozen = berekenDozen(); render(); });
+
+    var inM2 = document.getElementById('inM2');
+    inM2.addEventListener('input', function(){
+      var v = parseFloat(inM2.value.replace(',','.'));
+      m2 = isNaN(v) ? 0 : Math.max(0, v);
+      dozen = berekenDozen(); paintCalc();
+    });
+    inM2.addEventListener('blur', function(){ inM2.value = String(m2); });
+
+    var inV = document.getElementById('inVerlies');
+    inV.addEventListener('input', function(){
+      var v = parseInt(inV.value,10); verlies = isNaN(v)?0:Math.min(30,Math.max(0,v));
+      dozen = berekenDozen(); paintCalc();
+    });
+    TL.$$('[data-verlies]').forEach(function(b){
+      b.addEventListener('click', function(){
+        verlies = Math.min(30, Math.max(0, verlies + (+b.dataset.verlies)));
+        dozen = berekenDozen(); paintCalc();
+      });
+    });
+    TL.$$('[data-qty]').forEach(function(b){
+      b.addEventListener('click', function(){ dozen = Math.max(1, dozen + (+b.dataset.qty)); syncFromDozen(); });
+    });
+
+    document.getElementById('calcHelp').addEventListener('click', function(){
+      var n = document.getElementById('calcNote');
+      n.innerHTML = 'Oppervlakte × (1 + snijverlies) ÷ '+num(maat().m2PerDoos)+' m² per doos, naar boven afgerond op hele dozen. '+
+        'Dus '+num(m2)+' m² + '+verlies+'% = '+num(m2*(1+verlies/100))+' m² → <b>'+dozen+' '+eenheid()+'</b> ('+num(dozen*maat().m2PerDoos)+' m²). '+
+        'Meet in twijfelgevallen per vlak en tel op; wij controleren je berekening graag even mee.';
+    });
+
+    function add(){
+      TL.addToCart({
+        id:p.id, naam:p.naam, kleur:kleur().naam, maat:maat().maat, tex:kleur().tex,
+        aantal:dozen, prijsPerEenheid:prijsPerDoos(), eenheid:eenheid(),
+        m2: p.perStuk ? 0 : dozen*maat().m2PerDoos
+      });
+    }
+    document.getElementById('addCart').addEventListener('click', add);
+    document.getElementById('sbAdd').addEventListener('click', add);
+    document.getElementById('addSample').addEventListener('click', function(){ TL.addSample(p, kleurIdx); });
+    document.getElementById('addShowroom').addEventListener('click', function(){ TL.addShowroom(p, kleurIdx, maatIdx); });
+
+    TL.$$('#tabs button').forEach(function(b){
+      b.addEventListener('click', function(){
+        TL.$$('#tabs button').forEach(function(x){ x.classList.remove('is-active'); });
+        b.classList.add('is-active');
+        TL.$$('.tabpane').forEach(function(x){ x.classList.add('hidden'); });
+        document.getElementById('tab-'+b.dataset.tab).classList.remove('hidden');
+      });
+    });
+  }
+
+  dozen = berekenDozen();
+  render();
+})();
+</script>
+</body>
+</html>
