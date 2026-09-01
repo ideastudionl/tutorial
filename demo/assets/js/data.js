@@ -80,171 +80,169 @@ function tex(look, base, accent, seed, opts){
   return "url('data:image/svg+xml," + encodeURIComponent(svg) + "')";
 }
 
-/* ---------- Assortiment ---------- */
-/* prijs = per m2 incl. btw | m2PerDoos = inhoud per doos                    */
+
+/* ---------- Assortiment ----------------------------------------------------
+   Series, kleuren en formaten zijn ontleend aan de publieke catalogus van
+   leverancier Ege Seramik (zie `bron` per product). Prijzen, m² per doos,
+   voorraad, levertijd en reviewaantallen zijn PLACEHOLDERS voor de demo en
+   moeten uit de leveranciersfiches komen — zie SHOPIFY.md § 7.
+   Turkse kleurnamen zijn vertaald: Beyaz=Wit, Gri=Grijs, Bej=Beige,
+   Siyah=Zwart, Rölyef=Reliëf, Mat=Mat, Tam Parlak=Hoogglans,
+   Rektifiye=Gerectificeerd.
+--------------------------------------------------------------------------- */
 var PRODUCTS = [
   {
-    id:'especta-beige',
-    naam:'Especta Beige Natuursteenlook Vloer-/Wandtegel',
-    merk:'Ege Seramik', look:'natuursteenlook', ruimte:['badkamer','woonkamer','keuken','toilet'],
-    toepassing:['vloer','wand','binnen'], afwerking:'Mat', antislip:'R10', dikte:'9 mm',
+    id:'especta',
+    naam:'Especta Natuursteenlook Gerectificeerd 60x120',
+    merk:'Ege Seramik', serie:'Especta', look:'natuursteenlook',
+    bron:'https://www.egeseramik.com/en/collection/especta/60x120-especta-biege-rectified',
+    ruimte:['badkamer','woonkamer','keuken','hal'],
+    toepassing:['vloer','wand','binnen'], afwerking:'Mat, gerectificeerd', antislip:'R10', dikte:'9 mm',
     materiaal:'Gerectificeerd porcellanato', sortering:'1e sortering', slijtvastheid:'Klasse 5 (PEI V)',
     vloerverwarming:true, badge:['-22%','Actie van de maand'], nieuw:false, rating:5.0, reviews:38,
     levertijd:'2-3 weken', voorraad:'op bestelling',
-    omschrijving:'Een warme, rustige natuursteenlook met subtiele aderingen. Gerectificeerd, dus met een strak voegbeeld van 2 mm te leggen. Geschikt voor vloer én wand, ook op vloerverwarming.',
+    omschrijving:'Grootformaat natuursteenlook met een rustig, warm beeld. Gerectificeerd, dus met een strakke voeg van 2 mm te leggen. De reliëfvariant heeft een voelbare structuur en is mooi als accentwand.',
     kleuren:[
       {naam:'Beige', tex:tex('natuursteenlook','#d8cdbd','#b6a794',7)},
-      {naam:'Greige', tex:tex('natuursteenlook','#c9c1b4','#a2988a',11)},
-      {naam:'Antraciet', tex:tex('natuursteenlook','#4a4c4f','#2e3033',13)}
+      {naam:'Grijs', tex:tex('natuursteenlook','#c3c3c0','#9b9b96',11)},
+      {naam:'Reliëf Beige', tex:tex('natuursteenlook','#d2c6b3','#a8977f',13)}
     ],
     maten:[
-      {maat:'60x60 cm', prijs:29.95, oud:38.95, m2PerDoos:1.44, stuksPerDoos:4},
-      {maat:'80x80 cm', prijs:32.95, oud:41.95, m2PerDoos:1.28, stuksPerDoos:2},
-      {maat:'100x100 cm', prijs:34.95, oud:44.95, m2PerDoos:2.00, stuksPerDoos:2}
+      {maat:'60x120 cm', prijs:34.95, oud:44.95, m2PerDoos:1.44, stuksPerDoos:2}
     ]
   },
   {
-    id:'carrara-statuario',
-    naam:'Maison Marmerlook Gepolijst Vloertegel',
-    merk:'Ege Seramik', look:'marmerlook', ruimte:['badkamer','woonkamer','hal'],
-    toepassing:['vloer','wand','binnen'], afwerking:'Gepolijst', antislip:'R9', dikte:'9 mm',
+    id:'ontario',
+    naam:'Ontario Wit Gerectificeerd Vloer-/Wandtegel',
+    merk:'Ege Seramik', serie:'Ontario', look:'effen',
+    bron:'https://www.egeseramik.com/60x60-ontario-mat-beyaz-rektifiye',
+    ruimte:['badkamer','keuken','woonkamer','toilet','hal'],
+    toepassing:['vloer','wand','binnen'], afwerking:'Mat of hoogglans, gerectificeerd', antislip:'R9', dikte:'9 mm',
     materiaal:'Gerectificeerd porcellanato', sortering:'1e sortering', slijtvastheid:'Klasse 4 (PEI IV)',
     vloerverwarming:true, badge:['Bestseller'], nieuw:false, rating:4.9, reviews:64,
     levertijd:'1-3 werkdagen', voorraad:'op voorraad',
-    omschrijving:'Hoogglans marmerlook met grijze aderingen op een witte ondergrond. Geeft een lichte, luxe uitstraling en is onderhoudsarm — het uiterlijk van marmer zonder het onderhoud.',
+    omschrijving:'Strak wit in mat of hoogglans, in twee formaten. De mattte variant is rustig en onderhoudsvriendelijk; de hoogglansvariant maakt een kleine ruimte optisch lichter en groter.',
     kleuren:[
-      {naam:'Wit', tex:tex('marmerlook','#f2f1ee','#9aa2ab',3)},
-      {naam:'Calacatta Goud', tex:tex('marmerlook','#f4f0e7','#c2a06a',5)},
+      {naam:'Mat Wit', tex:tex('effen','#f0efec','#d8d6d1',3,{joint:true})},
+      {naam:'Hoogglans Wit', tex:tex('effen','#f8f8f7','#e0e0de',5,{joint:true})}
+    ],
+    maten:[
+      {maat:'30x60 cm', prijs:24.95, oud:null, m2PerDoos:1.08, stuksPerDoos:6},
+      {maat:'60x60 cm', prijs:28.95, oud:null, m2PerDoos:1.44, stuksPerDoos:4}
+    ]
+  },
+  {
+    id:'nepal',
+    naam:'Nepal Grijs Betonlook 60x60',
+    merk:'Ege Seramik', serie:'Nepal', look:'betonlook',
+    bron:'https://www.egeseramik.com/nepal',
+    ruimte:['woonkamer','keuken','badkamer','hal'],
+    toepassing:['vloer','wand','binnen'], afwerking:'Mat', antislip:'R10', dikte:'9 mm',
+    materiaal:'Porcellanato', sortering:'1e sortering', slijtvastheid:'Klasse 5 (PEI V)',
+    vloerverwarming:true, badge:['-15%'], nieuw:false, rating:4.8, reviews:91,
+    levertijd:'1-3 werkdagen', voorraad:'op voorraad',
+    omschrijving:'Neutrale grijze betonlook met een licht gewolkt beeld — onze meest gekozen basisvloer voor open woon-keukens. Sterk, onderhoudsarm en makkelijk te combineren.',
+    kleuren:[
+      {naam:'Grijs', tex:tex('betonlook','#c6c7c5','#8e908e',2)},
+      {naam:'Antraciet', tex:tex('betonlook','#54565a','#33353a',6)}
+    ],
+    maten:[
+      {maat:'60x60 cm', prijs:24.95, oud:29.50, m2PerDoos:1.44, stuksPerDoos:4}
+    ]
+  },
+  {
+    id:'nevada',
+    naam:'Nevada Zwart Hoogglans Gerectificeerd 60x60',
+    merk:'Ege Seramik', serie:'Nevada', look:'marmerlook',
+    bron:'https://www.egeseramik-usa.com/600x600-Black-Full-Polish-Rectified',
+    ruimte:['badkamer','toilet','hal'],
+    toepassing:['vloer','wand','binnen'], afwerking:'Hoogglans, gerectificeerd', antislip:'R9', dikte:'9 mm',
+    materiaal:'Gerectificeerd porcellanato', sortering:'1e sortering', slijtvastheid:'Klasse 4 (PEI IV)',
+    vloerverwarming:true, badge:[], nieuw:false, rating:4.8, reviews:21,
+    levertijd:'2-3 weken', voorraad:'op bestelling',
+    omschrijving:'Diep zwart met hoogglans en subtiele adering. Sterk statement in een toilet of als accentwand achter een vrijstaand bad. Let op: hoogglans laat kalkvlekken sneller zien.',
+    kleuren:[
       {naam:'Zwart', tex:tex('marmerlook','#26282c','#9fa6ae',9)}
     ],
     maten:[
-      {maat:'60x60 cm', prijs:34.50, oud:null, m2PerDoos:1.44, stuksPerDoos:4},
-      {maat:'60x120 cm', prijs:39.50, oud:null, m2PerDoos:1.44, stuksPerDoos:2}
+      {maat:'60x60 cm', prijs:36.50, oud:null, m2PerDoos:1.44, stuksPerDoos:4}
     ]
   },
   {
-    id:'urban-beton',
-    naam:'Ontario Betonlook Vloertegel Mat',
-    merk:'Tegelloods Select', look:'betonlook', ruimte:['woonkamer','keuken','badkamer','bedrijfsruimte'],
-    toepassing:['vloer','wand','binnen'], afwerking:'Mat', antislip:'R10', dikte:'10 mm',
-    materiaal:'Gerectificeerd porcellanato', sortering:'1e sortering', slijtvastheid:'Klasse 5 (PEI V)',
-    vloerverwarming:true, badge:['-15%'], nieuw:false, rating:4.8, reviews:91,
+    id:'maison',
+    naam:'Maison Wandtegel Gerectificeerd 33x99',
+    merk:'Ege Seramik', serie:'Maison', look:'effen',
+    bron:'https://www.egeseramik-usa.com/maison',
+    ruimte:['badkamer','keuken','toilet'],
+    toepassing:['wand','binnen'], afwerking:'Mat, gerectificeerd', antislip:'-', dikte:'9 mm',
+    materiaal:'Keramische wandtegel', sortering:'1e sortering', slijtvastheid:'n.v.t. (wandtegel)',
+    vloerverwarming:false, badge:['Groot formaat'], nieuw:false, rating:4.9, reviews:33,
     levertijd:'1-3 werkdagen', voorraad:'op voorraad',
-    omschrijving:'Strakke betonlook met een licht gewolkte structuur. Onze meest verkochte vloertegel voor open woon-keukens; zeer sterk en geschikt voor intensief gebruik.',
+    omschrijving:'Groot wandformaat van 33x99 cm: minder voegen, dus een rustiger beeld en makkelijker schoon te houden. De Star-varianten hebben een fijne glansnerf, de Memorie Mix is een decortegel.',
     kleuren:[
-      {naam:'Light Grey', tex:tex('betonlook','#c6c7c5','#8e908e',2)},
-      {naam:'Taupe', tex:tex('betonlook','#b8afa3','#8a8175',4)},
-      {naam:'Antraciet', tex:tex('betonlook','#54565a','#33353a',6)},
-      {naam:'Ivory', tex:tex('betonlook','#ded9d1','#b0aaa1',8)}
+      {naam:'Wit', tex:tex('effen','#f3f2ef','#dcdbd7',21,{joint:false})},
+      {naam:'Star Wit', tex:tex('effen','#f6f5f1','#e2e0da',22,{joint:false})},
+      {naam:'Grijs', tex:tex('effen','#c8c8c6','#aaaaa7',23,{joint:false})},
+      {naam:'Star Grijs', tex:tex('effen','#cfcfcd','#b2b2af',24,{joint:false})},
+      {naam:'Beige', tex:tex('effen','#ded5c6','#c0b6a5',25,{joint:false})},
+      {naam:'Memorie Mix', tex:tex('terrazzo','#e6e1d7','#b3aa98',26,{pal:['#c9bfa9','#8f877a','#ddd7c9','#a89a86']})}
     ],
     maten:[
-      {maat:'60x60 cm', prijs:24.95, oud:29.50, m2PerDoos:1.44, stuksPerDoos:4},
-      {maat:'75x75 cm', prijs:27.95, oud:32.95, m2PerDoos:1.69, stuksPerDoos:3},
-      {maat:'60x120 cm', prijs:29.95, oud:35.50, m2PerDoos:1.44, stuksPerDoos:2}
+      {maat:'33x99 cm', prijs:29.95, oud:null, m2PerDoos:1.31, stuksPerDoos:4}
     ]
   },
   {
-    id:'nordic-eiken',
-    naam:'Torro Eiken Houtlook Vloertegel 20x120',
-    merk:'Ege Seramik', look:'houtlook', ruimte:['woonkamer','keuken','hal','slaapkamer'],
-    toepassing:['vloer','binnen'], afwerking:'Structuur', antislip:'R10', dikte:'9 mm',
-    materiaal:'Gerectificeerd porcellanato', sortering:'1e sortering', slijtvastheid:'Klasse 5 (PEI V)',
-    vloerverwarming:true, badge:['Topper'], nieuw:false, rating:4.9, reviews:47,
+    id:'metropolitan',
+    naam:'Metropolitan Betonlook met Structuur',
+    merk:'Ege Seramik', serie:'Metropolitan', look:'betonlook',
+    bron:'https://www.egeseramik-usa.com/products',
+    ruimte:['woonkamer','keuken','badkamer','bedrijfsruimte'],
+    toepassing:['vloer','wand','binnen'], afwerking:'Licht gestructureerd', antislip:'R10', dikte:'10 mm',
+    materiaal:'Geglazuurd porcellanato', sortering:'1e sortering', slijtvastheid:'Klasse 5 (PEI V)',
+    vloerverwarming:true, badge:['Topper'], nieuw:false, rating:4.8, reviews:47,
     levertijd:'1-3 werkdagen', voorraad:'op voorraad',
-    omschrijving:'Houtlook met realistische nerfstructuur in een lang formaat. Ideaal in visgraat of halfsteensverband en — anders dan echt hout — perfect combineerbaar met vloerverwarming.',
+    omschrijving:'Moderne betonlook met een licht voelbare structuur en patchwork-decors binnen dezelfde serie. Geschikt voor intensief gebruik, ook in bedrijfsruimtes.',
+    kleuren:[
+      {naam:'Light Grey', tex:tex('betonlook','#cbcbc8','#96968f',31)},
+      {naam:'Taupe', tex:tex('betonlook','#b8afa3','#8a8175',33)},
+      {naam:'Antraciet', tex:tex('betonlook','#4f5155','#303236',35)}
+    ],
+    maten:[
+      {maat:'60x60 cm', prijs:27.95, oud:null, m2PerDoos:1.44, stuksPerDoos:4},
+      {maat:'60x120 cm', prijs:32.95, oud:null, m2PerDoos:1.44, stuksPerDoos:2}
+    ]
+  },
+  {
+    id:'feelwood',
+    naam:'Feelwood Houtlook Satijn',
+    merk:'Ege Seramik', serie:'Feelwood', look:'houtlook',
+    bron:'https://www.egeseramik-usa.com/products',
+    ruimte:['woonkamer','keuken','hal','slaapkamer'],
+    toepassing:['vloer','binnen'], afwerking:'Satijn, houtnerf', antislip:'R10', dikte:'9 mm',
+    materiaal:'Geglazuurd porcellanato', sortering:'1e sortering', slijtvastheid:'Klasse 5 (PEI V)',
+    vloerverwarming:true, badge:['Bestseller'], nieuw:false, rating:4.9, reviews:58,
+    levertijd:'1-3 werkdagen', voorraad:'op voorraad',
+    omschrijving:'Satijn afgewerkte houtlook die de nerf van verouderd hout nabootst — in uiterlijk én aanvoelen. Anders dan echt hout perfect te combineren met vloerverwarming, en niet gevoelig voor water.',
     kleuren:[
       {naam:'Natural', tex:tex('houtlook','#c9a877','#8e6c42',12)},
       {naam:'Smoked', tex:tex('houtlook','#9c8163','#6b523a',14)},
       {naam:'Grey Oak', tex:tex('houtlook','#b3ada4','#7e786f',16)}
     ],
     maten:[
-      {maat:'20x120 cm', prijs:31.95, oud:null, m2PerDoos:1.44, stuksPerDoos:6},
-      {maat:'15x90 cm (visgraat)', prijs:36.50, oud:null, m2PerDoos:1.08, stuksPerDoos:8}
+      {maat:'20x120 cm', prijs:31.95, oud:null, m2PerDoos:1.44, stuksPerDoos:6}
     ]
   },
   {
-    id:'metro-wit',
-    naam:'Metrotegel Wit Glans 7,5x15',
-    merk:'Tegelloods Select', look:'effen', ruimte:['keuken','badkamer','toilet'],
-    toepassing:['wand','binnen'], afwerking:'Glans', antislip:'-', dikte:'8 mm',
-    materiaal:'Keramiek', sortering:'1e sortering', slijtvastheid:'n.v.t. (wandtegel)',
-    vloerverwarming:false, badge:['Voordeel'], nieuw:false, rating:4.7, reviews:120,
-    levertijd:'1-3 werkdagen', voorraad:'op voorraad',
-    omschrijving:'De klassieke metrotegel met facet. Tijdloos in de keuken als achterwand en in de badkamer. Ook verkrijgbaar in mat.',
-    kleuren:[
-      {naam:'Wit glans', tex:tex('effen','#f6f6f4','#dcdcda',21,{joint:false})},
-      {naam:'Wit mat', tex:tex('effen','#efeeea','#d4d3cf',22,{joint:false})},
-      {naam:'Salie', tex:tex('effen','#b9c4b3','#93a08d',23,{joint:false})},
-      {naam:'Terra', tex:tex('effen','#c98d6d','#a06a4c',24,{joint:false})}
-    ],
-    maten:[
-      {maat:'7,5x15 cm', prijs:16.95, oud:21.95, m2PerDoos:0.50, stuksPerDoos:44},
-      {maat:'10x30 cm', prijs:18.95, oud:23.95, m2PerDoos:1.00, stuksPerDoos:33}
-    ]
-  },
-  {
-    id:'terrazzo-venice',
-    naam:'Romina Terrazzolook Vloer-/Wandtegel',
-    merk:'Ege Seramik', look:'terrazzo', ruimte:['badkamer','toilet','hal'],
-    toepassing:['vloer','wand','binnen'], afwerking:'Mat', antislip:'R10', dikte:'9 mm',
-    materiaal:'Gerectificeerd porcellanato', sortering:'1e sortering', slijtvastheid:'Klasse 4 (PEI IV)',
-    vloerverwarming:true, badge:['Nieuw'], nieuw:true, rating:4.8, reviews:12,
-    levertijd:'2-3 weken', voorraad:'op bestelling',
-    omschrijving:'Speels terrazzo met fijne kleurspikkels. Mooi als totaalvloer in een klein toilet of als accentvlak in de badkamer.',
-    kleuren:[
-      {naam:'Bianco', tex:tex('terrazzo','#eeece6','#b7b1a5',31,{pal:['#c7c0b3','#8f877a','#ddd7c9','#a89a86']})},
-      {naam:'Greige', tex:tex('terrazzo','#d5cec2','#9d9484',33,{pal:['#b3a894','#7f7666','#e0d8c8','#9c8f7a']})}
-    ],
-    maten:[
-      {maat:'60x60 cm', prijs:37.95, oud:null, m2PerDoos:1.44, stuksPerDoos:4}
-    ]
-  },
-  {
-    id:'quartz-buiten',
-    naam:'Ares Keramische Terrastegel 60x60x2 cm',
-    merk:'Tegelloods Select', look:'natuursteenlook', ruimte:['tuin','terras','oprit'],
-    toepassing:['vloer','buiten'], afwerking:'Structuur', antislip:'R11 / A+B+C', dikte:'20 mm',
-    materiaal:'Keramisch, vorstbestendig', sortering:'1e sortering', slijtvastheid:'Klasse 5 (PEI V)',
-    vloerverwarming:false, badge:['Buiten'], nieuw:false, rating:4.9, reviews:73,
-    levertijd:'1-3 werkdagen', voorraad:'op voorraad',
-    omschrijving:'Keramische buitentegel van 2 cm dik. Vorstbestendig, kleurvast en nagenoeg onderhoudsvrij — losliggend op split of te verlijmen op een betonnen ondergrond.',
-    kleuren:[
-      {naam:'Grigio', tex:tex('natuursteenlook','#9d9d99','#77776f',41)},
-      {naam:'Sand', tex:tex('natuursteenlook','#c4b7a1','#9c8f79',43)},
-      {naam:'Nero', tex:tex('natuursteenlook','#3f4144','#26282b',45)}
-    ],
-    maten:[
-      {maat:'60x60x2 cm', prijs:33.50, oud:null, m2PerDoos:1.44, stuksPerDoos:4},
-      {maat:'80x80x2 cm', prijs:38.50, oud:null, m2PerDoos:1.28, stuksPerDoos:2}
-    ]
-  },
-  {
-    id:'zellige-groen',
-    naam:'Zellige Handvorm Wandtegel 10x10',
-    merk:'Atelier', look:'effen', ruimte:['keuken','badkamer'],
-    toepassing:['wand','binnen'], afwerking:'Glans, handvorm', antislip:'-', dikte:'9 mm',
-    materiaal:'Keramiek', sortering:'1e sortering', slijtvastheid:'n.v.t. (wandtegel)',
-    vloerverwarming:false, badge:['Nieuw'], nieuw:true, rating:4.9, reviews:9,
-    levertijd:'3-4 weken', voorraad:'op bestelling',
-    omschrijving:'Handgevormde zellige met een levendig glazuur: elke tegel is net iets anders. Een warme keuze voor de keukenachterwand.',
-    kleuren:[
-      {naam:'Olijfgroen', tex:tex('effen','#7d8a63','#5d6849',51,{joint:false})},
-      {naam:'Oceaan', tex:tex('effen','#5f7f8d','#456070',53,{joint:false})},
-      {naam:'Off-white', tex:tex('effen','#e8e3d8','#c8c2b4',55,{joint:false})}
-    ],
-    maten:[
-      {maat:'10x10 cm', prijs:59.95, oud:null, m2PerDoos:0.50, stuksPerDoos:50}
-    ]
-  },
-  {
-    id:'travertin-classic',
-    naam:'Nepal Travertinlook Vloer-/Wandtegel',
-    merk:'Ege Seramik', look:'natuursteenlook', ruimte:['badkamer','woonkamer','hal'],
+    id:'dakota',
+    naam:'Dakota Travertijnlook Vloer-/Wandtegel',
+    merk:'Ege Seramik', serie:'Dakota', look:'natuursteenlook',
+    bron:'https://www.egeseramik-usa.com/products',
+    ruimte:['badkamer','woonkamer','hal'],
     toepassing:['vloer','wand','binnen'], afwerking:'Zijdemat', antislip:'R10', dikte:'9 mm',
-    materiaal:'Gerectificeerd porcellanato', sortering:'1e sortering', slijtvastheid:'Klasse 4 (PEI IV)',
+    materiaal:'Porcellanato', sortering:'1e sortering', slijtvastheid:'Klasse 4 (PEI IV)',
     vloerverwarming:true, badge:[], nieuw:false, rating:4.8, reviews:26,
     levertijd:'1-3 werkdagen', voorraad:'op voorraad',
-    omschrijving:'Travertinlook met de karakteristieke horizontale nerf. Warm van kleur en rustig van beeld — combineert mooi met hout en riet.',
+    omschrijving:'Travertijnlook met de karakteristieke horizontale nerf, in een onderhoudsarme keramische uitvoering. Warm van kleur en rustig van beeld — combineert mooi met hout en riet.',
     kleuren:[
       {naam:'Beige', tex:tex('natuursteenlook','#dfd2ba','#bda98a',61)},
       {naam:'Silver', tex:tex('natuursteenlook','#cfcac2','#a49e94',63)}
@@ -255,39 +253,105 @@ var PRODUCTS = [
     ]
   },
   {
-    id:'mosaic-hex',
-    naam:'Hexagon Mozaïek Mat op Matje 30x30',
-    merk:'Atelier', look:'effen', ruimte:['badkamer','toilet'],
-    toepassing:['vloer','wand','binnen'], afwerking:'Mat', antislip:'R11', dikte:'8 mm',
-    materiaal:'Porcellanato mozaïek', sortering:'1e sortering', slijtvastheid:'Klasse 4 (PEI IV)',
-    vloerverwarming:true, badge:['Douchevloer'], nieuw:false, rating:4.7, reviews:31,
-    levertijd:'1-3 werkdagen', voorraad:'op voorraad',
-    omschrijving:'Mozaïek op matje — dé oplossing voor de douchevloer met afschot. Veel voegen betekent extra grip (R11).',
+    id:'antwerp',
+    naam:'Antwerp Mat Beton-/Natuursteenlook',
+    merk:'Ege Seramik', serie:'Antwerp', look:'betonlook',
+    bron:'https://www.egeseramik-usa.com/products',
+    ruimte:['woonkamer','keuken','badkamer','hal'],
+    toepassing:['vloer','wand','binnen'], afwerking:'Mat', antislip:'R10', dikte:'9 mm',
+    materiaal:'Geglazuurd porcellanato', sortering:'1e sortering', slijtvastheid:'Klasse 5 (PEI V)',
+    vloerverwarming:true, badge:['Nieuw'], nieuw:true, rating:4.9, reviews:11,
+    levertijd:'2-3 weken', voorraad:'op bestelling',
+    omschrijving:'Een mat vlak dat het midden houdt tussen beton en natuursteen: rustiger dan beton, minder uitgesproken dan marmer. Prettig als je een neutrale basis wilt die niet klinisch aanvoelt.',
     kleuren:[
-      {naam:'Wit', tex:tex('effen','#eceae5','#cfccc5',71,{joint:false})},
-      {naam:'Antraciet', tex:tex('effen','#4b4d50','#333538',73,{joint:false})}
+      {naam:'Ivory', tex:tex('betonlook','#ded9d1','#b0aaa1',41)},
+      {naam:'Greige', tex:tex('betonlook','#c4bcb0','#948c80',43)},
+      {naam:'Dark', tex:tex('betonlook','#5b5c5e','#3a3b3d',45)}
     ],
     maten:[
-      {maat:'30x30 cm (matje)', prijs:44.95, oud:null, m2PerDoos:0.90, stuksPerDoos:10}
+      {maat:'60x60 cm', prijs:29.95, oud:null, m2PerDoos:1.44, stuksPerDoos:4},
+      {maat:'60x120 cm', prijs:34.95, oud:null, m2PerDoos:1.44, stuksPerDoos:2}
+    ]
+  },
+  {
+    id:'terrazzo',
+    naam:'Ege Terrazzo Porselein Vloer-/Wandtegel',
+    merk:'Ege Seramik', serie:'Terrazzo', look:'terrazzo',
+    bron:'https://www.artwalktile.com/collections/ege-seramik-tile-terrazzo-porcelain',
+    ruimte:['badkamer','toilet','hal'],
+    toepassing:['vloer','wand','binnen'], afwerking:'Mat', antislip:'R10', dikte:'9 mm',
+    materiaal:'Porcellanato', sortering:'1e sortering', slijtvastheid:'Klasse 4 (PEI IV)',
+    vloerverwarming:true, badge:['Nieuw'], nieuw:true, rating:4.8, reviews:12,
+    levertijd:'2-3 weken', voorraad:'op bestelling',
+    omschrijving:'Speels terrazzo met fijne kleurspikkels in een keramische uitvoering. Mooi als totaalvloer in een klein toilet of als accentvlak in de badkamer.',
+    kleuren:[
+      {naam:'Bianco', tex:tex('terrazzo','#eeece6','#b7b1a5',51,{pal:['#c7c0b3','#8f877a','#ddd7c9','#a89a86']})},
+      {naam:'Greige', tex:tex('terrazzo','#d5cec2','#9d9484',53,{pal:['#b3a894','#7f7666','#e0d8c8','#9c8f7a']})}
+    ],
+    maten:[
+      {maat:'60x60 cm', prijs:37.95, oud:null, m2PerDoos:1.44, stuksPerDoos:4}
+    ]
+  },
+  {
+    id:'terrastegel',
+    naam:'Keramische Terrastegel 2 cm',
+    merk:'Tegelloods Select', serie:null, look:'natuursteenlook',
+    bron:null,
+    ruimte:['tuin','terras','oprit'],
+    toepassing:['vloer','buiten'], afwerking:'Structuur', antislip:'R11 / A+B+C', dikte:'20 mm',
+    materiaal:'Keramisch, vorstbestendig', sortering:'1e sortering', slijtvastheid:'Klasse 5 (PEI V)',
+    vloerverwarming:false, badge:['Buiten'], nieuw:false, rating:4.9, reviews:73,
+    levertijd:'1-3 werkdagen', voorraad:'op voorraad',
+    omschrijving:'Keramische buitentegel van 2 cm dik uit ons eigen label. Vorstbestendig, kleurvast en nagenoeg onderhoudsvrij — losliggend op split of te verlijmen op een betonnen ondergrond.',
+    kleuren:[
+      {naam:'Grigio', tex:tex('natuursteenlook','#9d9d99','#77776f',71)},
+      {naam:'Sand', tex:tex('natuursteenlook','#c4b7a1','#9c8f79',73)},
+      {naam:'Nero', tex:tex('natuursteenlook','#3f4144','#26282b',75)}
+    ],
+    maten:[
+      {maat:'60x60x2 cm', prijs:33.50, oud:null, m2PerDoos:1.44, stuksPerDoos:4},
+      {maat:'80x80x2 cm', prijs:38.50, oud:null, m2PerDoos:1.28, stuksPerDoos:2}
+    ]
+  },
+  {
+    id:'metrotegel',
+    naam:'Metrotegel Wit Glans 7,5x15',
+    merk:'Tegelloods Select', serie:null, look:'effen',
+    bron:null,
+    ruimte:['keuken','badkamer','toilet'],
+    toepassing:['wand','binnen'], afwerking:'Glans, facet', antislip:'-', dikte:'8 mm',
+    materiaal:'Keramiek', sortering:'1e sortering', slijtvastheid:'n.v.t. (wandtegel)',
+    vloerverwarming:false, badge:['Voordeel'], nieuw:false, rating:4.7, reviews:120,
+    levertijd:'1-3 werkdagen', voorraad:'op voorraad',
+    omschrijving:'De klassieke metrotegel met facet uit ons eigen label. Tijdloos in de keuken als achterwand en in de badkamer. Ook verkrijgbaar in mat en in kleur.',
+    kleuren:[
+      {naam:'Wit glans', tex:tex('effen','#f6f6f4','#dcdcda',81,{joint:false})},
+      {naam:'Salie', tex:tex('effen','#b9c4b3','#93a08d',83,{joint:false})},
+      {naam:'Terra', tex:tex('effen','#c98d6d','#a06a4c',85,{joint:false})}
+    ],
+    maten:[
+      {maat:'7,5x15 cm', prijs:16.95, oud:21.95, m2PerDoos:0.50, stuksPerDoos:44}
     ]
   },
   {
     id:'lijm-flex',
     naam:'Tegellijm Flex Wit 25 kg',
-    merk:'Tegelloods Select', look:'toebehoren', ruimte:['toebehoren'],
+    merk:'Tegelloods Select', serie:null, look:'toebehoren', bron:null,
+    ruimte:['toebehoren'],
     toepassing:['toebehoren'], afwerking:'-', antislip:'-', dikte:'-',
     materiaal:'C2TE S1 flexibele poederlijm', sortering:'-', slijtvastheid:'-',
     vloerverwarming:true, badge:[], nieuw:false, rating:4.9, reviews:54,
     levertijd:'1-3 werkdagen', voorraad:'op voorraad',
     omschrijving:'Flexibele witte poederlijm (C2TE S1), geschikt voor grootformaat tegels en vloerverwarming. Rendement circa 4-5 kg per m².',
     perStuk:true, eenheid:'zak',
-    kleuren:[{naam:'Wit', tex:tex('effen','#e9e6df','#cbc7bf',81,{joint:false})}],
+    kleuren:[{naam:'Wit', tex:tex('effen','#e9e6df','#cbc7bf',91,{joint:false})}],
     maten:[{maat:'25 kg', prijs:21.95, oud:null, m2PerDoos:1, stuksPerDoos:1}]
   },
   {
     id:'voegmiddel',
     naam:'Voegmiddel Flex 5 kg',
-    merk:'Tegelloods Select', look:'toebehoren', ruimte:['toebehoren'],
+    merk:'Tegelloods Select', serie:null, look:'toebehoren', bron:null,
+    ruimte:['toebehoren'],
     toepassing:['toebehoren'], afwerking:'-', antislip:'-', dikte:'-',
     materiaal:'Cementgebonden voegmortel CG2 WA', sortering:'-', slijtvastheid:'-',
     vloerverwarming:true, badge:[], nieuw:false, rating:4.8, reviews:29,
@@ -295,9 +359,9 @@ var PRODUCTS = [
     omschrijving:'Flexibel voegmiddel voor voegen van 1-10 mm, water- en vuilafstotend. In 12 kleuren, afgestemd op onze collecties.',
     perStuk:true, eenheid:'emmer',
     kleuren:[
-      {naam:'Zilvergrijs', tex:tex('effen','#b9b9b6','#9a9a97',83,{joint:false})},
-      {naam:'Antraciet', tex:tex('effen','#4f5153','#3a3c3e',85,{joint:false})},
-      {naam:'Wit', tex:tex('effen','#f0efec','#d6d5d1',87,{joint:false})}
+      {naam:'Zilvergrijs', tex:tex('effen','#b9b9b6','#9a9a97',93,{joint:false})},
+      {naam:'Antraciet', tex:tex('effen','#4f5153','#3a3c3e',95,{joint:false})},
+      {naam:'Wit', tex:tex('effen','#f0efec','#d6d5d1',97,{joint:false})}
     ],
     maten:[{maat:'5 kg', prijs:14.95, oud:null, m2PerDoos:1, stuksPerDoos:1}]
   }
@@ -306,11 +370,120 @@ var PRODUCTS = [
 /* ---------- Categorieën ---------- */
 var CATEGORIES = [
   {slug:'vloertegels', naam:'Vloertegels', sub:'vanaf € 24,95 p/m²', tex:tex('betonlook','#c6c7c5','#8e908e',2)},
-  {slug:'wandtegels',  naam:'Wandtegels',  sub:'vanaf € 16,95 p/m²', tex:tex('effen','#f6f6f4','#dcdcda',21,{joint:false})},
-  {slug:'houtlook',    naam:'Houtlook',    sub:'nerfstructuur',      tex:tex('houtlook','#c9a877','#8e6c42',12)},
-  {slug:'marmerlook',  naam:'Marmerlook',  sub:'gepolijst & mat',    tex:tex('marmerlook','#f2f1ee','#9aa2ab',3)},
-  {slug:'buitentegels',naam:'Buitentegels',sub:'2 cm keramiek',      tex:tex('natuursteenlook','#9d9d99','#77776f',41)},
-  {slug:'toebehoren',  naam:'Lijm & voeg', sub:'alles compleet',     tex:tex('effen','#e9e6df','#cbc7bf',81,{joint:false})}
+  {slug:'wandtegels',  naam:'Wandtegels',  sub:'vanaf € 16,95 p/m²', tex:tex('effen','#f3f2ef','#dcdbd7',21,{joint:false})},
+  {slug:'houtlook',    naam:'Houtlook',    sub:'Feelwood-serie',     tex:tex('houtlook','#c9a877','#8e6c42',12)},
+  {slug:'marmerlook',  naam:'Marmerlook',  sub:'mat & hoogglans',    tex:tex('marmerlook','#26282c','#9fa6ae',9)},
+  {slug:'buitentegels',naam:'Buitentegels',sub:'2 cm keramiek',      tex:tex('natuursteenlook','#9d9d99','#77776f',71)},
+  {slug:'toebehoren',  naam:'Lijm & voeg', sub:'alles compleet',     tex:tex('effen','#e9e6df','#cbc7bf',91,{joint:false})}
+];
+
+/* ---------- Inspiratie per ruimte ---------- */
+var RUIMTES = [
+  {
+    slug:'badkamer', naam:'Badkamer',
+    kop:'Een badkamer die na tien jaar nog klopt',
+    intro:'De badkamer is de ruimte waar de meeste keuzes tegelijk vallen: vloer, wand, douchevloer en soms een nis. Wij adviseren om met de vloer te beginnen en de wand daarop te kiezen — niet andersom.',
+    advies:[
+      ['Vloer','Kies minimaal R10. In de douche zelf mag het gerust R11 of mozaïek zijn: veel voegen betekent extra grip.'],
+      ['Wand','Groot formaat (33x99) geeft minder voegen en dus minder schoonmaakwerk. Doortrekken tot het plafond maakt de ruimte hoger.'],
+      ['Combineren','Eén rustige basis plus één accentvlak werkt bijna altijd. Twee uitgesproken tegels naast elkaar zelden.'],
+      ['Voegkleur','Een voeg net iets donkerder dan de tegel blijft jarenlang mooi; wit in de douche niet.']
+    ],
+    producten:['ontario','maison','especta','terrazzo']
+  },
+  {
+    slug:'keuken', naam:'Keuken',
+    kop:'Een vloer die tegen een gemorst glas rode wijn kan',
+    intro:'In de keuken telt vooral wat er met de vloer gebeurt als er iets valt of morst. Keramiek is hier in het voordeel boven hout: vlekvrij, krasvast en niet gevoelig voor water.',
+    advies:[
+      ['Vloer','Doorlopende vloer van keuken naar woonkamer maakt de ruimte optisch groter. Kies dan één formaat voor beide.'],
+      ['Achterwand','Metrotegel of een groot formaat zonder voegen achter het fornuis — vet is makkelijker van een tegel dan van een voeg.'],
+      ['Formaat','60x120 geeft rust in een open keuken; 60x60 is voordeliger en makkelijker te leggen rond kasten.'],
+      ['Let op','Hoogglans op de vloer is in een keuken minder praktisch: elke druppel is zichtbaar.']
+    ],
+    producten:['nepal','feelwood','metrotegel','metropolitan']
+  },
+  {
+    slug:'woonkamer', naam:'Woonkamer',
+    kop:'Eén vloer voor de hele begane grond',
+    intro:'De meeste klanten kiezen hier één vloer voor woonkamer, hal en keuken samen. Dat is niet alleen rustiger, het is ook goedkoper: minder snijverlies en één keer legkosten.',
+    advies:[
+      ['Vloerverwarming','Keramiek geleidt warmte beter dan hout of pvc — je stookt efficiënter. Al onze binnenvloeren zijn geschikt.'],
+      ['Kleur','Licht maakt ruimer, donker maakt rustiger. Bij veel daglicht kan donker prima; bij een noordkamer zelden.'],
+      ['Legpatroon','Recht verband is het rustigst en het goedkoopst. Visgraat kost circa 15% snijverlies en meer legwerk.'],
+      ['Overgangen','Denk vooraf aan de overgang naar de trap of de hal — een strakke overgang bedenk je niet achteraf.']
+    ],
+    producten:['feelwood','antwerp','dakota','metropolitan']
+  },
+  {
+    slug:'terras', naam:'Terras & tuin',
+    kop:'Buiten hetzelfde beeld als binnen',
+    intro:'Keramiek van 2 cm is buiten inmiddels de standaard: vorstbestendig, kleurvast en je hoeft er nooit meer over met een hogedrukreiniger op zoek naar groene aanslag.',
+    advies:[
+      ['Dikte','Buiten altijd 2 cm. Een binnentegel van 9 mm los op split leggen gaat kapot.'],
+      ['Antislip','Kies R11 of A+B+C, zeker rond een zwembad of op een hellend pad.'],
+      ['Leggen','Losliggend op split is het snelst en herstelbaar; verlijmd op beton is het strakst.'],
+      ['Doorlopen','Binnen 60x60 en buiten 60x60x2 in dezelfde kleur geeft een prachtig doorlopend beeld door de pui.']
+    ],
+    producten:['terrastegel','nepal','antwerp','dakota']
+  }
+];
+
+/* ---------- Kennisbank ---------- */
+var ARTIKELEN = [
+  {
+    slug:'hoeveel-tegels',
+    titel:'Hoeveel tegels heb ik nodig?',
+    samenvatting:'De rekenregel, het snijverlies en waarom je altijd op hele dozen afrondt.',
+    leestijd:'3 min',
+    body:[
+      ['De rekenregel','Meet je oppervlakte in m², tel er snijverlies bij op en deel dat door de inhoud van een doos. Rond altijd naar boven af, want tegels worden per doos verkocht: <code>dozen = ceil(m² × (1 + snijverlies) ÷ m² per doos)</code>.'],
+      ['Hoeveel snijverlies?','Bij recht verband is 10% de norm. Leg je in visgraat, diagonaal of in een ruimte met veel hoeken en obstakels, reken dan met 15%. Bij een heel kleine ruimte (een toilet van 2 m²) is 20% realistischer, omdat één misgesneden tegel daar meteen zwaar telt.'],
+      ['Meet per vlak','Meet niet één keer de hele ruimte, maar per rechthoek en tel op. Een erker, een nis of een schuine wand gaat anders mis. Trek deuropeningen niet af — die m² heb je nodig voor de aansluiting.'],
+      ['Waarom niet krap bestellen','Nabestellen betekent bijna altijd een andere productiebatch, en dus een zichtbaar kleurverschil. Houd liever een halve doos over als reserve voor als er later één tegel breekt.'],
+      ['Bij ons','Op elke productpagina staat een rekenmodule die dit automatisch doet. Ongeopende restdozen mag je binnen 30 dagen retourneren, dus royaal bestellen kost je niets.']
+    ]
+  },
+  {
+    slug:'antislip',
+    titel:'R9, R10, R11 of A+B+C: welke antislip heb ik nodig?',
+    samenvatting:'De waardes uitgelegd in gewone taal, per ruimte.',
+    leestijd:'3 min',
+    body:[
+      ['Wat de R-waarde betekent','De R-waarde (DIN 51130) geeft aan hoe schuin een vlak mag staan voordat iemand met werkschoenen wegglijdt. Hoe hoger, hoe meer grip — maar ook: hoe groffer, en dus hoe lastiger schoon te maken.'],
+      ['R9','Droge binnenruimtes: woonkamer, slaapkamer, hal. Vaak gepolijst of hoogglans. Niet in de douche.'],
+      ['R10','De standaard voor keuken, toilet en badkamervloer. Genoeg grip bij spatwater, nog steeds makkelijk te dweilen. Dit is wat wij in verreweg de meeste badkamers adviseren.'],
+      ['R11 en hoger','Buiten, in een natte bedrijfsruimte, of op een hellend pad. Merkbaar ruwer onder de voet.'],
+      ['A, B en C','Een aparte schaal (DIN 51097) voor blootsvoets natte ruimtes: A is een kleedruimte, B een douche, C een hellend zwembadpad. Een terrastegel met A+B+C is geschikt voor alle drie.'],
+      ['De douchevloer','Daar telt niet alleen de tegel maar ook de voeg. Mozaïek op matje heeft veel voegen en dus veel grip — daarom adviseren wij dat vaak boven een grote tegel met afschot.']
+    ]
+  },
+  {
+    slug:'lijm-en-voeg',
+    titel:'Hoeveel lijm en voegmiddel heb ik nodig?',
+    samenvatting:'Vuistregels per m², en welke lijm bij welke tegel hoort.',
+    leestijd:'2 min',
+    body:[
+      ['Lijm','Reken op 4 tot 5 kg poederlijm per m². Een zak van 25 kg is dus goed voor ongeveer 5 m². Bij grootformaat (60x120 en groter) ligt het hoger, omdat je volvlaks moet werken.'],
+      ['Welke lijm','Voor keramiek op een gangbare ondergrond volstaat een flexibele C2TE S1. Bij vloerverwarming, op hout of op een bestaande tegelvloer is flexibele lijm geen luxe maar een eis.'],
+      ['Voegmiddel','Circa 0,4 kg per m² bij een voeg van 2 mm op 60x60. Kleinere tegels betekenen meer voegen en dus meer materiaal: bij mozaïek loopt dat op naar 1,5 kg per m².'],
+      ['Voegkleur','Kies een voeg net iets donkerder dan de tegel. Wit oogt mooi op de dag van oplevering en daarna nooit meer, zeker niet op een vloer of in een douche.'],
+      ['Vergeet niet','Tegelkruisjes (2 mm bij gerectificeerd), een koker sanitairkit voor de hoeken, en primer als je op een zuigende ondergrond werkt. Wij rekenen dit bij je bestelling automatisch mee.']
+    ]
+  },
+  {
+    slug:'formaat-kiezen',
+    titel:'Welk formaat past in mijn ruimte?',
+    samenvatting:'Waarom een groot formaat een kleine ruimte juist groter maakt.',
+    leestijd:'3 min',
+    body:[
+      ['Het misverstand','"Kleine ruimte, dus kleine tegels" klopt niet. Elke voeg is een lijn die het oog onderbreekt; hoe minder lijnen, hoe rustiger en ruimer het beeld. Een 60x60 in een badkamer van 4 m² werkt bijna altijd beter dan een 30x30.'],
+      ['De grens','Het formaat wordt begrensd door je snijverlies. In een smalle ruimte van 1,60 m breed snijd je een 120 cm tegel altijd door — dan verlies je meer dan je aan rust wint.'],
+      ['Gerectificeerd of niet','Gerectificeerde tegels zijn nagesneden en exact op maat, waardoor een voeg van 2 mm mogelijk is. Niet-gerectificeerd vraagt 3 tot 5 mm. Voor een strak beeld bij groot formaat is gerectificeerd de moeite waard.'],
+      ['Vloerverwarming en formaat','Grootformaat vraagt een vlakke ondergrond en volvlakse lijm; een holte onder de tegel is bij 120 cm een breukrisico. Laat dit bij twijfel door een tegelzetter beoordelen.'],
+      ['Ons advies','Twijfel je tussen twee formaten, kom dan langs. Wij leggen beide op de grond naast elkaar — op een showroomvloer zie je binnen dertig seconden welke het is.']
+    ]
+  }
 ];
 
 /* ---------- Reviews ---------- */

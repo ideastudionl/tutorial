@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inspiratie per ruimte — Tegelloods BV</title>
+<meta name="description" content="Tegels kiezen per ruimte: badkamer, keuken, woonkamer en terras. Met advies van de tegelzetter en een complete shop-de-look.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<main class="wrap" id="page"></main>
+<section class="section" style="background:var(--bg-alt)"><div class="wrap" id="bottom"></div></section>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+(function(){
+  TL.renderChrome();
+  var I = TL.icon, esc = TL.esc;
+  var slug = TL.qp('ruimte');
+  var r = RUIMTES.filter(function(x){ return x.slug===slug; })[0];
+
+  function tabs(active){
+    return '<div class="room-tabs">'+
+      '<a href="inspiratie.html" class="'+(active?'':'is-active')+'">Alle ruimtes</a>'+
+      RUIMTES.map(function(x){
+        return '<a href="inspiratie.html?ruimte='+x.slug+'" class="'+(active===x.slug?'is-active':'')+'">'+x.naam+'</a>';
+      }).join('') +'</div>';
+  }
+
+  /* Sfeerbeeld = mozaïek van de tegels die bij de ruimte horen */
+  function strip(ids, n){
+    var out = [];
+    for(var i=0;i<n;i++){
+      var p = TL.byId(ids[i % ids.length]);
+      var k = p.kleuren[i % p.kleuren.length];
+      out.push('<div style="background-image:'+k.tex+'"></div>');
+    }
+    return out.join('');
+  }
+
+  if(!r){
+    /* ---- Overzicht ---- */
+    document.title = 'Inspiratie per ruimte — Tegelloods BV';
+    document.getElementById('page').innerHTML =
+      '<nav class="breadcrumbs"><a href="index.html">Home</a> › <span class="muted">Inspiratie</span></nav>'+
+      '<header style="max-width:72ch;margin-bottom:1.6rem">'+
+        '<p class="eyebrow">Kies per ruimte</p>'+
+        '<h1>Waar gaat het tegelwerk komen?</h1>'+
+        '<p class="muted">Een badkamer vraagt iets anders dan een terras. Per ruimte zetten we op een rij waar je op moet letten — en welke tegels uit onze collectie daar in de praktijk goed uitpakken.</p>'+
+      '</header>'+
+      tabs(null)+
+      '<div class="room-grid">'+ RUIMTES.map(function(x){
+        return '<a class="room-card" href="inspiratie.html?ruimte='+x.slug+'">'+
+          '<div class="rc-media">'+strip(x.producten,3)+'</div>'+
+          '<div class="rc-body"><h3>'+esc(x.naam)+'</h3><p>'+esc(x.kop)+'</p>'+
+          '<span class="rc-more">Bekijk het advies '+I('arrow',16)+'</span></div></a>';
+      }).join('') +'</div>';
+
+    document.getElementById('bottom').innerHTML =
+      '<div class="section-head"><div><p class="eyebrow">Nog even doorlezen</p><h2>Uit de kennisbank</h2></div>'+
+      '<a class="link-arrow" href="index.html#kennis">Alle artikelen '+I('arrow',16)+'</a></div>'+
+      '<div class="article-grid">'+ ARTIKELEN.slice(0,2).map(function(a){
+        return '<a class="article-card" href="index.html#kennis">'+
+          '<span class="article-meta">'+a.leestijd+' lezen</span><h3>'+esc(a.titel)+'</h3>'+
+          '<p>'+esc(a.samenvatting)+'</p><span class="link-arrow">Lees verder '+I('arrow',15)+'</span></a>';
+      }).join('') +'</div>';
+    return;
+  }
+
+  /* ---- Detail per ruimte ---- */
+  document.title = 'Tegels voor de ' + r.naam.toLowerCase() + ' — Tegelloods BV';
+  var producten = r.producten.map(TL.byId).filter(Boolean);
+
+  document.getElementById('page').innerHTML =
+    '<nav class="breadcrumbs"><a href="index.html">Home</a> › <a href="inspiratie.html">Inspiratie</a> › <span class="muted">'+esc(r.naam)+'</span></nav>'+
+    tabs(r.slug)+
+    '<div class="room-hero">'+strip(r.producten,4)+'</div>'+
+    '<header style="max-width:72ch;margin-bottom:2rem">'+
+      '<p class="eyebrow">'+esc(r.naam)+'</p><h1>'+esc(r.kop)+'</h1>'+
+      '<p class="muted">'+esc(r.intro)+'</p>'+
+    '</header>'+
+    '<h2 style="margin-bottom:1rem">Waar je op moet letten</h2>'+
+    '<div class="advice-grid">'+ r.advies.map(function(a){
+      return '<div class="advice"><h4>'+esc(a[0])+'</h4><p>'+esc(a[1])+'</p></div>';
+    }).join('') +'</div>'+
+    '<div class="section-head" style="margin-top:2.6rem">'+
+      '<div><p class="eyebrow">Shop de look</p><h2>Onze keuze voor de '+esc(r.naam.toLowerCase())+'</h2>'+
+      '<p>Deze series adviseren wij hier het vaakst. Bestel er gratis stalen van, of zet ze op je showroomlijst.</p></div>'+
+      '<button class="btn btn-ghost btn-sm" id="allSamples">'+I('swatch',16)+' Stalen van alle vier</button>'+
+    '</div>'+
+    '<div class="product-grid">'+ producten.map(TL.productCard).join('') +'</div>';
+
+  document.getElementById('bottom').innerHTML =
+    '<div class="panel" style="display:flex;gap:1.5rem;align-items:center;justify-content:space-between;flex-wrap:wrap">'+
+      '<div style="max-width:54ch"><h3 style="margin-bottom:.3em">Twijfel je nog over de '+esc(r.naam.toLowerCase())+'?</h3>'+
+      '<p class="small muted" style="margin:0">Neem je plattegrond of een foto mee naar de showroom in Heeten. Wij leggen de tegels van je lijst klaar op groot formaat, zodat je ze bij daglicht naast elkaar ziet.</p></div>'+
+      '<div style="display:flex;gap:.6rem;flex-wrap:wrap">'+
+        '<a class="btn btn-navy" href="showroom.html">'+I('calendar',18)+' Afspraak maken</a>'+
+        '<a class="btn btn-ghost" href="samples.html">Gratis stalen</a>'+
+      '</div>'+
+    '</div>';
+
+  TL.bindCards();
+  document.getElementById('allSamples').addEventListener('click', function(){
+    var max = TL.shop.maxGratisSamples, toegevoegd = 0;
+    producten.forEach(function(p){
+      if(TL.state.samples.length < max){
+        var voor = TL.state.samples.length;
+        TL.addSample(p, 0);
+        if(TL.state.samples.length > voor) toegevoegd++;
+      }
+    });
+    if(!toegevoegd) TL.toast('Je samplebox zit al vol ('+max+' stalen).');
+  });
+})();
+</script>
+</body>
+</html>

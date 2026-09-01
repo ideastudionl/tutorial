@@ -145,7 +145,8 @@ var NAV = [
   {href:'collectie.html?look=marmerlook', label:'Marmerlook'},
   {href:'collectie.html?look=betonlook',  label:'Betonlook'},
   {href:'collectie.html?cat=buitentegels',label:'Buiten & tuin'},
-  {href:'collectie.html?cat=toebehoren',  label:'Lijm, voeg & gereedschap'},
+  {href:'collectie.html?cat=toebehoren',  label:'Lijm & voeg'},
+  {href:'inspiratie.html',                label:'Inspiratie'},
   {href:'showroom.html',                  label:'Showroom & advies', accent:true}
 ];
 
@@ -164,7 +165,7 @@ TL.renderChrome = function(active){
   '<header class="site-header"><div class="wrap">'+
     '<div class="header-main">'+
       '<a class="logo" href="index.html"><span class="logo-mark">'+I('swatch',20)+'</span><span>Tegelloods<small>BV · sinds 2009</small></span></a>'+
-      '<div class="search">'+I('search',18)+'<input type="search" placeholder="Zoek op kleur, formaat of look — bijv. &quot;betonlook 60x60&quot;" aria-label="Zoeken"></div>'+
+      '<div class="search">'+I('search',18)+'<input type="search" placeholder="Zoek op serie, kleur, formaat of look — bijv. &quot;betonlook 60x60&quot;" aria-label="Zoeken"></div>'+
       '<div class="header-actions">'+
         '<button class="icon-btn" data-open="samples">'+I('swatch',21)+'<span>Stalen</span><span class="count hidden" data-count="samples">0</span></button>'+
         '<button class="icon-btn" data-open="showroom">'+I('calendar',21)+'<span>Showroom</span><span class="count hidden" data-count="showroom">0</span></button>'+
@@ -189,6 +190,7 @@ TL.renderChrome = function(active){
         '<li><a href="samples.html">Stalen bestellen</a></li>'+
         '<li><a href="showroom.html">Afspraak showroom</a></li>'+
         '<li><a href="showroom.html#offerte">Offerte aanvragen</a></li>'+
+        '<li><a href="inspiratie.html">Inspiratie per ruimte</a></li>'+
         '<li><a href="index.html#kennis">Legadvies &amp; onderhoud</a></li>'+
         '<li><a href="index.html#verzenden">Verzenden &amp; afhalen</a></li>'+
       '</ul></div>'+

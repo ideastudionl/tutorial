@@ -72,7 +72,7 @@
           <li><span id="i2"></span><span>Altijd naar boven afgerond op hele dozen, want tegels worden per doos verkocht</span></li>
           <li><span id="i3"></span><span>Ongeopende restdozen mag je binnen 30 dagen retourneren</span></li>
         </ul>
-        <a class="btn btn-navy" href="product.html?id=urban-beton">Probeer de rekenmodule →</a>
+        <a class="btn btn-navy" href="product.html?id=nepal">Probeer de rekenmodule →</a>
       </div>
       <div class="panel" id="miniCalc"></div>
     </div>
@@ -103,8 +103,8 @@
   <div class="wrap">
     <div class="section-head"><div><p class="eyebrow">Kennisbank</p><h2>Eerst even goed uitzoeken</h2></div></div>
     <div class="grid-3">
-      <a class="panel" href="product.html?id=urban-beton"><h3>Welk formaat past in mijn ruimte?</h3><p class="small muted">Grote formaten maken een kleine badkamer juist ruimer, mits je het legpatroon goed kiest. Zo bepaal je het formaat.</p><span class="link-arrow small">Lees verder →</span></a>
-      <a class="panel" href="product.html?id=quartz-buiten"><h3>R10, R11 of A+B+C: welke antislip?</h3><p class="small muted">Voor een douchevloer of terras gelden andere eisen dan voor de woonkamer. De waardes uitgelegd in gewone taal.</p><span class="link-arrow small">Lees verder →</span></a>
+      <a class="panel" href="product.html?id=nepal"><h3>Welk formaat past in mijn ruimte?</h3><p class="small muted">Grote formaten maken een kleine badkamer juist ruimer, mits je het legpatroon goed kiest. Zo bepaal je het formaat.</p><span class="link-arrow small">Lees verder →</span></a>
+      <a class="panel" href="product.html?id=terrastegel"><h3>R10, R11 of A+B+C: welke antislip?</h3><p class="small muted">Voor een douchevloer of terras gelden andere eisen dan voor de woonkamer. De waardes uitgelegd in gewone taal.</p><span class="link-arrow small">Lees verder →</span></a>
       <a class="panel" href="collectie.html?cat=toebehoren"><h3>Hoeveel lijm en voeg heb ik nodig?</h3><p class="small muted">Reken op 4-5 kg lijm per m² en circa 0,4 kg voegmiddel. Wij rekenen het bij je bestelling automatisch mee.</p><span class="link-arrow small">Lees verder →</span></a>
     </div>
   </div>
@@ -133,7 +133,7 @@
   var I = TL.icon, euro = TL.euro, num = TL.num;
 
   /* Hero mozaïek */
-  var picks = ['urban-beton','carrara-statuario','nordic-eiken','travertin-classic','terrazzo-venice','especta-beige','quartz-buiten','zellige-groen','metro-wit'];
+  var picks = ['nepal','nevada','feelwood','dakota','terrazzo','especta','terrastegel','maison','metrotegel'];
   document.getElementById('heroGrid').innerHTML = picks.map(function(id){
     var p = TL.byId(id); return '<div style="background-image:'+p.kleuren[0].tex+'"></div>';
   }).join('');
@@ -155,7 +155,7 @@
   }).join('');
 
   /* Bestsellers */
-  var best = ['urban-beton','nordic-eiken','carrara-statuario','especta-beige'].map(TL.byId);
+  var best = ['nepal','feelwood','nevada','especta'].map(TL.byId);
   document.getElementById('best').innerHTML = best.map(TL.productCard).join('');
   TL.bindCards();
 
@@ -175,7 +175,7 @@
   ].map(function(t){ return '<li>'+I('check',18)+'<span>'+t+'</span></li>'; }).join('');
 
   /* Mini-rekenmodule op de homepage */
-  var mp = TL.byId('urban-beton'), mm = mp.maten[0], m2 = 24, verlies = 10;
+  var mp = TL.byId('nepal'), mm = mp.maten[0], m2 = 24, verlies = 10;
   var el = document.getElementById('miniCalc');
   function paint(){
     var dozen = Math.max(1, Math.ceil(m2*(1+verlies/100)/mm.m2PerDoos));

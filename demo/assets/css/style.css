@@ -478,3 +478,88 @@ p{margin:0 0 1em}
   .fab-count{min-width:24px;height:24px;font-size:.72rem}
   .fab-tip{display:none}
 }
+
+/* ==========================================================================
+   Inspiratie, kennisbank, zakelijk en zoeken
+   ========================================================================== */
+
+/* Ruimte-kaarten */
+.room-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.room-card{
+  position:relative;display:block;border-radius:var(--radius-xl);overflow:hidden;
+  box-shadow:var(--shadow);border:1px solid var(--line);background:var(--surface);transition:.18s;
+}
+.room-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-l)}
+.room-card .rc-media{aspect-ratio:16/9;display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--line)}
+.room-card .rc-media>div{background-size:cover;background-position:center}
+.room-card .rc-body{padding:1.1rem 1.3rem 1.3rem}
+.room-card h3{margin-bottom:.25em;font-size:1.25rem}
+.room-card p{margin:0;color:var(--text-2);font-size:.9rem}
+.room-card .rc-more{display:inline-flex;align-items:center;gap:.4em;margin-top:.9rem;font-weight:600;color:var(--navy-800)}
+
+/* Ruimte-detail */
+.room-hero{
+  border-radius:var(--radius-xl);overflow:hidden;position:relative;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:3px;background:var(--line);
+  aspect-ratio:21/8;box-shadow:var(--shadow);margin-bottom:2rem;
+}
+.room-hero>div{background-size:cover;background-position:center}
+.advice-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.advice{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-l);padding:1.1rem 1.25rem;box-shadow:var(--shadow-s)}
+.advice h4{font-size:.75rem;letter-spacing:.13em;text-transform:uppercase;color:var(--amber-600);margin-bottom:.5em}
+.advice p{margin:0;font-size:.92rem;color:var(--text-2)}
+.room-tabs{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.8rem}
+.room-tabs a{padding:.6em 1.1em;border-radius:999px;border:1px solid var(--line-strong);background:var(--surface);font-weight:600;font-size:.9rem}
+.room-tabs a:hover{border-color:var(--navy-500)}
+.room-tabs a.is-active{background:var(--navy-800);color:#fff;border-color:var(--navy-800)}
+
+/* Kennisbank */
+.article-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.article-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-l);padding:1.3rem 1.4rem;box-shadow:var(--shadow-s);transition:.18s;display:block}
+.article-card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.article-card h3{margin-bottom:.35em}
+.article-card p{margin:0 0 .8rem;color:var(--text-2);font-size:.92rem}
+.article-meta{font-size:.78rem;color:var(--text-3);font-weight:600;letter-spacing:.05em;text-transform:uppercase}
+.article{max-width:74ch}
+.article h2{font-size:1.28rem;margin:2rem 0 .5em}
+.article h2:first-of-type{margin-top:1rem}
+.article p{color:var(--text-2)}
+.article code{background:var(--bg-alt);border:1px solid var(--line);border-radius:6px;padding:.15em .45em;font-size:.88em;color:var(--navy-800)}
+.article-aside{position:sticky;top:88px}
+
+/* Zakelijk */
+.biz-hero{background:var(--navy-900);color:#fff;border-radius:var(--radius-xl);padding:clamp(1.8rem,4vw,3rem);margin-bottom:2rem}
+.biz-hero h1{color:#fff}
+.biz-hero p{color:#c3d4e4;max-width:58ch}
+.staffel{width:100%;border-collapse:collapse;background:var(--surface);border-radius:var(--radius-l);overflow:hidden;box-shadow:var(--shadow-s);font-size:.94rem}
+.staffel th{background:var(--bg-alt);text-align:left;padding:.85em 1.1em;font-size:.78rem;letter-spacing:.09em;text-transform:uppercase;color:var(--text-2)}
+.staffel td{padding:.85em 1.1em;border-top:1px solid var(--line)}
+.staffel td:last-child,.staffel th:last-child{text-align:right;font-weight:700}
+.staffel tr.is-highlight td{background:#fff9e8}
+.biz-list{list-style:none;padding:0;margin:0;display:grid;gap:.7rem}
+.biz-list li{display:flex;gap:.7rem;align-items:flex-start;font-size:.94rem}
+.biz-list svg{color:var(--green);flex:none;margin-top:3px}
+
+/* Zoekresultaten */
+.search-head{padding-block:1.5rem 1rem}
+.search-head h1{margin-bottom:.2em}
+.search-big{display:flex;gap:.6rem;margin:1rem 0 1.6rem;max-width:640px}
+.search-big input{flex:1;padding:.9em 1.1em;border:1px solid var(--line-strong);border-radius:var(--radius);background:var(--surface);font-size:1rem}
+.search-big input:focus{outline:2px solid var(--navy-500);outline-offset:1px}
+.result-group{margin-bottom:2.4rem}
+.result-group h2{font-size:1.05rem;margin-bottom:.9rem;color:var(--text-2)}
+.suggest-list{display:flex;gap:.5rem;flex-wrap:wrap}
+.suggest-list a{padding:.45em .9em;border-radius:999px;background:var(--surface);border:1px solid var(--line-strong);font-size:.88rem;font-weight:600}
+.suggest-list a:hover{border-color:var(--navy-500)}
+.list-hit{display:flex;gap:.9rem;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:.9rem 1.1rem;margin-bottom:.6rem}
+.list-hit:hover{border-color:var(--navy-500)}
+.list-hit .lh-icon{width:38px;height:38px;border-radius:9px;background:var(--bg-alt);display:grid;place-items:center;color:var(--navy-700);flex:none}
+.list-hit b{display:block;font-size:.96rem}
+.list-hit span{font-size:.85rem;color:var(--text-2)}
+mark{background:#fff2c2;color:inherit;border-radius:3px;padding:0 .12em}
+
+@media (max-width:900px){
+  .room-grid,.advice-grid,.article-grid{grid-template-columns:1fr}
+  .room-hero{grid-template-columns:repeat(2,1fr);aspect-ratio:16/9}
+  .article-aside{position:static}
+}
