@@ -21,11 +21,8 @@ $ifs_socials = array_filter( $ifs_socials );
 		<div class="ifs-footer__grid">
 
 			<div class="ifs-footer__brand">
-				<a class="ifs-brand" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
-					<span class="ifs-brand__mark" aria-hidden="true">IS</span>
-					<span class="ifs-brand__text">
-						<span class="ifs-brand__name"><?php echo esc_html( ifs_option( 'company_name' ) ); ?></span>
-					</span>
+				<a class="ifs-brand ifs-brand--light" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
+					<?php ifs_the_logo(); ?>
 				</a>
 				<p>Stukadoors- en afbouwbedrijf uit Amsterdam. Glad stucwerk, sierpleister, betonlook, gevelstuc en schilderwerk voor woningen, VvE&rsquo;s en bedrijfspanden.</p>
 

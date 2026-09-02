@@ -3,20 +3,56 @@
   "version": 2,
   "settings": {
     "appearanceTools": true,
-    "layout": { "contentSize": "760px", "wideSize": "1200px" },
+    "layout": {
+      "contentSize": "760px",
+      "wideSize": "1200px"
+    },
     "color": {
       "custom": true,
       "customGradient": false,
       "defaultPalette": false,
       "defaultGradients": false,
       "palette": [
-        { "slug": "ink",   "color": "#14171B", "name": "Inkt" },
-        { "slug": "stone", "color": "#6B7280", "name": "Grijs" },
-        { "slug": "clay",  "color": "#C0562C", "name": "Terracotta" },
-        { "slug": "sand",  "color": "#F7F3ED", "name": "Zand" },
-        { "slug": "line",  "color": "#E3DDD4", "name": "Lijn" },
-        { "slug": "green", "color": "#2F6B4F", "name": "Groen" },
-        { "slug": "white", "color": "#FFFFFF", "name": "Wit" }
+        {
+          "slug": "blue",
+          "color": "#0D4EAD",
+          "name": "Interflex blauw"
+        },
+        {
+          "slug": "orange",
+          "color": "#F15A24",
+          "name": "Interflex oranje"
+        },
+        {
+          "slug": "ink",
+          "color": "#0B1B33",
+          "name": "Marine"
+        },
+        {
+          "slug": "stone",
+          "color": "#647089",
+          "name": "Grijs"
+        },
+        {
+          "slug": "mist",
+          "color": "#F2F6FC",
+          "name": "Lichtblauw"
+        },
+        {
+          "slug": "line",
+          "color": "#D9E1EE",
+          "name": "Lijn"
+        },
+        {
+          "slug": "green",
+          "color": "#17795A",
+          "name": "Groen"
+        },
+        {
+          "slug": "white",
+          "color": "#FFFFFF",
+          "name": "Wit"
+        }
       ]
     },
     "typography": {
@@ -25,40 +61,96 @@
       "fontFamilies": [
         {
           "slug": "body",
-          "name": "Inter",
-          "fontFamily": "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
+          "name": "Ubuntu",
+          "fontFamily": "Ubuntu, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
         },
         {
           "slug": "heading",
-          "name": "Plus Jakarta Sans",
-          "fontFamily": "'Plus Jakarta Sans', Inter, -apple-system, sans-serif"
+          "name": "Ubuntu Bold",
+          "fontFamily": "Ubuntu, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
         }
       ],
       "fontSizes": [
-        { "slug": "small",   "size": "0.9375rem", "name": "Klein" },
-        { "slug": "medium",  "size": "1.0625rem", "name": "Normaal" },
-        { "slug": "large",   "size": "1.1875rem", "name": "Groot" },
-        { "slug": "x-large", "size": "clamp(1.85rem, 1.35rem + 2.1vw, 2.9rem)", "name": "Kop" }
+        {
+          "slug": "small",
+          "size": "0.9375rem",
+          "name": "Klein"
+        },
+        {
+          "slug": "medium",
+          "size": "1.0625rem",
+          "name": "Normaal"
+        },
+        {
+          "slug": "large",
+          "size": "1.1875rem",
+          "name": "Groot"
+        },
+        {
+          "slug": "x-large",
+          "size": "clamp(1.85rem, 1.35rem + 2.1vw, 2.9rem)",
+          "name": "Kop"
+        }
       ]
     },
-    "spacing": { "padding": true, "margin": true, "units": [ "px", "em", "rem", "%", "vw" ] }
+    "spacing": {
+      "padding": true,
+      "margin": true,
+      "units": [
+        "px",
+        "em",
+        "rem",
+        "%",
+        "vw"
+      ]
+    }
   },
   "styles": {
-    "color": { "background": "var(--wp--preset--color--white)", "text": "#2C3239" },
+    "color": {
+      "background": "var(--wp--preset--color--white)",
+      "text": "#33415A"
+    },
     "typography": {
       "fontFamily": "var(--wp--preset--font-family--body)",
       "fontSize": "var(--wp--preset--font-size--medium)",
       "lineHeight": "1.65"
     },
     "elements": {
-      "link":    { "color": { "text": "var(--wp--preset--color--clay)" } },
-      "h1":      { "typography": { "fontFamily": "var(--wp--preset--font-family--heading)", "fontWeight": "800" } },
-      "h2":      { "typography": { "fontFamily": "var(--wp--preset--font-family--heading)", "fontWeight": "800" } },
-      "h3":      { "typography": { "fontFamily": "var(--wp--preset--font-family--heading)", "fontWeight": "700" } },
-      "button":  {
-        "color": { "background": "var(--wp--preset--color--clay)", "text": "#FFFFFF" },
-        "border": { "radius": "999px" },
-        "typography": { "fontFamily": "var(--wp--preset--font-family--heading)", "fontWeight": "700" }
+      "link": {
+        "color": {
+          "text": "var(--wp--preset--color--blue)"
+        }
+      },
+      "h1": {
+        "typography": {
+          "fontFamily": "var(--wp--preset--font-family--heading)",
+          "fontWeight": "700"
+        }
+      },
+      "h2": {
+        "typography": {
+          "fontFamily": "var(--wp--preset--font-family--heading)",
+          "fontWeight": "700"
+        }
+      },
+      "h3": {
+        "typography": {
+          "fontFamily": "var(--wp--preset--font-family--heading)",
+          "fontWeight": "700"
+        }
+      },
+      "button": {
+        "color": {
+          "background": "var(--wp--preset--color--orange)",
+          "text": "#FFFFFF"
+        },
+        "border": {
+          "radius": "999px"
+        },
+        "typography": {
+          "fontFamily": "var(--wp--preset--font-family--heading)",
+          "fontWeight": "700"
+        }
       }
     }
   }

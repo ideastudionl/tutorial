@@ -25,6 +25,14 @@ reviews en een eigen offerteformulier.
 werkgebied, beoordelingen, dienstencatalogus), `FAQPage` en `BreadcrumbList`, plus
 meta-description en Open Graph-tags.
 
+**Huisstijl** — de kleuren uit het stijlbord (#0d4ead blauw, #f15a24 oranje) en
+Ubuntu als huisletter zijn als CSS-tokens vastgelegd in `assets/css/main.css` en als
+palet in `theme.json`, zodat ze ook in de blokeditor beschikbaar zijn. Blauw draagt de
+structuur (labels, iconen, links, selectie), oranje is voorbehouden aan acties
+(knoppen, voortgang, accenten op donkere vlakken). Het logo staat als SVG in
+`assets/img/logo.svg`, uit het stijlbord overgenomen; op donkere vlakken schakelt het
+naar de witte variant. Upload je in WordPress een eigen logo, dan gaat dat altijd voor.
+
 **Beheerbaar zonder code** — telefoonnummer, adres, openingstijden, KvK, beoordelingscijfers,
 reactietermijn en de herotekst staan in de WordPress Customizer.
 
@@ -100,7 +108,10 @@ interflexstuc/
 ├── template-parts/
 │   ├── quote-form.php       # de wizard
 │   └── cta.php
-└── assets/{css,js}
+└── assets/
+    ├── css/main.css         # huisstijltokens + alle opmaak
+    ├── js/                  # menu en offerte-wizard
+    └── img/logo.svg         # logo uit het stijlbord
 ```
 
 De vragen en antwoordopties van de wizard staan in `ifs_quote_steps()` in

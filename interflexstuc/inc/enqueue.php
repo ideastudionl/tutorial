@@ -14,7 +14,7 @@ function ifs_enqueue_assets() {
 	// Lettertypen (preconnect staat in header.php).
 	wp_enqueue_style(
 		'ifs-fonts',
-		'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap',
+		'https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap',
 		array(),
 		null // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion -- externe bron.
 	);

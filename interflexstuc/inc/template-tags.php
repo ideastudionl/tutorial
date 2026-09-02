@@ -308,3 +308,22 @@ function ifs_menu_fallback() {
 	}
 	echo '</ul>';
 }
+
+/**
+ * Toont het merklogo uit het stijlbord.
+ *
+ * Een via WordPress geüpload logo (Customizer → Site-identiteit) gaat altijd
+ * voor; anders wordt het meegeleverde SVG-logo gebruikt.
+ */
+function ifs_the_logo() {
+	if ( has_custom_logo() ) {
+		the_custom_logo();
+		return;
+	}
+
+	printf(
+		'<img class="ifs-brand__logo" src="%1$s" alt="%2$s" width="421" height="167" decoding="async">',
+		esc_url( IFS_URI . '/assets/img/logo.svg' ),
+		esc_attr( ifs_option( 'company_name' ) )
+	);
+}

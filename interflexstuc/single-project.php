@@ -74,7 +74,7 @@ while ( have_posts() ) :
 	);
 	?>
 	<?php if ( $ifs_more ) : ?>
-		<section class="ifs-section ifs-section--sand">
+		<section class="ifs-section ifs-section--tint">
 			<div class="ifs-container">
 				<div class="ifs-section-head"><h2>Meer projecten</h2></div>
 				<div class="ifs-projects">

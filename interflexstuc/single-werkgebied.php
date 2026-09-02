@@ -101,7 +101,7 @@ while ( have_posts() ) :
 	</section>
 
 	<?php if ( $ifs_reviews ) : ?>
-		<section class="ifs-section ifs-section--sand">
+		<section class="ifs-section ifs-section--tint">
 			<div class="ifs-container">
 				<div class="ifs-section-head ifs-section-head--center">
 					<h2>Wat klanten zeggen</h2>

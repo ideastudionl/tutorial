@@ -272,7 +272,7 @@ $ifs_areas    = ifs_get_items( 'ifs_werkgebied', 24 );
 
 <?php // ---------- Projecten ---------- ?>
 <?php if ( $ifs_projects ) : ?>
-	<section class="ifs-section ifs-section--sand">
+	<section class="ifs-section ifs-section--tint">
 		<div class="ifs-container">
 			<div class="ifs-section-head">
 				<span class="ifs-eyebrow">Recent werk</span>
@@ -319,7 +319,7 @@ $ifs_areas    = ifs_get_items( 'ifs_werkgebied', 24 );
 
 <?php // ---------- Werkgebied ---------- ?>
 <?php if ( $ifs_areas ) : ?>
-	<section class="ifs-section ifs-section--sand">
+	<section class="ifs-section ifs-section--tint">
 		<div class="ifs-container">
 			<div class="ifs-split">
 				<div>

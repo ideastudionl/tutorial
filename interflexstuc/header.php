@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="theme-color" content="#14171B">
+	<meta name="theme-color" content="#0B1B33">
 	<link rel="profile" href="https://gmpg.org/xfn/11">
 	<?php wp_head(); ?>
 </head>
@@ -38,17 +38,10 @@ defined( 'ABSPATH' ) || exit;
 <header class="ifs-header" id="masthead">
 	<div class="ifs-container ifs-header__inner">
 
-		<?php if ( has_custom_logo() ) : ?>
-			<?php the_custom_logo(); ?>
-		<?php else : ?>
-			<a class="ifs-brand" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
-				<span class="ifs-brand__mark" aria-hidden="true">IS</span>
-				<span class="ifs-brand__text">
-					<span class="ifs-brand__name"><?php echo esc_html( ifs_option( 'company_name' ) ); ?></span>
-					<span class="ifs-brand__tag"><?php echo esc_html( ifs_option( 'company_tagline' ) ); ?></span>
-				</span>
-			</a>
-		<?php endif; ?>
+		<a class="ifs-brand" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
+			<?php ifs_the_logo(); ?>
+			<span class="ifs-brand__tag"><?php echo esc_html( ifs_option( 'company_tagline' ) ); ?></span>
+		</a>
 
 		<nav class="ifs-nav" aria-label="Hoofdnavigatie">
 			<?php
@@ -81,7 +74,7 @@ defined( 'ABSPATH' ) || exit;
 
 <nav class="ifs-mobile-nav" id="ifs-mobile-nav" aria-label="Mobiele navigatie" inert>
 	<div class="ifs-mobile-nav__head">
-		<span class="ifs-brand__name"><?php echo esc_html( ifs_option( 'company_name' ) ); ?></span>
+		<a class="ifs-brand" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php ifs_the_logo(); ?></a>
 		<button class="ifs-burger" type="button" data-close-nav aria-label="Menu sluiten" aria-expanded="true"><span></span></button>
 	</div>
 	<?php

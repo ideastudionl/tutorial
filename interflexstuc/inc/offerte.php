@@ -369,7 +369,7 @@ function ifs_mail_quote( $data, $post_id ) {
 			continue;
 		}
 		$body .= sprintf(
-			'<tr><td style="background:#f7f3ed;font-weight:bold;border-bottom:1px solid #e3ddd4">%s</td><td style="border-bottom:1px solid #e3ddd4">%s</td></tr>',
+			'<tr><td style="background:#eef3fb;font-weight:bold;border-bottom:1px solid #d9e1ee">%s</td><td style="border-bottom:1px solid #d9e1ee">%s</td></tr>',
 			esc_html( $label ),
 			nl2br( esc_html( $value ) )
 		);
@@ -403,7 +403,7 @@ function ifs_mail_quote( $data, $post_id ) {
 				continue;
 			}
 			$confirm .= sprintf(
-				'<tr><td style="background:#f7f3ed;font-weight:bold;border-bottom:1px solid #e3ddd4">%s</td><td style="border-bottom:1px solid #e3ddd4">%s</td></tr>',
+				'<tr><td style="background:#eef3fb;font-weight:bold;border-bottom:1px solid #d9e1ee">%s</td><td style="border-bottom:1px solid #d9e1ee">%s</td></tr>',
 				esc_html( $label ),
 				nl2br( esc_html( $rows[ $label ] ) )
 			);
