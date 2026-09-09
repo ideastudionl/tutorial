@@ -18,9 +18,12 @@ npx serve demo          # of: python3 -m http.server -d demo 8080
 
 Of open `dist/witgoed-koning-demo.html` rechtstreeks in een browser.
 
-Wat werkt: zoeken, filteren en sorteren, productpagina met keuringsrapport en
-postcode-bezorgbelofte, winkelwagen met verlengde garantie, en een checkout in drie stappen
-tot en met de bevestiging. De winkelwagen blijft in `localStorage` staan.
+Vier ingangen: wasmachines, wasdrogers, vaatwassers en outlet. Outlet is geen aparte voorraad
+maar een dwarsdoorsnede — apparaten met een deuk of kras, die daarom extra afgeprijsd zijn.
+
+Wat werkt: zoeken, filteren en sorteren, categoriepagina in lijstweergave, productpagina met
+keuringsrapport en postcode-bezorgbelofte, winkelwagen met verlengde garantie, en een checkout
+in drie stappen tot en met de bevestiging. De winkelwagen blijft in `localStorage` staan.
 
 ## Opbouw
 
@@ -57,12 +60,15 @@ Vervangen doet u op twee plekken:
 **Kleuren** — `demo/assets/css/app.css`, bovenaan in `:root`:
 
 ```css
---ink:    #0F2A47;   /* marineblauw — merk, koppen, header */
---copper: #B85C10;   /* primaire knoppen */
---brass:  #D9A441;   /* accent, kroon */
---ok:     #1B7A4B;   /* voorraad, garantie, gratis */
---porcelain: #F6F4F0;/* achtergrond */
+--brand: #123A63;   /* koptekstbalk, footer, merk */
+--link:  #12609E;   /* klikbare tekst */
+--cta:   #BF5309;   /* bestelknoppen */
+--green: #157347;   /* voorraad, bezorging, gratis */
+--band:  #F4F5F7;   /* grijze secties */
 ```
+
+Het logo staat op de blauwe balk, dus het merkteken is wit. Vervangt u `--brand` door een
+lichte kleur, geef het logo dan ook een donkere variant.
 
 De donkere variant staat eronder in `@media (prefers-color-scheme: dark)` en
 `:root[data-theme="dark"]`. Past u een merkkleur aan, pas dan ook daar de tegenhanger aan.
@@ -111,6 +117,10 @@ kent komt uit metafields in de namespace `wk`:
 | `wk.pluspunten` | JSON | `["…","…"]` |
 | `wk.keuringsrapport` | JSON | `[{"item":"Lagers","status":"repl","note":"Vernieuwd"}]` |
 
+De categorie komt uit `productType` (`Wasmachines`, `Wasdrogers`, `Vaatwassers`). **Outlet is
+een tag**, geen producttype — zo staat een outlet-apparaat tegelijk in zijn eigen categorie en
+in de outlet.
+
 Afrekenen loopt via `cartCreate`; de demo-checkout wordt dan overgeslagen en de klant gaat
 naar de Shopify-checkout.
 
@@ -153,12 +163,16 @@ add_action( 'woocommerce_blocks_loaded', function () {
 Zonder die plugin blijft de site werken: merk en conditie worden dan uit de
 productattributen gelezen en het keuringsrapport blijft leeg.
 
+**Outlet** is in WooCommerce een extra productcategorie náást de hoofdcategorie: een outlet-
+wasmachine zit zowel in `wasmachines` als in `outlet`.
+
 Afrekenen vult de servercart via `/cart/add-item` en stuurt door naar `/afrekenen/`.
 
 ## Wat er nog moet gebeuren voor livegang
 
 - Echte productfoto's — vier per toestel (vooraanzicht, bedieningspaneel, binnenzijde,
   gebruikssporen)
+- Categoriepagina's zonder voorraad opheffen en 301-redirecten naar de vier die overblijven
 - Logo en huisstijlkleuren vervangen
 - KvK- en btw-nummer invullen in `catalog.js` → `WK.SHOP`
 - Reviews live ophalen bij Kiyoh in plaats van de voorbeelden in `WK.REVIEWS`

@@ -1,832 +1,610 @@
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;550;600;650;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap">
 <title>Witgoed Koning</title>
 <style>
 /* ==========================================================================
-   Witgoed Koning — redesign demo
-   Designsysteem. Alle kleuren lopen via tokens zodat licht/donker en een
-   latere huisstijl-swap op één plek gebeuren.
+   Witgoed Koning — webshop
+   Opzet volgt de conventies van Nederlandse witgoedwinkels (Coolblue, Welhof,
+   De Witgoedhandelaar): blauwe koptekstbalk, oranje bestelknoppen, groene
+   bezorgbelofte, productlijst met opsommingstekens. Eén lettertype.
    ========================================================================== */
 
 :root {
-  /* Merk */
-  --ink:        #0F2A47;   /* marineblauw — merk, koppen */
-  --ink-deep:   #0A1D33;
-  --copper:     #B85C10;   /* primaire actie */
-  --copper-hi:  #D4761F;
-  --brass:      #D9A441;   /* accent, kroon, hairlines op donker */
+  --brand:      #123A63;   /* koptekstbalk, merk */
+  --brand-dark: #0D2B4A;
+  --link:       #12609E;   /* klikbare tekst */
+  --cta:        #BF5309;   /* bestelknoppen */
+  --cta-hover:  #D2600E;
+  --cta-soft:   #FDF3EA;
+  --green:      #157347;   /* voorraad, bezorging, gratis */
+  --green-soft: #EAF5EF;
+  --red:        #B42318;   /* laatste exemplaar */
 
-  /* Neutralen, warm gebiased richting email/porselein */
-  --porcelain:  #F6F4F0;
-  --surface:    #FFFFFF;
-  --surface-2:  #FBFAF7;
-  --line:       #E3DFD7;
-  --line-soft:  #EFECE5;
-  --text:       #16212E;
-  --muted:      #5F6B78;
-  --muted-2:    #808B98;
+  --bg:      #FFFFFF;
+  --band:    #F4F5F7;      /* grijze secties */
+  --band-2:  #FAFBFC;
+  --line:    #DDE1E6;
+  --line-2:  #EBEEF1;
+  --text:    #1A1F26;
+  --muted:   #5A6672;
+  --muted-2: #7C8794;
 
-  /* Semantisch */
-  --ok:         #1B7A4B;
-  --ok-bg:      #E8F3ED;
-  --note:       #7A5B12;
-  --note-bg:    #FBF3DF;
+  --r:    3px;
+  --r-lg: 6px;
+  --shadow: 0 1px 3px rgba(18,58,99,.10);
+  --shadow-lg: 0 4px 18px rgba(18,58,99,.14);
 
-  /* Vorm */
-  --r-sm: 4px;
-  --r:    8px;
-  --r-lg: 14px;
-  --shadow-1: 0 1px 2px rgba(15,42,71,.06), 0 2px 8px rgba(15,42,71,.05);
-  --shadow-2: 0 2px 6px rgba(15,42,71,.08), 0 12px 32px rgba(15,42,71,.10);
-
-  --maxw: 1240px;
-  --header-h: 72px;
-
-  --f-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
-  --f-body: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --f-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --maxw: 1220px;
+  --font: "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
 
   color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --ink:       #C8DCF0;
-    --ink-deep:  #E6EFF8;
-    --copper:    #E08B3E;
-    --copper-hi: #F0A055;
-    --brass:     #E3B559;
+    --brand:      #16456F;
+    --brand-dark: #102F4F;
+    --link:       #6FB3E8;
+    --cta:        #D9670F;
+    --cta-hover:  #EC7A1E;
+    --cta-soft:   #2A1B0D;
+    --green:      #3FAE79;
+    --green-soft: #12291F;
+    --red:        #E8776C;
 
-    --porcelain: #0C1622;
-    --surface:   #132132;
-    --surface-2: #16273A;
-    --line:      #26394F;
-    --line-soft: #1E2E42;
-    --text:      #E8EDF3;
-    --muted:     #9DAEC0;
-    --muted-2:   #7E8FA2;
+    --bg:      #10161D;
+    --band:    #161E27;
+    --band-2:  #131A22;
+    --line:    #2A3542;
+    --line-2:  #212B36;
+    --text:    #E9EDF1;
+    --muted:   #A0ACB9;
+    --muted-2: #7E8B99;
 
-    --ok:        #4CBF88;
-    --ok-bg:     #102C21;
-    --note:      #E0BC6A;
-    --note-bg:   #2A2314;
-
-    --shadow-1: 0 1px 2px rgba(0,0,0,.32), 0 2px 8px rgba(0,0,0,.28);
-    --shadow-2: 0 2px 6px rgba(0,0,0,.4), 0 12px 32px rgba(0,0,0,.45);
+    --shadow: 0 1px 3px rgba(0,0,0,.4);
+    --shadow-lg: 0 4px 18px rgba(0,0,0,.5);
     color-scheme: dark;
   }
 }
 
 :root[data-theme="dark"] {
-  --ink:       #C8DCF0;
-  --ink-deep:  #E6EFF8;
-  --copper:    #E08B3E;
-  --copper-hi: #F0A055;
-  --brass:     #E3B559;
-  --porcelain: #0C1622;
-  --surface:   #132132;
-  --surface-2: #16273A;
-  --line:      #26394F;
-  --line-soft: #1E2E42;
-  --text:      #E8EDF3;
-  --muted:     #9DAEC0;
-  --muted-2:   #7E8FA2;
-  --ok:        #4CBF88;
-  --ok-bg:     #102C21;
-  --note:      #E0BC6A;
-  --note-bg:   #2A2314;
-  --shadow-1: 0 1px 2px rgba(0,0,0,.32), 0 2px 8px rgba(0,0,0,.28);
-  --shadow-2: 0 2px 6px rgba(0,0,0,.4), 0 12px 32px rgba(0,0,0,.45);
+  --brand:      #16456F;
+  --brand-dark: #102F4F;
+  --link:       #6FB3E8;
+  --cta:        #D9670F;
+  --cta-hover:  #EC7A1E;
+  --cta-soft:   #2A1B0D;
+  --green:      #3FAE79;
+  --green-soft: #12291F;
+  --red:        #E8776C;
+  --bg:      #10161D;
+  --band:    #161E27;
+  --band-2:  #131A22;
+  --line:    #2A3542;
+  --line-2:  #212B36;
+  --text:    #E9EDF1;
+  --muted:   #A0ACB9;
+  --muted-2: #7E8B99;
+  --shadow: 0 1px 3px rgba(0,0,0,.4);
+  --shadow-lg: 0 4px 18px rgba(0,0,0,.5);
   color-scheme: dark;
 }
 
-/* --------------------------------------------------------------- basis --- */
+/* ---------------------------------------------------------------- basis -- */
 
 *, *::before, *::after { box-sizing: border-box; }
 
 body {
   margin: 0;
-  background: var(--porcelain);
+  background: var(--bg);
   color: var(--text);
-  font-family: var(--f-body);
-  font-size: 16px;
-  line-height: 1.6;
+  font-family: var(--font);
+  font-size: 15px;
+  line-height: 1.55;
   -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, h4 {
-  font-family: var(--f-display);
-  color: var(--ink-deep);
-  margin: 0;
-  line-height: 1.15;
-  text-wrap: balance;
-  letter-spacing: -0.015em;
-}
-h1 { font-size: clamp(28px, 4.2vw, 44px); font-weight: 700; }
-h2 { font-size: clamp(22px, 2.6vw, 30px); font-weight: 650; }
-h3 { font-size: 18px; font-weight: 650; letter-spacing: -0.005em; }
-p  { margin: 0; }
-
+h1, h2, h3, h4 { margin: 0; line-height: 1.25; color: var(--text); font-weight: 700; }
+h1 { font-size: 27px; }
+h2 { font-size: 21px; }
+h3 { font-size: 16px; }
+p { margin: 0; }
 a { color: inherit; text-decoration: none; }
-a:focus-visible, button:focus-visible, input:focus-visible,
-select:focus-visible, summary:focus-visible, [tabindex]:focus-visible {
-  outline: 2px solid var(--copper);
-  outline-offset: 2px;
-  border-radius: var(--r-sm);
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible,
+textarea:focus-visible, summary:focus-visible {
+  outline: 2px solid var(--link); outline-offset: 1px;
 }
-
 img, svg { max-width: 100%; }
 ul, ol { margin: 0; padding: 0; list-style: none; }
 
-.wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 20px; }
-.stack { display: flex; flex-direction: column; }
-.row { display: flex; align-items: center; }
-.mono { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
-.num { font-variant-numeric: tabular-nums; }
+.wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 16px; }
 .muted { color: var(--muted); }
+.num { font-variant-numeric: tabular-nums; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.linkblue { color: var(--link); }
+.linkblue:hover { text-decoration: underline; }
 
-.eyebrow {
-  font-family: var(--f-mono);
-  font-size: 11px;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-/* ------------------------------------------------------------- knoppen --- */
+/* -------------------------------------------------------------- knoppen -- */
 
 .btn {
-  font-family: var(--f-display);
-  font-weight: 600;
-  font-size: 15px;
-  letter-spacing: -0.005em;
-  border: 1px solid transparent;
-  border-radius: var(--r);
-  padding: 12px 20px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 9px;
-  transition: background-color .15s ease, border-color .15s ease, transform .08s ease;
-  text-align: center;
+  font-family: var(--font); font-weight: 700; font-size: 15px;
+  border: 1px solid transparent; border-radius: var(--r);
+  padding: 10px 16px; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  transition: background-color .12s ease, border-color .12s ease;
+  text-align: center; line-height: 1.2;
 }
-.btn:active { transform: translateY(1px); }
-
-.btn-primary { background: var(--copper); color: #fff; }
-.btn-primary:hover { background: var(--copper-hi); }
-:root[data-theme="dark"] .btn-primary,
-.btn-primary { color: #fff; }
-
-.btn-lg { padding: 15px 26px; font-size: 17px; width: 100%; }
-
-.btn-ghost {
-  background: var(--surface);
-  color: var(--ink);
-  border-color: var(--line);
-}
-.btn-ghost:hover { border-color: var(--ink); }
-
-.btn-quiet {
-  background: transparent; color: var(--muted); border-color: transparent;
-  padding: 8px 10px; font-size: 14px;
-}
-.btn-quiet:hover { color: var(--ink); }
-
+.btn-primary { background: var(--cta); color: #fff; }
+.btn-primary:hover { background: var(--cta-hover); }
+.btn-lg { padding: 13px 20px; font-size: 16px; width: 100%; }
+.btn-ghost { background: var(--bg); color: var(--text); border-color: var(--line); }
+.btn-ghost:hover { border-color: var(--muted); }
+.btn-quiet { background: none; border: 0; color: var(--link); padding: 8px 4px; font-weight: 600; font-size: 14px; cursor: pointer; }
+.btn-quiet:hover { text-decoration: underline; }
 .btn[disabled] { opacity: .5; cursor: not-allowed; }
 
-/* -------------------------------------------------------------- topbar --- */
+/* --------------------------------------------------------- kop van de site */
 
-.topbar {
-  background: var(--ink-deep);
-  color: #E9F0F8;
-  font-size: 13px;
-}
-:root[data-theme="dark"] .topbar,
-:root:not([data-theme="light"]) .topbar { color: #E9F0F8; }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .topbar { background: #08131F; }
-}
-:root[data-theme="dark"] .topbar { background: #08131F; }
+.topstrip { background: var(--band); border-bottom: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+.topstrip .wrap { display: flex; align-items: center; justify-content: space-between; gap: 14px; height: 34px; }
+.topstrip ul { display: flex; gap: 20px; }
+.topstrip li { display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+.topstrip svg { color: var(--green); flex: none; }
+.topstrip .right { display: flex; align-items: center; gap: 16px; }
+.topstrip a:hover { color: var(--link); }
+@media (max-width: 860px) { .topstrip li:nth-child(n+2), .topstrip .right a:first-child { display: none; } }
 
-.topbar .wrap {
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 16px; height: 38px;
-}
-.topbar-usps { display: flex; gap: 22px; align-items: center; }
-.topbar-usps li { display: flex; align-items: center; gap: 7px; white-space: nowrap; }
-.topbar-usps svg { color: var(--brass); flex: none; }
-.topbar-right { display: flex; align-items: center; gap: 18px; }
-.topbar a:hover { color: var(--brass); }
-@media (max-width: 900px) { .topbar-usps li:nth-child(n+2) { display: none; } }
-@media (max-width: 620px) { .topbar-right .hide-s { display: none; } }
-
-/* -------------------------------------------------------------- header --- */
-
-.site-header {
-  background: var(--surface);
-  border-bottom: 1px solid var(--line);
-  position: sticky; top: 0; z-index: 40;
-}
+.site-header { background: var(--brand); }
 .site-header .wrap {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
-  gap: 28px;
-  height: var(--header-h);
+  display: grid; grid-template-columns: auto 1fr auto;
+  align-items: center; gap: 26px; height: 68px;
 }
-.logo { display: flex; align-items: center; gap: 11px; }
+.logo { display: flex; align-items: center; gap: 10px; }
 .logo svg { flex: none; }
-.logo-word {
-  font-family: var(--f-display);
-  font-weight: 700;
-  font-size: 20px;
-  letter-spacing: -0.02em;
-  color: var(--ink-deep);
-  line-height: 1.05;
-}
-.logo-word span {
-  display: block;
-  font-family: var(--f-mono);
-  font-size: 9.5px;
-  font-weight: 400;
-  letter-spacing: .16em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
+.logo-word { color: #fff; font-weight: 700; font-size: 19px; line-height: 1.1; letter-spacing: -.01em; }
+.logo-word span { display: block; font-size: 11px; font-weight: 400; color: #A9C4DE; letter-spacing: 0; }
 
-.search { position: relative; max-width: 520px; width: 100%; }
+.search { position: relative; max-width: 560px; width: 100%; }
 .search input {
-  width: 100%;
-  font-family: var(--f-body);
-  font-size: 15px;
-  padding: 11px 14px 11px 40px;
-  border: 1px solid var(--line);
-  border-radius: var(--r);
-  background: var(--surface-2);
-  color: var(--text);
+  width: 100%; font-family: var(--font); font-size: 15px;
+  padding: 10px 44px 10px 13px; border: 1px solid var(--brand-dark);
+  border-radius: var(--r); background: #fff; color: #1A1F26;
 }
-.search input::placeholder { color: var(--muted-2); }
-.search svg { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; }
+.search input::placeholder { color: #8A949F; }
+.search button {
+  position: absolute; right: 3px; top: 3px; bottom: 3px; width: 38px;
+  background: var(--cta); border: 0; border-radius: 2px; color: #fff; cursor: pointer;
+  display: grid; place-items: center;
+}
+.search button:hover { background: var(--cta-hover); }
 
-.header-actions { display: flex; align-items: center; gap: 6px; }
-.icon-btn {
-  background: none; border: 0; cursor: pointer; color: var(--ink);
-  padding: 9px; border-radius: var(--r); display: flex; align-items: center; gap: 8px;
-  font-family: var(--f-body); font-size: 14px;
+.header-actions { display: flex; align-items: center; gap: 4px; }
+.hbtn {
+  display: flex; align-items: center; gap: 8px; color: #fff;
+  padding: 8px 10px; border-radius: var(--r); font-size: 14px; font-weight: 600;
+  background: none; border: 0; cursor: pointer; font-family: var(--font);
 }
-.icon-btn:hover { background: var(--surface-2); }
+.hbtn:hover { background: rgba(255,255,255,.11); }
+.hbtn small { display: block; font-weight: 400; font-size: 11px; color: #A9C4DE; }
 .cart-btn { position: relative; }
 .cart-count {
-  position: absolute; top: 2px; left: 22px;
-  background: var(--copper); color: #fff;
-  font-family: var(--f-mono); font-size: 10px; font-weight: 600;
-  min-width: 17px; height: 17px; border-radius: 9px;
+  position: absolute; top: 3px; left: 21px; background: var(--cta); color: #fff;
+  font-size: 10px; font-weight: 700; min-width: 16px; height: 16px; border-radius: 8px;
   display: grid; place-items: center; padding: 0 4px;
 }
 
-.nav {
-  background: var(--surface);
-  border-bottom: 1px solid var(--line);
-}
-.nav .wrap { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+.nav { background: var(--bg); border-bottom: 1px solid var(--line); }
+.nav .wrap { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; }
 .nav .wrap::-webkit-scrollbar { display: none; }
 .nav a {
-  font-family: var(--f-display); font-weight: 550; font-size: 14.5px;
-  padding: 12px 14px; color: var(--ink); white-space: nowrap;
-  border-bottom: 2px solid transparent; margin-bottom: -1px;
+  font-weight: 600; font-size: 15px; padding: 12px 14px; white-space: nowrap;
+  border-bottom: 3px solid transparent; margin-bottom: -1px; color: var(--text);
 }
-.nav a:hover { color: var(--copper); }
-.nav a.on { border-bottom-color: var(--copper); color: var(--copper); }
-.nav .nav-sep { flex: 1; }
-.nav .nav-alt { color: var(--muted); font-weight: 450; }
+.nav a:hover { color: var(--link); }
+.nav a.on { border-bottom-color: var(--cta); }
+.nav .sep { flex: 1; }
+.nav .alt { color: var(--muted); font-weight: 400; font-size: 14px; }
 
-@media (max-width: 860px) {
-  .site-header .wrap { grid-template-columns: auto 1fr; gap: 12px; height: 62px; }
-  .search { grid-column: 1 / -1; display: none; }
+@media (max-width: 820px) {
+  .site-header .wrap { grid-template-columns: auto 1fr; gap: 10px; height: 58px; }
+  .search { display: none; }
   .logo-word span { display: none; }
+  .hbtn span.lbl { display: none; }
 }
 
-/* ----------------------------------------------------------------- USP --- */
+/* ------------------------------------------------------------ USP-balk --- */
 
-.uspbar { background: var(--surface); border-bottom: 1px solid var(--line); }
-.uspbar .wrap {
-  display: grid; grid-template-columns: repeat(4, 1fr);
-}
-.usp {
-  display: flex; gap: 12px; align-items: flex-start;
-  padding: 18px 20px 18px 0;
-}
-.usp + .usp { border-left: 1px solid var(--line-soft); padding-left: 22px; }
-.usp svg { color: var(--copper); flex: none; margin-top: 2px; }
-.usp b { font-family: var(--f-display); font-weight: 600; font-size: 14.5px; display: block; color: var(--ink-deep); }
-.usp small { font-size: 12.5px; color: var(--muted); line-height: 1.45; display: block; }
-@media (max-width: 900px) {
-  .uspbar .wrap { grid-template-columns: repeat(2, 1fr); }
-  .usp:nth-child(3) { border-left: 0; padding-left: 0; }
-  .usp:nth-child(n+3) { border-top: 1px solid var(--line-soft); }
-}
-@media (max-width: 520px) { .usp small { display: none; } }
+.uspbar { background: var(--green-soft); border-bottom: 1px solid var(--line); }
+.uspbar .wrap { display: flex; gap: 26px; padding-top: 9px; padding-bottom: 9px; flex-wrap: wrap; }
+.uspbar li { display: flex; align-items: center; gap: 7px; font-size: 13.5px; font-weight: 600; color: var(--text); }
+.uspbar svg { color: var(--green); flex: none; }
+@media (max-width: 760px) { .uspbar li:nth-child(n+3) { display: none; } }
 
 /* ---------------------------------------------------------------- hero --- */
 
-.hero {
-  background:
-    radial-gradient(120% 90% at 88% 0%, rgba(217,164,65,.14), transparent 60%),
-    linear-gradient(180deg, var(--ink-deep), var(--ink-deep));
-  color: #EAF1F9;
-  position: relative;
-  overflow: hidden;
-}
-.hero::after {
-  content: ""; position: absolute; inset: auto 0 0 0; height: 3px;
-  background: linear-gradient(90deg, var(--brass), transparent 55%);
-}
+.hero { background: var(--band); border-bottom: 1px solid var(--line); }
 .hero .wrap {
-  display: grid; grid-template-columns: 1.05fr .95fr; gap: 48px;
-  align-items: center; padding-top: 52px; padding-bottom: 52px;
+  display: grid; grid-template-columns: 1fr 330px; gap: 34px;
+  align-items: center; padding-top: 26px; padding-bottom: 26px;
 }
-.hero h1 { color: #fff; font-size: clamp(30px, 4.4vw, 48px); }
-.hero h1 em { font-style: normal; color: var(--brass); }
-.hero-lead { color: #BFD1E4; font-size: 17px; margin-top: 14px; max-width: 46ch; }
-.hero-cta { display: flex; gap: 12px; margin-top: 26px; flex-wrap: wrap; }
-.hero .btn-ghost { background: transparent; color: #fff; border-color: rgba(255,255,255,.35); }
-.hero .btn-ghost:hover { border-color: #fff; }
+.hero h1 { font-size: clamp(23px, 3vw, 31px); max-width: 28ch; }
+.hero p.lead { color: var(--muted); font-size: 16px; margin-top: 10px; max-width: 54ch; }
+.hero-points { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 16px; }
+.hero-points li { display: flex; align-items: center; gap: 7px; font-size: 14.5px; font-weight: 600; }
+.hero-points svg { color: var(--green); flex: none; }
+.hero-actions { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; align-items: center; }
 
-.hero-proof {
-  display: flex; align-items: center; gap: 18px; margin-top: 28px;
-  padding-top: 22px; border-top: 1px solid rgba(255,255,255,.14);
-  flex-wrap: wrap;
+.ratingbox {
+  background: var(--bg); border: 1px solid var(--line); border-radius: var(--r-lg);
+  padding: 16px; display: flex; flex-direction: column; gap: 10px; text-align: center;
 }
-.score {
-  font-family: var(--f-display); font-weight: 700; font-size: 30px; color: #fff;
-  display: flex; align-items: baseline; gap: 3px;
-}
-.score small { font-size: 14px; font-weight: 500; color: #93A9C1; }
-.stars { display: flex; gap: 2px; color: var(--brass); }
-.hero-proof p { font-size: 13.5px; color: #A9BED4; }
+.ratingbox .big { font-size: 38px; font-weight: 700; line-height: 1; }
+.ratingbox .big small { font-size: 16px; font-weight: 600; color: var(--muted); }
+.ratingbox .stars { justify-content: center; }
+.ratingbox p { font-size: 13px; color: var(--muted); }
+.ratingbox .src { border-top: 1px solid var(--line-2); padding-top: 10px; font-size: 12.5px; color: var(--muted); }
 
-/* Hero-visual: het "dossier"-idee meteen zichtbaar */
-.hero-card {
-  background: var(--surface); border-radius: var(--r-lg);
-  box-shadow: var(--shadow-2); overflow: hidden;
-  border: 1px solid var(--line);
-}
-.hero-card-top { display: grid; grid-template-columns: 132px 1fr; gap: 16px; padding: 18px; align-items: center; }
-.hero-card-top .thumb { background: var(--surface-2); border-radius: var(--r); padding: 6px; border: 1px solid var(--line-soft); }
-.hero-card h3 { font-size: 17px; }
-.hero-card .price { font-family: var(--f-display); font-weight: 700; font-size: 26px; color: var(--ink-deep); }
-.hero-card .was { font-size: 13px; color: var(--muted); text-decoration: line-through; margin-left: 7px; }
-.dossier-strip {
-  border-top: 1px solid var(--line);
-  background: var(--surface-2);
-  padding: 13px 18px;
-}
-.dossier-strip .eyebrow { display: flex; align-items: center; gap: 7px; margin-bottom: 9px; }
-.dossier-strip .eyebrow svg { color: var(--ok); }
-.dossier-rows { display: grid; gap: 5px; }
-.dossier-rows li {
-  display: grid; grid-template-columns: 1fr auto; gap: 12px;
-  font-family: var(--f-mono); font-size: 11.5px; color: var(--muted);
-  padding-bottom: 5px; border-bottom: 1px dashed var(--line);
-}
-.dossier-rows li:last-child { border-bottom: 0; padding-bottom: 0; }
-.dossier-rows b { color: var(--ok); font-weight: 500; }
-.dossier-rows b.repl { color: var(--copper); }
-
-@media (max-width: 940px) {
-  .hero .wrap { grid-template-columns: 1fr; gap: 32px; padding-top: 36px; padding-bottom: 40px; }
+@media (max-width: 900px) {
+  .hero .wrap { grid-template-columns: 1fr; gap: 20px; padding-top: 20px; padding-bottom: 22px; }
+  .ratingbox { flex-direction: row; align-items: center; text-align: left; gap: 16px; }
+  .ratingbox .stars { justify-content: flex-start; }
+  .ratingbox .src { border-top: 0; border-left: 1px solid var(--line-2); padding: 0 0 0 16px; }
 }
 
-/* ------------------------------------------------------------- secties --- */
+/* -------------------------------------------------------------- secties -- */
 
-.section { padding: 56px 0; }
-.section-head {
-  display: flex; align-items: flex-end; justify-content: space-between;
-  gap: 20px; margin-bottom: 26px; flex-wrap: wrap;
-}
-.section-head p { color: var(--muted); font-size: 15px; margin-top: 7px; max-width: 62ch; }
-.section-link { font-family: var(--f-display); font-weight: 600; font-size: 14.5px; color: var(--copper); display: inline-flex; align-items: center; gap: 6px; }
-.section-link:hover { gap: 9px; }
-.section-alt { background: var(--surface); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.section { padding: 34px 0; }
+.section.band { background: var(--band); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
+.section-head p { color: var(--muted); font-size: 14.5px; margin-top: 5px; max-width: 68ch; }
+.section-head a { color: var(--link); font-weight: 600; font-size: 14.5px; }
+.section-head a:hover { text-decoration: underline; }
 
-/* ------------------------------------------------------- categorietegel --- */
+/* --------------------------------------------------------- categorieën --- */
 
-.cats { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
+.cats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
 .cat {
-  background: var(--surface); border: 1px solid var(--line);
-  border-radius: var(--r); padding: 16px 14px 14px;
-  display: flex; flex-direction: column; gap: 10px;
-  transition: border-color .15s ease, transform .15s ease;
+  background: var(--bg); border: 1px solid var(--line); border-radius: var(--r-lg);
+  padding: 16px; display: grid; grid-template-columns: 70px 1fr; gap: 14px; align-items: center;
 }
-.cat:hover { border-color: var(--ink); transform: translateY(-2px); }
-.cat svg { color: var(--ink); }
-.cat b { display: block; font-family: var(--f-display); font-size: 14.5px; font-weight: 600; color: var(--ink-deep); line-height: 1.25; }
-.cat small { display: block; margin-top: 3px; font-family: var(--f-mono); font-size: 11px; color: var(--muted); line-height: 1.4; }
-@media (max-width: 900px) { .cats { grid-template-columns: repeat(3, 1fr); } }
-@media (max-width: 520px) { .cats { grid-template-columns: repeat(2, 1fr); } }
+.cat:hover { border-color: var(--link); box-shadow: var(--shadow); }
+.cat b { display: block; font-size: 16px; }
+.cat small { display: block; color: var(--muted); font-size: 13px; margin-top: 2px; }
+.cat .from { display: block; color: var(--cta); font-weight: 700; font-size: 13.5px; margin-top: 4px; }
+@media (max-width: 980px) { .cats { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 520px) { .cats { grid-template-columns: 1fr; } }
 
-/* ------------------------------------------------------------ productkaart */
+/* ------------------------------------------------------------ sterren ---- */
 
-.grid-products { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-@media (max-width: 1080px) { .grid-products { grid-template-columns: repeat(3, 1fr); } }
-@media (max-width: 820px)  { .grid-products { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 460px)  { .grid-products { grid-template-columns: 1fr; } }
+.stars { display: inline-flex; gap: 1px; color: #E8A33D; vertical-align: middle; }
+.rating-line { display: flex; align-items: center; gap: 6px; font-size: 13.5px; color: var(--muted); }
+.rating-line b { color: var(--text); }
+
+/* ----------------------------------------------------- productkaart (grid) */
+
+.grid-products { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+@media (max-width: 1040px) { .grid-products { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 780px)  { .grid-products { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 440px)  { .grid-products { grid-template-columns: 1fr; } }
 
 .card {
-  background: var(--surface); border: 1px solid var(--line);
-  border-radius: var(--r); overflow: hidden;
-  display: flex; flex-direction: column;
-  transition: border-color .15s ease, box-shadow .15s ease;
+  background: var(--bg); border: 1px solid var(--line); border-radius: var(--r-lg);
+  display: flex; flex-direction: column; overflow: hidden;
 }
-.card:hover { border-color: var(--ink); box-shadow: var(--shadow-1); }
-.card-media { position: relative; background: var(--surface-2); padding: 14px; border-bottom: 1px solid var(--line-soft); }
-.card-media svg { display: block; margin: 0 auto; }
-.badge-row { position: absolute; top: 10px; left: 10px; display: flex; flex-direction: column; gap: 5px; align-items: flex-start; }
-.badge {
-  font-family: var(--f-mono); font-size: 10px; letter-spacing: .06em;
-  text-transform: uppercase; padding: 3px 7px; border-radius: var(--r-sm);
-  background: var(--ink-deep); color: #fff;
-}
-.badge-save { background: var(--copper); }
-.badge-cond { background: var(--surface); color: var(--ink); border: 1px solid var(--line); }
+.card:hover { border-color: var(--link); box-shadow: var(--shadow); }
+.card-media { position: relative; padding: 12px; text-align: center; }
+.card-body { padding: 0 12px 12px; display: flex; flex-direction: column; gap: 7px; flex: 1; }
+.card h3 { font-size: 15px; font-weight: 600; line-height: 1.35; }
+.card h3 a:hover { color: var(--link); text-decoration: underline; }
+.card ul.bul { display: flex; flex-direction: column; gap: 2px; }
+.card ul.bul li { font-size: 13px; color: var(--muted); padding-left: 12px; position: relative; }
+.card ul.bul li::before { content: "•"; position: absolute; left: 2px; color: var(--muted-2); }
+.card-foot { margin-top: auto; padding-top: 8px; display: flex; flex-direction: column; gap: 7px; }
 
-.card-body { padding: 14px; display: flex; flex-direction: column; gap: 9px; flex: 1; }
-.card-brand { font-family: var(--f-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
-.card h3 { font-size: 15.5px; line-height: 1.3; }
-.card h3 a:hover { color: var(--copper); }
-.card-specs { display: flex; flex-wrap: wrap; gap: 5px; }
-.chip {
-  font-family: var(--f-mono); font-size: 11px; color: var(--muted);
-  border: 1px solid var(--line); border-radius: var(--r-sm); padding: 2px 6px;
-  background: var(--surface-2);
-}
-.card-foot { margin-top: auto; display: flex; flex-direction: column; gap: 10px; }
-.price-row { display: flex; align-items: baseline; gap: 8px; }
-.price { font-family: var(--f-display); font-weight: 700; font-size: 22px; color: var(--ink-deep); font-variant-numeric: tabular-nums; }
+.badges { position: absolute; top: 8px; left: 8px; display: flex; flex-direction: column; gap: 4px; align-items: flex-start; z-index: 1; }
+.badge { font-size: 11px; font-weight: 700; padding: 2px 6px; border-radius: 2px; letter-spacing: .01em; }
+.badge-cond { background: var(--band); color: var(--muted); border: 1px solid var(--line); }
+.badge-save { background: var(--cta); color: #fff; }
+.badge-outlet { background: var(--red); color: #fff; }
+
+.price { font-size: 23px; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
+.price-row { display: flex; align-items: baseline; gap: 7px; flex-wrap: wrap; }
 .was { font-size: 13px; color: var(--muted); text-decoration: line-through; }
-.stockline { display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--ok); font-weight: 500; }
-.dot { width: 7px; height: 7px; border-radius: 50%; background: var(--ok); flex: none; }
-.card .sku { font-family: var(--f-mono); font-size: 10.5px; color: var(--muted-2); }
+.saving { font-size: 13px; color: var(--cta); font-weight: 700; }
+.deliver { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--green); font-weight: 600; }
+.deliver svg { flex: none; }
+.artnr { font-size: 12px; color: var(--muted-2); font-variant-numeric: tabular-nums; }
 
-/* --------------------------------------------------------------- stappen --- */
+/* --------------------------------------------------- productrij (lijst) -- */
 
-.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
-.step { padding: 0 26px; border-left: 2px solid var(--line); }
-.step:first-child { padding-left: 0; border-left: 0; }
-.step .n {
-  font-family: var(--f-mono); font-size: 12px; color: var(--copper);
-  letter-spacing: .1em; margin-bottom: 10px; display: block;
+.plist { border-top: 1px solid var(--line); }
+.prow {
+  display: grid; grid-template-columns: 168px 1fr 216px; gap: 20px;
+  padding: 18px 0; border-bottom: 1px solid var(--line);
 }
-.step h3 { margin-bottom: 7px; }
-.step p { color: var(--muted); font-size: 14.5px; }
-@media (max-width: 780px) {
-  .steps { grid-template-columns: 1fr; gap: 24px; }
-  .step { padding: 0 0 0 18px; border-left: 2px solid var(--line); }
-  .step:first-child { padding-left: 18px; border-left: 2px solid var(--line); }
+.prow:hover { background: var(--band-2); }
+.prow-media { position: relative; text-align: center; align-self: start; }
+.prow-main { display: flex; flex-direction: column; gap: 7px; min-width: 0; }
+.prow-main h3 { font-size: 17px; font-weight: 700; }
+.prow-main h3 a:hover { color: var(--link); text-decoration: underline; }
+.prow-brand { font-size: 13px; color: var(--muted); font-weight: 600; }
+.prow ul.bul { display: flex; flex-direction: column; gap: 3px; margin-top: 2px; }
+.prow ul.bul li { font-size: 14px; color: var(--text); padding-left: 15px; position: relative; }
+.prow ul.bul li::before { content: "•"; position: absolute; left: 3px; color: var(--muted-2); }
+.prow-buy {
+  border-left: 1px solid var(--line-2); padding-left: 20px;
+  display: flex; flex-direction: column; gap: 8px; align-items: flex-start;
+}
+.prow-buy .btn { width: 100%; }
+.prow-buy .price { font-size: 26px; }
+
+@media (max-width: 860px) {
+  .prow { grid-template-columns: 110px 1fr; gap: 14px; }
+  .prow-buy { grid-column: 1 / -1; border-left: 0; padding-left: 0; border-top: 1px solid var(--line-2); padding-top: 12px; }
+  .prow-buy .btn { width: auto; min-width: 190px; }
 }
 
-/* --------------------------------------------------------- keuringspaneel --- */
+/* --------------------------------------------------------------- PLP ----- */
 
-.panel {
-  border: 1px solid var(--line); border-radius: var(--r);
-  background: var(--surface); overflow: hidden;
-}
-.panel-head {
-  display: flex; align-items: center; justify-content: space-between; gap: 14px;
-  padding: 13px 16px; border-bottom: 1px solid var(--line);
-  background: var(--surface-2);
-}
-.panel-head b { font-family: var(--f-display); font-size: 15px; color: var(--ink-deep); }
-.panel-body { padding: 4px 16px 12px; }
-.check-list li {
-  display: grid; grid-template-columns: 20px 1fr auto; gap: 10px;
-  align-items: baseline; padding: 10px 0; border-bottom: 1px dashed var(--line);
-  font-size: 14px;
-}
-.check-list li:last-child { border-bottom: 0; }
-.check-list .ic { color: var(--ok); }
-.check-list .ic.repl { color: var(--copper); }
-.check-list .st {
-  font-family: var(--f-mono); font-size: 11px; text-transform: uppercase;
-  letter-spacing: .06em; color: var(--muted); white-space: nowrap;
-}
-.check-list .st.repl { color: var(--copper); }
-.check-list em { font-style: normal; color: var(--muted); font-size: 13px; display: block; }
+.plp { display: grid; grid-template-columns: 232px 1fr; gap: 30px; align-items: start; padding: 20px 0 44px; }
+@media (max-width: 900px) { .plp { grid-template-columns: 1fr; gap: 14px; } }
 
-/* --------------------------------------------------------------- reviews --- */
-
-.reviews { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-@media (max-width: 880px) { .reviews { grid-template-columns: 1fr; } }
-.review {
-  background: var(--surface); border: 1px solid var(--line);
-  border-radius: var(--r); padding: 18px;
-  display: flex; flex-direction: column; gap: 11px;
-}
-.review .stars { color: var(--brass); }
-.review p { font-size: 14.5px; color: var(--text); }
-.review footer { font-size: 12.5px; color: var(--muted); display: flex; gap: 8px; align-items: center; margin-top: auto; }
-.verified { display: inline-flex; align-items: center; gap: 4px; color: var(--ok); font-weight: 500; }
-
-/* ------------------------------------------------------------------- faq --- */
-
-.faq { max-width: 780px; }
-.faq details { border-bottom: 1px solid var(--line); }
-.faq summary {
-  cursor: pointer; list-style: none; padding: 16px 0;
-  font-family: var(--f-display); font-weight: 600; font-size: 16px; color: var(--ink-deep);
-  display: flex; justify-content: space-between; gap: 16px; align-items: center;
-}
-.faq summary::-webkit-details-marker { display: none; }
-.faq summary::after { content: "+"; font-family: var(--f-mono); font-size: 20px; color: var(--copper); flex: none; }
-.faq details[open] summary::after { content: "–"; }
-.faq details p { padding: 0 0 18px; color: var(--muted); font-size: 15px; max-width: 68ch; }
-
-/* ------------------------------------------------------------------- PLP --- */
-
-.plp { display: grid; grid-template-columns: 248px 1fr; gap: 32px; align-items: start; padding: 28px 0 60px; }
-@media (max-width: 900px) { .plp { grid-template-columns: 1fr; gap: 18px; } }
-
-.filters { position: sticky; top: calc(var(--header-h) + 16px); display: flex; flex-direction: column; gap: 4px; }
+.filters { position: sticky; top: 14px; }
 @media (max-width: 900px) { .filters { position: static; } }
 .fgroup { border-bottom: 1px solid var(--line); padding: 14px 0; }
 .fgroup:first-child { padding-top: 0; }
-.fgroup > b { font-family: var(--f-display); font-size: 13.5px; color: var(--ink-deep); display: block; margin-bottom: 10px; }
-.fopt { display: flex; align-items: center; gap: 9px; padding: 4px 0; font-size: 14px; cursor: pointer; color: var(--text); }
-.fopt input { accent-color: var(--copper); width: 15px; height: 15px; cursor: pointer; flex: none; }
-.fopt .cnt { margin-left: auto; font-family: var(--f-mono); font-size: 11px; color: var(--muted-2); }
-.fopt:hover { color: var(--copper); }
+.fgroup > b { display: block; font-size: 14.5px; margin-bottom: 8px; }
+.fopt { display: flex; align-items: center; gap: 8px; padding: 3px 0; font-size: 14px; cursor: pointer; }
+.fopt input { accent-color: var(--link); width: 15px; height: 15px; cursor: pointer; flex: none; }
+.fopt .cnt { margin-left: auto; font-size: 12.5px; color: var(--muted-2); }
+.fopt:hover { color: var(--link); }
+.fhint { font-size: 12.5px; color: var(--muted); margin-top: 7px; line-height: 1.45; }
 
-.plp-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; margin-bottom: 18px; }
-.plp-head h1 { font-size: clamp(24px, 3vw, 32px); }
-.plp-head .sub { color: var(--muted); font-size: 14.5px; margin-top: 6px; }
-.sortbar { display: flex; align-items: center; gap: 10px; }
+.plp-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 14px; flex-wrap: wrap; margin-bottom: 12px; }
+.plp-head p { color: var(--muted); font-size: 14.5px; margin-top: 5px; max-width: 66ch; }
+.sortbar { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--muted); }
 .sortbar select {
-  font-family: var(--f-body); font-size: 14px; padding: 9px 12px;
-  border: 1px solid var(--line); border-radius: var(--r);
-  background: var(--surface); color: var(--text); cursor: pointer;
+  font-family: var(--font); font-size: 14px; padding: 8px 10px;
+  border: 1px solid var(--line); border-radius: var(--r); background: var(--bg); color: var(--text); cursor: pointer;
 }
-.chips-active { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 16px; }
+.chips-active { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
 .chip-x {
-  display: inline-flex; align-items: center; gap: 7px;
-  background: var(--surface); border: 1px solid var(--ink); color: var(--ink);
-  border-radius: 999px; padding: 4px 8px 4px 11px; font-size: 12.5px; cursor: pointer;
-  font-family: var(--f-body);
+  display: inline-flex; align-items: center; gap: 6px; background: var(--band);
+  border: 1px solid var(--line); color: var(--text); border-radius: 2px;
+  padding: 4px 7px 4px 10px; font-size: 13px; cursor: pointer; font-family: var(--font);
 }
-.chip-x:hover { background: var(--surface-2); }
+.chip-x:hover { border-color: var(--muted); }
+.resultcount { font-size: 14px; color: var(--muted); margin-bottom: 10px; }
+.crumbs { font-size: 13px; color: var(--muted); padding: 12px 0 0; display: flex; gap: 7px; flex-wrap: wrap; }
+.crumbs a { color: var(--link); }
+.crumbs a:hover { text-decoration: underline; }
+.empty { text-align: center; padding: 46px 20px; border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--band-2); }
 
-.crumbs { font-size: 13px; color: var(--muted); padding: 14px 0 0; display: flex; gap: 8px; flex-wrap: wrap; }
-.crumbs a:hover { color: var(--copper); }
+/* --------------------------------------------------------------- PDP ----- */
 
-.empty { text-align: center; padding: 60px 20px; border: 1px dashed var(--line); border-radius: var(--r); }
+.pdp { display: grid; grid-template-columns: 1fr 336px; gap: 32px; align-items: start; padding: 16px 0 44px; }
+@media (max-width: 1000px) { .pdp { grid-template-columns: 1fr; gap: 22px; } }
 
-/* ------------------------------------------------------------------- PDP --- */
+.pdp-top { display: grid; grid-template-columns: 380px 1fr; gap: 26px; align-items: start; }
+@media (max-width: 720px) { .pdp-top { grid-template-columns: 1fr; } }
 
-.pdp { display: grid; grid-template-columns: 1.15fr 400px; gap: 40px; align-items: start; padding: 20px 0 56px; }
-@media (max-width: 980px) { .pdp { grid-template-columns: 1fr; gap: 26px; } }
-
-.gallery { display: flex; flex-direction: column; gap: 12px; }
 .gallery-main {
-  background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg);
-  padding: 28px; display: grid; place-items: center; position: relative;
+  border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--bg);
+  padding: 20px; display: grid; place-items: center; position: relative;
 }
-.gallery-note {
-  position: absolute; left: 14px; bottom: 14px;
-  font-family: var(--f-mono); font-size: 10.5px; color: var(--muted);
-  background: var(--surface-2); border: 1px solid var(--line);
-  padding: 4px 8px; border-radius: var(--r-sm);
-}
-.gallery-thumbs { display: flex; gap: 9px; }
-.gthumb {
-  background: var(--surface); border: 1px solid var(--line); border-radius: var(--r);
-  padding: 6px; width: 74px; height: 74px; display: grid; place-items: center; cursor: pointer;
-}
-.gthumb.on { border-color: var(--ink); border-width: 2px; }
+.gallery-note { position: absolute; left: 10px; bottom: 10px; font-size: 12px; color: var(--muted); background: var(--band); border: 1px solid var(--line); padding: 3px 7px; border-radius: 2px; }
+.gallery-thumbs { display: flex; gap: 7px; margin-top: 8px; }
+.gthumb { border: 1px solid var(--line); border-radius: var(--r); background: var(--bg); padding: 4px; width: 62px; height: 62px; display: grid; place-items: center; cursor: pointer; }
+.gthumb.on { border-color: var(--link); border-width: 2px; padding: 3px; }
 
-.buybox {
-  background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg);
-  padding: 22px; box-shadow: var(--shadow-1);
-  position: sticky; top: calc(var(--header-h) + 16px);
-  display: flex; flex-direction: column; gap: 16px;
-}
-@media (max-width: 980px) { .buybox { position: static; } }
-.buybox h1 { font-size: 24px; }
-.pdp-brandline { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-.pdp-rating { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--muted); }
-.pdp-rating .stars { color: var(--brass); }
+.why { display: flex; flex-direction: column; gap: 7px; margin-top: 14px; }
+.why li { display: grid; grid-template-columns: 17px 1fr; gap: 9px; font-size: 14.5px; align-items: start; }
+.why svg { color: var(--green); margin-top: 3px; }
 
-.price-block { display: flex; flex-direction: column; gap: 4px; padding: 14px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-.price-block .price { font-size: 34px; }
-.price-block .save { color: var(--copper); font-weight: 600; font-size: 13.5px; font-family: var(--f-display); }
-.price-block .incl { font-size: 12.5px; color: var(--muted); }
+.buybox { border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--bg); padding: 16px; display: flex; flex-direction: column; gap: 13px; position: sticky; top: 14px; }
+@media (max-width: 1000px) { .buybox { position: static; } }
+.buybox .price { font-size: 32px; }
+.pricebox { display: flex; flex-direction: column; gap: 3px; }
+.incl { font-size: 13px; color: var(--muted); }
+.assurances { display: flex; flex-direction: column; gap: 8px; }
+.assurances li { display: grid; grid-template-columns: 17px 1fr; gap: 9px; font-size: 14px; align-items: start; }
+.assurances svg { color: var(--green); margin-top: 3px; }
+.assurances b { font-weight: 700; }
 
-.assurances { display: grid; gap: 9px; }
-.assurances li { display: grid; grid-template-columns: 18px 1fr; gap: 10px; font-size: 14px; align-items: start; }
-.assurances svg { color: var(--ok); margin-top: 3px; }
-.assurances b { font-weight: 600; }
+.deliverybox { background: var(--band); border: 1px solid var(--line); border-radius: var(--r); padding: 11px 12px; display: flex; flex-direction: column; gap: 8px; }
+.deliverybox > b { font-size: 14px; }
+.pc-form { display: flex; gap: 7px; }
+.pc-form input { flex: 1; min-width: 0; font-family: var(--font); font-size: 14px; text-transform: uppercase; padding: 8px 10px; border: 1px solid var(--line); border-radius: var(--r); background: var(--bg); color: var(--text); }
+.pc-form button { padding: 8px 12px; font-size: 14px; }
+.pc-result { font-size: 13.5px; }
+.pc-result b { color: var(--green); }
+.pc-result.err { color: var(--red); }
 
-.deliverybox {
-  background: var(--surface-2); border: 1px solid var(--line);
-  border-radius: var(--r); padding: 13px 14px; display: flex; flex-direction: column; gap: 9px;
-}
-.deliverybox .eyebrow { display: flex; align-items: center; gap: 7px; }
-.deliverybox .eyebrow svg { color: var(--copper); }
-.pc-form { display: flex; gap: 8px; }
-.pc-form input {
-  flex: 1; min-width: 0; font-family: var(--f-mono); font-size: 14px; text-transform: uppercase;
-  padding: 9px 11px; border: 1px solid var(--line); border-radius: var(--r-sm);
-  background: var(--surface); color: var(--text);
-}
-.pc-form button { padding: 9px 14px; font-size: 14px; }
-.pc-result { font-size: 13.5px; color: var(--text); }
-.pc-result b { color: var(--ok); }
-.pc-result.err { color: var(--copper); }
+.paystrip { display: flex; gap: 5px; flex-wrap: wrap; }
+.paystrip span { font-size: 11.5px; border: 1px solid var(--line); border-radius: 2px; padding: 3px 6px; color: var(--muted); background: var(--band-2); font-weight: 600; }
 
-.buy-actions { display: flex; flex-direction: column; gap: 9px; }
-.pay-icons { display: flex; gap: 7px; align-items: center; flex-wrap: wrap; padding-top: 4px; }
-.pay-icons span {
-  font-family: var(--f-mono); font-size: 10px; letter-spacing: .04em;
-  border: 1px solid var(--line); border-radius: var(--r-sm);
-  padding: 3px 6px; color: var(--muted); background: var(--surface-2);
-}
-
-.pdp-sections { display: flex; flex-direction: column; gap: 28px; margin-top: 34px; }
-.spec-table { width: 100%; border-collapse: collapse; font-size: 14px; }
-.spec-table th, .spec-table td { text-align: left; padding: 10px 0; border-bottom: 1px dashed var(--line); vertical-align: top; }
-.spec-table th { font-weight: 500; color: var(--muted); width: 45%; font-family: var(--f-body); }
-.spec-table td { font-family: var(--f-mono); font-size: 13px; color: var(--text); }
-.table-scroll { overflow-x: auto; }
+.pdp-sections { display: flex; flex-direction: column; gap: 26px; margin-top: 30px; }
+.pdp-sections h2 { margin-bottom: 12px; }
+.spec-table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+.spec-table th, .spec-table td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--line-2); vertical-align: top; }
+.spec-table tr:nth-child(odd) { background: var(--band-2); }
+.spec-table th { font-weight: 400; color: var(--muted); width: 44%; }
+.spec-table td { font-weight: 600; font-variant-numeric: tabular-nums; }
+.table-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r-lg); }
 
 .sticky-buy {
-  position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
-  background: var(--surface); border-top: 1px solid var(--line);
-  box-shadow: 0 -4px 20px rgba(15,42,71,.10);
-  padding: 10px 16px; display: none; gap: 14px; align-items: center;
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 50; background: var(--bg);
+  border-top: 1px solid var(--line); box-shadow: 0 -3px 14px rgba(18,58,99,.13);
+  padding: 9px 14px; display: none; gap: 12px; align-items: center;
 }
-.sticky-buy .price { font-size: 20px; }
-.sticky-buy .btn { flex: 1; max-width: 260px; }
+.sticky-buy .price { font-size: 19px; }
 .sticky-buy .meta { flex: 1; min-width: 0; }
-.sticky-buy .meta b { display: block; font-size: 13px; font-family: var(--f-display); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-@media (max-width: 980px) { .sticky-buy.show { display: flex; } body.has-sticky { padding-bottom: 74px; } }
+.sticky-buy .meta b { display: block; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sticky-buy .btn { flex: none; min-width: 180px; }
+@media (max-width: 1000px) { .sticky-buy.show { display: flex; } body.has-sticky { padding-bottom: 70px; } }
 
-/* ------------------------------------------------------------- winkelwagen --- */
+/* --------------------------------------------------- keuringspaneel ------ */
 
-.cartpage { display: grid; grid-template-columns: 1fr 372px; gap: 32px; align-items: start; padding: 26px 0 60px; }
-@media (max-width: 900px) { .cartpage { grid-template-columns: 1fr; } }
+.panel { border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; background: var(--bg); }
+.panel-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 14px; border-bottom: 1px solid var(--line); background: var(--band); }
+.panel-head b { font-size: 15px; }
+.panel-head span { font-size: 12.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.check-list li { display: grid; grid-template-columns: 18px 1fr auto; gap: 10px; align-items: baseline; padding: 10px 14px; border-bottom: 1px solid var(--line-2); font-size: 14.5px; }
+.check-list li:last-child { border-bottom: 0; }
+.check-list li:nth-child(odd) { background: var(--band-2); }
+.check-list .ic { color: var(--green); }
+.check-list .ic.repl { color: var(--cta); }
+.check-list em { font-style: normal; color: var(--muted); font-size: 13.5px; display: block; }
+.check-list .st { font-size: 12.5px; font-weight: 700; color: var(--green); white-space: nowrap; }
+.check-list .st.repl { color: var(--cta); }
 
-.lineitem {
-  display: grid; grid-template-columns: 96px 1fr auto; gap: 16px;
-  padding: 16px 0; border-bottom: 1px solid var(--line); align-items: start;
-}
-.lineitem .thumb { background: var(--surface-2); border: 1px solid var(--line-soft); border-radius: var(--r); padding: 6px; }
-.lineitem h3 { font-size: 15.5px; }
-.li-meta { display: flex; flex-direction: column; gap: 6px; }
-.li-right { text-align: right; display: flex; flex-direction: column; gap: 8px; align-items: flex-end; }
-.qty { display: flex; align-items: center; border: 1px solid var(--line); border-radius: var(--r-sm); overflow: hidden; }
-.qty button { background: var(--surface); border: 0; cursor: pointer; width: 30px; height: 30px; color: var(--ink); font-size: 16px; font-family: var(--f-mono); }
-.qty button:hover { background: var(--surface-2); }
-.qty span { min-width: 34px; text-align: center; font-family: var(--f-mono); font-size: 14px; }
-.li-remove { background: none; border: 0; color: var(--muted); font-size: 12.5px; cursor: pointer; text-decoration: underline; font-family: var(--f-body); padding: 0; }
-.li-remove:hover { color: var(--copper); }
+/* -------------------------------------------------------------- reviews -- */
 
-.summary {
-  background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg);
-  padding: 20px; display: flex; flex-direction: column; gap: 14px;
-  position: sticky; top: calc(var(--header-h) + 16px);
-}
+.reviews { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+@media (max-width: 900px) { .reviews { grid-template-columns: 1fr; } }
+.review { background: var(--bg); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 14px; display: flex; flex-direction: column; gap: 8px; }
+.review p { font-size: 14.5px; }
+.review header { display: flex; align-items: center; gap: 8px; }
+.review header b { font-size: 14px; }
+.review footer { font-size: 13px; color: var(--muted); margin-top: auto; display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.verified { color: var(--green); font-weight: 600; display: inline-flex; align-items: center; gap: 4px; }
+
+/* ------------------------------------------------------------------ faq -- */
+
+.faq { max-width: 800px; border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; }
+.faq details { border-bottom: 1px solid var(--line); }
+.faq details:last-child { border-bottom: 0; }
+.faq summary { cursor: pointer; list-style: none; padding: 13px 15px; font-weight: 600; font-size: 15.5px; display: flex; justify-content: space-between; gap: 14px; align-items: center; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary:hover { background: var(--band-2); color: var(--link); }
+.faq summary::after { content: "+"; font-size: 19px; color: var(--link); flex: none; line-height: 1; }
+.faq details[open] summary::after { content: "\2013"; }
+.faq details p { padding: 0 15px 15px; color: var(--muted); font-size: 14.5px; max-width: 72ch; }
+
+/* ------------------------------------------------------ zo werkt het ----- */
+
+.how { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+@media (max-width: 780px) { .how { grid-template-columns: 1fr; gap: 16px; } }
+.how-item { display: grid; grid-template-columns: 38px 1fr; gap: 13px; align-items: start; }
+.how-item .ic { width: 38px; height: 38px; border-radius: 50%; background: var(--green-soft); color: var(--green); display: grid; place-items: center; }
+.how-item h3 { margin-bottom: 4px; }
+.how-item p { font-size: 14.5px; color: var(--muted); }
+
+/* ----------------------------------------------------------- winkelwagen - */
+
+.cartpage, .checkout { display: grid; grid-template-columns: 1fr 340px; gap: 28px; align-items: start; padding: 20px 0 44px; }
+@media (max-width: 900px) { .cartpage, .checkout { grid-template-columns: 1fr; } }
+
+.lineitem { display: grid; grid-template-columns: 90px 1fr auto; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--line); align-items: start; }
+.lineitem .thumb { border: 1px solid var(--line-2); border-radius: var(--r); padding: 5px; text-align: center; }
+.li-meta { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.li-meta h3 { font-size: 15px; font-weight: 600; }
+.li-meta h3 a:hover { color: var(--link); text-decoration: underline; }
+.li-right { text-align: right; display: flex; flex-direction: column; gap: 7px; align-items: flex-end; }
+.qty { display: flex; align-items: center; border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; }
+.qty button { background: var(--bg); border: 0; cursor: pointer; width: 28px; height: 28px; color: var(--text); font-size: 15px; font-family: var(--font); }
+.qty button:hover { background: var(--band); }
+.qty span { min-width: 30px; text-align: center; font-size: 14px; font-variant-numeric: tabular-nums; }
+.li-remove { background: none; border: 0; color: var(--link); font-size: 13px; cursor: pointer; font-family: var(--font); padding: 0; }
+.li-remove:hover { text-decoration: underline; }
+
+.summary { border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--bg); padding: 16px; display: flex; flex-direction: column; gap: 12px; position: sticky; top: 14px; }
 @media (max-width: 900px) { .summary { position: static; } }
-.sum-rows { display: grid; gap: 9px; font-size: 14.5px; }
-.sum-rows li { display: flex; justify-content: space-between; gap: 14px; }
-.sum-rows .free { color: var(--ok); font-weight: 600; }
-.sum-total { display: flex; justify-content: space-between; align-items: baseline; padding-top: 13px; border-top: 1px solid var(--line); }
-.sum-total b { font-family: var(--f-display); font-size: 15px; }
-.sum-total .price { font-size: 26px; }
+.sum-rows { display: flex; flex-direction: column; gap: 7px; font-size: 14.5px; }
+.sum-rows li { display: flex; justify-content: space-between; gap: 12px; }
+.sum-rows .free { color: var(--green); font-weight: 700; }
+.sum-total { display: flex; justify-content: space-between; align-items: baseline; padding-top: 11px; border-top: 1px solid var(--line); }
+.sum-total b { font-size: 15px; }
 
-.upsell {
-  border: 1px solid var(--line); border-radius: var(--r); padding: 13px 14px;
-  background: var(--note-bg); display: flex; gap: 11px; align-items: flex-start;
-}
-.upsell svg { color: var(--note); flex: none; margin-top: 2px; }
-.upsell b { font-family: var(--f-display); font-size: 14px; display: block; color: var(--ink-deep); }
-.upsell p { font-size: 13px; color: var(--muted); margin: 3px 0 8px; }
-.upsell button {
-  background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-sm);
-  padding: 6px 11px; font-size: 13px; cursor: pointer; font-family: var(--f-display); font-weight: 600; color: var(--ink);
-}
-.upsell button:hover { border-color: var(--ink); }
+.upsell { border: 1px solid var(--line); border-radius: var(--r-lg); padding: 13px; background: var(--cta-soft); display: grid; grid-template-columns: 20px 1fr; gap: 11px; align-items: start; margin-top: 16px; }
+.upsell svg { color: var(--cta); margin-top: 2px; }
+.upsell b { display: block; font-size: 14.5px; }
+.upsell p { font-size: 13.5px; color: var(--muted); margin: 3px 0 9px; }
 
-/* --------------------------------------------------------------- checkout --- */
+/* ------------------------------------------------------------- checkout -- */
 
-.checkout { display: grid; grid-template-columns: 1fr 372px; gap: 32px; align-items: start; padding: 26px 0 60px; }
-@media (max-width: 900px) { .checkout { grid-template-columns: 1fr; } }
-
-.progress { display: flex; gap: 0; margin-bottom: 26px; border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; background: var(--surface); }
-.pstep {
-  flex: 1; padding: 12px 14px; font-family: var(--f-display); font-size: 14px; font-weight: 600;
-  color: var(--muted); display: flex; align-items: center; gap: 9px;
-  border-right: 1px solid var(--line); background: var(--surface-2);
-}
+.progress { display: flex; border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; margin-bottom: 20px; }
+.pstep { flex: 1; padding: 11px 13px; font-size: 14.5px; font-weight: 600; color: var(--muted); display: flex; align-items: center; gap: 8px; border-right: 1px solid var(--line); background: var(--band); }
 .pstep:last-child { border-right: 0; }
-.pstep .n { width: 21px; height: 21px; border-radius: 50%; background: var(--line); color: var(--muted); display: grid; place-items: center; font-family: var(--f-mono); font-size: 11px; flex: none; }
-.pstep.on { background: var(--surface); color: var(--ink-deep); }
-.pstep.on .n { background: var(--ink); color: #fff; }
-.pstep.done .n { background: var(--ok); color: #fff; }
+.pstep .n { width: 20px; height: 20px; border-radius: 50%; background: var(--line); color: var(--muted); display: grid; place-items: center; font-size: 11px; font-weight: 700; flex: none; }
+.pstep.on { background: var(--bg); color: var(--text); }
+.pstep.on .n { background: var(--brand); color: #fff; }
 .pstep.done { color: var(--text); }
+.pstep.done .n { background: var(--green); color: #fff; }
 
-.formgrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
-.field { display: flex; flex-direction: column; gap: 5px; }
+.formgrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 13px; }
+.field { display: flex; flex-direction: column; gap: 4px; }
 .field.full { grid-column: 1 / -1; }
-.field label { font-size: 13px; font-weight: 500; color: var(--text); }
+.field label { font-size: 13.5px; font-weight: 600; }
 .field input, .field select, .field textarea {
-  font-family: var(--f-body); font-size: 15px; padding: 11px 12px;
-  border: 1px solid var(--line); border-radius: var(--r);
-  background: var(--surface); color: var(--text); width: 100%;
+  font-family: var(--font); font-size: 15px; padding: 10px 11px;
+  border: 1px solid var(--line); border-radius: var(--r); background: var(--bg); color: var(--text); width: 100%;
 }
-.field small { font-size: 12px; color: var(--muted); }
+.field small { font-size: 12.5px; color: var(--muted); }
 @media (max-width: 560px) { .formgrid { grid-template-columns: 1fr; } }
 
-.slots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.slots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; }
 @media (max-width: 620px) { .slots { grid-template-columns: 1fr; } }
-.slot {
-  border: 1px solid var(--line); border-radius: var(--r); padding: 13px;
-  cursor: pointer; background: var(--surface); display: flex; flex-direction: column; gap: 3px;
-  transition: border-color .15s ease;
-}
-.slot:hover { border-color: var(--ink); }
-.slot.on { border-color: var(--copper); border-width: 2px; padding: 12px; }
-.slot b { font-family: var(--f-display); font-size: 14.5px; color: var(--ink-deep); }
-.slot small { font-family: var(--f-mono); font-size: 12px; color: var(--muted); }
-.slot .free { color: var(--ok); font-weight: 600; font-size: 12px; }
+.slot { border: 1px solid var(--line); border-radius: var(--r-lg); padding: 12px; cursor: pointer; background: var(--bg); display: flex; flex-direction: column; gap: 2px; text-align: left; font-family: var(--font); }
+.slot:hover { border-color: var(--link); }
+.slot.on { border-color: var(--cta); border-width: 2px; padding: 11px; }
+.slot b { font-size: 14.5px; }
+.slot small { font-size: 13px; color: var(--muted); }
+.slot .free { color: var(--green); font-weight: 700; font-size: 12.5px; margin-top: 3px; }
 
-.paylist { display: grid; gap: 9px; }
-.payopt {
-  display: grid; grid-template-columns: 20px 1fr auto; gap: 12px; align-items: center;
-  border: 1px solid var(--line); border-radius: var(--r); padding: 13px 14px;
-  cursor: pointer; background: var(--surface);
-}
-.payopt.on { border-color: var(--copper); border-width: 2px; padding: 12px 13px; }
-.payopt input { accent-color: var(--copper); width: 17px; height: 17px; }
-.payopt b { font-family: var(--f-display); font-size: 14.5px; }
-.payopt small { display: block; font-size: 12.5px; color: var(--muted); }
-.payopt .tag { font-family: var(--f-mono); font-size: 10px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); border: 1px solid var(--line); border-radius: var(--r-sm); padding: 3px 6px; }
+.paylist { display: flex; flex-direction: column; gap: 8px; }
+.payopt { display: grid; grid-template-columns: 18px 1fr auto; gap: 11px; align-items: center; border: 1px solid var(--line); border-radius: var(--r-lg); padding: 12px 13px; cursor: pointer; background: var(--bg); }
+.payopt.on { border-color: var(--cta); border-width: 2px; padding: 11px 12px; }
+.payopt input { accent-color: var(--cta); width: 16px; height: 16px; }
+.payopt b { font-size: 14.5px; }
+.payopt small { display: block; font-size: 13px; color: var(--muted); }
+.payopt .tag { font-size: 11.5px; font-weight: 700; color: var(--green); background: var(--green-soft); border-radius: 2px; padding: 3px 6px; }
 
-.checkout-actions { display: flex; justify-content: space-between; gap: 14px; margin-top: 22px; align-items: center; flex-wrap: wrap; }
+.checkout-actions { display: flex; justify-content: space-between; gap: 13px; margin-top: 20px; align-items: center; flex-wrap: wrap; }
+.done-panel { text-align: center; padding: 38px 20px; border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--bg); }
+.done-panel .tick { width: 50px; height: 50px; border-radius: 50%; background: var(--green-soft); color: var(--green); display: grid; place-items: center; margin: 0 auto 14px; }
+.done-panel p { color: var(--muted); margin-top: 8px; max-width: 54ch; margin-left: auto; margin-right: auto; }
 
-.done-panel { text-align: center; padding: 46px 20px; border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface); }
-.done-panel .tick { width: 56px; height: 56px; border-radius: 50%; background: var(--ok-bg); color: var(--ok); display: grid; place-items: center; margin: 0 auto 18px; }
-.done-panel p { color: var(--muted); margin-top: 10px; max-width: 52ch; margin-left: auto; margin-right: auto; }
+/* ------------------------------------------------------------- showroom -- */
 
-/* --------------------------------------------------------------- showroom --- */
-
-.showroom { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; align-items: center; }
-@media (max-width: 880px) { .showroom { grid-template-columns: 1fr; gap: 24px; } }
-.nap { display: grid; gap: 12px; margin-top: 20px; }
-.nap li { display: grid; grid-template-columns: 20px 1fr; gap: 12px; font-size: 15px; align-items: start; }
-.nap svg { color: var(--copper); margin-top: 3px; }
-.nap b { display: block; font-weight: 600; }
+.twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: start; }
+@media (max-width: 880px) { .twocol { grid-template-columns: 1fr; gap: 20px; } }
+.nap { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
+.nap li { display: grid; grid-template-columns: 18px 1fr; gap: 11px; font-size: 15px; align-items: start; }
+.nap svg { color: var(--link); margin-top: 3px; }
+.nap b { display: block; }
 .nap span { color: var(--muted); font-size: 14px; }
-.hours { font-family: var(--f-mono); font-size: 13px; color: var(--muted); }
-.hours li { display: flex; justify-content: space-between; max-width: 260px; padding: 2px 0; }
+.hours li { display: flex; justify-content: space-between; padding: 7px 14px; font-size: 14px; border-bottom: 1px solid var(--line-2); }
+.hours li:last-child { border-bottom: 0; }
+.hours li:nth-child(odd) { background: var(--band-2); }
+.hours .day { color: var(--muted); }
 
-/* ---------------------------------------------------------------- footer --- */
+/* --------------------------------------------------------------- footer -- */
 
-.site-footer { background: var(--ink-deep); color: #C3D3E4; padding: 46px 0 26px; margin-top: 20px; }
-.foot-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 32px; }
-@media (max-width: 880px) { .foot-grid { grid-template-columns: 1fr 1fr; gap: 26px; } }
+.site-footer { background: var(--brand); color: #C9DBEC; padding: 34px 0 20px; margin-top: 28px; }
+.foot-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 28px; }
+@media (max-width: 880px) { .foot-grid { grid-template-columns: 1fr 1fr; gap: 22px; } }
 @media (max-width: 480px) { .foot-grid { grid-template-columns: 1fr; } }
-.site-footer h4 { color: #fff; font-size: 14px; margin-bottom: 12px; font-weight: 600; }
+.site-footer h4 { color: #fff; font-size: 14.5px; margin-bottom: 9px; }
 .site-footer li { padding: 3px 0; font-size: 14px; }
-.site-footer a:hover { color: var(--brass); }
-.site-footer .logo-word { color: #fff; }
-.site-footer .logo-word span { color: #8FA6BE; }
-.foot-about { font-size: 14px; color: #9DB3CA; margin-top: 14px; max-width: 38ch; }
-.foot-bottom {
-  margin-top: 32px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,.13);
-  display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
-  font-size: 12.5px; color: #8FA6BE;
-}
-.foot-bottom .mono { color: #A9BED4; }
-.site-footer .pay-icons span { border-color: rgba(255,255,255,.22); color: #C3D3E4; background: rgba(255,255,255,.05); }
+.site-footer a:hover { color: #fff; text-decoration: underline; }
+.foot-about { font-size: 14px; color: #A9C4DE; margin-top: 12px; max-width: 40ch; }
+.foot-bottom { margin-top: 26px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,.15); display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; font-size: 12.5px; color: #A9C4DE; }
+.site-footer .paystrip span { border-color: rgba(255,255,255,.24); color: #C9DBEC; background: rgba(255,255,255,.06); }
 
-/* ------------------------------------------------------------------ misc --- */
+/* ----------------------------------------------------------------- rest -- */
 
-.notice {
-  background: var(--note-bg); border: 1px solid rgba(122,91,18,.28); color: var(--note);
-  border-radius: var(--r); padding: 11px 14px; font-size: 13.5px;
-  display: flex; gap: 10px; align-items: flex-start;
-}
-.notice svg { flex: none; margin-top: 2px; }
-.notice a { text-decoration: underline; }
+.notice { background: var(--band); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 11px 13px; font-size: 14px; display: grid; grid-template-columns: 17px 1fr; gap: 10px; align-items: start; color: var(--muted); }
+.notice svg { color: var(--link); margin-top: 3px; }
+.notice a { color: var(--link); text-decoration: underline; }
 
 .toast {
-  position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%) translateY(120%);
-  background: var(--ink-deep); color: #fff; padding: 13px 20px; border-radius: var(--r);
-  box-shadow: var(--shadow-2); font-size: 14.5px; z-index: 90;
-  transition: transform .28s cubic-bezier(.2,.8,.3,1);
-  display: flex; align-items: center; gap: 10px; max-width: calc(100vw - 32px);
+  position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%) translateY(140%);
+  background: var(--green); color: #fff; padding: 12px 18px; border-radius: var(--r-lg);
+  box-shadow: var(--shadow-lg); font-size: 14.5px; font-weight: 600; z-index: 90;
+  transition: transform .24s ease; display: flex; align-items: center; gap: 9px; max-width: calc(100vw - 28px);
 }
 .toast.show { transform: translateX(-50%) translateY(0); }
-.toast svg { color: var(--brass); flex: none; }
+.toast svg { flex: none; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
@@ -906,9 +684,9 @@ window.WK = window.WK || {};
   /* Vervang deze door echte productfoto's zodra de catalogus gekoppeld is;
      de PDP verwacht per artikel foto's van dát exemplaar. */
 
-  const BODY = 'fill="var(--surface)" stroke="var(--ink)" stroke-width="2.2"';
+  const BODY = 'fill="var(--bg)" stroke="var(--brand)" stroke-width="2.2"';
   const SOFT = 'stroke="var(--line)" stroke-width="1.6" fill="none"';
-  const GLASS = 'fill="var(--surface-2)" stroke="var(--ink)" stroke-width="2"';
+  const GLASS = 'fill="var(--band)" stroke="var(--brand)" stroke-width="2"';
 
   const SHAPES = {
     wasmachine:
@@ -916,52 +694,24 @@ window.WK = window.WK || {};
       '<path d="M26 44h108" ' + SOFT + '/>' +
       '<circle cx="80" cy="95" r="36" ' + GLASS + '/>' +
       '<circle cx="80" cy="95" r="25" ' + SOFT + '/>' +
-      '<circle cx="118" cy="31" r="7" fill="none" stroke="var(--copper)" stroke-width="2.2"/>' +
-      '<path d="M118 27v4" stroke="var(--copper)" stroke-width="2.2" stroke-linecap="round"/>' +
-      '<rect x="40" y="27" width="34" height="8" rx="4" fill="var(--line-soft)"/>',
+      '<circle cx="118" cy="31" r="7" fill="none" stroke="var(--cta)" stroke-width="2.2"/>' +
+      '<path d="M118 27v4" stroke="var(--cta)" stroke-width="2.2" stroke-linecap="round"/>' +
+      '<rect x="40" y="27" width="34" height="8" rx="4" fill="var(--line-2)"/>',
     wasdroger:
       '<rect x="26" y="18" width="108" height="124" rx="9" ' + BODY + '/>' +
       '<path d="M26 44h108" ' + SOFT + '/>' +
       '<circle cx="80" cy="95" r="36" ' + GLASS + '/>' +
-      '<path d="M69 88q5.5-7 11 0t11 0M69 102q5.5-7 11 0t11 0" stroke="var(--copper)" stroke-width="2" fill="none" stroke-linecap="round"/>' +
-      '<circle cx="118" cy="31" r="7" fill="none" stroke="var(--copper)" stroke-width="2.2"/>' +
-      '<rect x="40" y="27" width="34" height="8" rx="4" fill="var(--line-soft)"/>',
+      '<path d="M69 88q5.5-7 11 0t11 0M69 102q5.5-7 11 0t11 0" stroke="var(--cta)" stroke-width="2" fill="none" stroke-linecap="round"/>' +
+      '<circle cx="118" cy="31" r="7" fill="none" stroke="var(--cta)" stroke-width="2.2"/>' +
+      '<rect x="40" y="27" width="34" height="8" rx="4" fill="var(--line-2)"/>',
     vaatwasser:
       '<rect x="30" y="14" width="100" height="132" rx="8" ' + BODY + '/>' +
       '<path d="M30 40h100" ' + SOFT + '/>' +
-      '<rect x="44" y="23" width="46" height="8" rx="4" fill="var(--line-soft)"/>' +
-      '<circle cx="112" cy="27" r="4.5" fill="var(--copper)"/>' +
+      '<rect x="44" y="23" width="46" height="8" rx="4" fill="var(--line-2)"/>' +
+      '<circle cx="112" cy="27" r="4.5" fill="var(--cta)"/>' +
       '<rect x="44" y="54" width="72" height="76" rx="5" ' + GLASS + '/>' +
       '<path d="M44 78h72M44 102h72" ' + SOFT + '/>' +
-      '<path d="M58 66h14M58 90h20M58 114h11" stroke="var(--line)" stroke-width="2.4" stroke-linecap="round"/>',
-    koelkast:
-      '<rect x="34" y="10" width="92" height="140" rx="8" ' + BODY + '/>' +
-      '<path d="M34 62h92" stroke="var(--ink)" stroke-width="2.2"/>' +
-      '<path d="M112 26v22M112 76v26" stroke="var(--ink)" stroke-width="3.4" stroke-linecap="round"/>' +
-      '<path d="M48 80h30M48 94h20" ' + SOFT + '/>' +
-      '<rect x="48" y="24" width="26" height="6" rx="3" fill="var(--line-soft)"/>' +
-      '<path d="M52 116h44" stroke="var(--copper)" stroke-width="2.2" stroke-linecap="round"/>',
-    fornuis:
-      '<rect x="24" y="42" width="112" height="106" rx="8" ' + BODY + '/>' +
-      '<rect x="24" y="24" width="112" height="18" rx="6" fill="var(--surface-2)" stroke="var(--ink)" stroke-width="2.2"/>' +
-      '<circle cx="50" cy="33" r="5" fill="none" stroke="var(--copper)" stroke-width="2"/>' +
-      '<circle cx="70" cy="33" r="5" fill="none" stroke="var(--copper)" stroke-width="2"/>' +
-      '<circle cx="90" cy="33" r="5" fill="none" stroke="var(--line)" stroke-width="2"/>' +
-      '<circle cx="110" cy="33" r="5" fill="none" stroke="var(--line)" stroke-width="2"/>' +
-      '<rect x="38" y="62" width="84" height="66" rx="5" ' + GLASS + '/>' +
-      '<path d="M38 56h84" stroke="var(--ink)" stroke-width="3.2" stroke-linecap="round"/>' +
-      '<path d="M52 92h56" ' + SOFT + '/>',
-    magnetron:
-      '<rect x="14" y="46" width="132" height="76" rx="8" ' + BODY + '/>' +
-      '<rect x="26" y="58" width="82" height="52" rx="5" ' + GLASS + '/>' +
-      '<path d="M118 60h16M118 72h16M118 84h16" stroke="var(--line)" stroke-width="2.4" stroke-linecap="round"/>' +
-      '<circle cx="126" cy="102" r="6" fill="none" stroke="var(--copper)" stroke-width="2"/>' +
-      '<circle cx="67" cy="84" r="15" ' + SOFT + '/>',
-    vriezer:
-      '<rect x="34" y="12" width="92" height="138" rx="8" ' + BODY + '/>' +
-      '<path d="M34 52h92M34 88h92M34 122h92" stroke="var(--ink)" stroke-width="2.2"/>' +
-      '<path d="M66 34h28M66 70h28M66 105h28M66 136h28" stroke="var(--line)" stroke-width="3.4" stroke-linecap="round"/>' +
-      '<path d="M80 20v-8M76 16l4 4 4-4" stroke="var(--copper)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>'
+      '<path d="M58 66h14M58 90h20M58 114h11" stroke="var(--line)" stroke-width="2.4" stroke-linecap="round"/>'
   };
 
   WK.appliance = function (kind, size) {
@@ -978,10 +728,11 @@ window.WK = window.WK || {};
   WK.logo = function (size) {
     const s = size || 36;
     return '<svg width="' + s + '" height="' + s + '" viewBox="0 0 40 40" fill="none" role="img" aria-label="Witgoed Koning">' +
-      '<rect x="2" y="9" width="36" height="29" rx="6" fill="var(--ink)"/>' +
-      '<circle cx="20" cy="24.5" r="9.5" fill="none" stroke="var(--brass)" stroke-width="2.2"/>' +
-      '<circle cx="20" cy="24.5" r="4.2" fill="none" stroke="var(--brass)" stroke-width="1.4" opacity=".55"/>' +
-      '<path d="M8.5 6.5 12 10l4-6 4 6 4-6 4 6 3.5-3.5V10h-23z" fill="var(--brass)"/>' +
+      '<path d="M7 4.5 11 8.6 15.5 1.8 20 8.6 24.5 1.8 29 8.6 33 4.5V11H7z" fill="#E8A33D"/>' +
+      '<rect x="4" y="12" width="32" height="25" rx="4" fill="#fff"/>' +
+      '<circle cx="20" cy="24.5" r="8.4" fill="none" stroke="#123A63" stroke-width="2.4"/>' +
+      '<circle cx="20" cy="24.5" r="3.4" fill="none" stroke="#123A63" stroke-width="1.3" opacity=".45"/>' +
+      '<rect x="7.5" y="15" width="8" height="2.6" rx="1.3" fill="#123A63" opacity=".3"/>' +
       '</svg>';
   };
 
@@ -1005,6 +756,10 @@ window.WK = window.WK || {};
   WK.formatDate = function (d, withYear) {
     return DAYS[d.getDay()] + ' ' + d.getDate() + ' ' + MONTHS[d.getMonth()] + (withYear ? ' ' + d.getFullYear() : '');
   };
+
+  const DAYS_S = ['zo', 'ma', 'di', 'wo', 'do', 'vr', 'za'];
+  const MONTHS_S = ['jan', 'feb', 'mrt', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec'];
+  WK.shortDate = (d) => DAYS_S[d.getDay()] + ' ' + d.getDate() + ' ' + MONTHS_S[d.getMonth()];
 
   WK.validPostcode = (v) => /^\s*[1-9][0-9]{3}\s?[a-zA-Z]{2}\s*$/.test(v || '');
 
@@ -1036,13 +791,13 @@ window.WK = window.WK || {};
 (function (WK) {
   'use strict';
 
+  /* Drie echte categorieën. Outlet is geen aparte voorraad maar een selectie:
+     apparaten met zichtbare gebruikssporen, daarom extra afgeprijsd. */
   WK.CATEGORIES = [
-    { slug: 'wasmachines', label: 'Wasmachines',    kind: 'wasmachine', blurb: 'Bosch, Siemens, Miele en AEG — gekeurd, gereinigd en met garantie.' },
-    { slug: 'wasdrogers',  label: 'Wasdrogers',     kind: 'wasdroger',  blurb: 'Warmtepomp- en condensdrogers, zuinig in verbruik.' },
-    { slug: 'vaatwassers', label: 'Vaatwassers',    kind: 'vaatwasser', blurb: 'Vrijstaand en inbouw, ontkalkt en getest op één volledig programma.' },
-    { slug: 'koelvries',   label: 'Koelen & vriezen', kind: 'koelkast', blurb: 'Koelkasten, koel-vriescombinaties en vriezers met gecontroleerd koelcircuit.' },
-    { slug: 'fornuizen',   label: 'Fornuizen & ovens', kind: 'fornuis', blurb: 'Gasfornuizen en inbouwovens, inclusief veiligheidskeuring.' },
-    { slug: 'overig',      label: 'Magnetrons & overig', kind: 'magnetron', blurb: 'Magnetrons, afzuigkappen en losse apparaten.' }
+    { slug: 'wasmachines', label: 'Wasmachines', kind: 'wasmachine', blurb: 'Bosch, Siemens, Miele en AEG. Gekeurd in onze eigen werkplaats, gratis bezorgd en aangesloten.' },
+    { slug: 'wasdrogers',  label: 'Wasdrogers',  kind: 'wasdroger',  blurb: 'Warmtepompdrogers en condensdrogers. Warmtepomp is duurder in aanschaf en veel goedkoper in gebruik.' },
+    { slug: 'vaatwassers', label: 'Vaatwassers', kind: 'vaatwasser', blurb: 'Vrijstaand en inbouw. Ontkalkt en getest op een volledig programma van 65 graden.' },
+    { slug: 'outlet',      label: 'Outlet',      kind: 'wasmachine', blurb: 'Technisch helemaal in orde, maar met een deuk, een kras of een verkleurd paneel. Daarom extra afgeprijsd. Elke beschadiging staat op de foto.' }
   ];
 
   /* Status: 'ok' = gecontroleerd en goed bevonden, 'repl' = vervangen onderdeel. */
@@ -1075,7 +830,7 @@ window.WK = window.WK || {};
       refurb: [ R('Lagers en trommelas', 'ok'), R('Pomp en afvoerfilter', 'repl', 'Nieuwe afvoerpomp'), R('Deurrubber', 'ok'), R('Verwarmingselement', 'ok', 'Ontkalkt'), R('Schokdempers', 'repl', 'Beide dempers vervangen'), R('Besturingsprint', 'ok'), R('Proefwas 60 °C katoen', 'ok') ]
     },
     {
-      sku: 'WK-26-0361', brand: 'Miele', model: 'W3241 Softtronic', cat: 'wasmachines',
+      sku: 'WK-26-0361', outlet: true, outletReason: 'Krassen op het linkerzijpaneel en een verkleurde bedieningsknop.', brand: 'Miele', model: 'W3241 Softtronic', cat: 'wasmachines',
       title: 'Miele W3241 Softtronic wasmachine', price: 329, compareAt: 0,
       cond: 'Refurbished B', warranty: 6, year: 2014, hours: 3100, rating: 4.5, reviews: 52, stock: 1,
       specs: { 'Vulgewicht': '6 kg', 'Centrifuge': '1200 tpm', 'Energielabel': 'A+ (oude schaal)', 'Geluid wassen': '52 dB', 'Afmeting (hxbxd)': '85 × 60 × 60 cm', 'Gewicht': '82 kg', 'Bouwjaar': '2014', 'Draaiuren teller': '3.100 uur' },
@@ -1091,7 +846,7 @@ window.WK = window.WK || {};
       refurb: [ R('Lagers en trommelas', 'ok'), R('Pomp en afvoerfilter', 'repl'), R('Deurrubber', 'ok'), R('Verwarmingselement', 'ok'), R('Schokdempers', 'ok'), R('Besturingsprint', 'ok'), R('Proefwas 60 °C katoen', 'ok') ]
     },
     {
-      sku: 'WK-26-0329', brand: 'Samsung', model: 'EcoBubble WW80J5426', cat: 'wasmachines',
+      sku: 'WK-26-0329', outlet: true, outletReason: 'Deukje in het bovenblad, niet zichtbaar als de machine onder een blad staat.', brand: 'Samsung', model: 'EcoBubble WW80J5426', cat: 'wasmachines',
       title: 'Samsung EcoBubble WW80J5426 wasmachine', price: 259, compareAt: 599,
       cond: 'Refurbished B', warranty: 6, year: 2017, hours: 2260, rating: 4.3, reviews: 19, stock: 1,
       specs: { 'Vulgewicht': '8 kg', 'Centrifuge': '1400 tpm', 'Energielabel': 'D', 'Geluid wassen': '54 dB', 'Afmeting (hxbxd)': '85 × 60 × 55 cm', 'Gewicht': '61 kg', 'Bouwjaar': '2017', 'Draaiuren teller': '2.260 uur' },
@@ -1107,7 +862,7 @@ window.WK = window.WK || {};
       refurb: [ R('Lagers en trommelas', 'ok'), R('Pomp en afvoerfilter', 'ok'), R('Deurrubber', 'ok'), R('Verwarmingselement', 'ok'), R('Schokdempers', 'repl'), R('Besturingsprint', 'ok'), R('Proefwas 60 °C katoen', 'ok') ]
     },
     {
-      sku: 'WK-26-0298', brand: 'Zanussi', model: 'ZWF81243W', cat: 'wasmachines',
+      sku: 'WK-26-0298', outlet: true, outletReason: 'Verkleurde deurrand en lichte krassen op de voorkant.', brand: 'Zanussi', model: 'ZWF81243W', cat: 'wasmachines',
       title: 'Zanussi ZWF81243W wasmachine', price: 229, compareAt: 0,
       cond: 'Refurbished B', warranty: 6, year: 2016, hours: 2840, rating: 4.1, reviews: 14, stock: 2,
       specs: { 'Vulgewicht': '8 kg', 'Centrifuge': '1200 tpm', 'Energielabel': 'E', 'Geluid wassen': '56 dB', 'Afmeting (hxbxd)': '85 × 60 × 57 cm', 'Gewicht': '64 kg', 'Bouwjaar': '2016', 'Draaiuren teller': '2.840 uur' },
@@ -1149,7 +904,7 @@ window.WK = window.WK || {};
       refurb: [ R('Warmtepompcircuit', 'ok'), R('Condensor en filters', 'repl', 'Afdichting vernieuwd'), R('Trommellagers', 'ok'), R('Aandrijfriem', 'ok'), R('Vochtsensoren', 'ok'), R('Proefdroogbeurt kastdroog', 'ok') ]
     },
     {
-      sku: 'WK-26-0317', brand: 'Beko', model: 'DS7333PA0W', cat: 'wasdrogers',
+      sku: 'WK-26-0317', outlet: true, outletReason: 'Deuk in de rechterzijwand en een barstje in de condensbakhouder.', brand: 'Beko', model: 'DS7333PA0W', cat: 'wasdrogers',
       title: 'Beko DS7333PA0W condensdroger', price: 199, compareAt: 0,
       cond: 'Refurbished B', warranty: 6, year: 2017, hours: 2410, rating: 4.0, reviews: 11, stock: 1,
       specs: { 'Vulgewicht': '7 kg', 'Type': 'Condens', 'Energielabel': 'B', 'Verbruik per cyclus': '4,15 kWh', 'Geluid': '65 dB', 'Afmeting (hxbxd)': '86 × 60 × 54 cm', 'Gewicht': '38 kg', 'Bouwjaar': '2017', 'Draaiuren teller': '2.410 uur' },
@@ -1175,7 +930,7 @@ window.WK = window.WK || {};
       refurb: [ R('Spoelarmen', 'ok'), R('Zeef en filterset', 'ok'), R('Circulatiepomp', 'ok'), R('Afvoerpomp', 'repl'), R('Deurafdichting', 'ok'), R('Verwarmingselement', 'ok'), R('Aquastop-slang', 'ok'), R('Proefprogramma 65 °C', 'ok') ]
     },
     {
-      sku: 'WK-26-0358', brand: 'Siemens', model: 'SN236W01ME iQ300', cat: 'vaatwassers',
+      sku: 'WK-26-0358', outlet: true, outletReason: 'Lichte krassen op beide zijpanelen, front is gaaf.', brand: 'Siemens', model: 'SN236W01ME iQ300', cat: 'vaatwassers',
       title: 'Siemens iQ300 SN236W01ME vrijstaande vaatwasser', price: 289, compareAt: 619,
       cond: 'Refurbished B', warranty: 6, year: 2018, hours: 1860, rating: 4.4, reviews: 17, stock: 1,
       specs: { 'Couverts': '13', 'Type': 'Vrijstaand', 'Energielabel': 'E', 'Geluid': '48 dB', 'Waterverbruik': '9,5 liter', 'Afmeting (hxbxd)': '85 × 60 × 60 cm', 'Gewicht': '43 kg', 'Bouwjaar': '2018', 'Draaiuren teller': '1.860 uur' },
@@ -1189,76 +944,6 @@ window.WK = window.WK || {};
       specs: { 'Couverts': '13', 'Type': 'Volledig integreerbaar', 'Energielabel': 'E', 'Geluid': '47 dB', 'Waterverbruik': '9,9 liter', 'Afmeting (hxbxd)': '82 × 60 × 55 cm', 'Gewicht': '40 kg', 'Bouwjaar': '2019', 'Draaiuren teller': '1.520 uur' },
       highlights: ['AirDry opent de deur automatisch voor natuurlijk drogen', 'SprayZone voor pannen en ovenschalen', 'Let op: inbouwmodel, deurfront niet meegeleverd'],
       refurb: [ R('Spoelarmen', 'ok'), R('Zeef en filterset', 'repl'), R('Circulatiepomp', 'ok'), R('Afvoerpomp', 'ok'), R('Deurafdichting', 'ok'), R('Deurveer AirDry', 'ok'), R('Proefprogramma 65 °C', 'ok') ]
-    },
-
-    /* --------------------------------------------------------- koelvries -- */
-    {
-      sku: 'WK-26-0412', brand: 'Liebherr', model: 'KGN 52 NoFrost', cat: 'koelvries',
-      title: 'Liebherr KGN 52 koel-vriescombinatie', price: 449, compareAt: 1049,
-      cond: 'Refurbished A', warranty: 12, year: 2020, hours: 0, rating: 4.8, reviews: 20, stock: 1,
-      specs: { 'Inhoud koelen': '246 liter', 'Inhoud vriezen': '106 liter', 'Type': 'Koel-vriescombinatie, NoFrost', 'Energielabel': 'E', 'Geluid': '38 dB', 'Afmeting (hxbxd)': '201 × 60 × 63 cm', 'Gewicht': '82 kg', 'Bouwjaar': '2020' },
-      highlights: ['NoFrost — nooit meer ontdooien', 'BioFresh-lade houdt groente tot drie keer langer vers', 'Zeer stil met 38 dB, geschikt voor een open keuken'],
-      refurb: [ R('Koelcircuit en compressor', 'ok', 'Drukzijde 24 uur getest'), R('Thermostaat', 'ok', 'Gekalibreerd op 4 °C / -18 °C'), R('Deurafdichtingen', 'repl', 'Beide rubbers vernieuwd'), R('NoFrost-ventilator', 'ok'), R('Verlichting', 'ok'), R('Condensafvoer', 'ok', 'Doorgespoten'), R('Koeltest 24 uur', 'ok', 'Stabiel op temperatuur') ]
-    },
-    {
-      sku: 'WK-26-0391', brand: 'Bosch', model: 'KGN36VLEC Serie 4', cat: 'koelvries',
-      title: 'Bosch KGN36VLEC koel-vriescombinatie', price: 379, compareAt: 799,
-      cond: 'Refurbished A', warranty: 6, year: 2020, hours: 0, rating: 4.6, reviews: 27, stock: 1,
-      specs: { 'Inhoud koelen': '215 liter', 'Inhoud vriezen': '111 liter', 'Type': 'Koel-vriescombinatie, NoFrost', 'Energielabel': 'E', 'Geluid': '39 dB', 'Afmeting (hxbxd)': '186 × 60 × 66 cm', 'Gewicht': '73 kg', 'Bouwjaar': '2020' },
-      highlights: ['VitaFresh-lade voor vlees en vis', 'NoFrost in het vriesdeel', 'MultiBox met eierhouder'],
-      refurb: [ R('Koelcircuit en compressor', 'ok'), R('Thermostaat', 'ok'), R('Deurafdichtingen', 'ok'), R('NoFrost-ventilator', 'repl'), R('Verlichting', 'repl', 'Nieuwe ledbalk'), R('Condensafvoer', 'ok'), R('Koeltest 24 uur', 'ok') ]
-    },
-    {
-      sku: 'WK-26-0367', brand: 'Samsung', model: 'RB34T672DSA', cat: 'koelvries',
-      title: 'Samsung RB34T672DSA koel-vriescombinatie', price: 329, compareAt: 749,
-      cond: 'Refurbished B', warranty: 6, year: 2019, hours: 0, rating: 4.3, reviews: 16, stock: 1,
-      specs: { 'Inhoud koelen': '230 liter', 'Inhoud vriezen': '114 liter', 'Type': 'Koel-vriescombinatie, NoFrost', 'Energielabel': 'E', 'Geluid': '39 dB', 'Afmeting (hxbxd)': '185 × 60 × 66 cm', 'Gewicht': '70 kg', 'Bouwjaar': '2019' },
-      highlights: ['SpaceMax: dunnere wanden, meer inhoud', 'Digital Inverter-compressor met 10 jaar fabrieksgarantie', 'Deukje in de rechterzijwand — zie foto 4, niet zichtbaar bij inbouw'],
-      refurb: [ R('Koelcircuit en compressor', 'ok'), R('Thermostaat', 'ok'), R('Deurafdichtingen', 'repl'), R('NoFrost-ventilator', 'ok'), R('Verlichting', 'ok'), R('Condensafvoer', 'ok'), R('Koeltest 24 uur', 'ok') ]
-    },
-    {
-      sku: 'WK-26-0349', brand: 'Liebherr', model: 'GN 2723 Comfort', cat: 'koelvries',
-      title: 'Liebherr GN 2723 vrieskast NoFrost', price: 299, compareAt: 699,
-      cond: 'Refurbished A', warranty: 6, year: 2018, hours: 0, rating: 4.7, reviews: 12, stock: 1,
-      specs: { 'Inhoud vriezen': '195 liter', 'Type': 'Vrieskast, NoFrost', 'Energielabel': 'F', 'Geluid': '41 dB', 'Laden': '7', 'Afmeting (hxbxd)': '164 × 60 × 63 cm', 'Gewicht': '68 kg', 'Bouwjaar': '2018' },
-      highlights: ['Zeven transparante laden, goed te ordenen', 'NoFrost — geen ijsaanslag', 'SuperFrost-knop voor snel invriezen'],
-      refurb: [ R('Koelcircuit en compressor', 'ok'), R('Thermostaat', 'ok', 'Gekalibreerd op -18 °C'), R('Deurafdichting', 'ok'), R('NoFrost-ventilator', 'ok'), R('Laden en fronten', 'ok', 'Compleet, geen breuk'), R('Vriestest 24 uur', 'ok') ]
-    },
-
-    /* --------------------------------------------------------- fornuizen -- */
-    {
-      sku: 'WK-26-0384', brand: 'Bosch', model: 'HBA334BB0 Serie 4', cat: 'fornuizen',
-      title: 'Bosch Serie 4 HBA334BB0 inbouwoven', price: 279, compareAt: 629,
-      cond: 'Refurbished A', warranty: 6, year: 2020, hours: 0, rating: 4.6, reviews: 13, stock: 1,
-      specs: { 'Inhoud': '71 liter', 'Type': 'Inbouw multifunctionele oven', 'Energielabel': 'A', 'Reiniging': 'EcoClean Direct', 'Verwarmingsfuncties': '7', 'Nismaat (hxbxd)': '59,5 × 56 × 55 cm', 'Gewicht': '31 kg', 'Bouwjaar': '2020' },
-      highlights: ['3D-heteluchtsysteem, bakt op drie niveaus tegelijk', 'EcoClean-coating aan achterwand', 'Inclusief bakplaat en rooster'],
-      refurb: [ R('Verwarmingselementen boven/onder', 'ok'), R('Hetelucht-element en ventilator', 'ok'), R('Deurscharnieren', 'repl', 'Beide scharnieren vernieuwd'), R('Deurglas en afdichting', 'ok', 'Gereinigd'), R('Thermostaat', 'ok', 'Gekalibreerd op 180 °C'), R('Bedieningsknoppen', 'ok'), R('Opwarmtest 200 °C', 'ok') ]
-    },
-    {
-      sku: 'WK-26-0341', brand: 'Etna', model: 'FVW560WIT', cat: 'fornuizen',
-      title: 'Etna FVW560WIT gasfornuis met oven', price: 249, compareAt: 549,
-      cond: 'Refurbished B', warranty: 6, year: 2017, hours: 0, rating: 4.2, reviews: 9, stock: 1,
-      specs: { 'Pitten': '4 gaspitten', 'Oveninhoud': '54 liter', 'Type': 'Vrijstaand gasfornuis, elektrische oven', 'Energielabel oven': 'A', 'Vlambeveiliging': 'Ja, alle pitten', 'Afmeting (hxbxd)': '85 × 60 × 60 cm', 'Gewicht': '46 kg', 'Bouwjaar': '2017' },
-      highlights: ['Alle pitten met thermokoppel-vlambeveiliging', 'Gietijzeren pannendragers', 'Gasaansluiting door onze monteur gekeurd'],
-      refurb: [ R('Gaskranen en branders', 'ok', 'Gereinigd en afgesteld'), R('Vlambeveiliging alle pitten', 'ok', 'Uitvaltijd < 45 sec'), R('Gasslang en koppeling', 'repl', 'Nieuwe gekeurde slang'), R('Ovenelement', 'ok'), R('Deurafdichting oven', 'ok'), R('Lekdichtheidstest gasleiding', 'ok', 'Zeepwatertest akkoord'), R('Opwarmtest 200 °C', 'ok') ]
-    },
-
-    /* ------------------------------------------------------------ overig -- */
-    {
-      sku: 'WK-26-0374', brand: 'Bosch', model: 'BFL523MS0 Serie 4', cat: 'overig',
-      title: 'Bosch BFL523MS0 inbouwmagnetron', price: 149, compareAt: 349,
-      cond: 'Refurbished A', warranty: 6, year: 2020, hours: 0, rating: 4.5, reviews: 8, stock: 1,
-      specs: { 'Inhoud': '20 liter', 'Vermogen': '800 watt', 'Type': 'Inbouwmagnetron', 'Vermogensstanden': '5', 'Draaiplateau': '25,5 cm', 'Nismaat (hxbxd)': '38 × 56 × 32 cm', 'Gewicht': '18 kg', 'Bouwjaar': '2020' },
-      highlights: ['AutoPilot met 7 automatische programma\'s', 'RVS-front, past bij Bosch-inbouwlijn', 'Inclusief glazen draaiplateau'],
-      refurb: [ R('Magnetron en golfgeleider', 'ok'), R('Deurvergrendeling', 'ok', 'Drie schakelaars getest'), R('Straling-lekmeting', 'ok', 'Ruim binnen norm, < 1 mW/cm²'), R('Draaiplateaumotor', 'ok'), R('Bedieningspaneel', 'ok'), R('Opwarmtest 1 liter water', 'ok') ]
-    },
-    {
-      sku: 'WK-26-0322', brand: 'Whirlpool', model: 'MWP 254 M', cat: 'overig',
-      title: 'Whirlpool MWP 254 M vrijstaande magnetron', price: 89, compareAt: 0,
-      cond: 'Refurbished B', warranty: 6, year: 2019, hours: 0, rating: 4.1, reviews: 6, stock: 3,
-      specs: { 'Inhoud': '25 liter', 'Vermogen': '900 watt', 'Type': 'Vrijstaande magnetron', 'Vermogensstanden': '6', 'Draaiplateau': '31,5 cm', 'Afmeting (hxbxd)': '28 × 48 × 39 cm', 'Gewicht': '13 kg', 'Bouwjaar': '2019' },
-      highlights: ['Ruime 25 liter inhoud', 'Jet Defrost ontdooiprogramma', 'Voordeligste optie in het assortiment'],
-      refurb: [ R('Magnetron en golfgeleider', 'ok'), R('Deurvergrendeling', 'ok'), R('Straling-lekmeting', 'ok', 'Ruim binnen norm'), R('Draaiplateaumotor', 'repl'), R('Bedieningspaneel', 'ok'), R('Opwarmtest 1 liter water', 'ok') ]
     }
   ];
 
@@ -1268,22 +953,18 @@ window.WK = window.WK || {};
   const slugify = (s) => s.toLowerCase()
     .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
-  WK.PRODUCTS = RAW.map((p, i) => {
-    const kind = p.cat === 'koelvries'
-      ? (/vries(kast)?\b/i.test(p.title) && !/koel-vries/i.test(p.title) ? 'vriezer' : 'koelkast')
-      : p.cat === 'overig' ? 'magnetron'
-      : p.cat === 'fornuizen' ? (/oven/i.test(p.title) && !/fornuis/i.test(p.title) ? 'fornuis' : 'fornuis')
-      : KIND_BY_CAT[p.cat];
-    return Object.assign({
-      id: 'p' + (i + 1),
-      slug: slugify(p.brand + '-' + p.model + '-' + p.sku),
-      kind,
-      available: true,
-      addedDaysAgo: (i * 3) % 21
-    }, p);
-  });
+  WK.PRODUCTS = RAW.map((p, i) => Object.assign({
+    id: 'p' + (i + 1),
+    slug: slugify(p.brand + '-' + p.model + '-' + p.sku),
+    kind: KIND_BY_CAT[p.cat],
+    outlet: false,
+    available: true,
+    addedDaysAgo: (i * 3) % 19
+  }, p));
 
-  WK.byCategory = (slug) => WK.PRODUCTS.filter(p => p.cat === slug);
+  /* Outlet staat dwars op de categorieën, dus die krijgt een eigen test. */
+  WK.inCategory = (p, slug) => slug === 'outlet' ? !!p.outlet : p.cat === slug;
+  WK.byCategory = (slug) => WK.PRODUCTS.filter(p => WK.inCategory(p, slug));
   WK.bySlug = (slug) => WK.PRODUCTS.find(p => p.slug === slug);
   WK.byId = (id) => WK.PRODUCTS.find(p => p.id === id);
 
@@ -1291,7 +972,7 @@ window.WK = window.WK || {};
 
   WK.SHOP = {
     name: 'Witgoed Koning',
-    tagline: 'Tweedehands witgoed van A-merken',
+    tagline: 'Wasmachines, drogers en vaatwassers van A-merken',
     street: 'Staverenstraat 9c', zip: '7418 CJ', city: 'Deventer',
     phone: '0570 - 585 023', phoneHref: '+31570585023',
     email: 'info@witgoed-koning.nl',
@@ -1326,6 +1007,8 @@ window.WK = window.WK || {};
       a: 'Niets. Bezorging, aansluiten en het meenemen van uw oude apparaat zijn gratis in heel Nederland. Er komen geen kosten bij in de laatste stap van het bestellen — de prijs die u op de productpagina ziet is de prijs die u betaalt.' },
     { q: 'Nemen jullie mijn oude apparaat mee?',
       a: 'Ja, gratis, ook als u het bij ons niet gekocht heeft. Zorg dat het apparaat leeg en losgekoppeld is en op de begane grond of bij de voordeur staat. Wij voeren het af via een erkende recycler.' },
+    { q: 'Wat staat er in de outlet?',
+      a: 'Apparaten die technisch helemaal in orde zijn, maar een deuk, een kras of een verkleurd paneel hebben. Op de techniek en de garantie maakt dat niets uit — op de prijs wel. Bij elk outlet-apparaat staat precies wat eraan mankeert, met een foto van de beschadiging. Vaak zit de schade op een zijkant die tegen een kast of muur komt te staan.' },
     { q: 'Wat betekent Refurbished A, Refurbished B en Nieuwstaat?',
       a: 'Nieuwstaat: nauwelijks gebruikt, geen zichtbare gebruikssporen, meestal minder dan 1.000 draaiuren. Refurbished A: technisch volledig in orde, hooguit lichte gebruikssporen die u bij normaal gebruik niet ziet. Refurbished B: technisch volledig in orde, met zichtbare gebruikssporen. Die sporen fotograferen wij en benoemen wij bij het product — u koopt nooit een verrassing.' },
     { q: 'Krijg ik precies het apparaat dat op de foto staat?',
@@ -1333,7 +1016,7 @@ window.WK = window.WK || {};
     { q: 'Wanneer wordt er bezorgd?',
       a: 'Binnen 1 tot 5 werkdagen, van maandag tot en met zaterdag. U kiest zelf een dagdeel tijdens het bestellen. De dag ervoor ontvangt u een tijdvak van twee uur, en op de dag zelf een sms als de bezorger onderweg is.' },
     { q: 'Kan ik het apparaat eerst in de showroom bekijken?',
-      a: 'Zeker. Onze showroom aan de Staverenstraat 9c in Deventer is dinsdag tot en met zaterdag open. Reserveer het apparaat online zodat het klaarstaat, of kom vrijblijvend langs — er staan doorgaans zo\'n 200 apparaten.' },
+      a: 'Zeker. Onze showroom aan de Staverenstraat 9c in Deventer is dinsdag tot en met zaterdag open. Reserveer het apparaat online zodat het klaarstaat, of kom vrijblijvend langs — er staan doorgaans zo\'n 150 wasmachines, drogers en vaatwassers.' },
     { q: 'Wat als het apparaat niet bevalt?',
       a: 'U heeft 14 dagen bedenktijd, net als bij nieuw. Wij halen het apparaat kosteloos op en storten het aankoopbedrag binnen 5 werkdagen terug. Wel graag zorgvuldig gebruikt en met de originele accessoires.' }
   ];
@@ -1403,7 +1086,7 @@ window.WK = window.WK || {};
   function applyFilters(list, f) {
     f = f || {};
     return list.filter(p => {
-      if (f.category && p.cat !== f.category) return false;
+      if (f.category && !WK.inCategory(p, f.category)) return false;
       if (f.brands && f.brands.length && f.brands.indexOf(p.brand) === -1) return false;
       if (f.conds && f.conds.length && f.conds.indexOf(p.cond) === -1) return false;
       if (f.minWarranty && p.warranty < f.minWarranty) return false;
@@ -1435,7 +1118,7 @@ window.WK = window.WK || {};
   /* ------------------------------------------------------- shopifyadapter -- */
 
   const SHOPIFY_PRODUCT_FIELDS = `
-    id handle title vendor productType availableForSale description
+    id handle title vendor productType availableForSale description tags
     featuredImage { url altText }
     images(first: 8) { nodes { url altText } }
     priceRange { minVariantPrice { amount } }
@@ -1488,6 +1171,8 @@ window.WK = window.WK || {};
         model: '',
         cat: slugFromType(n.productType),
         kind: kindFromType(n.productType),
+        /* Outlet is in Shopify een tag, niet een producttype. */
+        outlet: (n.tags || []).indexOf('outlet') > -1,
         price,
         compareAt: compare > price ? compare : 0,
         cond: norm(n.conditie && n.conditie.value) || 'Refurbished A',
@@ -1529,7 +1214,9 @@ window.WK = window.WK || {};
       async listProducts(f) {
         f = f || {};
         const terms = [];
-        if (f.category) {
+        if (f.category === 'outlet') {
+          terms.push('tag:outlet');
+        } else if (f.category) {
           const c = WK.CATEGORIES.find(x => x.slug === f.category);
           if (c) terms.push('product_type:"' + c.label + '"');
         }
@@ -1625,8 +1312,10 @@ window.WK = window.WK || {};
         title: p.name,
         brand: e.merk || attr(p, 'merk') || '',
         model: e.model || attr(p, 'model') || '',
-        cat: known ? known.slug : 'overig',
+        cat: known ? known.slug : 'wasmachines',
         kind: known ? known.kind : 'wasmachine',
+        /* In WooCommerce is outlet een extra productcategorie naast de hoofdcategorie. */
+        outlet: (p.categories || []).some(c => c.slug === 'outlet'),
         price,
         compareAt: regular > price ? regular : 0,
         cond: e.conditie || attr(p, 'conditie') || 'Refurbished A',
@@ -1827,7 +1516,7 @@ window.WK = window.WK || {};
 
 
 /* assets/js/views.js */
-/* Witgoed Koning — weergaven. Elke view geeft een HTML-string terug; app.js
+/* Witgoed Koning — gedeelde onderdelen. Elke view geeft HTML terug; app.js
    hangt hem in #app en roept de bijbehorende mount() aan voor gedrag. */
 window.WK = window.WK || {};
 
@@ -1839,151 +1528,187 @@ window.WK = window.WK || {};
   WK.views = {};
   WK.mounts = {};
 
-  /* ====================================================== gedeelde delen == */
+  /* ================================================== kop en voet ======== */
 
-  P.topbar = function () {
+  P.topstrip = function () {
     const s = WK.SHOP;
-    return '<div class="topbar"><div class="wrap">' +
-      '<ul class="topbar-usps">' +
-        '<li>' + icon('truck', 15) + 'Gratis bezorgd én aangesloten in heel Nederland</li>' +
-        '<li>' + icon('shield', 15) + '6 tot 12 maanden garantie</li>' +
-        '<li>' + icon('recycle', 15) + 'Oud apparaat gratis mee</li>' +
+    return '<div class="topstrip"><div class="wrap">' +
+      '<ul>' +
+        '<li>' + icon('check', 14) + 'Gratis bezorgd, aangesloten en oud apparaat mee</li>' +
+        '<li>' + icon('check', 14) + '6 tot 12 maanden garantie</li>' +
+        '<li>' + icon('check', 14) + s.rating.toString().replace('.', ',') + '/10 op Kiyoh</li>' +
       '</ul>' +
-      '<div class="topbar-right">' +
-        '<a class="hide-s" href="#/showroom">Showroom Deventer</a>' +
-        '<a href="tel:' + s.phoneHref + '">' + icon('phone', 14) + ' ' + esc(s.phone) + '</a>' +
+      '<div class="right">' +
+        '<a href="#/showroom">Showroom Deventer</a>' +
+        '<a href="tel:' + s.phoneHref + '">' + esc(s.phone) + '</a>' +
       '</div>' +
     '</div></div>';
   };
 
   P.header = function () {
     return '<header class="site-header"><div class="wrap">' +
-      '<a class="logo" href="#/" aria-label="Witgoed Koning, naar de homepage">' +
-        WK.logo(38) +
-        '<span class="logo-word">Witgoed Koning<span>Deventer · sinds ' + WK.SHOP.since + '</span></span>' +
-      '</a>' +
+      '<a class="logo" href="#/" aria-label="Witgoed Koning, naar de homepage">' + WK.logo(36) +
+        '<span class="logo-word">Witgoed Koning<span>Deventer, sinds ' + WK.SHOP.since + '</span></span></a>' +
       '<form class="search" role="search" data-search>' +
-        icon('search', 17) +
-        '<input type="search" name="q" placeholder="Zoek op merk, model of artikelnummer" aria-label="Zoeken in het assortiment">' +
+        '<input type="search" name="q" placeholder="Zoek op merk, model of artikelnummer" aria-label="Zoeken">' +
+        '<button type="submit" aria-label="Zoeken">' + icon('search', 17) + '</button>' +
       '</form>' +
       '<div class="header-actions">' +
-        '<a class="icon-btn hide-s" href="#/showroom">' + icon('pin', 19) + '</a>' +
-        '<a class="icon-btn cart-btn" href="#/winkelwagen" aria-label="Winkelwagen">' +
-          icon('cart', 20) + '<span class="cart-count" data-cart-count hidden>0</span>' +
-        '</a>' +
+        '<a class="hbtn" href="tel:' + WK.SHOP.phoneHref + '">' + icon('phone', 19) +
+          '<span class="lbl">Bel ons<small>' + esc(WK.SHOP.phone) + '</small></span></a>' +
+        '<a class="hbtn cart-btn" href="#/winkelwagen">' + icon('cart', 20) +
+          '<span class="cart-count" data-cart-count hidden>0</span>' +
+          '<span class="lbl">Winkelwagen</span></a>' +
       '</div>' +
     '</div></header>' + P.nav();
   };
 
-  P.nav = function (active) {
-    const links = WK.CATEGORIES.map(c =>
-      '<a href="#/c/' + c.slug + '"' + (active === c.slug ? ' class="on"' : '') + '>' + esc(c.label) + '</a>'
-    ).join('');
-    return '<nav class="nav" aria-label="Assortiment"><div class="wrap">' + links +
-      '<span class="nav-sep"></span>' +
-      '<a class="nav-alt" href="#/showroom">Showroom &amp; service</a>' +
-      '</div></nav>';
+  P.nav = function () {
+    return '<nav class="nav" aria-label="Assortiment"><div class="wrap">' +
+      WK.CATEGORIES.map(c => '<a href="#/c/' + c.slug + '">' + esc(c.label) + '</a>').join('') +
+      '<span class="sep"></span>' +
+      '<a class="alt" href="#/showroom">Showroom, garantie en bezorging</a>' +
+    '</div></nav>';
   };
 
   P.uspbar = function () {
-    const items = [
-      ['truck', 'Gratis bezorgd en aangesloten', 'In heel Nederland, ook op de eerste verdieping'],
-      ['shield', '6 tot 12 maanden garantie', 'Storing? Wij komen langs of ruilen om'],
-      ['recycle', 'Oud apparaat gratis mee', 'Wij voeren het af via een erkende recycler'],
-      ['wrench', 'Elk apparaat een keuringsrapport', 'U ziet precies wat is gecontroleerd en vervangen']
-    ];
-    return '<div class="uspbar"><div class="wrap">' + items.map(i =>
-      '<div class="usp">' + icon(i[0], 21) + '<div><b>' + i[1] + '</b><small>' + i[2] + '</small></div></div>'
-    ).join('') + '</div></div>';
+    return '<div class="uspbar"><ul class="wrap">' + [
+      'Gratis bezorgd én aangesloten in heel Nederland',
+      'Oud apparaat gratis mee',
+      '6 tot 12 maanden garantie',
+      'Bij elk apparaat een keuringsrapport'
+    ].map(t => '<li>' + icon('check', 15) + t + '</li>').join('') + '</ul></div>';
   };
 
   P.footer = function () {
     const s = WK.SHOP;
-    const cats = WK.CATEGORIES.map(c => '<li><a href="#/c/' + c.slug + '">' + esc(c.label) + '</a></li>').join('');
-    return '<footer class="site-footer"><div class="wrap">' +
-      '<div class="foot-grid">' +
-        '<div>' +
-          '<div class="logo">' + WK.logo(36) +
-            '<span class="logo-word">Witgoed Koning<span>Deventer · sinds ' + s.since + '</span></span></div>' +
-          '<p class="foot-about">Sinds ' + s.since + ' geven wij witgoed van A-merken een tweede leven. ' +
-            'Elk apparaat wordt in onze eigen werkplaats gekeurd, hersteld en getest voordat het de deur uit gaat.</p>' +
-          '<div class="pay-icons" style="margin-top:16px">' +
-            ['iDEAL','Bancontact','Klarna','in3','Overboeking','PIN bij levering']
-              .map(p => '<span>' + p + '</span>').join('') +
-          '</div>' +
-        '</div>' +
-        '<div><h4>Assortiment</h4><ul>' + cats + '</ul></div>' +
-        '<div><h4>Service</h4><ul>' +
-          '<li><a href="#/showroom">Showroom Deventer</a></li>' +
-          '<li><a href="#/showroom">Bezorging en aansluiten</a></li>' +
-          '<li><a href="#/showroom">Garantie en retour</a></li>' +
-          '<li><a href="#/showroom">Veelgestelde vragen</a></li>' +
-        '</ul></div>' +
-        '<div><h4>Contact</h4><ul>' +
-          '<li>' + esc(s.street) + '</li>' +
-          '<li>' + esc(s.zip) + ' ' + esc(s.city) + '</li>' +
-          '<li><a href="tel:' + s.phoneHref + '">' + esc(s.phone) + '</a></li>' +
-          '<li><a href="mailto:' + s.email + '">' + esc(s.email) + '</a></li>' +
-        '</ul></div>' +
+    return '<footer class="site-footer"><div class="wrap"><div class="foot-grid">' +
+      '<div>' +
+        '<div class="logo">' + WK.logo(34) +
+          '<span class="logo-word">Witgoed Koning<span>Deventer, sinds ' + s.since + '</span></span></div>' +
+        '<p class="foot-about">Wij geven wasmachines, drogers en vaatwassers van A-merken een tweede leven. ' +
+          'Alles wordt in onze eigen werkplaats in Deventer gekeurd, hersteld en getest.</p>' +
+        '<div class="paystrip" style="margin-top:14px">' +
+          ['iDEAL', 'Pinnen bij levering', 'Klarna', 'in3', 'Overboeking']
+            .map(x => '<span>' + x + '</span>').join('') + '</div>' +
       '</div>' +
-      '<div class="foot-bottom">' +
-        '<span>© ' + new Date().getFullYear() + ' ' + esc(s.name) + '. Prijzen inclusief btw.</span>' +
-        '<span class="mono">KvK ' + esc(s.kvk) + ' · BTW ' + esc(s.btw) + '</span>' +
-      '</div>' +
-    '</div></footer>';
+      '<div><h4>Assortiment</h4><ul>' +
+        WK.CATEGORIES.map(c => '<li><a href="#/c/' + c.slug + '">' + esc(c.label) + '</a></li>').join('') +
+      '</ul></div>' +
+      '<div><h4>Service</h4><ul>' +
+        '<li><a href="#/showroom">Showroom Deventer</a></li>' +
+        '<li><a href="#/showroom">Bezorgen en aansluiten</a></li>' +
+        '<li><a href="#/showroom">Garantie en retour</a></li>' +
+        '<li><a href="#/showroom">Veelgestelde vragen</a></li>' +
+      '</ul></div>' +
+      '<div><h4>Contact</h4><ul>' +
+        '<li>' + esc(s.street) + '</li><li>' + esc(s.zip) + ' ' + esc(s.city) + '</li>' +
+        '<li><a href="tel:' + s.phoneHref + '">' + esc(s.phone) + '</a></li>' +
+        '<li><a href="mailto:' + s.email + '">' + esc(s.email) + '</a></li>' +
+      '</ul></div>' +
+      '</div><div class="foot-bottom">' +
+        '<span>© ' + new Date().getFullYear() + ' ' + esc(s.name) + '. Alle prijzen inclusief btw.</span>' +
+        '<span>KvK ' + esc(s.kvk) + ' · BTW ' + esc(s.btw) + '</span>' +
+      '</div></div></footer>';
   };
 
-  /* ------------------------------------------------------- productkaart -- */
+  /* ================================================ productweergave ====== */
 
   P.media = function (p, size) {
     if (p.images && p.images.length) {
       return '<img src="' + esc(p.images[0].url) + '" alt="' + esc(p.images[0].alt) +
-             '" width="' + (size || 160) + '" loading="lazy">';
+             '" width="' + (size || 150) + '" loading="lazy">';
     }
-    return WK.appliance(p.kind, size || 160);
+    return WK.appliance(p.kind, size || 150);
   };
 
-  P.card = function (p) {
+  P.badges = function (p, withCond) {
     const save = WK.savingPct(p);
-    const chips = Object.keys(p.specs).slice(0, 2)
-      .map(k => '<span class="chip">' + esc(p.specs[k]) + '</span>').join('');
+    return '<div class="badges">' +
+      (p.outlet ? '<span class="badge badge-outlet">Outlet</span>' : '') +
+      (withCond ? '<span class="badge badge-cond">' + esc(p.cond) + '</span>' : '') +
+      (save ? '<span class="badge badge-save">− ' + save + '%</span>' : '') +
+    '</div>';
+  };
+
+  /* Opsommingstekens: eerst de harde cijfers, dan waarom je dit apparaat wilt. */
+  P.bullets = function (p, n) {
+    const keys = Object.keys(p.specs);
+    const list = [keys.slice(0, 3).map(k => p.specs[k]).join(' · ')];
+    if (p.outlet && p.outletReason) list.push('Outlet: ' + p.outletReason);
+    (p.highlights || []).forEach(h => list.push(h));
+    list.push(p.warranty + ' maanden garantie, monteur komt aan huis');
+    return list.slice(0, n || 3);
+  };
+
+  P.rating = function (p) {
+    return '<span class="rating-line">' + WK.stars(p.rating, 14) +
+      '<b>' + p.rating.toString().replace('.', ',') + '</b>' +
+      '<span>(' + p.reviews + ' beoordelingen)</span></span>';
+  };
+
+  /* Tegel — gebruikt op de homepage. */
+  P.card = function (p) {
     return '<article class="card">' +
-      '<div class="card-media">' +
-        '<div class="badge-row">' +
-          '<span class="badge badge-cond">' + esc(p.cond) + '</span>' +
-          (save ? '<span class="badge badge-save">' + save + '% korting</span>' : '') +
-        '</div>' +
-        '<a href="#/p/' + esc(p.slug) + '" aria-label="' + esc(p.title) + '">' + P.media(p, 150) + '</a>' +
-      '</div>' +
+      '<div class="card-media">' + P.badges(p, true) +
+        '<a href="#/p/' + esc(p.slug) + '" aria-label="' + esc(p.title) + '">' + P.media(p, 130) + '</a></div>' +
       '<div class="card-body">' +
-        '<span class="card-brand">' + esc(p.brand) + '</span>' +
         '<h3><a href="#/p/' + esc(p.slug) + '">' + esc(p.title) + '</a></h3>' +
-        '<div class="card-specs">' + chips +
-          '<span class="chip">' + p.warranty + ' mnd garantie</span></div>' +
+        P.rating(p) +
+        '<ul class="bul">' + P.bullets(p, 2).map(b => '<li>' + esc(b) + '</li>').join('') + '</ul>' +
         '<div class="card-foot">' +
           '<div class="price-row"><span class="price">' + euro(p.price) + '</span>' +
             (p.compareAt ? '<span class="was">' + euro(p.compareAt) + '</span>' : '') + '</div>' +
-          '<span class="stockline"><i class="dot"></i>' +
-            (p.stock > 1 ? p.stock + ' op voorraad' : 'Op voorraad — uniek exemplaar') + '</span>' +
-          '<span class="sku">' + esc(p.sku) + '</span>' +
+          '<span class="deliver">' + icon('check', 14) + 'Op voorraad, gratis bezorgd</span>' +
+          '<button class="btn btn-primary" data-add="' + esc(p.slug) + '">In winkelwagen</button>' +
         '</div>' +
       '</div>' +
     '</article>';
   };
 
+  /* Rij — gebruikt op de categoriepagina, zoals in de meeste NL witgoedshops. */
+  P.row = function (p) {
+    const save = WK.savingPct(p);
+    const dag = WK.shortDate(WK.deliveryDate(2));
+    return '<article class="prow">' +
+      '<div class="prow-media">' + P.badges(p) +
+        '<a href="#/p/' + esc(p.slug) + '" aria-label="' + esc(p.title) + '">' + P.media(p, 132) + '</a></div>' +
+      '<div class="prow-main">' +
+        '<span class="prow-brand">' + esc(p.brand) +
+          '<span class="badge badge-cond" style="margin-left:8px">' + esc(p.cond) + '</span></span>' +
+        '<h3><a href="#/p/' + esc(p.slug) + '">' + esc(p.title) + '</a></h3>' +
+        P.rating(p) +
+        '<ul class="bul">' + P.bullets(p, 3).map(b => '<li>' + esc(b) + '</li>').join('') + '</ul>' +
+        '<span class="artnr">Artikelnummer ' + esc(p.sku) + ' · ' +
+          (p.stock > 1 ? p.stock + ' op voorraad' : 'uniek exemplaar, één op voorraad') + '</span>' +
+      '</div>' +
+      '<div class="prow-buy">' +
+        '<span class="price">' + euro(p.price) + '</span>' +
+        (p.compareAt ? '<div class="price-row"><span class="was">' + euro(p.compareAt) + '</span>' +
+          '<span class="saving">u bespaart ' + euro(p.compareAt - p.price) + '</span></div>' : '') +
+        '<span class="deliver">' + icon('truck', 15) + 'Bezorgd op ' + esc(dag) + '</span>' +
+        '<button class="btn btn-primary" data-add="' + esc(p.slug) + '">In winkelwagen</button>' +
+        '<a class="btn btn-ghost" href="#/p/' + esc(p.slug) + '" style="width:100%">Bekijken</a>' +
+      '</div>' +
+    '</article>';
+  };
+
+  /* ======================================================== overig ======== */
+
   P.crumbs = function (trail) {
-    return '<nav class="crumbs" aria-label="Kruimelpad">' +
-      trail.map((t, i) => (i ? '<span aria-hidden="true">›</span>' : '') +
-        (t.href ? '<a href="' + t.href + '">' + esc(t.label) + '</a>' : '<span>' + esc(t.label) + '</span>')
-      ).join('') + '</nav>';
+    return '<nav class="crumbs" aria-label="Kruimelpad">' + trail.map((t, i) =>
+      (i ? '<span aria-hidden="true">›</span>' : '') +
+      (t.href ? '<a href="' + t.href + '">' + esc(t.label) + '</a>' : '<span>' + esc(t.label) + '</span>')
+    ).join('') + '</nav>';
   };
 
   P.reviewCard = function (r) {
-    return '<article class="review">' + WK.stars(r.rating, 14) +
+    return '<article class="review">' +
+      '<header>' + WK.stars(r.rating, 15) + '<b>' + esc(r.name) + '</b></header>' +
       '<p>' + esc(r.text) + '</p>' +
-      '<footer><b>' + esc(r.name) + '</b><span>·</span><span>' + esc(r.city) + '</span>' +
-      '<span>·</span><span class="verified">' + icon('checkc', 13) + 'Geverifieerd</span></footer>' +
-      '</article>';
+      '<footer><span>' + esc(r.city) + '</span><span>·</span><span>' + esc(r.date) + '</span>' +
+      '<span>·</span><span class="verified">' + icon('checkc', 13) + 'Geverifieerde koper</span></footer>' +
+    '</article>';
   };
 
   P.faq = function (items) {
@@ -2002,226 +1727,194 @@ window.WK = window.WK || {};
   const esc = WK.esc, euro = WK.euro, icon = WK.icon, P = WK.parts;
 
   WK.views.home = async function () {
-    const { items } = await WK.store.listProducts({ sort: 'nieuwste', limit: 12 });
-    const featured = items.find(p => p.cond === 'Nieuwstaat') || items[0];
-    const counts = {};
     const all = (await WK.store.listProducts({ limit: 200 })).items;
-    all.forEach(p => {
-      counts[p.cat] = counts[p.cat] || { n: 0, min: Infinity };
-      counts[p.cat].n++;
-      counts[p.cat].min = Math.min(counts[p.cat].min, p.price);
+    const counts = {};
+    WK.CATEGORIES.forEach(c => {
+      const list = all.filter(p => WK.inCategory(p, c.slug));
+      counts[c.slug] = { n: list.length, min: list.length ? Math.min.apply(null, list.map(p => p.price)) : 0 };
     });
 
-    return P.hero(featured) + P.uspbar() +
-      P.catSection(counts) +
-      P.newArrivals(items.filter(p => p.id !== featured.id).slice(0, 8)) +
-      P.dossierSection() +
-      P.howSection() +
-      P.reviewSection() +
-      P.showroomSection() +
-      P.faqSection();
+    const populair = all.filter(p => !p.outlet)
+      .sort((a, b) => (b.rating * b.reviews) - (a.rating * a.reviews)).slice(0, 4);
+    const outlet = all.filter(p => p.outlet).sort((a, b) => a.price - b.price).slice(0, 4);
+
+    return P.uspbar() + hero() + cats(counts) +
+      productSection('Meest gekozen deze maand',
+        'Onze best beoordeelde wasmachines, drogers en vaatwassers.',
+        'Hele assortiment', '#/c/wasmachines', populair) +
+      productSection('Outlet — extra afgeprijsd',
+        'Technisch helemaal in orde, maar met een deuk of een kras. Wat eraan mankeert staat erbij, met foto.',
+        'Hele outlet', '#/c/outlet', outlet, true) +
+      dossier() + how() + reviews() + P.showroomSection() + faq();
   };
 
   /* ------------------------------------------------------------------ hero */
 
-  P.hero = function (p) {
+  function hero() {
     const s = WK.SHOP;
-    const rows = (p.refurb || []).slice(0, 4).map(r =>
-      '<li><span>' + esc(r.item) + '</span>' +
-      '<b' + (r.status === 'repl' ? ' class="repl"' : '') + '>' +
-      (r.status === 'repl' ? 'vervangen' : 'gekeurd') + '</b></li>'
-    ).join('');
-
     return '<section class="hero"><div class="wrap">' +
       '<div>' +
-        '<h1>Een wasmachine van <em>Miele of Bosch</em> voor de prijs van een onbekend merk.</h1>' +
-        '<p class="hero-lead">Wij kopen A-merken op, herstellen ze in onze eigen werkplaats in Deventer ' +
-          'en leveren ze bij u thuis — bezorgd, aangesloten en met garantie. Uw oude apparaat nemen wij mee.</p>' +
-        '<div class="hero-cta">' +
-          '<a class="btn btn-primary" href="#/c/wasmachines">Bekijk de wasmachines' + icon('arrow', 17) + '</a>' +
-          '<a class="btn btn-ghost" href="#/showroom">Kom langs in de showroom</a>' +
-        '</div>' +
-        '<div class="hero-proof">' +
-          '<span class="score">' + s.rating.toString().replace('.', ',') + '<small>/10</small></span>' +
-          '<div>' + WK.stars(Math.round(s.rating / 2), 15) +
-            '<p>' + s.reviewCount.toLocaleString('nl-NL') + ' beoordelingen op Kiyoh</p></div>' +
-          '<div style="border-left:1px solid rgba(255,255,255,.16);padding-left:18px">' +
-            '<span class="score" style="font-size:22px">' + (new Date().getFullYear() - s.since) + ' jaar</span>' +
-            '<p>eigen werkplaats in Deventer</p></div>' +
+        '<h1>Tweedehands wasmachines, drogers en vaatwassers van A-merken</h1>' +
+        '<p class="lead">Miele, Bosch, Siemens en AEG, gekeurd en hersteld in onze eigen werkplaats ' +
+          'in Deventer. Een wasmachine vanaf ' + euro(229) + ', bij u thuis aangesloten en draaiend.</p>' +
+        '<ul class="hero-points">' + [
+          'Gratis bezorgd én aangesloten', 'Oud apparaat gratis mee',
+          '6 tot 12 maanden garantie', 'Binnen 1 tot 5 werkdagen'
+        ].map(t => '<li>' + icon('check', 15) + t + '</li>').join('') + '</ul>' +
+        '<div class="hero-actions">' +
+          '<a class="btn btn-primary" href="#/c/wasmachines">Bekijk de wasmachines</a>' +
+          '<a class="btn btn-ghost" href="#/c/outlet">Naar de outlet</a>' +
         '</div>' +
       '</div>' +
-      '<div class="hero-card">' +
-        '<div class="hero-card-top">' +
-          '<div class="thumb">' + P.media(p, 120) + '</div>' +
-          '<div>' +
-            '<span class="card-brand">' + esc(p.brand) + ' · ' + esc(p.sku) + '</span>' +
-            '<h3 style="margin:4px 0 8px">' + esc(p.title) + '</h3>' +
-            '<span class="price">' + euro(p.price) + '</span>' +
-            (p.compareAt ? '<span class="was">nieuw ' + euro(p.compareAt) + '</span>' : '') +
-          '</div>' +
-        '</div>' +
-        '<div class="dossier-strip">' +
-          '<span class="eyebrow">' + icon('checkc', 14) + 'Keuringsrapport van dit exemplaar</span>' +
-          '<ul class="dossier-rows">' + rows +
-            '<li><span>en nog ' + Math.max(0, (p.refurb || []).length - 4) + ' controlepunten</span>' +
-            '<b><a href="#/p/' + esc(p.slug) + '" style="text-decoration:underline">bekijken</a></b></li>' +
-          '</ul>' +
-        '</div>' +
+      '<div class="ratingbox">' +
+        '<div><span class="big">' + s.rating.toString().replace('.', ',') + '<small>/10</small></span></div>' +
+        WK.stars(Math.round(s.rating / 2), 17) +
+        '<p>' + s.reviewCount.toLocaleString('nl-NL') + ' beoordelingen</p>' +
+        '<p class="src">Onafhankelijk verzameld via Kiyoh. Wij plaatsen ook de lagere cijfers.</p>' +
       '</div>' +
     '</div></section>';
-  };
+  }
 
-  /* ----------------------------------------------------------- categorieën */
+  /* ---------------------------------------------------------- categorieën */
 
-  P.catSection = function (counts) {
+  function cats(counts) {
     return '<section class="section"><div class="wrap">' +
-      '<div class="section-head"><div>' +
-        '<span class="eyebrow">Assortiment</span>' +
-        '<h2 style="margin-top:8px">Waar bent u naar op zoek?</h2>' +
-      '</div></div>' +
       '<div class="cats">' + WK.CATEGORIES.map(c => {
-        const k = counts[c.slug] || { n: 0, min: 0 };
+        const k = counts[c.slug];
         return '<a class="cat" href="#/c/' + c.slug + '">' +
-          WK.appliance(c.kind, 52) +
+          WK.appliance(c.kind, 66) +
           '<div><b>' + esc(c.label) + '</b>' +
-          '<small>' + k.n + ' apparaten · vanaf ' + (k.n ? euro(k.min) : '—') + '</small></div></a>';
+          '<small>' + k.n + ' op voorraad</small>' +
+          '<span class="from">vanaf ' + (k.n ? euro(k.min) : '—') + '</span></div></a>';
       }).join('') + '</div>' +
     '</div></section>';
-  };
+  }
 
-  /* ------------------------------------------------------- nieuw binnen -- */
+  /* --------------------------------------------------------- productblok */
 
-  P.newArrivals = function (items) {
-    return '<section class="section section-alt"><div class="wrap">' +
+  function productSection(title, sub, linkLabel, href, items, band) {
+    if (!items.length) return '';
+    return '<section class="section' + (band ? ' band' : '') + '"><div class="wrap">' +
       '<div class="section-head">' +
-        '<div><span class="eyebrow">Deze week gekeurd</span>' +
-        '<h2 style="margin-top:8px">Net binnengekomen</h2>' +
-        '<p>Elk apparaat is uniek en heeft een eigen artikelnummer. Is hij weg, dan is hij weg.</p></div>' +
-        '<a class="section-link" href="#/c/wasmachines">Hele assortiment' + icon('arrow', 15) + '</a>' +
+        '<div><h2>' + esc(title) + '</h2><p>' + esc(sub) + '</p></div>' +
+        '<a href="' + href + '">' + esc(linkLabel) + ' →</a>' +
       '</div>' +
       '<div class="grid-products">' + items.map(P.card).join('') + '</div>' +
     '</div></section>';
-  };
+  }
 
-  /* ---------------------------------------------- het dossier-idee, uitgelegd */
+  /* ------------------------------------------------- het keuringsrapport */
 
-  P.dossierSection = function () {
-    const demo = WK.PRODUCTS[1];
-    return '<section class="section"><div class="wrap">' +
-      '<div class="showroom">' +
-        '<div>' +
-          '<span class="eyebrow">Waarom u dit bij ons wél durft</span>' +
-          '<h2 style="margin:10px 0 14px">Tweedehands kopen is eng omdat u niet weet wat u krijgt. ' +
-            'Daarom laten wij het zien.</h2>' +
-          '<p class="muted" style="max-width:56ch">Bij ieder apparaat hoort een keuringsrapport van dát toestel: ' +
-            'welke onderdelen zijn gecontroleerd, welke zijn vervangen, hoeveel draaiuren erop staan en welke ' +
-            'gebruikssporen erop zitten. Geen stockfoto, geen "in goede staat" — de exacte machine die bij u ' +
-            'thuis wordt aangesloten.</p>' +
-          '<ul class="nap" style="margin-top:22px">' +
-            '<li>' + icon('wrench', 18) + '<div><b>Eigen werkplaats</b><span>Onze monteurs herstellen zelf. Geen doorverkoop van ongeziene partijen.</span></div></li>' +
-            '<li>' + icon('tag', 18) + '<div><b>Eigen artikelnummer</b><span>Elk toestel is uniek geregistreerd, met eigen foto\'s en eigen rapport.</span></div></li>' +
-            '<li>' + icon('shield', 18) + '<div><b>Garantie op papier</b><span>6 tot 12 maanden, met een monteur die bij u thuis komt.</span></div></li>' +
-          '</ul>' +
-        '</div>' +
-        '<div class="panel">' +
-          '<div class="panel-head"><b>Keuringsrapport</b>' +
-            '<span class="mono" style="font-size:11px;color:var(--muted)">' + esc(demo.sku) + '</span></div>' +
-          '<div class="panel-body"><ul class="check-list">' +
-            demo.refurb.map(r =>
-              '<li><span class="ic' + (r.status === 'repl' ? ' repl' : '') + '">' +
-                icon(r.status === 'repl' ? 'swap' : 'check', 16) + '</span>' +
-              '<span>' + esc(r.item) + (r.note ? '<em>' + esc(r.note) + '</em>' : '') + '</span>' +
-              '<span class="st' + (r.status === 'repl' ? ' repl' : '') + '">' +
-                (r.status === 'repl' ? 'vervangen' : 'akkoord') + '</span></li>'
-            ).join('') +
-          '</ul></div>' +
-        '</div>' +
+  function dossier() {
+    const demo = WK.PRODUCTS.find(p => (p.refurb || []).some(r => r.status === 'repl')) || WK.PRODUCTS[0];
+    return '<section class="section"><div class="wrap"><div class="twocol">' +
+      '<div>' +
+        '<h2>Bij elk apparaat zit een keuringsrapport</h2>' +
+        '<p class="muted" style="margin-top:10px;max-width:56ch">Tweedehands kopen is spannend omdat u niet ' +
+          'weet wat u krijgt. Daarom krijgt elk toestel bij ons een eigen artikelnummer en een eigen rapport: ' +
+          'welke onderdelen zijn gecontroleerd, welke zijn vervangen, hoeveel draaiuren erop staan en welke ' +
+          'gebruikssporen erop zitten. Ook de sporen die u liever niet ziet.</p>' +
+        '<ul class="nap">' +
+          '<li>' + icon('wrench', 17) + '<div><b>Eigen werkplaats in Deventer</b>' +
+            '<span>Onze monteurs herstellen zelf. Wij verkopen geen ongeziene partijen door.</span></div></li>' +
+          '<li>' + icon('tag', 17) + '<div><b>Foto\'s van dít exemplaar</b>' +
+            '<span>Geen stockfoto. U krijgt de machine die op de foto staat.</span></div></li>' +
+          '<li>' + icon('shield', 17) + '<div><b>Garantie met monteur aan huis</b>' +
+            '<span>6 tot 12 maanden. Storing? Wij komen langs of ruilen om.</span></div></li>' +
+        '</ul>' +
       '</div>' +
-    '</div></section>';
-  };
+      '<div class="panel">' +
+        '<div class="panel-head"><b>Keuringsrapport</b><span>' + esc(demo.sku) + '</span></div>' +
+        '<ul class="check-list">' + demo.refurb.map(rowHtml).join('') + '</ul>' +
+      '</div>' +
+    '</div></div></section>';
+  }
 
-  /* ------------------------------------------------------------- 3 stappen */
+  function rowHtml(r) {
+    return '<li><span class="ic' + (r.status === 'repl' ? ' repl' : '') + '">' +
+      icon(r.status === 'repl' ? 'swap' : 'check', 15) + '</span>' +
+      '<span>' + esc(r.item) + (r.note ? '<em>' + esc(r.note) + '</em>' : '') + '</span>' +
+      '<span class="st' + (r.status === 'repl' ? ' repl' : '') + '">' +
+      (r.status === 'repl' ? 'vervangen' : 'akkoord') + '</span></li>';
+  }
+  P.checkRow = rowHtml;
 
-  P.howSection = function () {
+  /* --------------------------------------------------------- zo werkt het */
+
+  function how() {
     const d = WK.formatDate(WK.deliveryDate(2));
-    const steps = [
-      ['Stap 1', 'U kiest een apparaat', 'Bij elk toestel staat het keuringsrapport, de draaiuren en foto\'s van dat exemplaar. Twijfelt u? Bel ons — wij verkopen u liever het goedkopere model dat past.'],
-      ['Stap 2', 'U kiest dag en dagdeel', 'Bezorgen kan maandag tot en met zaterdag. Bestelt u vandaag vóór 16:00, dan kan het al op ' + d + '.'],
-      ['Stap 3', 'Wij sluiten aan en testen', 'Onze monteurs plaatsen het apparaat, sluiten het aan, draaien een proefprogramma en nemen uw oude apparaat mee.']
+    const items = [
+      ['tag', 'U kiest een apparaat', 'Bij elk toestel staan de draaiuren, het bouwjaar en het keuringsrapport. Twijfelt u? Bel ons — wij verkopen u liever het goedkopere model dat past.'],
+      ['calendar', 'U kiest dag en dagdeel', 'Wij bezorgen maandag tot en met zaterdag. Bestelt u vandaag vóór 16:00, dan kan het al op ' + d + '.'],
+      ['wrench', 'Wij sluiten aan en testen', 'Onze monteurs plaatsen het apparaat, sluiten het aan, draaien een proefprogramma en nemen uw oude apparaat mee.']
     ];
-    return '<section class="section section-alt"><div class="wrap">' +
-      '<div class="section-head"><div><span class="eyebrow">Zo werkt het</span>' +
-        '<h2 style="margin-top:8px">Van bestellen tot draaiende machine</h2></div></div>' +
-      '<div class="steps">' + steps.map(s =>
-        '<div class="step"><span class="n">' + s[0] + '</span><h3>' + s[1] + '</h3><p>' + s[2] + '</p></div>'
-      ).join('') + '</div>' +
+    return '<section class="section band"><div class="wrap">' +
+      '<div class="section-head"><div><h2>Zo werkt het</h2></div></div>' +
+      '<div class="how">' + items.map(i =>
+        '<div class="how-item"><span class="ic">' + icon(i[0], 19) + '</span>' +
+        '<div><h3>' + i[1] + '</h3><p>' + i[2] + '</p></div></div>').join('') + '</div>' +
     '</div></section>';
-  };
+  }
 
-  /* ---------------------------------------------------------------- reviews */
+  /* ---------------------------------------------------------------- rest */
 
-  P.reviewSection = function () {
+  function reviews() {
     const s = WK.SHOP;
     return '<section class="section"><div class="wrap">' +
-      '<div class="section-head">' +
-        '<div><span class="eyebrow">Klantbeoordelingen</span>' +
-        '<h2 style="margin-top:8px">' + s.rating.toString().replace('.', ',') + ' uit 10, op ' +
+      '<div class="section-head"><div>' +
+        '<h2>' + s.rating.toString().replace('.', ',') + ' uit 10 op ' +
           s.reviewCount.toLocaleString('nl-NL') + ' beoordelingen</h2>' +
-        '<p>Onafhankelijk verzameld via Kiyoh. Wij plaatsen ook de reviews van vier sterren en lager.</p></div>' +
-      '</div>' +
+        '<p>Onafhankelijk verzameld via Kiyoh. Ook de reviews van vier sterren en lager staan erbij.</p>' +
+      '</div></div>' +
       '<div class="reviews">' + WK.REVIEWS.slice(0, 6).map(P.reviewCard).join('') + '</div>' +
     '</div></section>';
-  };
-
-  /* --------------------------------------------------------------- showroom */
+  }
 
   P.showroomSection = function () {
     const s = WK.SHOP;
-    return '<section class="section section-alt"><div class="wrap"><div class="showroom">' +
+    return '<section class="section band"><div class="wrap"><div class="twocol">' +
       '<div>' +
-        '<span class="eyebrow">Geen postbusadres</span>' +
-        '<h2 style="margin:10px 0 12px">Loop binnen in Deventer en bekijk het apparaat zelf</h2>' +
-        '<p class="muted" style="max-width:52ch">In onze showroom aan de Staverenstraat staan doorgaans zo\'n ' +
-          '200 gekeurde apparaten. U kunt ze aanzetten, de trommel voelen en het rapport inzien voordat u koopt.</p>' +
+        '<h2>Kom langs in Deventer en bekijk het apparaat zelf</h2>' +
+        '<p class="muted" style="margin-top:10px;max-width:54ch">In onze showroom aan de Staverenstraat staan ' +
+          'doorgaans zo\'n 150 gekeurde wasmachines, drogers en vaatwassers. U kunt ze aanzetten, de trommel ' +
+          'voelen en het keuringsrapport inzien voordat u koopt.</p>' +
         '<ul class="nap">' +
-          '<li>' + icon('pin', 18) + '<div><b>' + esc(s.street) + '</b><span>' + esc(s.zip) + ' ' + esc(s.city) + '</span></div></li>' +
-          '<li>' + icon('phone', 18) + '<div><b><a href="tel:' + s.phoneHref + '">' + esc(s.phone) + '</a></b>' +
+          '<li>' + icon('pin', 17) + '<div><b>' + esc(s.street) + '</b><span>' + esc(s.zip) + ' ' + esc(s.city) + '</span></div></li>' +
+          '<li>' + icon('phone', 17) + '<div><b><a class="linkblue" href="tel:' + s.phoneHref + '">' + esc(s.phone) + '</a></b>' +
             '<span>Wij nemen zelf op, geen keuzemenu</span></div></li>' +
         '</ul>' +
       '</div>' +
       '<div class="panel">' +
-        '<div class="panel-head"><b>Openingstijden</b><span class="mono" style="font-size:11px;color:var(--ok)">Nu geopend</span></div>' +
-        '<div class="panel-body"><ul class="hours" style="max-width:none;padding:8px 0">' +
-          s.hours.map(h => '<li style="max-width:none"><span>' + h[0] + '</span><span>' + h[1] + '</span></li>').join('') +
-        '</ul></div>' +
+        '<div class="panel-head"><b>Openingstijden</b><span style="color:var(--green);font-weight:700">Nu geopend</span></div>' +
+        '<ul class="hours">' + s.hours.map(h =>
+          '<li><span class="day">' + h[0] + '</span><span>' + h[1] + '</span></li>').join('') + '</ul>' +
       '</div>' +
     '</div></div></section>';
   };
 
-  /* -------------------------------------------------------------------- faq */
-
-  P.faqSection = function () {
+  function faq() {
     return '<section class="section"><div class="wrap">' +
-      '<div class="section-head"><div><span class="eyebrow">Veelgestelde vragen</span>' +
-        '<h2 style="margin-top:8px">Wat klanten ons het vaakst vragen</h2></div></div>' +
+      '<div class="section-head"><div><h2>Veelgestelde vragen</h2></div></div>' +
       P.faq(WK.FAQ) +
     '</div></section>';
-  };
+  }
+  P.faqSection = faq;
 
 })(window.WK);
 
 
 /* assets/js/views-plp.js */
-/* Witgoed Koning — categoriepagina met filters. */
+/* Witgoed Koning — categoriepagina. Lijstweergave met filters, zoals in de
+   meeste Nederlandse witgoedwinkels. */
 (function (WK) {
   'use strict';
   const esc = WK.esc, euro = WK.euro, icon = WK.icon, P = WK.parts;
 
   const SORTS = [
     ['relevantie', 'Meest gekozen'],
-    ['nieuwste', 'Nieuwste eerst'],
     ['price-asc', 'Prijs laag – hoog'],
     ['price-desc', 'Prijs hoog – laag'],
+    ['nieuwste', 'Nieuwste eerst'],
     ['korting', 'Hoogste korting']
   ];
 
@@ -2234,7 +1927,6 @@ window.WK = window.WK || {};
   WK.views.plp = async function (params) {
     const cat = params.category || null;
     const search = params.search || '';
-    /* Nieuwe categorie of nieuwe zoekterm betekent: filters terug naar nul. */
     if (!state || state.category !== cat || state.search !== search) state = fresh(cat, search);
 
     const meta = cat ? WK.CATEGORIES.find(c => c.slug === cat) : null;
@@ -2242,7 +1934,7 @@ window.WK = window.WK || {};
     const facets = buildFacets(scope.items);
 
     const title = meta ? meta.label : (search ? 'Zoekresultaten voor “' + esc(search) + '”' : 'Hele assortiment');
-    const blurb = meta ? meta.blurb : 'Alles wat er op dit moment gekeurd en wel in de werkplaats staat.';
+    const blurb = meta ? meta.blurb : 'Alles wat er op dit moment gekeurd en wel in Deventer staat.';
 
     return '<div class="wrap">' +
       P.crumbs([{ label: 'Home', href: '#/' }, { label: title }]) +
@@ -2250,8 +1942,8 @@ window.WK = window.WK || {};
         '<aside class="filters" aria-label="Filters">' + renderFilters(facets) + '</aside>' +
         '<div>' +
           '<div class="plp-head">' +
-            '<div><h1>' + title + '</h1><p class="sub">' + blurb + '</p></div>' +
-            '<div class="sortbar"><label class="sr" for="sortsel">Sorteren</label>' +
+            '<div><h1>' + title + '</h1><p>' + blurb + '</p></div>' +
+            '<div class="sortbar"><label for="sortsel">Sorteren</label>' +
               '<select id="sortsel" data-sort>' + SORTS.map(s =>
                 '<option value="' + s[0] + '"' + (state.sort === s[0] ? ' selected' : '') + '>' + s[1] + '</option>'
               ).join('') + '</select></div>' +
@@ -2273,37 +1965,29 @@ window.WK = window.WK || {};
     return {
       brands: Object.keys(brands).sort().map(b => ({ v: b, n: brands[b] })),
       conds: ['Nieuwstaat', 'Refurbished A', 'Refurbished B'].filter(c => conds[c]).map(c => ({ v: c, n: conds[c] })),
-      maxPrice: Math.ceil(max / 50) * 50
+      maxPrice: Math.max(100, Math.ceil(max / 50) * 50)
     };
   }
 
   function renderFilters(f) {
-    const brandOpts = f.brands.map(b =>
-      '<label class="fopt"><input type="checkbox" data-f="brands" value="' + esc(b.v) + '"' +
-      (state.brands.indexOf(b.v) > -1 ? ' checked' : '') + '>' + esc(b.v) +
-      '<span class="cnt">' + b.n + '</span></label>').join('');
-
-    const condOpts = f.conds.map(c =>
-      '<label class="fopt"><input type="checkbox" data-f="conds" value="' + esc(c.v) + '"' +
-      (state.conds.indexOf(c.v) > -1 ? ' checked' : '') + '>' + esc(c.v) +
-      '<span class="cnt">' + c.n + '</span></label>').join('');
-
     const price = state.maxPrice == null ? f.maxPrice : state.maxPrice;
+    const box = (key, list) => list.map(o =>
+      '<label class="fopt"><input type="checkbox" data-f="' + key + '" value="' + esc(o.v) + '"' +
+      (state[key].indexOf(o.v) > -1 ? ' checked' : '') + '>' + esc(o.v) +
+      '<span class="cnt">' + o.n + '</span></label>').join('');
 
-    return '<div class="fgroup"><b>Merk</b>' + brandOpts + '</div>' +
-      '<div class="fgroup"><b>Staat</b>' + condOpts +
-        '<p class="muted" style="font-size:12px;margin-top:8px">Refurbished B is technisch even goed, maar heeft zichtbare gebruikssporen. Die staan bij het product op de foto.</p>' +
-      '</div>' +
+    return '<div class="fgroup"><b>Merk</b>' + box('brands', f.brands) + '</div>' +
+      '<div class="fgroup"><b>Staat</b>' + box('conds', f.conds) +
+        '<p class="fhint">Refurbished B is technisch net zo goed, maar heeft zichtbare gebruikssporen. ' +
+        'Die staan bij het apparaat op de foto.</p></div>' +
       '<div class="fgroup"><b>Garantie</b>' +
         '<label class="fopt"><input type="checkbox" data-f="minWarranty" value="12"' +
-        (state.minWarranty === 12 ? ' checked' : '') + '>Minimaal 12 maanden</label>' +
-      '</div>' +
+        (state.minWarranty === 12 ? ' checked' : '') + '>Minimaal 12 maanden</label></div>' +
       '<div class="fgroup"><b>Prijs tot ' + euro(price) + '</b>' +
         '<input type="range" data-f="maxPrice" min="50" max="' + f.maxPrice + '" step="10" value="' + price +
-        '" style="width:100%;accent-color:var(--copper);margin-top:6px">' +
-        '<div class="row" style="justify-content:space-between;font-family:var(--f-mono);font-size:11px;color:var(--muted)">' +
-          '<span>' + euro(50) + '</span><span>' + euro(f.maxPrice) + '</span></div>' +
-      '</div>' +
+        '" style="width:100%;accent-color:var(--cta);margin-top:4px" aria-label="Maximumprijs">' +
+        '<div style="display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted)">' +
+          '<span>' + euro(50) + '</span><span>' + euro(f.maxPrice) + '</span></div></div>' +
       '<div class="fgroup" style="border-bottom:0">' +
         '<button class="btn btn-quiet" data-reset style="padding-left:0">Alle filters wissen</button></div>';
   }
@@ -2312,14 +1996,14 @@ window.WK = window.WK || {};
     const { items } = await WK.store.listProducts(state);
     const chips = activeChips();
     if (!items.length) {
-      return chips + '<div class="empty"><h3>Geen apparaten met deze combinatie</h3>' +
-        '<p class="muted" style="margin:8px 0 16px">Ruim de filters op, of bel ons — de voorraad wisselt dagelijks en wij zoeken graag mee.</p>' +
+      return chips + '<div class="empty"><h2>Geen apparaten met deze combinatie</h2>' +
+        '<p class="muted" style="margin:8px 0 14px">Wis een filter, of bel ons op ' + esc(WK.SHOP.phone) +
+        ' — de voorraad wisselt dagelijks en wij zoeken graag mee.</p>' +
         '<button class="btn btn-ghost" data-reset>Filters wissen</button></div>';
     }
     return chips +
-      '<p class="muted" style="font-size:13.5px;margin-bottom:14px">' + items.length +
-      ' apparaten · allemaal op voorraad in Deventer</p>' +
-      '<div class="grid-products">' + items.map(P.card).join('') + '</div>';
+      '<p class="resultcount">' + items.length + ' apparaten gevonden, allemaal op voorraad in Deventer</p>' +
+      '<div class="plist">' + items.map(P.row).join('') + '</div>';
   }
 
   function activeChips() {
@@ -2336,10 +2020,7 @@ window.WK = window.WK || {};
 
   WK.mounts.plp = function (root) {
     const results = root.querySelector('[data-results]');
-    const rerender = async () => {
-      results.innerHTML = await renderResults();
-      bindChips();
-    };
+    const rerender = async () => { results.innerHTML = await renderResults(); bindChips(); };
 
     root.addEventListener('change', async (e) => {
       const el = e.target.closest('[data-f]');
@@ -2348,8 +2029,7 @@ window.WK = window.WK || {};
       if (el.type === 'checkbox') {
         if (key === 'minWarranty') state.minWarranty = el.checked ? 12 : 0;
         else {
-          const arr = state[key];
-          const i = arr.indexOf(el.value);
+          const arr = state[key], i = arr.indexOf(el.value);
           if (el.checked && i === -1) arr.push(el.value);
           if (!el.checked && i > -1) arr.splice(i, 1);
         }
@@ -2365,15 +2045,13 @@ window.WK = window.WK || {};
     if (sortSel) sortSel.addEventListener('change', async () => { state.sort = sortSel.value; await rerender(); });
 
     function bindChips() {
-      root.querySelectorAll('[data-clear]').forEach(btn => {
-        btn.addEventListener('click', async () => {
-          const k = btn.dataset.clear;
-          if (k === 'maxPrice') state.maxPrice = null;
-          else if (k === 'minWarranty') state.minWarranty = 0;
-          else state[k] = state[k].filter(v => v !== btn.dataset.val);
-          WK.rerender();
-        });
-      });
+      root.querySelectorAll('[data-clear]').forEach(btn => btn.addEventListener('click', () => {
+        const k = btn.dataset.clear;
+        if (k === 'maxPrice') state.maxPrice = null;
+        else if (k === 'minWarranty') state.minWarranty = 0;
+        else state[k] = state[k].filter(v => v !== btn.dataset.val);
+        WK.rerender();
+      }));
     }
 
     root.querySelectorAll('[data-reset]').forEach(b => b.addEventListener('click', () => {
@@ -2388,16 +2066,16 @@ window.WK = window.WK || {};
 
 
 /* assets/js/views-pdp.js */
-/* Witgoed Koning — productpagina. Het zwaartepunt van de conversie. */
+/* Witgoed Koning — productpagina. */
 (function (WK) {
   'use strict';
   const esc = WK.esc, euro = WK.euro, icon = WK.icon, P = WK.parts;
 
-  const VIEWS = [
-    { key: 'geheel', label: 'Vooraanzicht', note: 'Foto van dit exemplaar — artikelnummer %s' },
-    { key: 'paneel', label: 'Bedieningspaneel', note: 'Alle programma\'s getest, display zonder uitval' },
-    { key: 'trommel', label: 'Binnenzijde', note: 'Gereinigd en ontkalkt, geen kalkaanslag' },
-    { key: 'sporen', label: 'Gebruikssporen', note: 'Wij fotograferen elke beschadiging, hoe klein ook' }
+  const SHOTS = [
+    ['Vooraanzicht', 'Foto van dit exemplaar, artikelnummer %s'],
+    ['Bedieningspaneel', 'Alle programma\'s getest, display zonder uitval'],
+    ['Binnenzijde', 'Gereinigd en ontkalkt, geen kalkaanslag'],
+    ['Gebruikssporen', 'Wij fotograferen elke beschadiging, hoe klein ook']
   ];
 
   WK.views.pdp = async function (params) {
@@ -2405,9 +2083,8 @@ window.WK = window.WK || {};
     if (!p) return WK.views.notFound();
 
     const cat = WK.CATEGORIES.find(c => c.slug === p.cat);
-    const save = WK.savingPct(p);
     const related = (await WK.store.listProducts({ category: p.cat, limit: 10 }))
-      .items.filter(x => x.id !== p.id).slice(0, 4);
+      .items.filter(x => x.id !== p.id).slice(0, 3);
 
     return '<div class="wrap">' +
       P.crumbs([
@@ -2415,165 +2092,142 @@ window.WK = window.WK || {};
         cat ? { label: cat.label, href: '#/c/' + cat.slug } : { label: 'Assortiment' },
         { label: p.brand + ' ' + p.model }
       ]) +
-      '<div class="pdp">' +
-        '<div>' + gallery(p) + sections(p, related) + '</div>' +
-        buybox(p, save) +
+      '<div style="padding:14px 0 4px">' +
+        '<span class="prow-brand">' + esc(p.brand) + '</span>' +
+        '<h1 style="margin:2px 0 6px">' + esc(p.title) + '</h1>' +
+        '<div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">' + P.rating(p) +
+          '<span class="artnr">Artikelnummer ' + esc(p.sku) + '</span>' +
+          '<span class="badge badge-cond">' + esc(p.cond) + '</span>' +
+          (p.outlet ? '<span class="badge badge-outlet">Outlet</span>' : '') +
+        '</div>' +
       '</div>' +
-      stickyBar(p) +
+      '<div class="pdp">' +
+        '<div>' +
+          '<div class="pdp-top">' + gallery(p) + why(p) + '</div>' +
+          sections(p, related) +
+        '</div>' +
+        buybox(p) +
+      '</div>' +
+      '<div class="sticky-buy" data-sticky>' +
+        '<div class="meta"><b>' + esc(p.brand) + ' ' + esc(p.model) + '</b>' +
+          '<span class="price">' + euro(p.price) + '</span></div>' +
+        '<button class="btn btn-primary" data-add="' + esc(p.slug) + '">In winkelwagen</button>' +
+      '</div>' +
     '</div>';
   };
 
-  /* ------------------------------------------------------------- galerij -- */
-
   function gallery(p) {
-    const thumbs = VIEWS.map((v, i) =>
-      '<button class="gthumb' + (i === 0 ? ' on' : '') + '" data-view="' + i + '" ' +
-      'aria-label="' + esc(v.label) + '">' + WK.appliance(p.kind, 54) + '</button>'
-    ).join('');
-
-    return '<div class="gallery">' +
-      '<div class="gallery-main">' + P.media(p, 300) +
-        '<span class="gallery-note" data-note>' + esc(VIEWS[0].note.replace('%s', p.sku)) + '</span>' +
-      '</div>' +
-      '<div class="gallery-thumbs">' + thumbs + '</div>' +
-      '<p class="muted" style="font-size:12.5px">' + icon('info', 13) +
-        ' Dit is één specifiek toestel met een eigen artikelnummer. Er is geen tweede exemplaar van.</p>' +
+    return '<div>' +
+      '<div class="gallery-main">' + P.media(p, 260) +
+        '<span class="gallery-note" data-note>' + esc(SHOTS[0][1].replace('%s', p.sku)) + '</span></div>' +
+      '<div class="gallery-thumbs">' + SHOTS.map((v, i) =>
+        '<button class="gthumb' + (i === 0 ? ' on' : '') + '" data-shot="' + i + '" ' +
+        'aria-label="' + esc(v[0]) + '">' + WK.appliance(p.kind, 46) + '</button>').join('') + '</div>' +
     '</div>';
   }
 
-  /* -------------------------------------------------------------- buybox -- */
+  function why(p) {
+    return '<div>' +
+      '<h2 style="font-size:18px">Waarom u dit apparaat wilt</h2>' +
+      '<ul class="why">' + (p.highlights || []).map(h =>
+        '<li>' + icon('check', 15) + '<span>' + esc(h) + '</span></li>').join('') +
+        '<li>' + icon('check', 15) + '<span>' + p.warranty + ' maanden garantie, bij storing komt onze monteur bij u thuis</span></li>' +
+      '</ul>' +
+      (p.outlet && p.outletReason
+        ? '<div class="notice" style="margin-top:14px">' + icon('info', 16) +
+          '<span><b style="color:var(--text)">Outlet-apparaat.</b> ' + esc(p.outletReason) +
+          ' Op de techniek en de garantie maakt dat niets uit — op de prijs wel.</span></div>'
+        : '') +
+      '<p class="muted" style="margin-top:14px;font-size:13.5px">Dit is één specifiek toestel met een eigen ' +
+        'artikelnummer. Er is geen tweede exemplaar van.</p>' +
+    '</div>';
+  }
 
-  function buybox(p, save) {
-    const dLevering = WK.formatDate(WK.deliveryDate(2));
-
+  function buybox(p) {
+    const save = WK.savingPct(p);
+    const dag = WK.formatDate(WK.deliveryDate(2));
     return '<aside class="buybox">' +
-      '<div class="pdp-brandline">' +
-        '<span class="card-brand">' + esc(p.brand) + '</span>' +
-        '<span class="badge badge-cond">' + esc(p.cond) + '</span>' +
-        '<span class="mono" style="font-size:11px;color:var(--muted-2)">' + esc(p.sku) + '</span>' +
-      '</div>' +
-      '<h1>' + esc(p.title) + '</h1>' +
-      '<div class="pdp-rating">' + WK.stars(p.rating, 14) +
-        '<span>' + p.rating.toString().replace('.', ',') + ' · ' + p.reviews + ' beoordelingen</span></div>' +
-
-      '<div class="price-block">' +
+      '<div class="pricebox">' +
         '<div class="price-row"><span class="price">' + euro(p.price) + '</span>' +
           (p.compareAt ? '<span class="was">nieuwprijs ' + euro(p.compareAt) + '</span>' : '') + '</div>' +
-        (save ? '<span class="save">U bespaart ' + euro(p.compareAt - p.price) + ' (' + save + '%)</span>' : '') +
+        (save ? '<span class="saving">U bespaart ' + euro(p.compareAt - p.price) + ' (' + save + '%)</span>' : '') +
         '<span class="incl">Inclusief btw, bezorging, aansluiten en het meenemen van uw oude apparaat. ' +
           'Er komt niets meer bij.</span>' +
       '</div>' +
 
       '<ul class="assurances">' +
-        '<li>' + icon('shield', 16) + '<span><b>' + p.warranty + ' maanden volledige garantie</b> — bij storing komt onze monteur bij u thuis</span></li>' +
-        '<li>' + icon('truck', 16) + '<span><b>Gratis bezorgd en aangesloten</b> in heel Nederland, ook op de eerste verdieping</span></li>' +
-        '<li>' + icon('recycle', 16) + '<span><b>Oud apparaat gratis mee</b>, ook als u het niet bij ons kocht</span></li>' +
-        '<li>' + icon('swap', 16) + '<span><b>14 dagen bedenktijd</b> — wij halen het kosteloos op</span></li>' +
+        '<li>' + icon('check', 15) + '<span><b>' + p.warranty + ' maanden garantie</b>, monteur aan huis</span></li>' +
+        '<li>' + icon('check', 15) + '<span><b>Gratis bezorgd en aangesloten</b>, ook op de eerste verdieping</span></li>' +
+        '<li>' + icon('check', 15) + '<span><b>Oud apparaat gratis mee</b>, ook als u het niet bij ons kocht</span></li>' +
+        '<li>' + icon('check', 15) + '<span><b>14 dagen bedenktijd</b>, wij halen het kosteloos op</span></li>' +
       '</ul>' +
 
       '<div class="deliverybox">' +
-        '<span class="eyebrow">' + icon('calendar', 14) + 'Wanneer is hij bij u?</span>' +
+        '<b>Wanneer is hij bij u?</b>' +
         '<form class="pc-form" data-pc>' +
           '<input name="pc" placeholder="1234 AB" maxlength="7" autocomplete="postal-code" aria-label="Postcode">' +
           '<button class="btn btn-ghost" type="submit">Bekijk</button>' +
         '</form>' +
-        '<p class="pc-result" data-pc-result>Standaard bezorgd op <b>' + dLevering +
+        '<p class="pc-result" data-pc-result>Standaard bezorgd op <b>' + esc(dag) +
           '</b> als u vandaag vóór 16:00 bestelt.</p>' +
       '</div>' +
 
-      '<div class="buy-actions">' +
-        '<button class="btn btn-primary btn-lg" data-add="' + esc(p.slug) + '">' +
-          icon('cart', 18) + 'In de winkelwagen</button>' +
-        '<a class="btn btn-ghost" href="#/showroom">Eerst bekijken in de showroom</a>' +
-      '</div>' +
+      '<button class="btn btn-primary btn-lg" data-add="' + esc(p.slug) + '">' +
+        icon('cart', 18) + 'In winkelwagen</button>' +
+      '<a class="btn btn-ghost" href="#/showroom" style="width:100%">Eerst bekijken in de showroom</a>' +
 
-      '<div class="pay-icons">' +
-        ['iDEAL', 'Bancontact', 'Klarna', 'in3', 'PIN bij levering'].map(x => '<span>' + x + '</span>').join('') +
-      '</div>' +
+      '<div class="paystrip">' + ['iDEAL', 'Pinnen bij levering', 'Klarna', 'in3']
+        .map(x => '<span>' + x + '</span>').join('') + '</div>' +
 
-      '<p class="muted" style="font-size:12.5px;display:flex;gap:8px;align-items:flex-start">' +
-        icon('phone', 14) + '<span>Twijfelt u over de maten of de aansluiting? Bel ' +
-        '<a href="tel:' + WK.SHOP.phoneHref + '" style="text-decoration:underline">' + esc(WK.SHOP.phone) +
-        '</a> — wij nemen zelf op.</span></p>' +
+      '<p class="muted" style="font-size:13px">Twijfelt u over de maten of de aansluiting? Bel ' +
+        '<a class="linkblue" href="tel:' + WK.SHOP.phoneHref + '">' + esc(WK.SHOP.phone) +
+        '</a> — wij nemen zelf op.</p>' +
     '</aside>';
   }
-
-  /* ------------------------------------------------------------- secties -- */
 
   function sections(p, related) {
     const specRows = Object.keys(p.specs).map(k =>
       '<tr><th scope="row">' + esc(k) + '</th><td>' + esc(p.specs[k]) + '</td></tr>').join('');
-
-    const refurbRows = (p.refurb || []).map(r =>
-      '<li><span class="ic' + (r.status === 'repl' ? ' repl' : '') + '">' +
-        icon(r.status === 'repl' ? 'swap' : 'check', 16) + '</span>' +
-      '<span>' + esc(r.item) + (r.note ? '<em>' + esc(r.note) + '</em>' : '') + '</span>' +
-      '<span class="st' + (r.status === 'repl' ? ' repl' : '') + '">' +
-        (r.status === 'repl' ? 'vervangen' : 'akkoord') + '</span></li>').join('');
-
     const replaced = (p.refurb || []).filter(r => r.status === 'repl').length;
+    const opgemaakt = WK.formatDate(WK.deliveryDate(-0, Date.now() - 9 * 864e5), true);
 
     return '<div class="pdp-sections">' +
 
-      '<section><h2 style="font-size:22px;margin-bottom:14px">Waarom dit apparaat</h2>' +
-        '<ul class="assurances">' + (p.highlights || []).map(h =>
-          '<li>' + icon('check', 16) + '<span>' + esc(h) + '</span></li>').join('') + '</ul></section>' +
-
-      '<section><h2 style="font-size:22px;margin-bottom:14px">Keuringsrapport van dit exemplaar</h2>' +
-        '<p class="muted" style="margin-bottom:14px;max-width:64ch">Opgemaakt door onze monteur op ' +
-          esc(WK.formatDate(WK.deliveryDate(-0, Date.now() - 9 * 864e5), true)) + '. ' +
-          (replaced ? replaced + ' onderde' + (replaced === 1 ? 'el' : 'len') + ' vervangen, ' : '') +
-          'alle overige punten gecontroleerd en akkoord bevonden.</p>' +
+      '<section><h2>Keuringsrapport van dit exemplaar</h2>' +
+        '<p class="muted" style="margin-bottom:12px;max-width:66ch">Opgemaakt door onze monteur op ' +
+          esc(opgemaakt) + '. ' + (replaced ? replaced + ' onderde' + (replaced === 1 ? 'el' : 'len') +
+          ' vervangen, ' : '') + 'alle overige punten gecontroleerd en akkoord bevonden.</p>' +
         '<div class="panel">' +
-          '<div class="panel-head"><b>' + esc(p.brand) + ' ' + esc(p.model) + '</b>' +
-            '<span class="mono" style="font-size:11px;color:var(--muted)">' + esc(p.sku) + '</span></div>' +
-          '<div class="panel-body"><ul class="check-list">' + refurbRows + '</ul></div>' +
+          '<div class="panel-head"><b>' + esc(p.brand) + ' ' + esc(p.model) + '</b><span>' + esc(p.sku) + '</span></div>' +
+          '<ul class="check-list">' + (p.refurb || []).map(P.checkRow).join('') + '</ul>' +
         '</div></section>' +
 
-      '<section><h2 style="font-size:22px;margin-bottom:14px">Specificaties</h2>' +
-        '<div class="table-scroll"><table class="spec-table">' +
-          '<tbody>' + specRows +
+      '<section><h2>Specificaties</h2>' +
+        '<div class="table-scroll"><table class="spec-table"><tbody>' + specRows +
           '<tr><th scope="row">Artikelnummer</th><td>' + esc(p.sku) + '</td></tr>' +
-          '<tr><th scope="row">Staat</th><td>' + esc(p.cond) + '</td></tr>' +
+          '<tr><th scope="row">Staat</th><td>' + esc(p.cond) + (p.outlet ? ' (outlet)' : '') + '</td></tr>' +
           '<tr><th scope="row">Garantie</th><td>' + p.warranty + ' maanden</td></tr>' +
         '</tbody></table></div></section>' +
 
-      (related.length ? '<section><h2 style="font-size:22px;margin-bottom:14px">Andere ' +
-        esc((WK.CATEGORIES.find(c => c.slug === p.cat) || {}).label || 'apparaten').toLowerCase() + ' op voorraad</h2>' +
-        '<div class="grid-products">' + related.map(P.card).join('') + '</div></section>' : '') +
+      (related.length ? '<section><h2>Andere ' +
+        esc(((WK.CATEGORIES.find(c => c.slug === p.cat) || {}).label || 'apparaten').toLowerCase()) +
+        ' op voorraad</h2><div class="plist">' + related.map(P.row).join('') + '</div></section>' : '') +
 
-      '<section><h2 style="font-size:22px;margin-bottom:14px">Vragen over dit apparaat</h2>' +
-        P.faq(WK.FAQ.slice(0, 5)) + '</section>' +
-
+      '<section><h2>Vragen over dit apparaat</h2>' + P.faq(WK.FAQ.slice(0, 5)) + '</section>' +
     '</div>';
   }
-
-  function stickyBar(p) {
-    return '<div class="sticky-buy" data-sticky>' +
-      '<div class="meta"><b>' + esc(p.brand) + ' ' + esc(p.model) + '</b>' +
-        '<span class="price">' + euro(p.price) + '</span></div>' +
-      '<button class="btn btn-primary" data-add="' + esc(p.slug) + '">In de winkelwagen</button>' +
-    '</div>';
-  }
-
-  /* --------------------------------------------------------------- gedrag -- */
 
   WK.mounts.pdp = function (root, params) {
-    /* Galerij-onderschriften wisselen. De illustratie blijft gelijk zolang er
-       geen echte foto's uit de catalogus komen; het onderschrift laat zien
-       welke opnames er per toestel horen. */
     const note = root.querySelector('[data-note]');
-    root.querySelectorAll('[data-view]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        root.querySelectorAll('[data-view]').forEach(b => b.classList.remove('on'));
-        btn.classList.add('on');
-        const v = VIEWS[parseInt(btn.dataset.view, 10)];
-        note.textContent = v.note.replace('%s', params.slug ? (WK.bySlug(params.slug) || {}).sku || '' : '');
-      });
-    });
+    const sku = (WK.bySlug(params.slug) || {}).sku || '';
+    root.querySelectorAll('[data-shot]').forEach(btn => btn.addEventListener('click', () => {
+      root.querySelectorAll('[data-shot]').forEach(b => b.classList.remove('on'));
+      btn.classList.add('on');
+      note.textContent = SHOTS[parseInt(btn.dataset.shot, 10)][1].replace('%s', sku);
+    }));
 
-    /* Bezorgbelofte op postcode. Randstad en Overijssel sneller dan de rest —
-       dat is de echte planning, dus zeg het ook. */
+    /* Bezorgbelofte op postcode. Overijssel en de Randstad rijden wij zelf,
+       de rest gaat via een extra rit — dus dat duurt een dag langer. */
     const form = root.querySelector('[data-pc]');
     const out = root.querySelector('[data-pc-result]');
     if (form) form.addEventListener('submit', (e) => {
@@ -2584,23 +2238,18 @@ window.WK = window.WK || {};
         out.textContent = 'Vul een Nederlandse postcode in, bijvoorbeeld 7418 CJ.';
         return;
       }
-      const digits = parseInt(val.slice(0, 4), 10);
-      const snel = (digits >= 7000 && digits < 8300) || (digits >= 1000 && digits < 3600);
-      const d = WK.deliveryDate(snel ? 2 : 3);
+      const d4 = parseInt(val.slice(0, 4), 10);
+      const snel = (d4 >= 7000 && d4 < 8300) || (d4 >= 1000 && d4 < 3600);
       out.className = 'pc-result';
-      out.innerHTML = 'Bezorgd en aangesloten op <b>' + esc(WK.formatDate(d)) + '</b>' +
-        ' — u kiest zelf een dagdeel bij het afrekenen.' +
-        (snel ? ' Uw regio rijden wij zelf.' : '');
+      out.innerHTML = 'Bezorgd en aangesloten op <b>' + esc(WK.formatDate(WK.deliveryDate(snel ? 2 : 3))) +
+        '</b>. U kiest zelf een dagdeel bij het afrekenen.' + (snel ? ' Uw regio rijden wij zelf.' : '');
     });
 
-    /* Mobiele koopbalk zodra de knop uit beeld is. */
     const sticky = root.querySelector('[data-sticky]');
-    const anchor = root.querySelector('.buy-actions');
+    const anchor = root.querySelector('.buybox .btn-primary');
     if (sticky && anchor && 'IntersectionObserver' in window) {
       document.body.classList.add('has-sticky');
-      const io = new IntersectionObserver(([entry]) => {
-        sticky.classList.toggle('show', !entry.isIntersecting);
-      }, { rootMargin: '-80px 0px 0px 0px' });
+      const io = new IntersectionObserver(([entry]) => sticky.classList.toggle('show', !entry.isIntersecting));
       io.observe(anchor);
       WK.onLeave(() => { io.disconnect(); document.body.classList.remove('has-sticky'); });
     }
@@ -2668,9 +2317,10 @@ window.WK = window.WK || {};
     return '<div class="lineitem">' +
       '<div class="thumb">' + WK.appliance(l.kind === 'wrench' ? 'wasmachine' : l.kind, 80) + '</div>' +
       '<div class="li-meta">' +
-        '<span class="card-brand">' + esc(l.brand) + ' · ' + esc(l.sku) + '</span>' +
+        '<span class="prow-brand">' + esc(l.brand) + '</span>' +
         '<h3>' + (l.service ? esc(l.title) : '<a href="#/p/' + esc(l.slug) + '">' + esc(l.title) + '</a>') + '</h3>' +
-        '<span class="stockline"><i class="dot"></i>Op voorraad · ' + l.warranty + ' maanden garantie</span>' +
+        '<span class="deliver">' + icon('check', 14) + 'Op voorraad, ' + l.warranty + ' maanden garantie</span>' +
+        '<span class="artnr">Artikelnummer ' + esc(l.sku) + '</span>' +
         (l.max === 1 && !l.service ? '<span class="muted" style="font-size:12.5px">Uniek exemplaar — er is er maar één van</span>' : '') +
       '</div>' +
       '<div class="li-right">' +
@@ -2697,7 +2347,7 @@ window.WK = window.WK || {};
       icon('cart', 34) +
       '<h2 style="margin:14px 0 8px">Uw winkelwagen is leeg</h2>' +
       '<p class="muted" style="margin-bottom:20px">Bekijk wat er deze week gekeurd is — de voorraad wisselt dagelijks.</p>' +
-      '<a class="btn btn-primary" href="#/c/wasmachines">Naar de wasmachines</a>' +
+      '<a class="btn btn-primary" href="#/c/wasmachines">Bekijk de wasmachines</a>' +
       '</div></div>';
   }
 
@@ -2754,7 +2404,7 @@ window.WK = window.WK || {};
       '<form class="formgrid" data-step="1">' +
         '<div class="field"><label for="vn">Voornaam</label><input id="vn" name="vn" autocomplete="given-name" required></div>' +
         '<div class="field"><label for="an">Achternaam</label><input id="an" name="an" autocomplete="family-name" required></div>' +
-        '<div class="field"><label for="pc">Postcode</label><input id="pc" name="pc" class="mono" placeholder="1234 AB" autocomplete="postal-code" required></div>' +
+        '<div class="field"><label for="pc">Postcode</label><input id="pc" name="pc" placeholder="1234 AB" autocomplete="postal-code" required></div>' +
         '<div class="field"><label for="hn">Huisnummer + toevoeging</label><input id="hn" name="hn" autocomplete="address-line2" required></div>' +
         '<div class="field full"><label for="st">Straat en woonplaats</label><input id="st" name="st" autocomplete="street-address" placeholder="Wordt automatisch aangevuld"></div>' +
         '<div class="field"><label for="em">E-mailadres</label><input id="em" name="em" type="email" autocomplete="email" required>' +
@@ -2838,7 +2488,7 @@ window.WK = window.WK || {};
         '<div class="lineitem" style="grid-template-columns:56px 1fr auto;padding:11px 0">' +
           '<div class="thumb">' + WK.appliance(l.kind === 'wrench' ? 'wasmachine' : l.kind, 44) + '</div>' +
           '<div class="li-meta"><h3 style="font-size:13.5px">' + esc(l.title) + '</h3>' +
-            '<span class="mono" style="font-size:11px;color:var(--muted)">' + esc(l.sku) + ' · ' + l.qty + '×</span></div>' +
+            '<span class="artnr">' + esc(l.sku) + ' · ' + l.qty + '×</span></div>' +
           '<span class="num" style="font-size:14px">' + euro(l.price * l.qty) + '</span>' +
         '</div>').join('') + '</div>' +
       '<ul class="sum-rows">' +
@@ -2846,7 +2496,7 @@ window.WK = window.WK || {};
         '<li><span>Bezorgen, aansluiten, afvoeren</span><span class="free">gratis</span></li>' +
       '</ul>' +
       '<div class="sum-total"><b>Totaal</b><span class="price">' + euro(t.total) + '</span></div>' +
-      '<div class="deliverybox"><span class="eyebrow">' + icon('calendar', 14) + 'Gekozen bezorgmoment</span>' +
+      '<div class="deliverybox"><b>Gekozen bezorgmoment</b>' +
         '<p class="pc-result"><b>' + d.charAt(0).toUpperCase() + d.slice(1) + '</b></p></div>' +
       '<ul class="assurances" style="border-top:1px solid var(--line);padding-top:14px">' +
         '<li>' + icon('shield', 15) + '<span>Garantie met monteur aan huis</span></li>' +
@@ -2862,7 +2512,7 @@ window.WK = window.WK || {};
     return '<div class="wrap" style="max-width:760px"><div class="done-panel" style="margin:40px 0">' +
       '<div class="tick">' + icon('check', 26) + '</div>' +
       '<h1 style="font-size:28px">Bedankt, uw bestelling staat genoteerd</h1>' +
-      '<p>Bestelnummer <b class="mono">' + esc(co.orderNr) + '</b>. U ontvangt binnen een paar minuten ' +
+      '<p>Bestelnummer <b>' + esc(co.orderNr) + '</b>. U ontvangt binnen een paar minuten ' +
         'een bevestiging per e-mail, met het keuringsrapport van uw apparaat als bijlage.</p>' +
       '<div class="panel" style="margin-top:26px;text-align:left">' +
         '<div class="panel-head"><b>Wat er nu gebeurt</b></div>' +
@@ -2914,9 +2564,9 @@ window.WK = window.WK || {};
     const s = WK.SHOP;
     return '<div class="wrap">' +
       P.crumbs([{ label: 'Home', href: '#/' }, { label: 'Showroom en service' }]) +
-      '<section class="section" style="padding-top:26px">' +
-        '<h1 style="max-width:20ch">Showroom, service en garantie</h1>' +
-        '<p class="muted" style="max-width:62ch;margin-top:14px;font-size:17px">Wij zitten sinds ' + s.since +
+      '<section class="section" style="padding-bottom:8px">' +
+        '<h1>Showroom, service en garantie</h1>' +
+        '<p class="muted" style="max-width:64ch;margin-top:10px;font-size:16px">Wij zitten sinds ' + s.since +
           ' aan de Staverenstraat in Deventer. Alles wat u online ziet staat daar fysiek, en alles wordt ' +
           'in dezelfde werkplaats gekeurd.</p>' +
       '</section>' +
@@ -3030,7 +2680,7 @@ window.WK = window.WK || {};
   /* -------------------------------------------------------------- opstarten */
 
   function boot() {
-    top.innerHTML = WK.parts.topbar() + WK.parts.header();
+    top.innerHTML = WK.parts.topstrip() + WK.parts.header();
     bottom.innerHTML = WK.parts.footer();
 
     const form = top.querySelector('[data-search]');

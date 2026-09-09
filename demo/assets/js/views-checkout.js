@@ -56,9 +56,10 @@
     return '<div class="lineitem">' +
       '<div class="thumb">' + WK.appliance(l.kind === 'wrench' ? 'wasmachine' : l.kind, 80) + '</div>' +
       '<div class="li-meta">' +
-        '<span class="card-brand">' + esc(l.brand) + ' · ' + esc(l.sku) + '</span>' +
+        '<span class="prow-brand">' + esc(l.brand) + '</span>' +
         '<h3>' + (l.service ? esc(l.title) : '<a href="#/p/' + esc(l.slug) + '">' + esc(l.title) + '</a>') + '</h3>' +
-        '<span class="stockline"><i class="dot"></i>Op voorraad · ' + l.warranty + ' maanden garantie</span>' +
+        '<span class="deliver">' + icon('check', 14) + 'Op voorraad, ' + l.warranty + ' maanden garantie</span>' +
+        '<span class="artnr">Artikelnummer ' + esc(l.sku) + '</span>' +
         (l.max === 1 && !l.service ? '<span class="muted" style="font-size:12.5px">Uniek exemplaar — er is er maar één van</span>' : '') +
       '</div>' +
       '<div class="li-right">' +
@@ -85,7 +86,7 @@
       icon('cart', 34) +
       '<h2 style="margin:14px 0 8px">Uw winkelwagen is leeg</h2>' +
       '<p class="muted" style="margin-bottom:20px">Bekijk wat er deze week gekeurd is — de voorraad wisselt dagelijks.</p>' +
-      '<a class="btn btn-primary" href="#/c/wasmachines">Naar de wasmachines</a>' +
+      '<a class="btn btn-primary" href="#/c/wasmachines">Bekijk de wasmachines</a>' +
       '</div></div>';
   }
 
@@ -142,7 +143,7 @@
       '<form class="formgrid" data-step="1">' +
         '<div class="field"><label for="vn">Voornaam</label><input id="vn" name="vn" autocomplete="given-name" required></div>' +
         '<div class="field"><label for="an">Achternaam</label><input id="an" name="an" autocomplete="family-name" required></div>' +
-        '<div class="field"><label for="pc">Postcode</label><input id="pc" name="pc" class="mono" placeholder="1234 AB" autocomplete="postal-code" required></div>' +
+        '<div class="field"><label for="pc">Postcode</label><input id="pc" name="pc" placeholder="1234 AB" autocomplete="postal-code" required></div>' +
         '<div class="field"><label for="hn">Huisnummer + toevoeging</label><input id="hn" name="hn" autocomplete="address-line2" required></div>' +
         '<div class="field full"><label for="st">Straat en woonplaats</label><input id="st" name="st" autocomplete="street-address" placeholder="Wordt automatisch aangevuld"></div>' +
         '<div class="field"><label for="em">E-mailadres</label><input id="em" name="em" type="email" autocomplete="email" required>' +
@@ -226,7 +227,7 @@
         '<div class="lineitem" style="grid-template-columns:56px 1fr auto;padding:11px 0">' +
           '<div class="thumb">' + WK.appliance(l.kind === 'wrench' ? 'wasmachine' : l.kind, 44) + '</div>' +
           '<div class="li-meta"><h3 style="font-size:13.5px">' + esc(l.title) + '</h3>' +
-            '<span class="mono" style="font-size:11px;color:var(--muted)">' + esc(l.sku) + ' · ' + l.qty + '×</span></div>' +
+            '<span class="artnr">' + esc(l.sku) + ' · ' + l.qty + '×</span></div>' +
           '<span class="num" style="font-size:14px">' + euro(l.price * l.qty) + '</span>' +
         '</div>').join('') + '</div>' +
       '<ul class="sum-rows">' +
@@ -234,7 +235,7 @@
         '<li><span>Bezorgen, aansluiten, afvoeren</span><span class="free">gratis</span></li>' +
       '</ul>' +
       '<div class="sum-total"><b>Totaal</b><span class="price">' + euro(t.total) + '</span></div>' +
-      '<div class="deliverybox"><span class="eyebrow">' + icon('calendar', 14) + 'Gekozen bezorgmoment</span>' +
+      '<div class="deliverybox"><b>Gekozen bezorgmoment</b>' +
         '<p class="pc-result"><b>' + d.charAt(0).toUpperCase() + d.slice(1) + '</b></p></div>' +
       '<ul class="assurances" style="border-top:1px solid var(--line);padding-top:14px">' +
         '<li>' + icon('shield', 15) + '<span>Garantie met monteur aan huis</span></li>' +
@@ -250,7 +251,7 @@
     return '<div class="wrap" style="max-width:760px"><div class="done-panel" style="margin:40px 0">' +
       '<div class="tick">' + icon('check', 26) + '</div>' +
       '<h1 style="font-size:28px">Bedankt, uw bestelling staat genoteerd</h1>' +
-      '<p>Bestelnummer <b class="mono">' + esc(co.orderNr) + '</b>. U ontvangt binnen een paar minuten ' +
+      '<p>Bestelnummer <b>' + esc(co.orderNr) + '</b>. U ontvangt binnen een paar minuten ' +
         'een bevestiging per e-mail, met het keuringsrapport van uw apparaat als bijlage.</p>' +
       '<div class="panel" style="margin-top:26px;text-align:left">' +
         '<div class="panel-head"><b>Wat er nu gebeurt</b></div>' +
@@ -302,9 +303,9 @@
     const s = WK.SHOP;
     return '<div class="wrap">' +
       P.crumbs([{ label: 'Home', href: '#/' }, { label: 'Showroom en service' }]) +
-      '<section class="section" style="padding-top:26px">' +
-        '<h1 style="max-width:20ch">Showroom, service en garantie</h1>' +
-        '<p class="muted" style="max-width:62ch;margin-top:14px;font-size:17px">Wij zitten sinds ' + s.since +
+      '<section class="section" style="padding-bottom:8px">' +
+        '<h1>Showroom, service en garantie</h1>' +
+        '<p class="muted" style="max-width:64ch;margin-top:10px;font-size:16px">Wij zitten sinds ' + s.since +
           ' aan de Staverenstraat in Deventer. Alles wat u online ziet staat daar fysiek, en alles wordt ' +
           'in dezelfde werkplaats gekeurd.</p>' +
       '</section>' +

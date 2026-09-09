@@ -59,7 +59,7 @@ window.WK = window.WK || {};
   function applyFilters(list, f) {
     f = f || {};
     return list.filter(p => {
-      if (f.category && p.cat !== f.category) return false;
+      if (f.category && !WK.inCategory(p, f.category)) return false;
       if (f.brands && f.brands.length && f.brands.indexOf(p.brand) === -1) return false;
       if (f.conds && f.conds.length && f.conds.indexOf(p.cond) === -1) return false;
       if (f.minWarranty && p.warranty < f.minWarranty) return false;
@@ -91,7 +91,7 @@ window.WK = window.WK || {};
   /* ------------------------------------------------------- shopifyadapter -- */
 
   const SHOPIFY_PRODUCT_FIELDS = `
-    id handle title vendor productType availableForSale description
+    id handle title vendor productType availableForSale description tags
     featuredImage { url altText }
     images(first: 8) { nodes { url altText } }
     priceRange { minVariantPrice { amount } }
@@ -144,6 +144,8 @@ window.WK = window.WK || {};
         model: '',
         cat: slugFromType(n.productType),
         kind: kindFromType(n.productType),
+        /* Outlet is in Shopify een tag, niet een producttype. */
+        outlet: (n.tags || []).indexOf('outlet') > -1,
         price,
         compareAt: compare > price ? compare : 0,
         cond: norm(n.conditie && n.conditie.value) || 'Refurbished A',
@@ -185,7 +187,9 @@ window.WK = window.WK || {};
       async listProducts(f) {
         f = f || {};
         const terms = [];
-        if (f.category) {
+        if (f.category === 'outlet') {
+          terms.push('tag:outlet');
+        } else if (f.category) {
           const c = WK.CATEGORIES.find(x => x.slug === f.category);
           if (c) terms.push('product_type:"' + c.label + '"');
         }
@@ -281,8 +285,10 @@ window.WK = window.WK || {};
         title: p.name,
         brand: e.merk || attr(p, 'merk') || '',
         model: e.model || attr(p, 'model') || '',
-        cat: known ? known.slug : 'overig',
+        cat: known ? known.slug : 'wasmachines',
         kind: known ? known.kind : 'wasmachine',
+        /* In WooCommerce is outlet een extra productcategorie naast de hoofdcategorie. */
+        outlet: (p.categories || []).some(c => c.slug === 'outlet'),
         price,
         compareAt: regular > price ? regular : 0,
         cond: e.conditie || attr(p, 'conditie') || 'Refurbished A',

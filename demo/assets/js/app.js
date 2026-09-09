@@ -91,7 +91,7 @@
   /* -------------------------------------------------------------- opstarten */
 
   function boot() {
-    top.innerHTML = WK.parts.topbar() + WK.parts.header();
+    top.innerHTML = WK.parts.topstrip() + WK.parts.header();
     bottom.innerHTML = WK.parts.footer();
 
     const form = top.querySelector('[data-search]');

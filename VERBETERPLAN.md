@@ -38,7 +38,7 @@ verder iets aan de opbouw verandert.
 | Adres | Staverenstraat 9c, 7418 CJ Deventer — showroom met circa 200 apparaten |
 | Propositie | Tweedehands en refurbished witgoed van A-merken |
 | Merken | Miele, Bosch, Siemens, AEG, Samsung, Liebherr, Zanussi |
-| Categorieën | Wasmachines, wasdrogers (warmtepomp/condens), vaatwassers, koelkasten, overig |
+| Categorieën | Wasmachines, wasdrogers (warmtepomp en condens), vaatwassers, plus een outletselectie |
 | Prijzen | Wasmachines vanaf circa €229 |
 | Garantie | 6 maanden standaard |
 | Levering | Gratis bezorgen, aansluiten en oud apparaat mee — heel Nederland, 1–5 werkdagen |
@@ -63,9 +63,13 @@ het aanbod, het is de presentatie.
 4. **De unieke aard van het product wordt niet benoemd.** Elk tweedehands apparaat is één
    exemplaar met een eigen geschiedenis. Dat is precies waar de koper bang voor is — en
    precies waar de winst zit als je het omdraait.
-5. **De showroom is een verstopte troef.** Een fysiek adres met 200 apparaten is voor een
+5. **De showroom is een verstopte troef.** Een fysiek adres met 150 apparaten is voor een
    tweedehandshandelaar het sterkste vertrouwenssignaal dat er is. Nu staat het op
    `/contact/`.
+6. **Het assortiment is smaller dan de navigatie suggereert.** Er staan losse pagina's voor
+   koelkasten, fornuizen en afzuigkappen waar nauwelijks voorraad achter zit. Dat kost
+   vertrouwen: wie op "koelkasten" klikt en drie apparaten vindt, gelooft de rest ook minder.
+   Beter drie categorieën die vol staan dan zes die half leeg zijn.
 
 ---
 
@@ -79,6 +83,21 @@ het aanbod, het is de presentatie.
 | **WGS Witgoed** | tot 6 mnd | Landelijk | **Eigen artikelnummer per machine** — expliciet gecommuniceerd | Verder generieke presentatie |
 | **Welhof / Witgoedoutlet** | Fabrieksgarantie | Landelijk | Nieuw met transportschade, niet tweedehands | Ander segment, hogere prijzen |
 | **Coolblue** (benchmark, nieuw) | 2 jaar+ | Morgen in huis | Specialistreview met foto; voorraadstatus per winkel; expliciete bezorgbelofte | Speelt niet in tweedehands |
+
+### Assortiment: drie categorieën en een outlet
+
+De navigatie toont wat er werkelijk is: **wasmachines, wasdrogers en vaatwassers**. Daarnaast
+één **outlet** — geen aparte voorraad, maar een dwarsdoorsnede van apparaten met een deuk, een
+kras of een verkleurd paneel, die daarom extra afgeprijsd zijn.
+
+Waarom outlet als vierde ingang werkt:
+
+- Het **vangt de prijszoeker** die anders bij de goedkoopste concurrent uitkomt, zonder dat de
+  rest van het assortiment op prijs hoeft te concurreren.
+- Het **verkoopt de B-voorraad** die anders blijft staan. Met een foto van de kras erbij is
+  "beschadigd" een korting in plaats van een bezwaar.
+- Het is **eerlijk**, en dat past bij het keuringsrapport: u vertelt wat eraan mankeert
+  voordat de klant het zelf ontdekt.
 
 ### Wat dit oplevert
 
@@ -120,6 +139,30 @@ mee.
 
 ---
 
+## 3b. Vormgeving: de conventies van de branche volgen
+
+Een webshop hoort er niet origineel uit te zien. Hij hoort eruit te zien als een webshop.
+Bezoekers scannen op patronen die zij van Coolblue, Welhof en Bol kennen — en alles wat van
+dat patroon afwijkt kost een halve seconde nadenken, en soms de bestelling.
+
+Daarom volgt het ontwerp de Nederlandse retail-conventies, niet een eigen vormtaal:
+
+| Element | Keuze | Waarom |
+|---|---|---|
+| Koptekstbalk | Vlakke donkerblauwe balk met logo, brede zoekbalk en winkelwagen rechts | Het patroon dat elke Nederlandse webshop gebruikt; bezoekers hoeven niet te zoeken |
+| Bestelknoppen | Oranje, altijd op dezelfde plek | Oranje is in NL de conventie voor "bestellen"; blauw leest als een link, groen als een bevestiging |
+| Categoriepagina | **Lijstweergave**, niet een tegelraster | Coolblue's opzet: foto links, opsommingstekens in het midden, prijs en knop rechts. Meer informatie per apparaat zichtbaar zonder door te klikken — juist bij tweedehands, waar elk exemplaar anders is |
+| Bezorgbelofte | Groene regel met datum bij elk apparaat | Standaard in NL e-commerce; concrete datum wint van "1–5 werkdagen" |
+| Sterren | Bij elk apparaat, met het aantal beoordelingen | 82% van de shoppers leest reviews vóór aankoop |
+| Typografie | Eén schreefloze letter (Source Sans 3), verschil door grootte en gewicht | Twee opvallende letters maken van een winkel een portfoliostuk |
+| Kleurgebruik | Blauw voor het merk, oranje voor actie, groen voor zekerheid, verder grijs en wit | Kleur betekent iets; decoratieve accenten leiden af van de knop |
+
+Wat er bewust **niet** in zit: paginavullende sfeerbeelden, uitvergrote koppen, siercijfers bij
+processtappen, en decoratieve accentkleuren. Dat zijn kenmerken van een portfoliosite, niet van
+een winkel waar iemand met een kapotte wasmachine binnen twee minuten wil bestellen.
+
+---
+
 ## 4. Verbeterplan per paginatype
 
 ### 4.1 Homepage
@@ -139,7 +182,8 @@ mee.
 ### 4.2 Categoriepagina
 
 - **Eén structuur.** `/c/<categorie>` vervangt zowel `/wasmachine/` als
-  `/product-categorie/…`. Oude URL's 301-redirecten.
+  `/product-categorie/…`. Oude URL's 301-redirecten. Vier ingangen: wasmachines,
+  wasdrogers, vaatwassers, outlet. Pagina's voor categorieën zonder voorraad verdwijnen.
 - **Filters die bij tweedehands horen:** merk, staat (Nieuwstaat / Refurbished A /
   Refurbished B), minimale garantie, prijs. Met aantallen per optie, zodat niemand op nul
   resultaten uitkomt.
@@ -206,6 +250,7 @@ Score 1–10 per as, ICE = (Impact × Vertrouwen × Gemak) / 10.
 | Ingreep | Impact | Vertrouwen | Gemak | ICE | Wanneer |
 |---|---|---|---|---|---|
 | Kosten expliciet op nul in winkelwagen en checkout | 9 | 9 | 9 | **72,9** | Week 1 |
+| Navigatie terug naar drie categorieën plus outlet | 7 | 8 | 9 | **50,4** | Week 1 |
 | Betaalmix uitbreiden (pin bij levering, Klarna, in3) | 8 | 8 | 8 | **51,2** | Week 1 |
 | Kiyoh-score in hero en header | 7 | 9 | 8 | **50,4** | Week 1 |
 | Paginatitels per pagina uniek maken | 6 | 9 | 9 | **48,6** | Week 1 |
@@ -276,7 +321,8 @@ werkende Shopify-adapter, zodat de keuze open blijft.
 Alles hieronder is ingevuld om het ontwerp te kunnen tonen en moet vervangen worden door
 echte gegevens:
 
-- **25 producten** met verzonnen artikelnummers, prijzen, draaiuren en keuringsrapporten
+- **17 producten** (8 wasmachines, 5 drogers, 4 vaatwassers, waarvan 5 in de outlet) met
+  verzonnen artikelnummers, prijzen, draaiuren en keuringsrapporten
 - **Klantreviews** — geschreven naar het patroon van de echte Kiyoh-reviews, maar niet echt
 - **KvK- en btw-nummer** staan op nullen
 - **Openingstijden** zijn aangenomen

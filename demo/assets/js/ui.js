@@ -64,9 +64,9 @@ window.WK = window.WK || {};
   /* Vervang deze door echte productfoto's zodra de catalogus gekoppeld is;
      de PDP verwacht per artikel foto's van dát exemplaar. */
 
-  const BODY = 'fill="var(--surface)" stroke="var(--ink)" stroke-width="2.2"';
+  const BODY = 'fill="var(--bg)" stroke="var(--brand)" stroke-width="2.2"';
   const SOFT = 'stroke="var(--line)" stroke-width="1.6" fill="none"';
-  const GLASS = 'fill="var(--surface-2)" stroke="var(--ink)" stroke-width="2"';
+  const GLASS = 'fill="var(--band)" stroke="var(--brand)" stroke-width="2"';
 
   const SHAPES = {
     wasmachine:
@@ -74,52 +74,24 @@ window.WK = window.WK || {};
       '<path d="M26 44h108" ' + SOFT + '/>' +
       '<circle cx="80" cy="95" r="36" ' + GLASS + '/>' +
       '<circle cx="80" cy="95" r="25" ' + SOFT + '/>' +
-      '<circle cx="118" cy="31" r="7" fill="none" stroke="var(--copper)" stroke-width="2.2"/>' +
-      '<path d="M118 27v4" stroke="var(--copper)" stroke-width="2.2" stroke-linecap="round"/>' +
-      '<rect x="40" y="27" width="34" height="8" rx="4" fill="var(--line-soft)"/>',
+      '<circle cx="118" cy="31" r="7" fill="none" stroke="var(--cta)" stroke-width="2.2"/>' +
+      '<path d="M118 27v4" stroke="var(--cta)" stroke-width="2.2" stroke-linecap="round"/>' +
+      '<rect x="40" y="27" width="34" height="8" rx="4" fill="var(--line-2)"/>',
     wasdroger:
       '<rect x="26" y="18" width="108" height="124" rx="9" ' + BODY + '/>' +
       '<path d="M26 44h108" ' + SOFT + '/>' +
       '<circle cx="80" cy="95" r="36" ' + GLASS + '/>' +
-      '<path d="M69 88q5.5-7 11 0t11 0M69 102q5.5-7 11 0t11 0" stroke="var(--copper)" stroke-width="2" fill="none" stroke-linecap="round"/>' +
-      '<circle cx="118" cy="31" r="7" fill="none" stroke="var(--copper)" stroke-width="2.2"/>' +
-      '<rect x="40" y="27" width="34" height="8" rx="4" fill="var(--line-soft)"/>',
+      '<path d="M69 88q5.5-7 11 0t11 0M69 102q5.5-7 11 0t11 0" stroke="var(--cta)" stroke-width="2" fill="none" stroke-linecap="round"/>' +
+      '<circle cx="118" cy="31" r="7" fill="none" stroke="var(--cta)" stroke-width="2.2"/>' +
+      '<rect x="40" y="27" width="34" height="8" rx="4" fill="var(--line-2)"/>',
     vaatwasser:
       '<rect x="30" y="14" width="100" height="132" rx="8" ' + BODY + '/>' +
       '<path d="M30 40h100" ' + SOFT + '/>' +
-      '<rect x="44" y="23" width="46" height="8" rx="4" fill="var(--line-soft)"/>' +
-      '<circle cx="112" cy="27" r="4.5" fill="var(--copper)"/>' +
+      '<rect x="44" y="23" width="46" height="8" rx="4" fill="var(--line-2)"/>' +
+      '<circle cx="112" cy="27" r="4.5" fill="var(--cta)"/>' +
       '<rect x="44" y="54" width="72" height="76" rx="5" ' + GLASS + '/>' +
       '<path d="M44 78h72M44 102h72" ' + SOFT + '/>' +
-      '<path d="M58 66h14M58 90h20M58 114h11" stroke="var(--line)" stroke-width="2.4" stroke-linecap="round"/>',
-    koelkast:
-      '<rect x="34" y="10" width="92" height="140" rx="8" ' + BODY + '/>' +
-      '<path d="M34 62h92" stroke="var(--ink)" stroke-width="2.2"/>' +
-      '<path d="M112 26v22M112 76v26" stroke="var(--ink)" stroke-width="3.4" stroke-linecap="round"/>' +
-      '<path d="M48 80h30M48 94h20" ' + SOFT + '/>' +
-      '<rect x="48" y="24" width="26" height="6" rx="3" fill="var(--line-soft)"/>' +
-      '<path d="M52 116h44" stroke="var(--copper)" stroke-width="2.2" stroke-linecap="round"/>',
-    fornuis:
-      '<rect x="24" y="42" width="112" height="106" rx="8" ' + BODY + '/>' +
-      '<rect x="24" y="24" width="112" height="18" rx="6" fill="var(--surface-2)" stroke="var(--ink)" stroke-width="2.2"/>' +
-      '<circle cx="50" cy="33" r="5" fill="none" stroke="var(--copper)" stroke-width="2"/>' +
-      '<circle cx="70" cy="33" r="5" fill="none" stroke="var(--copper)" stroke-width="2"/>' +
-      '<circle cx="90" cy="33" r="5" fill="none" stroke="var(--line)" stroke-width="2"/>' +
-      '<circle cx="110" cy="33" r="5" fill="none" stroke="var(--line)" stroke-width="2"/>' +
-      '<rect x="38" y="62" width="84" height="66" rx="5" ' + GLASS + '/>' +
-      '<path d="M38 56h84" stroke="var(--ink)" stroke-width="3.2" stroke-linecap="round"/>' +
-      '<path d="M52 92h56" ' + SOFT + '/>',
-    magnetron:
-      '<rect x="14" y="46" width="132" height="76" rx="8" ' + BODY + '/>' +
-      '<rect x="26" y="58" width="82" height="52" rx="5" ' + GLASS + '/>' +
-      '<path d="M118 60h16M118 72h16M118 84h16" stroke="var(--line)" stroke-width="2.4" stroke-linecap="round"/>' +
-      '<circle cx="126" cy="102" r="6" fill="none" stroke="var(--copper)" stroke-width="2"/>' +
-      '<circle cx="67" cy="84" r="15" ' + SOFT + '/>',
-    vriezer:
-      '<rect x="34" y="12" width="92" height="138" rx="8" ' + BODY + '/>' +
-      '<path d="M34 52h92M34 88h92M34 122h92" stroke="var(--ink)" stroke-width="2.2"/>' +
-      '<path d="M66 34h28M66 70h28M66 105h28M66 136h28" stroke="var(--line)" stroke-width="3.4" stroke-linecap="round"/>' +
-      '<path d="M80 20v-8M76 16l4 4 4-4" stroke="var(--copper)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>'
+      '<path d="M58 66h14M58 90h20M58 114h11" stroke="var(--line)" stroke-width="2.4" stroke-linecap="round"/>'
   };
 
   WK.appliance = function (kind, size) {
@@ -136,10 +108,11 @@ window.WK = window.WK || {};
   WK.logo = function (size) {
     const s = size || 36;
     return '<svg width="' + s + '" height="' + s + '" viewBox="0 0 40 40" fill="none" role="img" aria-label="Witgoed Koning">' +
-      '<rect x="2" y="9" width="36" height="29" rx="6" fill="var(--ink)"/>' +
-      '<circle cx="20" cy="24.5" r="9.5" fill="none" stroke="var(--brass)" stroke-width="2.2"/>' +
-      '<circle cx="20" cy="24.5" r="4.2" fill="none" stroke="var(--brass)" stroke-width="1.4" opacity=".55"/>' +
-      '<path d="M8.5 6.5 12 10l4-6 4 6 4-6 4 6 3.5-3.5V10h-23z" fill="var(--brass)"/>' +
+      '<path d="M7 4.5 11 8.6 15.5 1.8 20 8.6 24.5 1.8 29 8.6 33 4.5V11H7z" fill="#E8A33D"/>' +
+      '<rect x="4" y="12" width="32" height="25" rx="4" fill="#fff"/>' +
+      '<circle cx="20" cy="24.5" r="8.4" fill="none" stroke="#123A63" stroke-width="2.4"/>' +
+      '<circle cx="20" cy="24.5" r="3.4" fill="none" stroke="#123A63" stroke-width="1.3" opacity=".45"/>' +
+      '<rect x="7.5" y="15" width="8" height="2.6" rx="1.3" fill="#123A63" opacity=".3"/>' +
       '</svg>';
   };
 
@@ -163,6 +136,10 @@ window.WK = window.WK || {};
   WK.formatDate = function (d, withYear) {
     return DAYS[d.getDay()] + ' ' + d.getDate() + ' ' + MONTHS[d.getMonth()] + (withYear ? ' ' + d.getFullYear() : '');
   };
+
+  const DAYS_S = ['zo', 'ma', 'di', 'wo', 'do', 'vr', 'za'];
+  const MONTHS_S = ['jan', 'feb', 'mrt', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec'];
+  WK.shortDate = (d) => DAYS_S[d.getDay()] + ' ' + d.getDate() + ' ' + MONTHS_S[d.getMonth()];
 
   WK.validPostcode = (v) => /^\s*[1-9][0-9]{3}\s?[a-zA-Z]{2}\s*$/.test(v || '');
 
