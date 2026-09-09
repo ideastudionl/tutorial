@@ -143,11 +143,10 @@ var NAV = [
   {href:'collectie.html?cat=wandtegels',  label:'Wandtegels'},
   {href:'collectie.html?look=houtlook',   label:'Houtlook'},
   {href:'collectie.html?look=marmerlook', label:'Marmerlook'},
-  {href:'collectie.html?look=betonlook',  label:'Betonlook'},
-  {href:'collectie.html?cat=buitentegels',label:'Buiten & tuin'},
+  {href:'collectie.html?cat=buitentegels',label:'Buiten'},
   {href:'collectie.html?cat=toebehoren',  label:'Lijm & voeg'},
   {href:'inspiratie.html',                label:'Inspiratie'},
-  {href:'showroom.html',                  label:'Showroom & advies', accent:true}
+  {href:'showroom.html',                  label:'Showroom'}
 ];
 
 TL.renderChrome = function(active){
@@ -155,12 +154,13 @@ TL.renderChrome = function(active){
   head.innerHTML =
   '<div class="topbar"><div class="wrap">'+
     '<ul class="topbar-usps">'+
-      '<li>'+I('check',15)+' Gratis stalen thuisbezorgd</li>'+
-      '<li>'+I('check',15)+' Persoonlijk advies uit de showroom</li>'+
-      '<li>'+I('check',15)+' Gratis bezorgd vanaf '+euro(SHOP.gratisVerzendVanaf)+'</li>'+
-      '<li>'+I('check',15)+' Afhalen in Heeten mogelijk</li>'+
+      '<li>'+I('check',14)+' Gratis stalen thuisbezorgd</li>'+
+      '<li>'+I('check',14)+' Showroom in Heeten, op afspraak</li>'+
     '</ul>'+
-    '<div class="topbar-right"><span>'+stars(4.9)+' <b>4,9</b> op Google</span><a href="tel:+'+SHOP.telRaw+'">'+SHOP.tel+'</a></div>'+
+    '<div class="topbar-right">'+
+      '<span class="demo-chip">Demo &mdash; fictieve prijzen</span>'+
+      '<a href="tel:+'+SHOP.telRaw+'">'+SHOP.tel+'</a>'+
+    '</div>'+
   '</div></div>'+
   '<header class="site-header"><div class="wrap">'+
     '<div class="header-main">'+
@@ -176,7 +176,7 @@ TL.renderChrome = function(active){
         return '<li><a href="'+n.href+'" class="'+(n.accent?'nav-accent ':'')+(active===n.label?'is-active':'')+'">'+n.label+'</a></li>';
       }).join('') +'</ul></nav>'+
   '</div></header>'+
-  '<div class="demo-note"><div class="wrap">'+I('info',16)+'<span>Demo-omgeving — voorbeeldshop voor Tegelloods BV. Prijzen, voorraad en bestellingen zijn fictief.</span></div></div>';
+  '';
   document.body.insertBefore(head, document.body.firstChild);
 
   var foot = document.createElement('div');
@@ -194,12 +194,11 @@ TL.renderChrome = function(active){
         '<li><a href="index.html#kennis">Legadvies &amp; onderhoud</a></li>'+
         '<li><a href="index.html#verzenden">Verzenden &amp; afhalen</a></li>'+
       '</ul></div>'+
-      '<div><h4>Zeker weten waar je koopt</h4><ul>'+
-        '<li>'+I('shield',16)+' 2 jaar productgarantie</li>'+
-        '<li>'+I('check',16)+' Uitsluitend 1e sortering</li>'+
-        '<li>'+I('truck',16)+' Gratis bezorgd vanaf '+euro(SHOP.gratisVerzendVanaf)+'</li>'+
-        '<li>'+I('box',16)+' Restdozen retour binnen 30 dagen</li>'+
-        '<li>'+I('star',16)+' 4,9 gemiddeld uit 180+ reviews</li>'+
+      '<div><h4>Goed om te weten</h4><ul>'+
+        '<li>'+I('check',15)+'<span>Uitsluitend 1e sortering</span></li>'+
+        '<li>'+I('truck',15)+'<span>Gratis bezorgd vanaf '+euro(SHOP.gratisVerzendVanaf)+'</span></li>'+
+        '<li>'+I('box',15)+'<span>Restdozen retour binnen 30 dagen</span></li>'+
+        '<li>'+I('star',15)+'<span>4,9 gemiddeld uit 180+ reviews</span></li>'+
       '</ul></div>'+
     '</div>'+
     '<div class="footer-bottom"><span>© '+ new Date().getFullYear() +' Tegelloods BV · KvK 00000000 · Alle prijzen incl. 21% btw</span><span>Demo — ontwerp voor Shopify</span></div>'+
@@ -219,17 +218,13 @@ function renderFabs(){
   var d = document.createElement('div');
   d.className = 'fab-stack';
   d.innerHTML =
-    '<button class="fab fab-appt" data-open="showroom" aria-label="Plan een showroomafspraak">'+
-      '<svg class="fab-curve" viewBox="0 0 104 104" aria-hidden="true">'+
-        '<defs><path id="fabCircle" d="M52,52 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0"/></defs>'+
-        '<text><textPath href="#fabCircle" startOffset="50%" text-anchor="middle">PLAN JE AFSPRAAK ·</textPath></text>'+
-      '</svg>'+
-      '<span class="fab-icon">'+I('calendar',28)+'</span>'+
+    '<button class="fab fab-appt" data-open="showroom" aria-label="Showroombezoek plannen">'+
+      I('calendar',21)+
       '<span class="fab-count hidden" data-count="showroom">0</span>'+
       '<span class="fab-tip">Showroombezoek plannen</span>'+
     '</button>'+
     '<a class="fab fab-wa" href="'+wa+'" target="_blank" rel="noopener" aria-label="Stel je vraag via WhatsApp">'+
-      I('whatsapp',30)+'<span class="fab-tip">Vraag of offerte via WhatsApp</span></a>';
+      I('whatsapp',22)+'<span class="fab-tip">Vraag of offerte via WhatsApp</span></a>';
   document.body.appendChild(d);
 }
 
@@ -289,8 +284,8 @@ function renderDrawer(kind){
       }).join('');
       foot.innerHTML =
         '<div style="display:flex;justify-content:space-between"><span>Subtotaal'+(m2?' ('+num(m2)+' m²)':'')+'</span><b>'+euro(sub)+'</b></div>'+
-        '<div style="display:flex;justify-content:space-between;font-size:.9rem;color:var(--text-2);margin:.3rem 0 .1rem"><span>Bezorging</span><span>'+(verzend?euro(verzend):'Gratis')+'</span></div>'+
-        (verzend? '<div class="small" style="color:var(--clay-600);margin-bottom:.6rem">Nog '+euro(SHOP.gratisVerzendVanaf-sub)+' tot gratis bezorging</div>' : '')+
+        '<div style="display:flex;justify-content:space-between;font-size:.9rem;color:var(--ink-2);margin:.3rem 0 .1rem"><span>Bezorging</span><span>'+(verzend?euro(verzend):'Gratis')+'</span></div>'+
+        (verzend? '<div class="small" style="color:var(--clay);margin-bottom:.6rem">Nog '+euro(SHOP.gratisVerzendVanaf-sub)+' tot gratis bezorging</div>' : '')+
         '<div style="display:flex;justify-content:space-between;font-size:1.15rem;margin:.5rem 0 .9rem"><b>Totaal</b><b>'+euro(sub+verzend)+'</b></div>'+
         '<a class="btn btn-primary btn-block btn-lg" href="winkelwagen.html">Naar afrekenen</a>'+
         '<p class="small muted center" style="margin:.7rem 0 0">Twijfel je nog over de kleur? '+
@@ -334,24 +329,28 @@ function renderDrawer(kind){
 TL.productCard = function(p){
   var m = p.maten[0], k = p.kleuren[0];
   var korting = m.oud ? Math.round((1 - m.prijs/m.oud)*100) : 0;
-  var extraBadges = (p.badge||[]).filter(function(b){ return b.indexOf('%')<0 && !(p.nieuw && b==='Nieuw'); });
+
+  /* Eén badge per kaart. Korting wint, dan nieuw, dan de eerste eigen badge. */
+  var badge = '';
+  if(korting)        badge = '<span class="badge badge-sale">-'+korting+'%</span>';
+  else if(p.nieuw)   badge = '<span class="badge badge-new">Nieuw</span>';
+  else {
+    var eigen = (p.badge||[]).filter(function(b){ return b.indexOf('%')<0; })[0];
+    if(eigen) badge = '<span class="badge badge-navy">'+eigen+'</span>';
+  }
+
   return '<article class="product-card"><div class="pc-media-wrap">'+
-    '<a class="pc-media" href="product.html?id='+p.id+'" style="background-image:'+k.tex+'">'+
-      '<span class="pc-badges">'+
-        (korting?'<span class="badge badge-sale">-'+korting+'%</span>':'')+
-        (p.nieuw?'<span class="badge badge-new">Nieuw</span>':'')+
-        extraBadges.slice(0,1).map(function(b){ return '<span class="badge badge-navy">'+b+'</span>'; }).join('')+
-      '</span>'+
-    '</a>'+
-    '<button class="pc-sample" data-sample="'+p.id+'">'+I('swatch',14)+' Gratis staal</button></div>'+
-    '<div class="pc-body">'+
-      '<div class="pc-meta">'+p.merk+' · '+p.look+'</div>'+
-      '<a class="pc-title" href="product.html?id='+p.id+'">'+esc(p.naam)+'</a>'+
-      '<div class="pc-specs">'+p.maten.map(function(x){return x.maat;}).join(' · ')+'</div>'+
-      '<div class="pc-price"><span class="now">'+euro(m.prijs)+'</span><span class="unit">'+(p.perStuk?'per '+p.eenheid:'per m²')+'</span>'+
-        (m.oud?'<span class="was">'+euro(m.oud)+'</span>':'')+'</div>'+
-      '<div class="pc-foot">'+ stars(p.rating) +'<span class="badge badge-stock">'+(p.voorraad==='op voorraad'?'Op voorraad':'Op bestelling')+'</span></div>'+
-    '</div>'+
+    '<a class="pc-media" href="product.html?id='+p.id+'" style="background-image:'+k.tex+'" aria-label="'+esc(p.naam)+'"></a>'+
+    (badge?'<span class="pc-badges">'+badge+'</span>':'')+
+    '<button class="pc-sample" data-sample="'+p.id+'">'+I('swatch',13)+' Gratis staal</button>'+
+  '</div>'+
+    '<div class="pc-meta">'+esc(p.merk)+'</div>'+
+    '<a class="pc-title" href="product.html?id='+p.id+'">'+esc(p.naam)+'</a>'+
+    '<div class="pc-specs">'+p.maten.map(function(x){return x.maat;}).join(' · ')+'</div>'+
+    '<div class="pc-price"><span class="now">'+euro(m.prijs)+'</span><span class="unit">'+(p.perStuk?'per '+p.eenheid:'per m²')+'</span>'+
+      (m.oud?'<span class="was">'+euro(m.oud)+'</span>':'')+'</div>'+
+    '<div class="pc-foot">'+ stars(p.rating) +
+      '<span class="badge badge-stock">'+(p.voorraad==='op voorraad'?'Direct leverbaar':'Op bestelling')+'</span></div>'+
   '</article>';
 };
 TL.bindCards = function(root){

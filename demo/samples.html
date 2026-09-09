@@ -6,7 +6,7 @@
 <title>Gratis stalen bestellen — Tegelloods BV</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -100,7 +100,7 @@
     e.preventDefault();
     if(!TL.state.samples.length){ TL.toast('Kies eerst minimaal één staal.'); return; }
     document.getElementById('done').innerHTML =
-      '<div class="panel" style="margin-top:1rem;background:var(--green-bg);border-color:#bfe3d1">'+
+      '<div class="panel" style="margin-top:1rem;background:var(--green-soft);border-color:#bfe3d1">'+
       '<h3 style="margin-bottom:.3em">Onderweg (demo)</h3><p class="small" style="margin:0">'+
       TL.state.samples.length+' staal/stalen gaan gratis naar je toe. Je krijgt een mailtje met track & trace.</p></div>';
     TL.toast('Stalen aangevraagd — gratis onderweg.');

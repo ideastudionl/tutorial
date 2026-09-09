@@ -6,7 +6,7 @@
 <title>Showroombezoek plannen — Tegelloods BV</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -127,7 +127,7 @@
     if(!gekozen){ TL.toast('Kies eerst een tijdslot.'); return; }
     var lijst = TL.state.showroom.length;
     document.getElementById('apptDone').innerHTML =
-      '<div class="panel" style="margin-top:1rem;background:var(--green-bg);border-color:#bfe3d1">'+
+      '<div class="panel" style="margin-top:1rem;background:var(--green-soft);border-color:#bfe3d1">'+
       '<h3 style="margin-bottom:.3em">Aanvraag verstuurd (demo)</h3>'+
       '<p class="small" style="margin:0">We zien je op <b>'+document.getElementById('datum').value+' om '+gekozen+'</b>. '+
       (lijst? 'De <b>'+lijst+' tegel'+(lijst>1?'s':'')+'</b> van je lijst leggen we klaar op groot formaat.' : 'Neem gerust je eigen stalen mee.')+'</p></div>';

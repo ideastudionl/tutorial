@@ -6,7 +6,7 @@
 <title>Winkelwagen — Tegelloods BV</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -65,7 +65,7 @@
       '<h3>Totaal</h3>'+
       '<div style="display:flex;justify-content:space-between"><span>Subtotaal'+(m2?' ('+num(m2)+' m²)':'')+'</span><b>'+euro(sub)+'</b></div>'+
       '<div style="display:flex;justify-content:space-between;margin:.35rem 0"><span>Bezorging</span><span>'+(verzend?euro(verzend):'Gratis')+'</span></div>'+
-      (verzend?'<p class="small" style="color:var(--clay-600)">Nog '+euro(TL.shop.gratisVerzendVanaf-sub)+' tot gratis bezorging.</p>':'')+
+      (verzend?'<p class="small" style="color:var(--clay)">Nog '+euro(TL.shop.gratisVerzendVanaf-sub)+' tot gratis bezorging.</p>':'')+
       '<div style="display:flex;justify-content:space-between;font-size:1.2rem;margin:.6rem 0 1rem"><b>Te betalen</b><b>'+euro(sub+verzend)+'</b></div>'+
       '<button class="btn btn-primary btn-lg btn-block" onclick="TL.toast(\'Demo — hier neemt Shopify Checkout het over.\')">Naar Shopify Checkout</button>'+
       '<div class="pay-row" style="margin-top:.9rem">'+['iDEAL','Klarna','in3','VISA','Mastercard','PayPal'].map(function(x){return '<span class="pay">'+x+'</span>';}).join('')+'</div>'+

@@ -7,7 +7,7 @@
 <meta name="description" content="Tegels kopen met rekenmodule: bereken direct hoeveel dozen je nodig hebt inclusief snijverlies.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body class="pdp-page">
@@ -16,7 +16,7 @@
   <div class="pdp" id="pdp"></div>
 </main>
 <section class="section" style="padding-top:0"><div class="wrap" id="detail"></div></section>
-<section class="section" style="background:var(--bg-alt)"><div class="wrap" id="related"></div></section>
+<section class="section" style="background:var(--surface)"><div class="wrap" id="related"></div></section>
 
 <div class="sticky-buy" id="stickyBuy"></div>
 
@@ -82,17 +82,13 @@
     var korting = maat().oud ? Math.round((1 - maat().prijs/maat().oud)*100) : 0;
     return '<div class="gallery">'+
       '<div class="gallery-main" id="galMain" style="background-image:'+k.tex+'">'+
-        '<span class="gm-badges">'+
-          (korting?'<span class="badge badge-sale">-'+korting+'%</span>':'')+
-          (p.badge && p.badge.filter(function(b){return b.indexOf('%')<0 && !(p.nieuw && b==='Nieuw');}).map(function(b){return '<span class="badge badge-navy">'+b+'</span>';}).join(''))+
-        '</span>'+
+        (korting?'<span class="gm-badges"><span class="badge badge-sale">-'+korting+'%</span></span>':'')+
       '</div>'+
-      '<div class="gallery-thumbs">'+ p.kleuren.map(function(c,i){
+      (p.kleuren.length>1 ? '<div class="gallery-thumbs">'+ p.kleuren.map(function(c,i){
           return '<button class="'+(i===kleurIdx?'is-active':'')+'" data-gal="'+i+'" style="background-image:'+c.tex+'" aria-label="'+esc(c.naam)+'"></button>';
-        }).join('') +'</div>'+
-      '<div class="panel" style="margin-top:14px;padding:1rem 1.15rem">'+
-        '<div style="display:flex;gap:.6rem;align-items:flex-start">'+I('info',18)+
-        '<p class="small" style="margin:0">Kleuren op je scherm wijken altijd af van de werkelijkheid. Bestel een <b>gratis staal</b> of leg de tegel op je <b>showroomlijst</b> — dan zie je \'m op groot formaat bij daglicht.</p></div>'+
+        }).join('') +'</div>' : '')+
+      '<div class="gallery-note">'+I('info',16)+
+        '<p style="margin:0">Kleuren wijken op een scherm altijd af. Bestel een gratis staal, of zet de tegel op je showroomlijst — dan zie je \'m op groot formaat bij daglicht.</p>'+
       '</div>'+
     '</div>';
   }
@@ -100,94 +96,84 @@
   /* ---- Koopblok (rechterkolom) ---- */
   function buybox(){
     var m = maat(), k = kleur();
-    var korting = m.oud ? Math.round((1 - m.prijs/m.oud)*100) : 0;
     var wa = 'https://wa.me/'+TL.shop.telRaw+'?text='+encodeURIComponent('Hallo Tegelloods, ik wil graag een offerte voor '+p.naam+' ('+k.naam+', '+m.maat+').');
+    var eigen = (p.badge||[]).filter(function(b){ return b.indexOf('%')<0 && !(p.nieuw && b==='Nieuw'); })[0];
 
     return '<div class="buybox">'+
-      '<div class="pdp-badges">'+
-        (korting?'<span class="badge badge-sale">-'+korting+'%</span>':'')+
-        (p.badge && p.badge.filter(function(b){return b.indexOf('%')<0 && !(p.nieuw && b==='Nieuw');}).map(function(b){return '<span class="badge badge-navy">'+b+'</span>';}).join(''))+
-      '</div>'+
+      (eigen || p.nieuw ? '<div class="pdp-badges">'+
+        (p.nieuw?'<span class="badge badge-new">Nieuw</span>':'<span class="badge badge-navy">'+eigen+'</span>')+
+      '</div>' : '')+
       '<h1>'+esc(p.naam)+'</h1>'+
 
-      /* Kleur */
-      '<div class="opt-label">Kleur: <span class="val">'+esc(k.naam)+'</span></div>'+
+      /* Prijs direct onder de titel: dat is de eerste vraag */
+      '<div class="price-block">'+
+        '<div><span class="now">'+euro(m.prijs)+'</span><span class="per">'+(p.perStuk?'per '+(p.eenheid||'stuk'):'per m²')+'</span>'+
+          (m.oud?'<span class="was">'+euro(m.oud)+'</span>':'')+'</div>'+
+        (p.perStuk?'':'<div class="box">'+euro(prijsPerDoos())+' per doos · '+num(m.m2PerDoos)+' m² · '+m.stuksPerDoos+' stuks</div>')+
+        '<div class="rating-line">'+TL.stars(p.rating)+'<b>'+num(p.rating,1)+'</b> op Google<span class="muted">·</span>'+
+          '<a href="#reviews">'+p.reviews+' beoordelingen</a></div>'+
+      '</div>'+
+
+      '<hr class="rule">'+
+
+      /* Keuzes */
+      '<div class="opt-label">Kleur<span class="val">'+esc(k.naam)+'</span></div>'+
       '<div class="swatches">'+ p.kleuren.map(function(c,i){
         return '<button class="swatch '+(i===kleurIdx?'is-active':'')+'" data-kleur="'+i+'" aria-label="'+esc(c.naam)+'"><i style="background-image:'+c.tex+'"></i></button>';
       }).join('') +'</div>'+
 
-      /* Maat */
       '<div class="opt-label">Maatvoering</div>'+
       '<select class="select-lg" id="selMaat">'+ p.maten.map(function(x,i){
         return '<option value="'+i+'" '+(i===maatIdx?'selected':'')+'>'+x.maat+' — '+euro(x.prijs)+(p.perStuk?' per '+(p.eenheid||'stuk'):' per m²')+'</option>';
       }).join('') +'</select>'+
 
-      '<hr class="rule">'+
-
-      /* Prijs */
-      '<div class="price-block">'+
-        '<div><span class="now">'+euro(m.prijs)+'</span><span class="per">'+(p.perStuk?'per '+(p.eenheid||'stuk'):'per m²')+'</span></div>'+
-        (p.perStuk?'':'<div class="box">'+euro(prijsPerDoos())+' per doos ('+num(m.m2PerDoos)+' m² · '+m.stuksPerDoos+' stuks)</div>')+
-        (m.oud?'<div class="was">'+euro(m.oud)+'</div>':'')+
-        '<div class="rating-line">'+TL.stars(p.rating)+'<b>'+num(p.rating,1)+'</b> op Google · <a href="#reviews" style="text-decoration:underline">'+p.reviews+' beoordelingen</a></div>'+
-      '</div>'+
-
-      '<div style="height:1.4rem"></div>'+
-
       /* ======== REKENMODULE ======== */
       '<div class="calc">'+
-        '<div class="calc-head"><h3>Hoeveel heb je er nodig?</h3>'+
-          '<button class="calc-help" id="calcHelp">Hoe reken ik dit uit?</button></div>'+
+        '<div class="calc-head"><h3>Hoeveel heb je nodig?</h3>'+
+          '<button class="calc-help" id="calcHelp">Hoe rekenen wij dit uit?</button></div>'+
         '<div class="calc-row">'+
           '<div class="calc-field"><label for="inM2">Oppervlakte</label>'+
             '<div class="calc-input"><input id="inM2" type="number" min="0.5" step="0.5" value="'+m2+'" inputmode="decimal"><span class="suffix">m²</span></div>'+
           '</div>'+
           '<div class="calc-op">+</div>'+
-          '<div class="calc-field"><label for="inVerlies">Snijverlies (%)</label>'+
+          '<div class="calc-field"><label for="inVerlies">Snijverlies</label>'+
             '<div class="stepper"><button type="button" data-verlies="-5" aria-label="Minder snijverlies">−</button>'+
             '<input id="inVerlies" type="number" min="0" max="30" step="1" value="'+verlies+'" inputmode="numeric">'+
             '<button type="button" data-verlies="5" aria-label="Meer snijverlies">+</button></div>'+
           '</div>'+
           '<div class="calc-op">=</div>'+
-          '<div class="calc-field"><label>Benodigd</label><div class="calc-out" id="outDozen"></div></div>'+
+          '<div class="calc-field"><label>Je bestelt</label><div class="calc-out" id="outDozen"></div></div>'+
         '</div>'+
-        '<p class="calc-note" id="calcNote">Wij rekenen standaard met 10% snijverlies. Leg je in visgraat of diagonaal? Reken dan met 15%.</p>'+
+        '<p class="calc-note" id="calcNote">Wij rekenen standaard met 10% snijverlies. Leg je in visgraat of diagonaal, reken dan met 15%.</p>'+
       '</div>'+
 
-      /* Totaal */
-      '<div class="total-line"><span class="lbl">Totaalprijs</span><span class="amt" id="totaalAmt"></span><span class="sub" id="totaalSub"></span></div>'+
+      '<div class="total-line"><span class="lbl">Totaal</span><span class="amt" id="totaalAmt"></span><span class="sub" id="totaalSub"></span></div>'+
       '<div class="total-sub" id="totaalCalc"></div>'+
-
-      /* Levering */
-      '<ul class="delivery-list">'+
-        '<li>'+I('clock',18)+'<span>'+(p.voorraad==='op voorraad'?'Op voorraad — <b>binnen 1-3 werkdagen</b> geleverd':'Op bestelling — <b>'+p.levertijd+'</b> geleverd')+'</span></li>'+
-        '<li>'+I('pin',18)+'<span>Zelf afhalen in Heeten mogelijk (op afspraak)</span></li>'+
-        '<li>'+I('truck',18)+'<span>Gratis bezorgd vanaf '+euro(TL.shop.gratisVerzendVanaf)+' · daaronder '+euro(TL.shop.verzendkosten)+'</span></li>'+
-        '<li>'+I('box',18)+'<span>Ongeopende restdozen retour binnen 30 dagen</span></li>'+
-      '</ul>'+
 
       /* Kopen */
       '<div class="buy-row">'+
         '<div class="qty-box"><button type="button" data-qty="-1" aria-label="Minder">−</button>'+
         '<div class="qv" id="qtyVal"></div>'+
         '<button type="button" data-qty="1" aria-label="Meer">+</button></div>'+
-        '<button class="btn btn-primary btn-lg" id="addCart">'+I('cart',19)+' Voeg toe aan winkelwagen</button>'+
+        '<button class="btn btn-primary btn-lg" id="addCart">In winkelwagen</button>'+
       '</div>'+
+      '<p class="pay-row"><b>iDEAL · Klarna · in3 · Visa · Mastercard</b> — achteraf of gespreid betalen mogelijk</p>'+
 
-      '<div class="pay-row">'+ ['iDEAL','Klarna','in3','VISA','Mastercard','PayPal','Apple Pay','SEPA','Overboeking']
-        .map(function(x){ return '<span class="pay">'+x+'</span>'; }).join('') +'</div>'+
+      /* Feiten, plat en klein */
+      '<ul class="delivery-list">'+
+        '<li>'+I('clock',16)+'<span>'+(p.voorraad==='op voorraad'?'Op voorraad — <b>binnen 1-3 werkdagen</b> geleverd':'Op bestelling — <b>'+p.levertijd+'</b> geleverd')+'</span></li>'+
+        '<li>'+I('truck',16)+'<span>Gratis bezorgd vanaf '+euro(TL.shop.gratisVerzendVanaf)+', of <b>gratis afhalen in Heeten</b></span></li>'+
+        '<li>'+I('box',16)+'<span>Ongeopende restdozen retour binnen 30 dagen</span></li>'+
+      '</ul>'+
 
-      /* Twijfelknoppen — sample + showroom */
+      /* Twee gelijkwaardige uitwegen voor wie nog twijfelt */
       '<div class="secondary-actions">'+
-        '<button class="btn btn-ghost btn-block" id="addSample">'+I('swatch',18)+' Gratis staal van deze tegel bestellen</button>'+
-        '<button class="btn btn-outline-navy btn-block" id="addShowroom">'+I('calendar',18)+' Toevoegen aan showroombezoek</button>'+
-        '<a class="btn btn-navy btn-block" href="showroom.html">'+I('calendar',18)+' Direct een afspraak maken in de showroom</a>'+
+        '<button class="btn btn-ghost" id="addSample">'+I('swatch',17)+' Gratis staal</button>'+
+        '<button class="btn btn-ghost" id="addShowroom">'+I('calendar',17)+' Zet op showroomlijst</button>'+
       '</div>'+
 
-      /* Offerte */
-      '<div class="quote-box">'+
-        '<p>Groot project? Vraag nu een offerte aan!</p>'+
-        '<a class="btn btn-wa" href="'+wa+'" target="_blank" rel="noopener">'+I('whatsapp',19)+' Offerte via WhatsApp</a>'+
+      '<div class="quote-box"><p>Groot project?</p>'+
+        '<a href="'+wa+'" target="_blank" rel="noopener">'+I('whatsapp',16)+' Vraag een offerte via WhatsApp</a>'+
       '</div>'+
     '</div>';
   }

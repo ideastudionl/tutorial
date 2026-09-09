@@ -7,7 +7,7 @@
 <meta name="description" content="Zorgvuldig geselecteerde wand- en vloertegels, eerlijke prijzen en 15+ jaar ervaring. Gratis stalen, showroom op afspraak in Heeten.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -15,23 +15,22 @@
 <section class="hero">
   <div class="wrap hero-inner">
     <div>
-      <p class="eyebrow" style="color:var(--amber-400)">Tegelspecialist met showroom · Heeten</p>
+      <p class="eyebrow">Tegelspecialist met showroom · Heeten</p>
       <h1>Tegels waar je vijftien jaar<br>blij mee blijft</h1>
       <p class="lead">Geen eindeloze catalogus, maar een scherpe selectie die wij zelf zouden leggen. Bereken direct hoeveel je nodig hebt, bestel gratis stalen en zie ze op groot formaat in onze showroom.</p>
       <div class="hero-cta">
         <a class="btn btn-primary btn-lg" href="collectie.html">Bekijk de collectie</a>
-        <a class="btn btn-ghost btn-lg" href="showroom.html" id="heroAppt">Plan een showroombezoek</a>
+        <a class="btn btn-ghost btn-lg" href="showroom.html">Plan een showroombezoek</a>
       </div>
       <div class="hero-proof">
         <div><strong>4,9/5</strong>uit 180+ reviews</div>
         <div><strong>15+ jaar</strong>ervaring in tegelwerk</div>
         <div><strong>1e sortering</strong>uitsluitend A-kwaliteit</div>
-        <div><strong>4 gratis</strong>stalen thuisbezorgd</div>
       </div>
     </div>
     <div class="hero-visual">
       <div class="tile-grid" id="heroGrid"></div>
-      <div class="hero-tag"><b>Urban Betonlook 60x120</b><span>vanaf € 24,95 p/m² · op voorraad</span></div>
+      <div class="hero-tag"><b>Nepal Grijs Betonlook 60x60</b><span>vanaf € 24,95 p/m² · direct leverbaar</span></div>
     </div>
   </div>
 </section>
@@ -48,7 +47,7 @@
   </div>
 </section>
 
-<section class="section" style="background:var(--bg-alt)">
+<section class="section">
   <div class="wrap">
     <div class="section-head">
       <div><p class="eyebrow">Meest gekozen</p><h2>Onze bestsellers</h2>
@@ -80,19 +79,19 @@
 </section>
 
 <!-- Showroom -->
-<section class="section" style="background:var(--navy-900);color:#fff">
+<section class="section" style="background:var(--ink);color:#fff">
   <div class="wrap grid-2" style="align-items:center;gap:40px">
     <div>
-      <p class="eyebrow" style="color:var(--amber-400)">Showroom op afspraak · Telgenweg 4, Heeten</p>
+      <p class="eyebrow" style="color:#b8c6d6">Showroom op afspraak · Telgenweg 4, Heeten</p>
       <h2 style="color:#fff">Online kiezen, in het echt beslissen</h2>
-      <p style="color:#c3d4e4">Een tegel op je scherm is een andere tegel dan op de vloer. Zet je favorieten op je showroomlijst — wij leggen ze klaar op groot formaat, bij daglicht, naast je keukenblad of badkamermeubel. Neem gerust je eigen stalen mee.</p>
-      <p style="color:#c3d4e4"><b>Op afspraak</b> betekent: geen wachttijd en alle tijd voor jouw project. Vaak al binnen twee dagen terecht, ook 's avonds.</p>
+      <p style="color:#aebdcd">Een tegel op je scherm is een andere tegel dan op de vloer. Zet je favorieten op je showroomlijst — wij leggen ze klaar op groot formaat, bij daglicht, naast je keukenblad of badkamermeubel. Neem gerust je eigen stalen mee.</p>
+      <p style="color:#aebdcd"><b>Op afspraak</b> betekent: geen wachttijd en alle tijd voor jouw project. Vaak al binnen twee dagen terecht, ook 's avonds.</p>
       <div class="hero-cta">
-        <a class="btn btn-primary btn-lg" href="showroom.html">Kies een datum &amp; tijd</a>
-        <a class="btn btn-ghost btn-lg" href="samples.html">Liever eerst stalen thuis</a>
+        <a class="btn btn-light btn-lg" href="showroom.html">Kies een datum &amp; tijd</a>
+        <a class="btn btn-lg" href="samples.html" style="color:#fff;border-color:rgba(255,255,255,.32)">Liever eerst stalen thuis</a>
       </div>
     </div>
-    <div class="panel" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.16);color:#e7eef5">
+    <div class="panel" style="background:transparent;border-color:rgba(255,255,255,.2);color:#dbe4ed">
       <h3 style="color:#fff">Wat je meeneemt uit een bezoek</h3>
       <ul class="delivery-list" id="showroomList"></ul>
     </div>
@@ -110,7 +109,7 @@
   </div>
 </section>
 
-<section class="section" id="reviews" style="background:var(--bg-alt)">
+<section class="section" id="reviews">
   <div class="wrap">
     <div class="section-head"><div><p class="eyebrow">Klanten uit Salland en omstreken</p><h2>4,9 gemiddeld uit 180+ reviews</h2></div></div>
     <div class="grid-2" id="reviewGrid"></div>
@@ -133,7 +132,7 @@
   var I = TL.icon, euro = TL.euro, num = TL.num;
 
   /* Hero mozaïek */
-  var picks = ['nepal','nevada','feelwood','dakota','terrazzo','especta','terrastegel','maison','metrotegel'];
+  var picks = ['nepal','feelwood','especta','dakota'];
   document.getElementById('heroGrid').innerHTML = picks.map(function(id){
     var p = TL.byId(id); return '<div style="background-image:'+p.kleuren[0].tex+'"></div>';
   }).join('');
