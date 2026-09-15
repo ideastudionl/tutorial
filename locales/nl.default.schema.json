@@ -1,0 +1,106 @@
+{
+  "settings": {
+    "colors": {
+      "name": "Kleuren",
+      "header_brand": "Merkkleuren",
+      "brand": "Merkkleur",
+      "brand_hover": "Merkkleur (hover)",
+      "accent": "Accentkleur",
+      "accent_info": "Warm accent voor badges en redactionele elementen. Gebruik dit niet voor bodytekst op wit — de contrastverhouding is te laag.",
+      "header_text": "Tekst",
+      "ink": "Tekstkleur",
+      "ink_soft": "Secundaire tekstkleur",
+      "header_surface": "Achtergronden",
+      "surface": "Paginakleur",
+      "sand": "Zachte sectieachtergrond",
+      "line": "Randen en lijnen",
+      "header_state": "Knoppen en statussen",
+      "cta": "Primaire knopkleur",
+      "cta_info": "Gebruik deze kleur nergens anders als vlakvulling. Eén CTA-kleur is wat de knop vindbaar maakt.",
+      "cta_text": "Tekst op primaire knop",
+      "sale": "Aanbiedingskleur",
+      "success": "Bevestigingskleur (op voorraad, voortgang)"
+    },
+    "typography": {
+      "name": "Typografie",
+      "heading": "Koppen",
+      "body": "Bodytekst",
+      "body_scale": "Schaal bodytekst",
+      "heading_scale": "Schaal koppen",
+      "heading_transform": "Weergave koppen",
+      "transform_none": "Normaal",
+      "transform_upper": "Hoofdletters"
+    },
+    "layout": {
+      "name": "Layout",
+      "page_width": "Paginabreedte",
+      "radius_card": "Afronding kaarten",
+      "radius_button": "Afronding knoppen",
+      "animations": "Subtiele animaties inschakelen",
+      "animations_info": "Elementen faden rustig in bij het scrollen. Wordt automatisch uitgeschakeld voor bezoekers die minder beweging hebben ingesteld."
+    },
+    "product_card": {
+      "name": "Productkaarten",
+      "ratio": "Beeldverhouding",
+      "ratio_square": "Vierkant",
+      "ratio_portrait": "Staand",
+      "ratio_natural": "Origineel",
+      "show_rating": "Beoordeling tonen",
+      "show_rating_info": "Toont sterren alleen wanneer het product daadwerkelijk beoordelingen heeft (metafield reviews.rating). Er worden nooit sterren getoond zonder onderliggende reviews.",
+      "show_benefit": "Korte productbelofte tonen",
+      "show_benefit_info": "Gebruikt het metafield custom.short_benefit.",
+      "show_savings": "Besparing tonen bij aanbiedingen",
+      "quick_add": "Snel toevoegen inschakelen",
+      "second_image": "Tweede afbeelding tonen bij hover"
+    },
+    "cart": {
+      "name": "Winkelwagen",
+      "type": "Type winkelwagen",
+      "type_drawer": "Zijpaneel (aanbevolen)",
+      "type_page": "Aparte pagina",
+      "free_shipping_enabled": "Voortgangsbalk gratis verzending tonen",
+      "free_shipping_info": "Schakel dit alleen in als er daadwerkelijk een drempelbedrag voor gratis verzending geldt. Zet het uit wanneer verzending altijd gratis is.",
+      "free_shipping_threshold": "Drempelbedrag",
+      "free_shipping_threshold_info": "Bedrag in hele euro's, bijvoorbeeld 50. Moet exact overeenkomen met je verzendinstellingen in Shopify.",
+      "show_note": "Veld voor opmerking tonen"
+    },
+    "company": {
+      "name": "Bedrijfsgegevens",
+      "intro": "Deze gegevens verschijnen in de footer en op de contactpagina. Volledige, controleerbare bedrijfsgegevens zijn wettelijk verplicht voor een Nederlandse webshop en zijn een van de sterkste vertrouwenssignalen die je hebt. Laat geen veld leeg.",
+      "legal_name": "Statutaire bedrijfsnaam",
+      "address": "Vestigingsadres",
+      "kvk": "KvK-nummer",
+      "kvk_info": "Verplicht voor Nederlandse ondernemingen.",
+      "vat": "BTW-identificatienummer",
+      "phone": "Telefoonnummer",
+      "phone_info": "Een zichtbaar telefoonnummer is het verschil tussen een webshop en een risico. Vul dit in zodra de telefonische bereikbaarheid geregeld is.",
+      "email": "E-mailadres klantenservice",
+      "support_hours": "Bereikbaarheid",
+      "support_hours_info": "Bijvoorbeeld: ma t/m vr 9:00–17:00. Beloof alleen tijden die je waarmaakt."
+    },
+    "claims": {
+      "name": "Claims en reviews",
+      "warning": "Belangrijk: laat deze velden leeg tenzij je de claim kunt onderbouwen. Een niet-onderbouwde claim over aantallen klanten of levertijd is misleidende handelspraktijk (art. 6:193b BW) en beschadigt je geloofwaardigheid meer dan dat een lege plek dat doet. Alle velden hieronder zijn daarom standaard leeg.",
+      "customer_count": "Klantenaantal",
+      "customer_count_info": "Bijvoorbeeld: 25.000+ klanten. Vul dit uitsluitend in als je het cijfer met orderdata kunt aantonen.",
+      "delivery": "Levertijdbelofte",
+      "delivery_info": "Bijvoorbeeld: voor 16:00 besteld, morgen in huis. Vul hier de levertijd in die je daadwerkelijk haalt — niet de levertijd die je zou willen halen. Een gemiste belofte kost meer omzet dan een eerlijke, langere levertijd.",
+      "returns": "Retourbelofte",
+      "header_reviews": "Reviewplatform",
+      "review_platform": "Naam van het platform",
+      "review_url": "Link naar je reviewprofiel",
+      "review_score": "Score",
+      "review_score_info": "Vul je werkelijke score in, of laat leeg. De score wordt alleen getoond als je hem hier invult; het thema verzint nooit een cijfer."
+    },
+    "social": {
+      "name": "Social media"
+    },
+    "seo": {
+      "name": "Merk en SEO",
+      "share_image": "Afbeelding voor social sharing",
+      "logo": "Logo",
+      "logo_width": "Breedte logo",
+      "favicon": "Favicon"
+    }
+  }
+}

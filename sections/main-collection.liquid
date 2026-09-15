@@ -1,0 +1,125 @@
+<div class="container">
+  {% render 'breadcrumbs' %}
+
+  <header style="max-width:58ch;margin-bottom:var(--sp-8)">
+    <span class="eyebrow"><b>{{ collection.products_count }}</b> {{ 'sections.collection.products_count' | t: count: collection.products_count | remove_first: collection.products_count | strip }}</span>
+    <h1>{{ collection.title }}</h1>
+    {%- if collection.description != blank -%}
+      <div class="rte lede">{{ collection.description }}</div>
+    {%- endif -%}
+  </header>
+
+  <div class="collection-layout">
+    <aside>
+      <button type="button" class="btn btn--ghost btn--full collection-filter-toggle" data-facet-toggle aria-expanded="false">
+        {{ 'sections.collection.filters' | t }}
+      </button>
+
+      <form data-facet-form id="FacetForm">
+        {%- if collection.sort_by != blank or collection.default_sort_by -%}
+          <input type="hidden" name="sort_by" value="{{ collection.sort_by | default: collection.default_sort_by }}">
+        {%- endif -%}
+
+        {%- for filter in collection.filters -%}
+          <fieldset class="facet-group">
+            <legend class="facet-group__title">{{ filter.label }}</legend>
+
+            {%- case filter.type -%}
+              {%- when 'list', 'boolean' -%}
+                {%- for value in filter.values -%}
+                  <label class="facet-option">
+                    <input type="checkbox" name="{{ value.param_name }}" value="{{ value.value }}"
+                      {% if value.active %}checked{% endif %}
+                      {% if value.count == 0 and value.active == false %}disabled{% endif %}>
+                    <span>{{ value.label }}</span>
+                    <span class="facet-option__count">{{ value.count }}</span>
+                  </label>
+                {%- endfor -%}
+
+              {%- when 'price_range' -%}
+                <div class="facet-price">
+                  <label>
+                    <span class="visually-hidden">{{ 'sections.collection.price_from' | t }}</span>
+                    <input class="input" type="number" inputmode="numeric" name="{{ filter.min_value.param_name }}"
+                      placeholder="{{ 0 | money_without_currency }}"
+                      {% if filter.min_value.value %}value="{{ filter.min_value.value | money_without_currency | replace: ',', '.' }}"{% endif %}
+                      min="0" max="{{ filter.range_max | money_without_currency | replace: ',', '.' }}">
+                  </label>
+                  <label>
+                    <span class="visually-hidden">{{ 'sections.collection.price_to' | t }}</span>
+                    <input class="input" type="number" inputmode="numeric" name="{{ filter.max_value.param_name }}"
+                      placeholder="{{ filter.range_max | money_without_currency }}"
+                      {% if filter.max_value.value %}value="{{ filter.max_value.value | money_without_currency | replace: ',', '.' }}"{% endif %}
+                      min="0" max="{{ filter.range_max | money_without_currency | replace: ',', '.' }}">
+                  </label>
+                </div>
+            {%- endcase -%}
+          </fieldset>
+        {%- endfor -%}
+      </form>
+    </aside>
+
+    <div>
+      <div data-active-facets>
+        {%- assign active_count = 0 -%}
+        {%- for filter in collection.filters -%}
+          {%- assign active_count = active_count | plus: filter.active_values.size -%}
+        {%- endfor -%}
+        {%- if active_count > 0 -%}
+          <div class="active-facets">
+            {%- for filter in collection.filters -%}
+              {%- for value in filter.active_values -%}
+                <a href="{{ value.url_to_remove }}" data-facet-remove>
+                  {{ value.label }}{% render 'icon', name: 'close', size: 11 %}
+                </a>
+              {%- endfor -%}
+            {%- endfor -%}
+            <a href="{{ collection.url }}" data-facet-clear class="link">{{ 'sections.collection.clear_all' | t }}</a>
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div class="collection-bar">
+        <p class="text-sm text-soft" data-product-count>
+          {{ 'sections.collection.products_count' | t: count: collection.products_count }}
+        </p>
+        <label class="text-sm" style="display:flex;align-items:center;gap:.5rem">
+          {{ 'sections.collection.sort_by' | t }}
+          <select class="select" name="sort_by" form="FacetForm">
+            {%- assign current_sort = collection.sort_by | default: collection.default_sort_by -%}
+            {%- for option in collection.sort_options -%}
+              <option value="{{ option.value }}" {% if option.value == current_sort %}selected{% endif %}>{{ option.name }}</option>
+            {%- endfor -%}
+          </select>
+        </label>
+      </div>
+
+      <div data-collection-grid>
+        {%- paginate collection.products by section.settings.per_page -%}
+          {%- if collection.products.size > 0 -%}
+            <div class="grid grid--3">
+              {%- for product in collection.products -%}
+                {% render 'product-card', product: product, lazy: forloop.index > 6 %}
+              {%- endfor -%}
+            </div>
+            {% render 'pagination', paginate: paginate %}
+          {%- else -%}
+            <div class="note">
+              <p><strong>{{ 'sections.collection.empty' | t }}</strong></p>
+              <p>{{ 'sections.collection.empty_help' | t }}</p>
+            </div>
+          {%- endif -%}
+        {%- endpaginate -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collectie",
+  "settings": [
+    { "type": "range", "id": "per_page", "label": "Producten per pagina", "min": 12, "max": 48, "step": 6, "default": 24 }
+  ]
+}
+{% endschema %}

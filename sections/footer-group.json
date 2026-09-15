@@ -1,0 +1,17 @@
+{
+  "name": "Footer",
+  "type": "footer",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "menu-1": { "type": "menu", "settings": { "heading": "Assortiment", "menu": "footer" } },
+        "company": { "type": "company", "settings": {} },
+        "newsletter": { "type": "newsletter", "settings": { "heading": "Blijf op de hoogte" } }
+      },
+      "block_order": ["menu-1", "company", "newsletter"],
+      "settings": { "show_payment_icons": true }
+    }
+  },
+  "order": ["footer"]
+}

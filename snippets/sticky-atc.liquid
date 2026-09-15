@@ -1,0 +1,15 @@
+{%- comment -%}
+  Mirrors the buy box once the real CTA scrolls out of view. It forwards to the
+  real form rather than holding its own state, so variant and quantity can
+  never drift apart from what the visitor selected.
+{%- endcomment -%}
+{%- assign v = product.selected_or_first_available_variant -%}
+<div class="sticky-atc" data-sticky-atc aria-hidden="true">
+  <div class="sticky-atc__info">
+    <strong>{{ product.title }}</strong>
+    <span data-sticky-price>{% render 'price', target: v, product: product, class: 'text-sm' %}</span>
+  </div>
+  <button type="button" class="btn" data-sticky-submit {% unless v.available %}disabled{% endunless %}>
+    {%- if v.available -%}{{ 'products.product.add_to_cart' | t }}{%- else -%}{{ 'products.product.sold_out' | t }}{%- endif -%}
+  </button>
+</div>

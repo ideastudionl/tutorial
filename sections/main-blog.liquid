@@ -1,0 +1,29 @@
+<div class="container section">
+  {% render 'breadcrumbs' %}
+  <h1>{{ blog.title }}</h1>
+  {%- paginate blog.articles by 12 -%}
+    <div class="grid grid--3" style="margin-top:var(--sp-8)">
+      {%- for article in blog.articles -%}
+        <a href="{{ article.url }}" style="text-decoration:none;display:grid;gap:var(--sp-3)">
+          {%- if article.image -%}
+            <div class="media media--wide">
+              {{ article.image | image_url: width: 800 | image_tag: loading: 'lazy',
+                   widths: '300,500,800', sizes: '(min-width: 750px) 33vw, 90vw',
+                   alt: article.image.alt | default: article.title | escape }}
+            </div>
+          {%- endif -%}
+          <div>
+            <h2 style="font-size:1.1rem;margin-bottom:.3rem">{{ article.title }}</h2>
+            <p class="text-sm text-soft">{{ article.excerpt_or_content | strip_html | truncate: 120 }}</p>
+            <p class="text-xs text-soft">{{ article.published_at | date: '%-d %B %Y' }}</p>
+          </div>
+        </a>
+      {%- endfor -%}
+    </div>
+    {% render 'pagination', paginate: paginate %}
+  {%- endpaginate -%}
+</div>
+
+{% schema %}
+{ "name": "Blog", "settings": [] }
+{% endschema %}

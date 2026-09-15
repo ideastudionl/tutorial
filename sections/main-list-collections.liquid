@@ -1,0 +1,24 @@
+<div class="container section">
+  <h1>{{ page_title }}</h1>
+  <div class="grid grid--3" style="margin-top:var(--sp-8)">
+    {%- for collection in collections -%}
+      <a href="{{ collection.url }}" style="text-decoration:none;display:grid;gap:var(--sp-3)">
+        <div class="media media--landscape">
+          {%- if collection.featured_image -%}
+            {{ collection.featured_image | image_url: width: 800 | image_tag: loading: 'lazy',
+                 widths: '300,500,800', sizes: '(min-width: 750px) 33vw, 90vw',
+                 alt: collection.title | escape }}
+          {%- else -%}
+            {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
+          {%- endif -%}
+        </div>
+        <strong>{{ collection.title }}</strong>
+        <span class="text-sm text-soft">{{ 'sections.collection.products_count' | t: count: collection.products_count }}</span>
+      </a>
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{ "name": "Alle collecties", "settings": [] }
+{% endschema %}

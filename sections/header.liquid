@@ -1,0 +1,134 @@
+{%- liquid
+  assign menu = linklists[section.settings.menu]
+-%}
+<div class="header-wrap" data-header>
+  <header class="container header" role="banner">
+    <a href="{{ routes.root_url }}" class="header__logo">
+      {%- if settings.logo -%}
+        {{ settings.logo | image_url: width: 600 | image_tag:
+             loading: 'eager',
+             widths: '150,300,450,600',
+             sizes: '(min-width: 990px) 200px, 150px',
+             alt: shop.name | escape }}
+      {%- else -%}
+        {{ shop.name }}
+      {%- endif -%}
+    </a>
+
+    <nav class="header__nav" data-nav aria-label="{{ 'sections.header.menu' | t }}">
+      <ul class="nav">
+        {%- for link in menu.links -%}
+          <li class="nav__item{% if link.links.size > 0 %} has-panel{% endif %}">
+            <a href="{{ link.url }}" class="nav__link"
+              {% if link.links.size > 0 %}aria-expanded="false"{% endif %}
+              {% if link.active or link.child_active %}aria-current="page"{% endif %}>
+              {{ link.title }}
+              {%- if link.links.size > 0 -%}
+                {% render 'icon', name: 'chevron-down', size: 12 %}
+              {%- endif -%}
+            </a>
+
+            {%- if link.links.size > 0 -%}
+              {%- comment -%}
+                A grandchild level turns the dropdown into a mega menu. Both
+                render real <a> markup so the whole tree stays crawlable.
+              {%- endcomment -%}
+              {%- assign has_grandchildren = false -%}
+              {%- for child in link.links -%}
+                {%- if child.links.size > 0 -%}{%- assign has_grandchildren = true -%}{%- endif -%}
+              {%- endfor -%}
+
+              {%- if has_grandchildren -%}
+                <div class="mega">
+                  <div class="mega__grid">
+                    {%- for child in link.links -%}
+                      <div>
+                        <p class="mega__col-title">{{ child.title }}</p>
+                        <ul class="mega__list">
+                          {%- for grandchild in child.links -%}
+                            <li><a href="{{ grandchild.url }}">{{ grandchild.title }}</a></li>
+                          {%- endfor -%}
+                        </ul>
+                      </div>
+                    {%- endfor -%}
+
+                    {%- if section.settings.promo_collection != blank -%}
+                      {%- assign promo = collections[section.settings.promo_collection] -%}
+                      <a href="{{ promo.url }}" class="mega__promo">
+                        {%- if promo.featured_image -%}
+                          <div class="media media--landscape">
+                            {{ promo.featured_image | image_url: width: 500 | image_tag:
+                                 loading: 'lazy', widths: '250,400,500', sizes: '250px',
+                                 alt: promo.title | escape }}
+                          </div>
+                        {%- endif -%}
+                        <div class="mega__promo-body">
+                          <strong>{{ section.settings.promo_title | default: promo.title }}</strong>
+                          <span class="text-sm text-soft">{{ section.settings.promo_text }}</span>
+                        </div>
+                      </a>
+                    {%- endif -%}
+                  </div>
+                </div>
+              {%- else -%}
+                <ul class="dropdown">
+                  {%- for child in link.links -%}
+                    <li><a href="{{ child.url }}">{{ child.title }}</a></li>
+                  {%- endfor -%}
+                </ul>
+              {%- endif -%}
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    </nav>
+
+    <div class="header__actions">
+      <button type="button" class="icon-btn" data-open="#SearchPanel" aria-expanded="false"
+        aria-label="{{ 'accessibility.open_search' | t }}">
+        {% render 'icon', name: 'search', size: 21 %}
+      </button>
+
+      <a href="{{ routes.account_url }}" class="icon-btn header__action--desktop"
+        aria-label="{{ 'accessibility.account' | t }}">
+        {% render 'icon', name: 'account', size: 21 %}
+      </a>
+
+      {%- if settings.cart_type == 'drawer' -%}
+        <button type="button" class="icon-btn cart-toggle" data-open="#CartDrawer" aria-expanded="false"
+          aria-label="{{ 'accessibility.open_cart' | t }}">
+      {%- else -%}
+        <a href="{{ routes.cart_url }}" class="icon-btn cart-toggle" aria-label="{{ 'accessibility.cart' | t }}">
+      {%- endif -%}
+          {% render 'icon', name: 'cart', size: 21 %}
+          <span class="cart-count" data-cart-count {% if cart.item_count == 0 %}hidden{% endif %}>{{ cart.item_count }}</span>
+      {%- if settings.cart_type == 'drawer' -%}
+        </button>
+      {%- else -%}
+        </a>
+      {%- endif -%}
+
+      <button type="button" class="icon-btn header__burger" data-open="#MenuDrawer" aria-expanded="false"
+        aria-label="{{ 'accessibility.open_menu' | t }}">
+        {% render 'icon', name: 'menu', size: 22 %}
+      </button>
+    </div>
+  </header>
+</div>
+
+{% render 'mobile-nav', menu: menu %}
+{% section 'predictive-search' %}
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" },
+    { "type": "header", "content": "Uitgelicht in het mega menu" },
+    { "type": "collection", "id": "promo_collection", "label": "Collectie" },
+    { "type": "text", "id": "promo_title", "label": "Titel" },
+    { "type": "text", "id": "promo_text", "label": "Tekst" }
+  ],
+  "enabled_on": { "groups": ["header"] }
+}
+{% endschema %}

@@ -1,0 +1,11 @@
+{%- comment -%}
+  Renders an icon from the sprite in snippets/icon-sprite.liquid.
+  Accepts: name (required), size (optional px), class (optional).
+  Icons are decorative by default; give the surrounding control the label.
+{%- endcomment -%}
+{%- liquid
+  assign icon_size = size | default: 20
+-%}
+<svg class="icon icon--{{ name }} {{ class }}" width="{{ icon_size }}" height="{{ icon_size }}" aria-hidden="true" focusable="false">
+  <use href="#icon-{{ name }}"></use>
+</svg>

@@ -1,0 +1,46 @@
+{%- assign coll = collections[section.settings.collection] -%}
+<section class="section{% if section.settings.background == 'sand' %} section--sand{% endif %}">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-head__text">
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+        {%- endif -%}
+        <h2>{{ section.settings.heading | default: coll.title }}</h2>
+        {%- if section.settings.text != blank -%}<p>{{ section.settings.text }}</p>{%- endif -%}
+      </div>
+      {%- if coll != blank -%}
+        <a href="{{ coll.url }}" class="link">
+          {{ 'general.view_all' | t }}{% render 'icon', name: 'arrow-right', size: 15 %}
+        </a>
+      {%- endif -%}
+    </div>
+
+    <div class="scroller" style="--cols: {{ section.settings.columns }}">
+      {%- for product in coll.products limit: section.settings.limit -%}
+        {% render 'product-card', product: product, lazy: true %}
+      {%- else -%}
+        {%- for i in (1..4) -%}
+          <div class="card"><div class="media media--square">{{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}</div></div>
+        {%- endfor -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Uitgelichte collectie",
+  "settings": [
+    { "type": "collection", "id": "collection", "label": "Collectie" },
+    { "type": "text", "id": "eyebrow", "label": "Bovenkop" },
+    { "type": "text", "id": "heading", "label": "Kop", "default": "Veelgekozen producten" },
+    { "type": "text", "id": "text", "label": "Tekst" },
+    { "type": "range", "id": "limit", "label": "Aantal producten", "min": 4, "max": 12, "step": 4, "default": 8 },
+    { "type": "range", "id": "columns", "label": "Kolommen (desktop)", "min": 3, "max": 4, "step": 1, "default": 4 },
+    { "type": "select", "id": "background", "label": "Achtergrond", "default": "white",
+      "options": [ { "value": "white", "label": "Wit" }, { "value": "sand", "label": "Zacht" } ] }
+  ],
+  "presets": [ { "name": "Uitgelichte collectie" } ]
+}
+{% endschema %}

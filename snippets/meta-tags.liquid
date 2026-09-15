@@ -1,0 +1,36 @@
+{%- comment -%}
+  Social and search metadata. Product pages get price and availability so the
+  link preview carries the commercial detail, not just the title.
+{%- endcomment -%}
+<meta property="og:site_name" content="{{ shop.name }}">
+<meta property="og:url" content="{{ canonical_url }}">
+<meta property="og:title" content="{{ page_title | default: shop.name | escape }}">
+<meta property="og:type" content="{% if request.page_type == 'product' %}product{% elsif request.page_type == 'article' %}article{% else %}website{% endif %}">
+<meta property="og:description" content="{{ page_description | default: shop.description | default: shop.name | escape }}">
+
+{%- if request.page_type == 'product' and product -%}
+  {%- assign og_image = product.featured_media.preview_image -%}
+{%- elsif request.page_type == 'article' and article.image -%}
+  {%- assign og_image = article.image -%}
+{%- elsif settings.share_image -%}
+  {%- assign og_image = settings.share_image -%}
+{%- endif -%}
+
+{%- if og_image -%}
+  <meta property="og:image" content="http:{{ og_image | image_url: width: 1200 }}">
+  <meta property="og:image:secure_url" content="https:{{ og_image | image_url: width: 1200 }}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="{{ 1200 | divided_by: og_image.aspect_ratio | round }}">
+  <meta name="twitter:card" content="summary_large_image">
+{%- else -%}
+  <meta name="twitter:card" content="summary">
+{%- endif -%}
+
+{%- if request.page_type == 'product' and product -%}
+  <meta property="product:price:amount" content="{{ product.price | divided_by: 100.0 }}">
+  <meta property="product:price:currency" content="{{ cart.currency.iso_code }}">
+  <meta property="product:availability" content="{% if product.available %}in stock{% else %}out of stock{% endif %}">
+{%- endif -%}
+
+<meta name="twitter:title" content="{{ page_title | escape }}">
+<meta name="twitter:description" content="{{ page_description | default: shop.description | default: shop.name | escape }}">

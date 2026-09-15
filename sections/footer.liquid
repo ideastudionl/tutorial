@@ -1,0 +1,172 @@
+<footer class="footer" role="contentinfo">
+  <div class="container footer__top">
+    <div>
+      {%- if settings.logo -%}
+        <a href="{{ routes.root_url }}" class="header__logo" style="margin-bottom:1rem">
+          {{ settings.logo | image_url: width: 400 | image_tag: loading: 'lazy', widths: '150,300,400', sizes: '150px', alt: shop.name | escape }}
+        </a>
+      {%- endif -%}
+      {%- if section.settings.about != blank -%}
+        <div class="rte" style="max-width:34ch">{{ section.settings.about }}</div>
+      {%- endif -%}
+
+      <div class="footer__contact" style="margin-top:1.4rem">
+        {%- if settings.company_email != blank -%}
+          <a href="mailto:{{ settings.company_email }}">
+            {% render 'icon', name: 'mail', size: 17 %}{{ settings.company_email }}
+          </a>
+        {%- endif -%}
+        {%- if settings.company_phone != blank -%}
+          <a href="tel:{{ settings.company_phone | remove: ' ' }}">
+            {% render 'icon', name: 'phone', size: 17 %}{{ settings.company_phone }}
+          </a>
+        {%- endif -%}
+        {%- if settings.support_hours != blank -%}
+          <span>{% render 'icon', name: 'clock', size: 17 %}{{ settings.support_hours }}</span>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'menu' -%}
+          <div {{ block.shopify_attributes }}>
+            <p class="footer__title">{{ block.settings.heading }}</p>
+            <ul class="footer__list">
+              {%- for link in linklists[block.settings.menu].links -%}
+                <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+              {%- endfor -%}
+            </ul>
+          </div>
+
+        {%- when 'company' -%}
+          <div {{ block.shopify_attributes }}>
+            <p class="footer__title">{{ 'sections.footer.company_details' | t }}</p>
+            <dl class="footer__company">
+              {%- if settings.company_legal_name != blank -%}
+                <div class="footer__row"><dd>{{ settings.company_legal_name }}</dd></div>
+              {%- endif -%}
+              {%- if settings.company_address != blank -%}
+                <div class="footer__row">
+                  <dt>{{ 'sections.footer.address' | t }}</dt>
+                  <dd>{{ settings.company_address }}</dd>
+                </div>
+              {%- endif -%}
+              {%- if settings.company_kvk != blank -%}
+                <div class="footer__row">
+                  <dt>{{ 'sections.footer.kvk' | t }}</dt><dd>{{ settings.company_kvk }}</dd>
+                </div>
+              {%- endif -%}
+              {%- if settings.company_vat != blank -%}
+                <div class="footer__row">
+                  <dt>{{ 'sections.footer.vat' | t }}</dt><dd>{{ settings.company_vat }}</dd>
+                </div>
+              {%- endif -%}
+            </dl>
+            {%- if settings.review_platform_url != blank and settings.review_platform_name != blank -%}
+              <p style="margin-top:1rem">
+                <a href="{{ settings.review_platform_url }}" rel="nofollow noopener" target="_blank">
+                  {{ settings.review_platform_name }}
+                  {%- if settings.review_platform_score != blank %} — {{ settings.review_platform_score }}{% endif -%}
+                </a>
+              </p>
+            {%- endif -%}
+          </div>
+
+        {%- when 'newsletter' -%}
+          <div {{ block.shopify_attributes }}>
+            <p class="footer__title">{{ block.settings.heading }}</p>
+            {%- if block.settings.text != blank -%}
+              <div class="rte text-sm" style="margin-bottom:1rem">{{ block.settings.text }}</div>
+            {%- endif -%}
+            {% form 'customer' %}
+              <input type="hidden" name="contact[tags]" value="newsletter">
+              <div class="newsletter__form">
+                <label class="visually-hidden" for="FooterEmail">{{ 'general.newsletter.email' | t }}</label>
+                <input type="email" id="FooterEmail" name="contact[email]" class="input" required
+                  placeholder="{{ 'general.newsletter.email_placeholder' | t }}">
+                <button type="submit" class="btn btn--on-dark">{{ 'general.newsletter.submit' | t }}</button>
+              </div>
+              {%- if form.posted_successfully? -%}
+                <p class="form-status form-status--success">{{ 'general.newsletter.success' | t }}</p>
+              {%- endif -%}
+              {%- if form.errors -%}
+                <p class="form-status form-status--error">{{ form.errors.messages.email }}</p>
+              {%- endif -%}
+            {% endform %}
+            <p class="newsletter__note">{{ 'general.newsletter.privacy' | t }}</p>
+          </div>
+      {%- endcase -%}
+    {%- endfor -%}
+  </div>
+
+  <div class="container footer__bottom">
+    <span>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. {{ 'sections.footer.copyright' | t }}</span>
+
+    {%- assign socials_present = false -%}
+    {%- if settings.social_instagram != blank or settings.social_facebook != blank
+       or settings.social_tiktok != blank or settings.social_youtube != blank -%}
+      {%- assign socials_present = true -%}
+    {%- endif -%}
+    {%- if socials_present -%}
+      <ul class="social-list" aria-label="{{ 'sections.footer.follow_us' | t }}">
+        {%- if settings.social_instagram != blank -%}
+          <li><a href="{{ settings.social_instagram }}" rel="noopener" target="_blank" aria-label="Instagram">{% render 'icon', name: 'instagram', size: 18 %}</a></li>
+        {%- endif -%}
+        {%- if settings.social_facebook != blank -%}
+          <li><a href="{{ settings.social_facebook }}" rel="noopener" target="_blank" aria-label="Facebook">{% render 'icon', name: 'facebook', size: 18 %}</a></li>
+        {%- endif -%}
+        {%- if settings.social_tiktok != blank -%}
+          <li><a href="{{ settings.social_tiktok }}" rel="noopener" target="_blank" aria-label="TikTok">{% render 'icon', name: 'tiktok', size: 18 %}</a></li>
+        {%- endif -%}
+        {%- if settings.social_youtube != blank -%}
+          <li><a href="{{ settings.social_youtube }}" rel="noopener" target="_blank" aria-label="YouTube">{% render 'icon', name: 'youtube', size: 18 %}</a></li>
+        {%- endif -%}
+      </ul>
+    {%- endif -%}
+
+    {%- if section.settings.show_payment_icons and shop.enabled_payment_types.size > 0 -%}
+      <ul class="payment-icons" aria-label="{{ 'sections.footer.payment_methods' | t }}">
+        {%- for type in shop.enabled_payment_types -%}
+          <li>{{ type | payment_type_svg_tag: class: 'payment-icon' }}</li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    { "type": "richtext", "id": "about", "label": "Over de winkel",
+      "default": "<p>Nederlandse webshop voor het Forever Living-assortiment. Originele producten, verzonden uit eigen voorraad.</p>" },
+    { "type": "checkbox", "id": "show_payment_icons", "label": "Betaalmethodes tonen", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "menu", "name": "Menukolom",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Kop", "default": "Assortiment" },
+        { "type": "link_list", "id": "menu", "label": "Menu", "default": "footer" }
+      ]
+    },
+    { "type": "company", "name": "Bedrijfsgegevens", "limit": 1, "settings": [] },
+    {
+      "type": "newsletter", "name": "Nieuwsbrief", "limit": 1,
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Kop", "default": "Blijf op de hoogte" },
+        { "type": "richtext", "id": "text", "label": "Tekst" }
+      ]
+    }
+  ],
+  "default": {
+    "blocks": [
+      { "type": "menu", "settings": { "heading": "Assortiment" } },
+      { "type": "company" },
+      { "type": "newsletter" }
+    ]
+  },
+  "enabled_on": { "groups": ["footer"] }
+}
+{% endschema %}

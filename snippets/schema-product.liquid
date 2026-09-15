@@ -1,0 +1,43 @@
+{%- comment -%}
+  Product schema. AggregateRating is emitted ONLY when real review metafields
+  exist — publishing a rating without reviews behind it earns a manual action
+  from Google, on top of being untrue.
+{%- endcomment -%}
+{%- liquid
+  assign v = product.selected_or_first_available_variant
+  assign rating = product.metafields.reviews.rating.value
+  assign rating_count = product.metafields.reviews.rating_count.value | plus: 0
+-%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": {{ product.title | json }},
+  "url": {{ shop.url | append: product.url | json }},
+  {%- if product.featured_media %}
+  "image": [{{ product.featured_media | image_url: width: 1200 | prepend: "https:" | json }}],
+  {%- endif %}
+  "description": {{ product.description | strip_html | truncate: 400 | json }},
+  {%- if product.vendor != blank %}
+  "brand": { "@type": "Brand", "name": {{ product.vendor | json }} },
+  {%- endif %}
+  {%- if v.sku != blank %}
+  "sku": {{ v.sku | json }},
+  {%- endif %}
+  {%- if rating != blank and rating_count > 0 %}
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": {{ rating.rating | json }},
+    "bestRating": {{ rating.scale_max | json }},
+    "ratingCount": {{ rating_count | json }}
+  },
+  {%- endif %}
+  "offers": {
+    "@type": "Offer",
+    "price": "{{ v.price | divided_by: 100.0 }}",
+    "priceCurrency": {{ cart.currency.iso_code | json }},
+    "availability": "https://schema.org/{% if v.available %}InStock{% else %}OutOfStock{% endif %}",
+    "url": {{ shop.url | append: product.url | json }}
+  }
+}
+</script>

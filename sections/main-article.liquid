@@ -1,0 +1,20 @@
+<article class="container section">
+  {% render 'breadcrumbs' %}
+  <div class="container--narrow" style="padding-inline:0">
+    <h1>{{ article.title }}</h1>
+    <p class="text-sm text-soft">{{ article.published_at | date: '%-d %B %Y' }}</p>
+    {%- if article.image -%}
+      <div class="media media--wide" style="margin:var(--sp-6) 0">
+        {{ article.image | image_url: width: 1400 | image_tag: loading: 'eager',
+             widths: '600,900,1200,1400', sizes: '(min-width: 990px) 860px, 95vw',
+             alt: article.image.alt | default: article.title | escape }}
+      </div>
+    {%- endif -%}
+    <div class="rte">{{ article.content }}</div>
+    <p style="margin-top:var(--sp-8)"><a href="{{ blog.url }}" class="link">{{ 'sections.blog.back_to_blog' | t }}</a></p>
+  </div>
+</article>
+
+{% schema %}
+{ "name": "Artikel", "settings": [] }
+{% endschema %}

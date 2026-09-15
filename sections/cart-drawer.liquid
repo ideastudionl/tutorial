@@ -1,0 +1,88 @@
+<aside class="drawer drawer--right" id="CartDrawer" data-cart-drawer
+  aria-label="{{ 'sections.cart.title' | t }}" aria-hidden="true">
+  <div data-cart-section="cart-drawer">
+    <div class="drawer__head">
+      <h2 class="drawer__title">
+        {{ 'sections.cart.title' | t }}
+        {%- if cart.item_count > 0 -%}
+          <span class="badge badge--soft">{{ 'sections.header.cart_count' | t: count: cart.item_count }}</span>
+        {%- endif -%}
+      </h2>
+      <button type="button" class="icon-btn" data-close aria-label="{{ 'accessibility.close' | t }}">
+        {% render 'icon', name: 'close', size: 18 %}
+      </button>
+    </div>
+
+    {%- comment -%} Mirrors the count for the header badge after a re-render. {%- endcomment -%}
+    <span hidden data-cart-count-source="{{ cart.item_count }}"></span>
+
+    {%- if cart.item_count > 0 -%}
+      <div style="padding: var(--sp-4) var(--sp-5); border-bottom: 1px solid var(--c-line); background: var(--c-sand)">
+        {% render 'free-shipping-bar' %}
+      </div>
+    {%- endif -%}
+
+    <div class="drawer__body">
+      {%- if cart.item_count == 0 -%}
+        <div style="padding: var(--sp-12) var(--sp-5); text-align:center">
+          <p><strong>{{ 'sections.cart.empty' | t }}</strong></p>
+          <p class="text-soft">{{ 'sections.cart.empty_help' | t }}</p>
+          <a href="{{ routes.all_products_collection_url }}" class="btn" data-close>
+            {{ 'general.continue_shopping' | t }}
+          </a>
+        </div>
+      {%- else -%}
+        {%- for line in cart.items -%}
+          <div class="line" style="display:flex;gap:var(--sp-3);padding:var(--sp-4) var(--sp-5);border-bottom:1px solid var(--c-line)">
+            <a href="{{ line.url }}" class="media media--square" style="width:76px;flex:none">
+              {%- if line.image -%}
+                {{ line.image | image_url: width: 200 | image_tag:
+                     loading: 'lazy', widths: '100,200', sizes: '76px',
+                     alt: line.image.alt | default: line.product.title | escape }}
+              {%- endif -%}
+            </a>
+            <div style="flex:1;min-width:0;display:grid;gap:.35rem;align-content:start">
+              <a href="{{ line.url }}" style="font-weight:600;font-size:.9375rem;text-decoration:none">{{ line.product.title }}</a>
+              {%- unless line.product.has_only_default_variant -%}
+                <span class="text-xs text-soft">{{ line.variant.title }}</span>
+              {%- endunless -%}
+              {%- if line.selling_plan_allocation -%}
+                <span class="text-xs text-soft">{{ line.selling_plan_allocation.selling_plan.name }}</span>
+              {%- endif -%}
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:var(--sp-2);margin-top:.2rem">
+                {% render 'quantity-input', id: 'CartQty-', name: 'updates[]', value: line.quantity, min: 0, line: forloop.index, classes: 'qty--sm' %}
+                <b class="text-sm">{{ line.final_line_price | money }}</b>
+              </div>
+              <button type="button" class="text-xs" data-cart-remove data-line="{{ forloop.index }}"
+                style="border:0;background:none;padding:0;cursor:pointer;text-decoration:underline;color:var(--c-ink-soft);justify-self:start">
+                {{ 'sections.cart.remove' | t }}
+              </button>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+
+    {%- if cart.item_count > 0 -%}
+      <div class="drawer__foot">
+        <form action="{{ routes.cart_url }}" method="post">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:.3rem">
+            <span>{{ 'sections.cart.subtotal' | t }}</span>
+            <b style="font-size:1.25rem">{{ cart.total_price | money }}</b>
+          </div>
+          <p class="text-xs text-soft" style="margin-bottom:var(--sp-3)">{{ 'sections.cart.shipping_note' | t }}</p>
+          <button type="submit" name="checkout" class="btn btn--full btn--lg">
+            {{ 'sections.cart.checkout' | t }}
+          </button>
+        </form>
+        <a href="{{ routes.cart_url }}" class="link" style="display:block;text-align:center;margin-top:.8rem">
+          {{ 'sections.cart.view_cart' | t }}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</aside>
+
+{% schema %}
+{ "name": "Winkelwagen-paneel", "settings": [] }
+{% endschema %}

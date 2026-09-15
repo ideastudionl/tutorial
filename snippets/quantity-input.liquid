@@ -1,0 +1,27 @@
+{%- comment -%}
+  Accepts: id, name, value, min, max, line (for cart lines), classes.
+{%- endcomment -%}
+{%- liquid
+  assign qmin = min | default: 1
+  assign qval = value | default: qmin
+-%}
+<div class="qty {{ classes }}" data-qty>
+  <button type="button" data-qty-change="-1" aria-label="{{ 'products.product.decrease_quantity' | t }}"
+    {% if qval <= qmin %}disabled{% endif %}>
+    {% render 'icon', name: 'minus', size: 14 %}
+  </button>
+  <input
+    id="{{ id }}"
+    type="number"
+    name="{{ name | default: 'quantity' }}"
+    value="{{ qval }}"
+    min="{{ qmin }}"
+    {% if max %}max="{{ max }}"{% endif %}
+    {% if line %}data-cart-qty data-line="{{ line }}"{% endif %}
+    aria-label="{{ 'products.product.quantity' | t }}"
+    inputmode="numeric">
+  <button type="button" data-qty-change="1" aria-label="{{ 'products.product.increase_quantity' | t }}"
+    {% if max and qval >= max %}disabled{% endif %}>
+    {% render 'icon', name: 'plus', size: 14 %}
+  </button>
+</div>

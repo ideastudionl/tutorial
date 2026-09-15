@@ -1,0 +1,33 @@
+{%- comment -%}
+  Star rating. Renders ONLY when the product carries real review metafields
+  (reviews.rating + reviews.rating_count) from a review app. Stars without
+  underlying reviews are misleading, and publishing them as Review schema
+  earns a manual action — so there is deliberately no fallback here.
+  Accepts: product (required), class.
+{%- endcomment -%}
+{%- liquid
+  assign rating = product.metafields.reviews.rating.value
+  assign count = product.metafields.reviews.rating_count.value | plus: 0
+-%}
+{%- if rating != blank and count > 0 -%}
+  {%- assign score = rating.rating | times: 1.0 -%}
+  <span class="rating {{ class }}">
+    <span class="rating__stars" aria-hidden="true">
+      {%- for i in (1..5) -%}
+        {%- assign half = i | minus: 0.5 -%}
+        {%- if score >= i -%}
+          {% render 'icon', name: 'star', size: 14 %}
+        {%- elsif score >= half -%}
+          {% render 'icon', name: 'star-half', size: 14 %}
+        {%- else -%}
+          {% render 'icon', name: 'star-empty', size: 14 %}
+        {%- endif -%}
+      {%- endfor -%}
+    </span>
+    <span class="visually-hidden">
+      {{ 'accessibility.star_rating' | t: rating: score, max: rating.scale_max }}
+    </span>
+    <span aria-hidden="true">{{ score | round: 1 }}</span>
+    <span class="rating__count">({{ count }})</span>
+  </span>
+{%- endif -%}

@@ -1,0 +1,78 @@
+<div class="announcement" data-announcement data-interval="{{ section.settings.interval | times: 1000 }}">
+  <div class="container announcement__inner">
+    {%- if section.blocks.size > 1 -%}
+      <div class="announcement__nav">
+        <button type="button" data-announcement-prev aria-label="{{ 'accessibility.previous' | t }}">
+          {% render 'icon', name: 'chevron-left', size: 13 %}
+        </button>
+      </div>
+    {%- endif -%}
+
+    <div class="announcement__items">
+      {%- for block in section.blocks -%}
+        <p class="announcement__item{% if forloop.first %} is-active{% endif %}" {{ block.shopify_attributes }}>
+          {%- if block.settings.icon != 'none' -%}
+            {% render 'icon', name: block.settings.icon, size: 15 %}
+          {%- endif -%}
+          {%- if block.settings.link != blank -%}
+            <a href="{{ block.settings.link }}">{{ block.settings.text }}</a>
+          {%- else -%}
+            {{ block.settings.text }}
+          {%- endif -%}
+        </p>
+      {%- endfor -%}
+    </div>
+
+    {%- if section.blocks.size > 1 -%}
+      <div class="announcement__nav">
+        <button type="button" data-announcement-next aria-label="{{ 'accessibility.next' | t }}">
+          {% render 'icon', name: 'chevron-right', size: 13 %}
+        </button>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Aankondigingsbalk",
+  "settings": [
+    {
+      "type": "range",
+      "id": "interval",
+      "label": "Wisselen na (seconden)",
+      "min": 3, "max": 12, "step": 1, "default": 5
+    }
+  ],
+  "blocks": [
+    {
+      "type": "message",
+      "name": "Melding",
+      "limit": 5,
+      "settings": [
+        { "type": "text", "id": "text", "label": "Tekst", "default": "Gratis verzending binnen Nederland" },
+        { "type": "url", "id": "link", "label": "Link (optioneel)" },
+        {
+          "type": "select", "id": "icon", "label": "Icoon", "default": "truck",
+          "options": [
+            { "value": "none", "label": "Geen" },
+            { "value": "truck", "label": "Verzending" },
+            { "value": "return", "label": "Retour" },
+            { "value": "leaf", "label": "Natuurlijk" },
+            { "value": "lock", "label": "Veilig betalen" },
+            { "value": "check", "label": "Vinkje" }
+          ]
+        }
+      ]
+    }
+  ],
+  "default": {
+    "blocks": [
+      { "type": "message", "settings": { "text": "Gratis verzending binnen Nederland", "icon": "truck" } },
+      { "type": "message", "settings": { "text": "14 dagen bedenktijd — niet goed, geld terug", "icon": "return" } },
+      { "type": "message", "settings": { "text": "Originele Forever-producten uit eigen voorraad", "icon": "leaf" } }
+    ]
+  },
+  "enabled_on": { "groups": ["header"] }
+}
+{% endschema %}

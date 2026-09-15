@@ -1,0 +1,19 @@
+<div class="container section" style="text-align:center">
+  <h1>{{ '404.title' | t }}</h1>
+  <p class="lede measure-center">{{ '404.subtext' | t }}</p>
+
+  <form action="{{ routes.search_url }}" method="get" role="search" class="search-form"
+    style="max-width:420px;margin:var(--sp-6) auto 0">
+    {% render 'icon', name: 'search', size: 20, class: 'search-form__icon' %}
+    <label class="visually-hidden" for="NotFoundSearch">{{ 'general.search.title' | t }}</label>
+    <input type="search" id="NotFoundSearch" name="q" class="input" placeholder="{{ '404.search_prompt' | t }}">
+  </form>
+
+  <p style="margin-top:var(--sp-6)">
+    <a href="{{ routes.root_url }}" class="btn">{{ '404.back_home' | t }}</a>
+  </p>
+</div>
+
+{% schema %}
+{ "name": "404", "settings": [] }
+{% endschema %}

@@ -1,0 +1,100 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "blocks": {
+        "p1": { "type": "point", "settings": { "text": "Originele producten via de officiële distributie" } },
+        "p2": { "type": "point", "settings": { "text": "Voorraadstatus per product, vóór je bestelt" } },
+        "p3": { "type": "point", "settings": { "text": "14 dagen bedenktijd, verzendkosten terug" } }
+      },
+      "block_order": ["p1", "p2", "p3"],
+      "settings": {
+        "eyebrow": "Officieel Forever-assortiment",
+        "heading": "Aloë vera van Forever. Uit eigen voorraad.",
+        "text": "<p>Het volledige Forever-assortiment, verzonden vanuit Nederland. Van de 9-daagse C9 tot je dagelijkse drinkgel — met een levertijd die klopt en een klantenservice die antwoordt.</p>",
+        "cta_label": "Bekijk de C9 kuur",
+        "cta2_label": "Alle producten"
+      }
+    },
+    "usp": {
+      "type": "usp-bar",
+      "blocks": {
+        "u1": { "type": "usp", "settings": { "text": "Gratis verzending in Nederland", "icon": "truck" } },
+        "u2": { "type": "usp", "settings": { "text": "14 dagen bedenktijd", "icon": "return" } },
+        "u3": { "type": "usp", "settings": { "text": "Uit eigen voorraad", "icon": "box" } },
+        "u4": { "type": "usp", "settings": { "text": "Veilig betalen met iDEAL", "icon": "lock" } }
+      },
+      "block_order": ["u1", "u2", "u3", "u4"],
+      "settings": {}
+    },
+    "categories": {
+      "type": "category-grid",
+      "blocks": {
+        "c1": { "type": "category", "settings": { "title": "C9 kuur" } },
+        "c2": { "type": "category", "settings": { "title": "Forever F15" } },
+        "c3": { "type": "category", "settings": { "title": "Sport & Fitness" } },
+        "c4": { "type": "category", "settings": { "title": "Dranken" } },
+        "c5": { "type": "category", "settings": { "title": "Huidverzorging" } },
+        "c6": { "type": "category", "settings": { "title": "Persoonlijke verzorging" } },
+        "c7": { "type": "category", "settings": { "title": "Voedingssupplementen" } },
+        "c8": { "type": "category", "settings": { "title": "Bijenproducten" } }
+      },
+      "block_order": ["c1", "c2", "c3", "c4", "c5", "c6", "c7", "c8"],
+      "settings": {
+        "eyebrow": "Vind sneller wat je zoekt",
+        "heading": "Waar ben je naar op zoek?",
+        "text": "Kies de categorie die bij je doel past."
+      }
+    },
+    "bestsellers": {
+      "type": "featured-collection",
+      "settings": {
+        "eyebrow": "Veelgekozen",
+        "heading": "Wat het vaakst besteld wordt",
+        "limit": 8,
+        "columns": 4,
+        "background": "white"
+      }
+    },
+    "why": {
+      "type": "feature-grid",
+      "blocks": {
+        "f1": { "type": "feature", "settings": { "heading": "Eigen voorraad", "icon": "box", "text": "Wat op voorraad staat, ligt in het magazijn. Uitverkocht staat op de productpagina — niet pas in de bevestigingsmail." } },
+        "f2": { "type": "feature", "settings": { "heading": "Eerlijke levertijd", "icon": "truck", "text": "De verwachte bezorgdatum staat vóór het afrekenen op je scherm." } },
+        "f3": { "type": "feature", "settings": { "heading": "Bereikbare klantenservice", "icon": "chat", "text": "Per e-mail en telefoon, met een reactietermijn die we publiceren en nakomen." } },
+        "f4": { "type": "feature", "settings": { "heading": "14 dagen bedenktijd", "icon": "return", "text": "Het wettelijke herroepingsrecht zonder extra voorwaarden." } },
+        "f5": { "type": "feature", "settings": { "heading": "Originele producten", "icon": "leaf", "text": "Alles loopt via de officiële Forever-distributie." } },
+        "f6": { "type": "feature", "settings": { "heading": "Veilig betalen", "icon": "lock", "text": "iDEAL, Bancontact, creditcard, PayPal en Klarna via de beveiligde checkout." } }
+      },
+      "block_order": ["f1", "f2", "f3", "f4", "f5", "f6"],
+      "settings": {
+        "eyebrow": "Waarom hier",
+        "heading": "Waar we op afgerekend willen worden",
+        "text": "Controleerbare afspraken in plaats van marketingbeloftes.",
+        "background": "brand"
+      }
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "q1": { "type": "qa", "settings": { "question": "Hoe snel is mijn bestelling in huis?", "answer": "<p>Bestellingen die op werkdagen vóór de aangegeven tijd binnen zijn, gaan dezelfde dag de deur uit. De verwachte bezorgdatum staat op de productpagina en in de winkelwagen.</p>" } },
+        "q2": { "type": "qa", "settings": { "question": "Kan ik retourneren?", "answer": "<p>Ja. Je hebt 14 dagen bedenktijd vanaf ontvangst en daarna nog eens 14 dagen om het product terug te sturen. Je krijgt het volledige orderbedrag inclusief de standaard verzendkosten terug.</p>" } },
+        "q3": { "type": "qa", "settings": { "question": "Hoe werkt de C9 kuur?", "answer": "<p>De C9 is een programma van negen dagen. In de doos zit alles wat je in die negen dagen gebruikt, plus een Nederlandstalig boekje dat per dag beschrijft wat je neemt en wanneer.</p>" } },
+        "q4": { "type": "qa", "settings": { "question": "Zijn de producten origineel?", "answer": "<p>Ja. Alle producten komen via de officiële Forever-distributie en worden verzonden uit onze eigen voorraad in Nederland.</p>" } },
+        "q5": { "type": "qa", "settings": { "question": "Welke betaalmethodes kan ik gebruiken?", "answer": "<p>iDEAL, Bancontact, creditcard, PayPal en Klarna. De betaling loopt via de beveiligde checkout van Shopify.</p>" } }
+      },
+      "block_order": ["q1", "q2", "q3", "q4", "q5"],
+      "settings": { "eyebrow": "Veelgestelde vragen", "heading": "Voordat je bestelt" }
+    },
+    "cta": {
+      "type": "cta-banner",
+      "settings": {
+        "heading": "Klaar om te bestellen?",
+        "text": "<p>Begin bij de C9 kuur, of bekijk eerst het volledige assortiment.</p>",
+        "cta_label": "Bekijk de collectie",
+        "cta2_label": "Start met C9"
+      }
+    }
+  },
+  "order": ["hero", "usp", "categories", "bestsellers", "why", "faq", "cta"]
+}
