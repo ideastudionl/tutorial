@@ -1,0 +1,609 @@
+<title>Soccer MeMo Shop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700..800&family=DM+Mono:wght@500&family=Instrument+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="assets/styles.css">
+
+<!-- ===== Iconenset ===== -->
+<svg width="0" height="0" aria-hidden="true" style="position:absolute">
+  <symbol id="ic-ball" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 6.4l3.4 2.5-1.3 4h-4.2l-1.3-4z" fill="currentColor"/><path d="M12 2.8v3.6M5 10.4l3.6-1.5M19 10.4l-3.6-1.5M8.2 20.3l1.7-3.4M15.8 20.3l-1.7-3.4" stroke="currentColor" stroke-width="1.6" fill="none"/></symbol>
+  <symbol id="ic-boot" viewBox="0 0 24 24"><path d="M3.4 15.4h6.9l3.2-8h3.1c1.8 0 3 1.3 3 3v5z" fill="currentColor"/><rect x="2.8" y="16.4" width="17" height="3.2" rx="1.4" fill="currentColor" opacity=".55"/><path d="M6 19.8v1.4M10.5 19.8v1.4M15 19.8v1.4" stroke="currentColor" stroke-width="1.5" opacity=".55" stroke-linecap="round"/></symbol>
+  <symbol id="ic-whistle" viewBox="0 0 24 24"><circle cx="9" cy="14.5" r="5.6" fill="currentColor"/><path d="M13.2 10.6h7.4v4.2h-3.1l-1.3-1.9h-3z" fill="currentColor"/><path d="M14 4.4l2.4 2.6" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/></symbol>
+  <symbol id="ic-shirt" viewBox="0 0 24 24"><path d="M9 3l3 2 3-2 5 3-2 3.6-2-1V21H8V8.6l-2 1L4 6z" fill="currentColor"/><path d="M11 13h2v6h-2z" fill="var(--surface-2,#fff)" opacity=".45"/></symbol>
+  <symbol id="ic-trophy" viewBox="0 0 24 24"><path d="M7 3h10v5a5 5 0 0 1-10 0z" fill="currentColor"/><path d="M4 4h3v2.4A2.6 2.6 0 0 1 4 4zm16 0h-3v2.4A2.6 2.6 0 0 0 20 4z" fill="currentColor" opacity=".6"/><path d="M10.4 13.4h3.2l.9 4.2H9.5zM7.6 19h8.8v2H7.6z" fill="currentColor"/></symbol>
+  <symbol id="ic-goal" viewBox="0 0 24 24"><rect x="2.6" y="6" width="18.8" height="12" rx="1" fill="none" stroke="currentColor" stroke-width="2"/><path d="M7 6v12M12 6v12M17 6v12M2.6 10h18.8M2.6 14h18.8" stroke="currentColor" stroke-width=".9" opacity=".55"/></symbol>
+  <symbol id="ic-cone" viewBox="0 0 24 24"><path d="M12 3.4l6.4 14.2H5.6z" fill="currentColor"/><path d="M8.7 11.6h6.6v1.8H8.7z" fill="var(--surface-2,#fff)" opacity=".5"/><rect x="3.6" y="18.4" width="16.8" height="2.4" rx="1.2" fill="currentColor"/></symbol>
+  <symbol id="ic-flag" viewBox="0 0 24 24"><path d="M6 2.6v18.8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M7.4 3.6H19l-3 4.3 3 4.3H7.4z" fill="currentColor"/></symbol>
+  <symbol id="ic-star" viewBox="0 0 24 24"><path d="M12 2.6l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.5l-5.9 3.1 1.2-6.5L2.5 9.5l6.6-.9z" fill="currentColor"/></symbol>
+  <symbol id="ic-check" viewBox="0 0 24 24"><path d="M4.5 12.6l5 5L19.5 6.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-cart" viewBox="0 0 24 24"><path d="M2.5 3.5h2.6l2.4 11h9.8l2.2-7.6H6.6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="19" r="1.7" fill="currentColor"/><circle cx="17" cy="19" r="1.7" fill="currentColor"/></symbol>
+  <symbol id="ic-truck" viewBox="0 0 24 24"><path d="M1.8 5.6h12v10h-12zM13.8 9h4l3 3v3.6h-7z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="6.5" cy="18" r="1.9" fill="currentColor"/><circle cx="17.5" cy="18" r="1.9" fill="currentColor"/></symbol>
+  <symbol id="ic-gift" viewBox="0 0 24 24"><path d="M3 9h18v3H3zM4.5 12h15v9h-15z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M12 9v12M12 9c-1-3-3-5.6-4.6-4.4C6 5.7 8.6 8.2 12 9zm0 0c1-3 3-5.6 4.6-4.4C18 5.7 15.4 8.2 12 9z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-shield" viewBox="0 0 24 24"><path d="M12 2.6l8 3v6c0 5-3.4 8.6-8 9.8-4.6-1.2-8-4.8-8-9.8v-6z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M8.6 12.2l2.4 2.4 4.4-4.6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="ic-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 6.8V12l3.4 2.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="ic-brain" viewBox="0 0 24 24"><path d="M12 4.2c-1.6-1.6-4.6-1.2-5.4 1-1.8.2-2.8 1.8-2.4 3.4-1.4 1-1.5 3.2-.2 4.3-.5 2 1 3.8 3 3.8.5 1.7 2.6 2.5 4 1.4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 4.2c1.6-1.6 4.6-1.2 5.4 1 1.8.2 2.8 1.8 2.4 3.4 1.4 1 1.5 3.2.2 4.3.5 2-1 3.8-3 3.8-.5 1.7-2.6 2.5-4 1.4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 4.2V21" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="ic-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M2.8 20c0-3.4 2.8-5.6 6.2-5.6s6.2 2.2 6.2 5.6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M16.4 5.2a3.4 3.4 0 0 1 0 6.4M17.5 14.8c2.2.6 3.7 2.5 3.7 5.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="ic-close" viewBox="0 0 24 24"><path d="M5.5 5.5l13 13M18.5 5.5l-13 13" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></symbol>
+  <symbol id="ic-lock" viewBox="0 0 24 24"><rect x="4.5" y="10" width="15" height="10.5" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 10V7.4a4 4 0 0 1 8 0V10" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+  <symbol id="ic-arrow" viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-leaf" viewBox="0 0 24 24"><path d="M20 4c0 9-5.4 13.6-11.4 13.6-1.6 0-3-.4-4-1 .6-6.6 5.6-11 11.4-11.6z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M4 20c1.6-4 4.6-7 8.4-8.6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+
+  <!-- Productbeelden -->
+  <symbol id="art-box" viewBox="0 0 400 400">
+    <rect x="52" y="70" width="296" height="250" rx="16" fill="#0B6B3A"/>
+    <rect x="52" y="70" width="296" height="250" rx="16" fill="none" stroke="#06341E" stroke-width="4"/>
+    <path d="M52 232h296v40H52z" fill="#FF5A00"/>
+    <circle cx="200" cy="160" r="52" fill="#F6F8F1"/>
+    <use href="#ic-ball" x="160" y="120" width="80" height="80" color="#0B6B3A"/>
+    <text x="200" y="262" text-anchor="middle" font-family="Bricolage Grotesque, Arial" font-size="28" font-weight="800" fill="#fff">SOCCER MeMo</text>
+    <rect x="248" y="86" width="82" height="30" rx="15" fill="#FFC630"/>
+    <text x="289" y="107" text-anchor="middle" font-family="DM Mono, monospace" font-size="15" fill="#121A14">48 KRT</text>
+    <text x="200" y="300" text-anchor="middle" font-family="Instrument Sans, Arial" font-size="15" fill="#C9E3CF">Voetbal-memory · 2–4 spelers · 4+</text>
+  </symbol>
+  <symbol id="art-fan" viewBox="0 0 400 400">
+    <g stroke="#06341E" stroke-width="3.5">
+      <g transform="rotate(-9 94 300)"><rect x="52" y="140" width="84" height="116" rx="12" fill="#EFF3E9"/><use href="#ic-boot" x="74" y="168" width="40" height="40" color="#0B6B3A" stroke="none"/></g>
+      <g transform="rotate(-3 166 300)"><rect x="124" y="140" width="84" height="116" rx="12" fill="#FFFFFF"/><use href="#ic-whistle" x="146" y="168" width="40" height="40" color="#FF5A00" stroke="none"/></g>
+      <g transform="rotate(3 238 300)"><rect x="196" y="140" width="84" height="116" rx="12" fill="#EFF3E9"/><use href="#ic-trophy" x="218" y="168" width="40" height="40" color="#E0A400" stroke="none"/></g>
+      <g transform="rotate(9 310 300)"><rect x="268" y="140" width="84" height="116" rx="12" fill="#FFFFFF"/><use href="#ic-flag" x="290" y="168" width="40" height="40" color="#FF5A00" stroke="none"/></g>
+    </g>
+  </symbol>
+  <symbol id="art-play" viewBox="0 0 400 400">
+    <rect x="10" y="10" width="380" height="380" rx="18" fill="#0B6B3A"/>
+    <g stroke="#EAF6EC" stroke-width="2" opacity=".5" fill="none"><circle cx="200" cy="200" r="70"/><path d="M200 10v380M10 130h70v140H10M390 130h-70v140h70"/></g>
+    <g stroke="#06341E" stroke-width="3">
+      <rect x="44" y="60" width="72" height="96" rx="10" fill="#F6F8F1"/><use href="#ic-ball" x="60" y="82" width="40" height="40" color="#0B6B3A" stroke="none"/>
+      <rect x="140" y="60" width="72" height="96" rx="10" fill="#0B6B3A"/><use href="#ic-ball" x="156" y="82" width="40" height="40" color="#EAF6EC" opacity=".5" stroke="none"/>
+      <rect x="236" y="60" width="72" height="96" rx="10" fill="#0B6B3A"/><use href="#ic-ball" x="252" y="82" width="40" height="40" color="#EAF6EC" opacity=".5" stroke="none"/>
+      <rect x="44" y="176" width="72" height="96" rx="10" fill="#FFE8DA"/><use href="#ic-shirt" x="60" y="198" width="40" height="40" color="#FF5A00" stroke="none"/>
+      <rect x="140" y="176" width="72" height="96" rx="10" fill="#FFE8DA"/><use href="#ic-shirt" x="156" y="198" width="40" height="40" color="#FF5A00" stroke="none"/>
+      <rect x="236" y="176" width="72" height="96" rx="10" fill="#0B6B3A"/><use href="#ic-ball" x="252" y="198" width="40" height="40" color="#EAF6EC" opacity=".5" stroke="none"/>
+      <rect x="44" y="292" width="72" height="60" rx="10" fill="#0B6B3A"/>
+      <rect x="140" y="292" width="72" height="60" rx="10" fill="#F6F8F1"/><use href="#ic-cone" x="156" y="300" width="40" height="40" color="#FF5A00" stroke="none"/>
+      <rect x="236" y="292" width="72" height="60" rx="10" fill="#0B6B3A"/>
+    </g>
+    <rect x="318" y="60" width="38" height="292" rx="10" fill="#FFC630" opacity=".9"/>
+  </symbol>
+  <symbol id="art-card" viewBox="0 0 400 400">
+    <rect x="70" y="40" width="260" height="320" rx="22" fill="#0B6B3A" stroke="#06341E" stroke-width="5"/>
+    <g stroke="#EAF6EC" stroke-width="3" fill="none" opacity=".65"><circle cx="200" cy="200" r="72"/><path d="M200 52v296M92 122h60v156H92M308 122h-60v156h60"/></g>
+    <circle cx="200" cy="200" r="30" fill="#FF5A00"/>
+    <use href="#ic-ball" x="178" y="178" width="44" height="44" color="#FFFFFF"/>
+    <text x="200" y="336" text-anchor="middle" font-family="DM Mono, monospace" font-size="16" fill="#EAF6EC">SOCCER MeMo</text>
+  </symbol>
+  <symbol id="art-poster" viewBox="0 0 400 400">
+    <rect x="96" y="40" width="208" height="300" rx="8" fill="#F6F8F1" stroke="#06341E" stroke-width="4"/>
+    <rect x="96" y="40" width="208" height="120" fill="#FF5A00"/>
+    <use href="#ic-goal" x="150" y="60" width="100" height="80" color="#FFFFFF"/>
+    <g fill="#121A14"><rect x="120" y="186" width="160" height="12" rx="6"/><rect x="120" y="212" width="120" height="10" rx="5" opacity=".6"/><rect x="120" y="234" width="140" height="10" rx="5" opacity=".6"/><rect x="120" y="256" width="90" height="10" rx="5" opacity=".6"/></g>
+    <circle cx="255" cy="296" r="26" fill="#0B6B3A"/>
+  </symbol>
+  <symbol id="art-giftbox" viewBox="0 0 400 400">
+    <rect x="70" y="150" width="260" height="190" rx="14" fill="#FFC630" stroke="#06341E" stroke-width="4"/>
+    <rect x="56" y="112" width="288" height="52" rx="12" fill="#F6F8F1" stroke="#06341E" stroke-width="4"/>
+    <rect x="178" y="112" width="44" height="228" fill="#FF5A00"/>
+    <path d="M200 112c-14-34-40-58-56-42-14 14 12 34 56 42zm0 0c14-34 40-58 56-42 14 14-12 34-56 42z" fill="#FF5A00" stroke="#06341E" stroke-width="4" stroke-linejoin="round"/>
+  </symbol>
+</svg>
+
+<!-- ===== Header ===== -->
+<header class="header">
+  <div class="wrap header__bar">
+    <a class="logo" href="#/" data-link>
+      <span class="logo__mark"><svg><use href="#ic-ball"></use></svg></span>
+      Soccer <em>MeMo</em>
+    </a>
+    <nav class="nav" aria-label="Hoofdmenu">
+      <a href="#/product" data-link>Het spel</a>
+      <a href="#hoe-speel-je" data-link>Spelregels</a>
+      <a href="#cadeau" data-link>Cadeautip</a>
+      <a href="#reviews" data-link>Reviews</a>
+      <a href="#faq" data-link>Vragen</a>
+    </nav>
+    <div class="header__actions">
+      <span class="demo-chip" title="Prototype met voorbeelddata">Demo</span>
+      <button class="icon-btn" id="cartBtn" aria-haspopup="dialog">
+        <svg><use href="#ic-cart"></use></svg>
+        <span class="sr-only">Winkelwagen openen</span>
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="usps">
+  <div class="wrap">
+    <ul>
+      <li><svg><use href="#ic-truck"></use></svg> Gratis verzending vanaf € 30</li>
+      <li><svg><use href="#ic-clock"></use></svg> Voor 22:00 besteld, morgen in huis</li>
+      <li><svg><use href="#ic-shield"></use></svg> 30 dagen ruilen of geld terug</li>
+      <li><svg><use href="#ic-lock"></use></svg> Betaal veilig met iDEAL</li>
+    </ul>
+  </div>
+</div>
+
+<main>
+<!-- =========================================================
+     HOME
+     ========================================================= -->
+<div data-route="home" class="is-active">
+
+  <section class="hero">
+    <div class="wrap hero__grid">
+      <div class="stack">
+        <div class="hero__badges">
+          <span class="badge"><svg><use href="#ic-leaf"></use></svg> Ontworpen &amp; gedrukt in Nederland</span>
+          <span class="badge badge--flame"><svg><use href="#ic-users"></use></svg> Vanaf 4 jaar</span>
+        </div>
+        <h1>Omdraaien.<br>Onthouden.<br><span class="flip-word">Scoren.</span></h1>
+        <p class="lead">Soccer MeMo is het voetbal-memoryspel met <span class="under">48 kaarten</span> en 24 unieke illustraties. Je kind traint concentratie en geheugen — en jij speelt eindelijk weer eens mee aan tafel.</p>
+        <div class="rating">
+          <span class="stars" aria-hidden="true"><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg></span>
+          <span><b>9,4</b> gemiddeld · 212 beoordelingen</span>
+        </div>
+        <div class="hero__buy">
+          <button class="btn btn--primary" data-add="memo">In de winkelwagen <span class="btn__price">€ 19,95</span></button>
+          <a class="btn btn--ghost" href="#/product" data-link>Bekijk het spel <svg width="18" height="18"><use href="#ic-arrow"></use></svg></a>
+        </div>
+        <p class="eyebrow">Nog 23 stuks op voorraad · vandaag verzonden</p>
+      </div>
+
+      <div class="board-panel" id="speel-mee">
+        <div class="board-panel__top">
+          <h2>Speel een proefpotje</h2>
+          <div class="scoreline"><span>Zetten <b id="mvCount">0</b></span><span>Paren <b id="prCount">0</b>/6</span></div>
+        </div>
+        <div class="board" id="board" role="group" aria-label="Mini memoryspel met zes paren"></div>
+        <div class="board-panel__foot">
+          <p class="board-msg" id="boardMsg" role="status">Draai twee kaarten om en zoek het paar.</p>
+          <button class="linkish" id="boardReset">Opnieuw schudden</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="trust">
+      <span class="pay"><svg><use href="#ic-lock"></use></svg> iDEAL</span>
+      <span class="pay">Klarna · achteraf betalen</span>
+      <span class="pay">Bancontact</span>
+      <span class="pay"><svg><use href="#ic-truck"></use></svg> PostNL</span>
+      <span class="pay"><svg><use href="#ic-shield"></use></svg> Thuiswinkel Waarborg</span>
+    </div>
+  </div>
+
+  <!-- Waarom -->
+  <section class="section" id="waarom">
+    <div class="wrap">
+      <div class="section__head">
+        <div class="stack">
+          <p class="eyebrow">Waarom ouders het kopen</p>
+          <h2>Schermvrij spelen waar je kind écht beter van wordt</h2>
+        </div>
+        <p class="lead" style="max-width:34ch">Een potje duurt tien minuten. Precies lang genoeg voor focus, kort genoeg voor de avond voor het slapen.</p>
+      </div>
+      <div class="cols cols--3 reveal">
+        <article class="benefit">
+          <span class="benefit__ic"><svg><use href="#ic-brain"></use></svg></span>
+          <h3>Traint geheugen en focus</h3>
+          <p>Kaarten zoeken, onthouden, opnieuw proberen. Kinderen oefenen werkgeheugen en volgehouden aandacht zonder dat het op oefenen lijkt.</p>
+        </article>
+        <article class="benefit benefit--flame">
+          <span class="benefit__ic"><svg><use href="#ic-users"></use></svg></span>
+          <h3>Samen aan tafel, 2 tot 4 spelers</h3>
+          <p>De spelregels leg je in één minuut uit. Kleine broer of zus doet mee, opa wint verdacht vaak.</p>
+        </article>
+        <article class="benefit benefit--lemon">
+          <span class="benefit__ic"><svg><use href="#ic-ball"></use></svg></span>
+          <h3>Herkenbaar voetbalthema</h3>
+          <p>Bal, scheenbeschermer, corner­vlag, fluitje: 24 illustraties uit de wereld van de training en de wedstrijd op zaterdag.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Shop -->
+  <section class="section" id="shop">
+    <div class="wrap">
+      <div class="section__head">
+        <div class="stack">
+          <p class="eyebrow">De collectie</p>
+          <h2>Kies je pakket</h2>
+        </div>
+        <a class="btn btn--sm btn--ghost" href="#/product" data-link>Alles over Soccer MeMo</a>
+      </div>
+      <div class="cols cols--4 reveal">
+        <article class="pcard">
+          <a href="#/product" data-link class="pcard__media" aria-label="Bekijk Soccer MeMo">
+            <span class="pcard__flag">Bestseller</span>
+            <svg><use href="#art-box"></use></svg>
+          </a>
+          <div class="pcard__body">
+            <h3>Soccer MeMo</h3>
+            <p class="pcard__meta">48 kaarten · 24 paren · 4+</p>
+            <div class="pcard__foot">
+              <span class="pcard__price">€ 19,95</span>
+              <button class="btn btn--sm btn--primary" data-add="memo">In mandje</button>
+            </div>
+          </div>
+        </article>
+        <article class="pcard">
+          <div class="pcard__media"><span class="pcard__flag">Bespaar € 4,95</span><svg><use href="#art-fan"></use></svg></div>
+          <div class="pcard__body">
+            <h3>Duo-pack</h3>
+            <p class="pcard__meta">2 spellen — eentje houden, eentje geven</p>
+            <div class="pcard__foot">
+              <span class="pcard__price">€ 34,95</span>
+              <button class="btn btn--sm btn--primary" data-add="duo">In mandje</button>
+            </div>
+          </div>
+        </article>
+        <article class="pcard">
+          <div class="pcard__media"><svg><use href="#art-giftbox"></use></svg></div>
+          <div class="pcard__body">
+            <h3>Cadeauverpakking</h3>
+            <p class="pcard__meta">Ingepakt in oranje lint + kaartje</p>
+            <div class="pcard__foot">
+              <span class="pcard__price">€ 2,95</span>
+              <button class="btn btn--sm btn--ghost" data-add="gift">Toevoegen</button>
+            </div>
+          </div>
+        </article>
+        <article class="pcard">
+          <div class="pcard__media"><svg><use href="#art-poster"></use></svg></div>
+          <div class="pcard__body">
+            <h3>Poster &quot;Elftal&quot; A2</h3>
+            <p class="pcard__meta">Voor boven het bed · dik papier</p>
+            <div class="pcard__foot">
+              <span class="pcard__price">€ 9,95</span>
+              <button class="btn btn--sm btn--ghost" data-add="poster">Toevoegen</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Hoe speel je het -->
+  <section class="section" id="hoe-speel-je">
+    <div class="wrap">
+      <div class="section__head">
+        <div class="stack">
+          <p class="eyebrow">Spelregels in 3 stappen</p>
+          <h2>Van doos open tot eerste paar: één minuut</h2>
+        </div>
+      </div>
+      <div class="steps reveal">
+        <article class="step">
+          <h3>Leg de kaarten omgekeerd neer</h3>
+          <p>Schud de 48 kaarten en leg ze in een raster met de afbeelding naar beneden. Voor jonge spelers gebruik je de helft.</p>
+        </article>
+        <article class="step">
+          <h3>Draai er twee om</h3>
+          <p>Twee dezelfde? Je houdt het paar en mag nog een keer. Verschillend? Draai ze terug en onthoud waar ze lagen.</p>
+        </article>
+        <article class="step">
+          <h3>Wie de meeste paren heeft, wint</h3>
+          <p>Op zijn de kaarten? Tel de paren. Speel een revanche — een potje duurt ongeveer tien minuten.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Specs -->
+  <section class="section">
+    <div class="wrap">
+      <dl class="specs reveal">
+        <div class="spec"><dt>Kaarten</dt><dd>48 stuks</dd></div>
+        <div class="spec"><dt>Illustraties</dt><dd>24 paren</dd></div>
+        <div class="spec"><dt>Spelers</dt><dd>2 – 4</dd></div>
+        <div class="spec"><dt>Leeftijd</dt><dd>Vanaf 4 jaar</dd></div>
+        <div class="spec"><dt>Speelduur</dt><dd>± 10 min</dd></div>
+        <div class="spec"><dt>Materiaal</dt><dd>300 g karton</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- Cadeau -->
+  <section class="section" id="cadeau">
+    <div class="wrap">
+      <div class="gift reveal">
+        <div class="stack">
+          <p class="eyebrow" style="color:#A9CDB2">Cadeautip</p>
+          <h2>Het beste cadeau voor de kleedkamer</h2>
+          <p class="lead">Einde seizoen, verjaardag of gewoon omdat ze kampioen zijn geworden: Soccer MeMo past in elke sporttas. Wij pakken het voor je in met oranje lint en schrijven je kaartje mee.</p>
+          <div class="hero__buy">
+            <button class="btn btn--primary" data-add="memo">Bestel met cadeauverpakking <span class="btn__price">€ 22,90</span></button>
+          </div>
+          <p class="eyebrow" style="color:#A9CDB2">Team of vereniging? Vanaf 10 stuks krijg je staffelkorting — mail teams@soccer-games.nl</p>
+        </div>
+        <div class="gift__art"><svg viewBox="0 0 400 400"><use href="#art-giftbox"></use></svg></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reviews -->
+  <section class="section" id="reviews">
+    <div class="wrap">
+      <div class="section__head">
+        <div class="stack">
+          <p class="eyebrow">Beoordelingen</p>
+          <h2>Wat ouders en kinderen zeggen</h2>
+        </div>
+      </div>
+      <div class="cols cols--4 reveal">
+        <div class="score-panel">
+          <div><span class="score-panel__big">9,4</span></div>
+          <span class="stars" aria-hidden="true"><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg></span>
+          <p style="font-size:.9rem;color:var(--muted)">Gebaseerd op 212 beoordelingen van klanten die het spel kochten.</p>
+          <div class="bars">
+            <div class="bar"><span>5 ★</span><span class="bar__track"><span class="bar__fill" style="width:78%"></span></span><span>78%</span></div>
+            <div class="bar"><span>4 ★</span><span class="bar__track"><span class="bar__fill" style="width:16%"></span></span><span>16%</span></div>
+            <div class="bar"><span>3 ★</span><span class="bar__track"><span class="bar__fill" style="width:4%"></span></span><span>4%</span></div>
+            <div class="bar"><span>2 ★</span><span class="bar__track"><span class="bar__fill" style="width:1%"></span></span><span>1%</span></div>
+            <div class="bar"><span>1 ★</span><span class="bar__track"><span class="bar__fill" style="width:1%"></span></span><span>1%</span></div>
+          </div>
+        </div>
+        <article class="review">
+          <span class="stars" aria-hidden="true"><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg></span>
+          <p>&ldquo;Mooi product met duidelijke kaarten en een origineel ontwerp. Onze zoon van vijf wil elke avond een potje.&rdquo;</p>
+          <span class="verified"><svg><use href="#ic-check"></use></svg> Geverifieerde koop</span>
+          <span class="review__who"><span class="avatar">SM</span> Sanne M. · Utrecht</span>
+        </article>
+        <article class="review">
+          <span class="stars" aria-hidden="true"><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg></span>
+          <p>&ldquo;Vrolijke kaarten en stevig karton, ze kunnen tegen een stootje. Meegenomen naar het toernooi en het hele team speelde mee.&rdquo;</p>
+          <span class="verified"><svg><use href="#ic-check"></use></svg> Geverifieerde koop</span>
+          <span class="review__who"><span class="avatar">JD</span> Joris D. · trainer JO8</span>
+        </article>
+        <article class="review">
+          <span class="stars" aria-hidden="true"><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg></span>
+          <p>&ldquo;Besteld om 21:30, de volgende ochtend in de bus. Als cadeau ingepakt en direct een hit op het feestje.&rdquo;</p>
+          <span class="verified"><svg><use href="#ic-check"></use></svg> Geverifieerde koop</span>
+          <span class="review__who"><span class="avatar">FK</span> Fatima K. · Rotterdam</span>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" id="faq">
+    <div class="wrap">
+      <div class="section__head">
+        <div class="stack"><p class="eyebrow">Veelgestelde vragen</p><h2>Kort antwoord, geen kleine lettertjes</h2></div>
+      </div>
+      <div class="faq">
+        <details open><summary>Vanaf welke leeftijd is Soccer MeMo leuk?</summary><p>Vanaf ongeveer 4 jaar. Voor de jongste spelers begin je met 12 of 16 kaarten en breid je uit zodra het makkelijk gaat. Vanaf een jaar of zes spelen kinderen met alle 48 kaarten.</p></details>
+        <details><summary>Wanneer wordt mijn bestelling bezorgd?</summary><p>Besteld voor 22:00 op werkdagen, dan gaat je pakket dezelfde dag met PostNL mee en ligt het de volgende dag op de mat. Vanaf € 30 verzenden we gratis, daaronder rekenen we € 3,95.</p></details>
+        <details><summary>Kan ik het als cadeau laten inpakken?</summary><p>Ja. Kies bij het product voor cadeauverpakking (€ 2,95). Wij pakken het spel in en schrijven het kaartje dat je in de winkelwagen intypt.</p></details>
+        <details><summary>Hoe retourneer ik als het toch niet bevalt?</summary><p>Je hebt 30 dagen bedenktijd. Mail naar hallo@soccer-games.nl en je krijgt een retourlabel. Zodra het pakket binnen is, staat je geld binnen drie werkdagen terug.</p></details>
+        <details><summary>Bestellen voor een team of school?</summary><p>Vanaf 10 stuks geldt staffelkorting en factureren we op rekening. Stuur je aanvraag naar teams@soccer-games.nl, dan krijg je binnen één werkdag een offerte.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Nieuwsbrief -->
+  <section class="section">
+    <div class="wrap news">
+      <div class="stack">
+        <p class="eyebrow">Nieuwsbrief</p>
+        <h2>€ 3 korting en de spelregels als printje</h2>
+        <p class="lead">Meld je aan en ontvang de kortingscode plus drie extra spelvarianten om thuis te spelen. Eén mail per maand, opzeggen met één klik.</p>
+      </div>
+      <form id="newsForm" novalidate>
+        <label class="sr-only" for="newsEmail">E-mailadres</label>
+        <input id="newsEmail" name="email" type="email" placeholder="jouw@email.nl" autocomplete="email" required>
+        <button class="btn btn--pitch" type="submit">Stuur de code</button>
+        <small>Je gegevens blijven bij ons. Lees ons privacybeleid.</small>
+      </form>
+    </div>
+  </section>
+</div>
+
+<!-- =========================================================
+     PRODUCTPAGINA
+     ========================================================= -->
+<div data-route="product">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Kruimelpad"><a href="#/" data-link>Home</a> / <a href="#shop" data-link>Spellen</a> / <span>Soccer MeMo</span></nav>
+
+    <div class="pdp">
+      <!-- Galerij -->
+      <div class="gallery">
+        <div class="gallery__main"><svg id="galMain" viewBox="0 0 400 400" role="img" aria-label="Soccer MeMo doos, vooraanzicht"><use href="#art-box"></use></svg></div>
+        <div class="thumbs" id="thumbs">
+          <button class="thumb" data-art="art-box" aria-current="true" aria-label="Doos vooraanzicht"><svg viewBox="0 0 400 400"><use href="#art-box"></use></svg></button>
+          <button class="thumb" data-art="art-fan" aria-label="Kaarten in waaier"><svg viewBox="0 0 400 400"><use href="#art-fan"></use></svg></button>
+          <button class="thumb" data-art="art-play" aria-label="Spel op tafel"><svg viewBox="0 0 400 400"><use href="#art-play"></use></svg></button>
+          <button class="thumb" data-art="art-card" aria-label="Achterkant van een kaart"><svg viewBox="0 0 400 400"><use href="#art-card"></use></svg></button>
+        </div>
+      </div>
+
+      <!-- Koopblok -->
+      <div class="buybox">
+        <div class="stack" style="gap:10px">
+          <p class="eyebrow">Voetbal-memory · SKU SM-48</p>
+          <h1>Soccer MeMo</h1>
+          <div class="rating">
+            <span class="stars" aria-hidden="true"><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg></span>
+            <a href="#reviews-pdp" data-link><b>9,4</b> · 212 beoordelingen</a>
+          </div>
+          <p class="lead">48 kaarten met 24 voetbalillustraties. Zoek de paren, train het geheugen en speel met z'n tweeën tot z'n vieren een potje van tien minuten.</p>
+        </div>
+
+        <fieldset class="bundles" id="bundles" style="border:0;padding:0;margin:0">
+          <legend class="eyebrow" style="margin-bottom:8px">Kies je aantal</legend>
+          <label class="bundle" data-selected="true" data-bundle="memo" data-price="19.95">
+            <input type="radio" name="bundle" value="memo" checked>
+            <span class="bundle__dot" aria-hidden="true"></span>
+            <span class="bundle__label"><b>1 spel</b><span>Voor thuis aan tafel</span></span>
+            <span class="bundle__price">€ 19,95</span>
+          </label>
+          <label class="bundle" data-bundle="duo" data-price="34.95">
+            <input type="radio" name="bundle" value="duo">
+            <span class="bundle__dot" aria-hidden="true"></span>
+            <span class="bundle__label"><b>2 spellen <span class="bundle__tag">Populair</span></b><span>Eentje houden, eentje cadeau</span></span>
+            <span class="bundle__price">€ 34,95<s>€ 39,90</s></span>
+          </label>
+          <label class="bundle" data-bundle="trio" data-price="49.95">
+            <input type="radio" name="bundle" value="trio">
+            <span class="bundle__dot" aria-hidden="true"></span>
+            <span class="bundle__label"><b>3 spellen <span class="bundle__tag" style="background:var(--flame)">Beste deal</span></b><span>Voor het hele team</span></span>
+            <span class="bundle__price">€ 49,95<s>€ 59,85</s></span>
+          </label>
+        </fieldset>
+
+        <label class="addon"><input type="checkbox" id="giftWrap"> <span>Cadeauverpakking met oranje lint en handgeschreven kaartje</span> <b>+ € 2,95</b></label>
+
+        <div class="buy-row">
+          <div class="qty">
+            <button type="button" id="qtyMinus" aria-label="Aantal verlagen">–</button>
+            <output id="qtyVal" aria-live="polite">1</output>
+            <button type="button" id="qtyPlus" aria-label="Aantal verhogen">+</button>
+          </div>
+          <button class="btn btn--primary" id="pdpAdd">In de winkelwagen <span class="btn__price" id="pdpPrice">€ 19,95</span></button>
+        </div>
+        <p class="stock"><span class="dot-live" aria-hidden="true"></span> Op voorraad — nog 23 stuks in ons magazijn in Zwolle</p>
+
+        <div class="delivery">
+          <div class="delivery__row"><svg><use href="#ic-truck"></use></svg><p>Bestel binnen <span class="countdown" id="cutoff">—</span> en we versturen je pakket <b>vandaag nog</b> met PostNL.</p></div>
+          <div class="delivery__row"><svg><use href="#ic-shield"></use></svg><p>30 dagen bedenktijd. Niet leuk? Geld terug, retourlabel krijg je van ons.</p></div>
+          <div class="delivery__row"><svg><use href="#ic-lock"></use></svg><p>Betaal met iDEAL, Klarna, Bancontact of creditcard. Verzending gratis vanaf € 30.</p></div>
+        </div>
+
+        <div class="tabsish">
+          <details class="acc" open><summary>Omschrijving</summary><div class="acc__body">
+            <p>Soccer MeMo brengt de zaterdagochtend naar de keukentafel. Op de 48 kaarten staan 24 illustraties die elke jonge voetballer herkent: de bal, de scheenbeschermer, het fluitje van de scheids, de cornervlag, de beker. Kaarten omdraaien, paren zoeken, onthouden waar die ene bal ook alweer lag.</p>
+            <p>Terwijl je kind speelt, oefent het werkgeheugen en volgehouden aandacht — dezelfde concentratie die op het veld het verschil maakt. Zonder scherm, in tien minuten, met jou erbij.</p>
+          </div></details>
+          <details class="acc"><summary>Spelregels</summary><div class="acc__body"><ul>
+            <li>Schud de kaarten en leg ze omgekeerd in een raster.</li>
+            <li>Om de beurt draai je twee kaarten om.</li>
+            <li>Twee dezelfde? Je houdt het paar en gaat nog een keer.</li>
+            <li>Verschillend? Terugdraaien op dezelfde plek, de volgende speler is aan zet.</li>
+            <li>Alle kaarten weg? De speler met de meeste paren wint.</li>
+            <li>Met kinderen onder de zes speel je met 12 tot 16 kaarten.</li>
+          </ul></div></details>
+          <details class="acc"><summary>Specificaties</summary><div class="acc__body"><ul>
+            <li>48 kaarten (24 paren), 300 g/m² karton met matte lak</li>
+            <li>Kaartformaat 6,5 × 6,5 cm, doos 14 × 10 × 4 cm</li>
+            <li>2 – 4 spelers, speelduur ± 10 minuten</li>
+            <li>Vanaf 4 jaar · CE-gekeurd · gedrukt in Nederland</li>
+          </ul></div></details>
+          <details class="acc"><summary>Verzending &amp; retour</summary><div class="acc__body">
+            <p>Voor 22:00 besteld op werkdagen = dezelfde dag verstuurd. Bezorging in Nederland de volgende dag, in België binnen twee werkdagen. Verzendkosten € 3,95, gratis vanaf € 30.</p>
+            <p>Binnen 30 dagen ruilen of retourneren. Mail hallo@soccer-games.nl voor een retourlabel; terugbetaling binnen drie werkdagen na ontvangst.</p>
+          </div></details>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reviews PDP -->
+    <section class="section" id="reviews-pdp">
+      <div class="section__head">
+        <div class="stack"><p class="eyebrow">212 beoordelingen</p><h2>Gemiddeld een 9,4</h2></div>
+        <p class="lead" style="max-width:32ch">Alle beoordelingen komen van klanten die Soccer MeMo bij ons bestelden.</p>
+      </div>
+      <div class="cols cols--3">
+        <article class="review">
+          <span class="stars" aria-hidden="true"><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg></span>
+          <p>&ldquo;De illustraties zijn vrolijk en duidelijk, ook voor mijn dochter van vier. Wij spelen met de helft van de kaarten en dat werkt perfect.&rdquo;</p>
+          <span class="review__who"><span class="avatar">LV</span> Lieke V. · Eindhoven</span>
+        </article>
+        <article class="review">
+          <span class="stars" aria-hidden="true"><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg></span>
+          <p>&ldquo;Stevig karton, mooie doos, en eindelijk een spel waar mijn zoon uit zichzelf om vraagt. Het scherm blijft nu vaker uit.&rdquo;</p>
+          <span class="review__who"><span class="avatar">RB</span> Ruben B. · Groningen</span>
+        </article>
+        <article class="review">
+          <span class="stars" aria-hidden="true"><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg></span>
+          <p>&ldquo;Als traktatie voor de JO7 gekocht, drie stuks met korting. De kinderen waren muisstil van concentratie — een klein wonder.&rdquo;</p>
+          <span class="review__who"><span class="avatar">MH</span> Mieke H. · Breda</span>
+        </article>
+      </div>
+    </section>
+
+    <!-- Cross-sell -->
+    <section class="section">
+      <div class="section__head"><div class="stack"><p class="eyebrow">Vaak samen besteld</p><h2>Maak het af</h2></div></div>
+      <div class="cols cols--3">
+        <article class="pcard">
+          <div class="pcard__media"><svg><use href="#art-giftbox"></use></svg></div>
+          <div class="pcard__body"><h3>Cadeauverpakking</h3><p class="pcard__meta">Oranje lint + handgeschreven kaartje</p>
+            <div class="pcard__foot"><span class="pcard__price">€ 2,95</span><button class="btn btn--sm btn--ghost" data-add="gift">Toevoegen</button></div></div>
+        </article>
+        <article class="pcard">
+          <div class="pcard__media"><svg><use href="#art-poster"></use></svg></div>
+          <div class="pcard__body"><h3>Poster &quot;Elftal&quot; A2</h3><p class="pcard__meta">Zelfde illustraties, boven het bed</p>
+            <div class="pcard__foot"><span class="pcard__price">€ 9,95</span><button class="btn btn--sm btn--ghost" data-add="poster">Toevoegen</button></div></div>
+        </article>
+        <article class="pcard">
+          <div class="pcard__media"><span class="pcard__flag">Bespaar € 4,95</span><svg><use href="#art-fan"></use></svg></div>
+          <div class="pcard__body"><h3>Duo-pack</h3><p class="pcard__meta">Twee spellen, één prijs</p>
+            <div class="pcard__foot"><span class="pcard__price">€ 34,95</span><button class="btn btn--sm btn--primary" data-add="duo">In mandje</button></div></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="faq-pdp">
+      <div class="section__head"><div class="stack"><p class="eyebrow">Vragen over dit spel</p><h2>Nog twijfels?</h2></div></div>
+      <div class="faq">
+        <details open><summary>Is het niet te moeilijk voor een kleuter?</summary><p>Nee, je past het aantal kaarten aan. Met 12 kaarten wint een vierjarige gewoon van papa. Naarmate het geheugen groeit, leg je er kaarten bij.</p></details>
+        <details><summary>Kan het spel tegen een stootje?</summary><p>De kaarten zijn gedrukt op 300 g/m² karton met matte lak, dus vieze vingers veeg je eraf en omkrullen doen ze niet.</p></details>
+        <details><summary>Wat als ik het vandaag nog nodig heb?</summary><p>Bestel voor 22:00 op een werkdag, dan gaat het pakket dezelfde dag weg en heb je het morgen in huis. Echt haast? Bel 038 – 123 45 67, we denken mee.</p></details>
+      </div>
+    </section>
+  </div>
+</div>
+</main>
+
+<!-- ===== Footer ===== -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__cols">
+      <div>
+        <a class="logo" href="#/" data-link style="color:#fff"><span class="logo__mark" style="background:var(--flame)"><svg><use href="#ic-ball"></use></svg></span> Soccer <em style="color:var(--lemon)">MeMo</em></a>
+        <p style="margin-top:12px;max-width:34ch;font-size:.92rem">Spellen die voetbalgekke kinderen scherp houden. Bedacht, getekend en gedrukt in Nederland.</p>
+      </div>
+      <div><h4>Shop</h4><ul><li><a href="#/product" data-link>Soccer MeMo</a></li><li><a href="#shop" data-link>Duo-pack</a></li><li><a href="#cadeau" data-link>Cadeauverpakking</a></li><li><a href="#shop" data-link>Poster A2</a></li></ul></div>
+      <div><h4>Klantenservice</h4><ul><li><a href="#faq" data-link>Veelgestelde vragen</a></li><li><a href="#faq" data-link>Verzending &amp; retour</a></li><li><a href="mailto:hallo@soccer-games.nl">hallo@soccer-games.nl</a></li><li><a href="tel:+31381234567">038 – 123 45 67</a></li></ul></div>
+      <div><h4>Over ons</h4><ul><li><a href="#waarom" data-link>Het verhaal</a></li><li><a href="#cadeau" data-link>Teams &amp; verenigingen</a></li><li><a href="#reviews" data-link>Beoordelingen</a></li><li><a href="#faq" data-link>Privacy &amp; voorwaarden</a></li></ul></div>
+    </div>
+    <div class="footer__legal">
+      <span>© 2026 Soccer Games · KvK 12345678 · BTW NL0012345B01</span>
+      <span>iDEAL · Klarna · Bancontact · PostNL · Thuiswinkel Waarborg</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ===== Winkelwagen ===== -->
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Winkelwagen" aria-hidden="true">
+  <div class="drawer__head">
+    <h2>Winkelwagen</h2>
+    <button class="icon-btn" id="drawerClose" aria-label="Winkelwagen sluiten"><svg><use href="#ic-close"></use></svg></button>
+  </div>
+  <div class="drawer__body" id="drawerBody"></div>
+  <div class="drawer__foot">
+    <div class="ship-meter">
+      <span id="shipMsg">Nog € 30,00 tot gratis verzending</span>
+      <span class="ship-meter__track"><span class="ship-meter__fill" id="shipFill"></span></span>
+    </div>
+    <div class="totals"><span>Totaal</span><span id="cartTotal">€ 0,00</span></div>
+    <button class="btn btn--primary btn--wide" id="checkoutBtn">Afrekenen <svg width="18" height="18"><use href="#ic-arrow"></use></svg></button>
+    <p style="font-size:.78rem;color:var(--muted);text-align:center;margin:0">Veilig betalen met iDEAL · 30 dagen bedenktijd</p>
+  </div>
+</aside>
+
+<!-- ===== Sticky koopbalk (productpagina) ===== -->
+<div class="stickybar" id="stickybar">
+  <div class="stickybar__in">
+    <div class="stickybar__txt"><b>Soccer MeMo</b><span id="stickyPrice">€ 19,95</span></div>
+    <button class="btn btn--primary btn--sm" id="stickyAdd">In de winkelwagen</button>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"><svg><use href="#ic-check"></use></svg><span id="toastMsg"></span></div>
+<canvas id="confetti" aria-hidden="true"></canvas>
+
+<script src="assets/app.js"></script>

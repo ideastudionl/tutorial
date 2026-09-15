@@ -1,0 +1,316 @@
+/* =============================================================
+   Soccer MeMo — prototype-gedrag
+   Alles wat hier met vaste data werkt, komt in de echte winkel
+   uit de WooCommerce Store API (zie docs/headless-woocommerce.md).
+   ============================================================= */
+(function () {
+  'use strict';
+
+  var euro = new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR' });
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+
+  /* ---------- Catalogus (stand-in voor /wc/store/v1/products) ---------- */
+  var CATALOG = {
+    memo:   { name: 'Soccer MeMo',            sub: '48 kaarten · 24 paren', price: 19.95, art: 'art-box' },
+    duo:    { name: 'Duo-pack',               sub: '2 spellen',             price: 34.95, art: 'art-fan' },
+    trio:   { name: 'Trio-pack',              sub: '3 spellen',             price: 49.95, art: 'art-fan' },
+    gift:   { name: 'Cadeauverpakking',       sub: 'Lint + kaartje',        price:  2.95, art: 'art-giftbox' },
+    poster: { name: 'Poster "Elftal" A2',     sub: 'Dik papier',            price:  9.95, art: 'art-poster' }
+  };
+  var FREE_SHIPPING = 30;
+  var cart = [];
+
+  /* ---------- Toast ---------- */
+  var toast = $('#toast'), toastMsg = $('#toastMsg'), toastTimer;
+  function say(msg) {
+    toastMsg.textContent = msg;
+    toast.classList.add('is-on');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toast.classList.remove('is-on'); }, 2600);
+  }
+
+  /* ---------- Confetti ---------- */
+  var cv = $('#confetti'), ctx = cv.getContext('2d'), bits = [], raf = null;
+  function sizeCanvas() {
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    cv.width = window.innerWidth * dpr; cv.height = window.innerHeight * dpr;
+    cv.style.width = window.innerWidth + 'px'; cv.style.height = window.innerHeight + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  sizeCanvas();
+  window.addEventListener('resize', sizeCanvas);
+
+  function pop(x, y) {
+    if (reduced) return;
+    var colors = ['#FF5A00', '#0B6B3A', '#FFC630', '#2F6BFF', '#FFFFFF'];
+    for (var i = 0; i < 70; i++) {
+      bits.push({
+        x: x, y: y,
+        vx: (Math.random() - 0.5) * 9,
+        vy: -Math.random() * 11 - 3,
+        g: 0.34 + Math.random() * 0.14,
+        s: 5 + Math.random() * 6,
+        r: Math.random() * Math.PI,
+        vr: (Math.random() - 0.5) * 0.3,
+        c: colors[(Math.random() * colors.length) | 0],
+        life: 90 + Math.random() * 40
+      });
+    }
+    if (!raf) raf = requestAnimationFrame(tick);
+  }
+  function tick() {
+    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+    bits = bits.filter(function (b) { return b.life-- > 0 && b.y < window.innerHeight + 60; });
+    bits.forEach(function (b) {
+      b.x += b.vx; b.y += b.vy; b.vy += b.g; b.r += b.vr;
+      ctx.save(); ctx.translate(b.x, b.y); ctx.rotate(b.r);
+      ctx.fillStyle = b.c; ctx.fillRect(-b.s / 2, -b.s / 2, b.s, b.s * 0.66);
+      ctx.restore();
+    });
+    raf = bits.length ? requestAnimationFrame(tick) : (ctx.clearRect(0, 0, window.innerWidth, window.innerHeight), null);
+  }
+
+  /* ---------- Winkelwagen ---------- */
+  var drawer = $('#drawer'), scrim = $('#scrim'), body = $('#drawerBody');
+
+  function cartTotal() {
+    return cart.reduce(function (s, l) { return s + CATALOG[l.id].price * l.qty; }, 0);
+  }
+  function renderCart() {
+    var count = cart.reduce(function (s, l) { return s + l.qty; }, 0);
+    $('#cartCount').textContent = count;
+
+    if (!cart.length) {
+      body.innerHTML = '<div class="empty-cart"><p>Je winkelwagen is nog leeg.</p>' +
+        '<button class="btn btn--sm btn--pitch" data-add="memo">Soccer MeMo toevoegen</button></div>';
+    } else {
+      body.innerHTML = cart.map(function (l) {
+        var p = CATALOG[l.id];
+        return '<div class="line-item">' +
+          '<span class="line-item__media"><svg viewBox="0 0 400 400"><use href="#' + p.art + '"></use></svg></span>' +
+          '<span><b>' + p.name + '</b><small>' + p.sub + ' · aantal ' + l.qty + '</small>' +
+          '<button class="remove" data-remove="' + l.id + '">Verwijderen</button></span>' +
+          '<span class="line-item__price">' + euro.format(p.price * l.qty) + '</span></div>';
+      }).join('');
+    }
+
+    var total = cartTotal();
+    $('#cartTotal').textContent = euro.format(total);
+    var left = Math.max(0, FREE_SHIPPING - total);
+    $('#shipMsg').textContent = left > 0
+      ? 'Nog ' + euro.format(left) + ' tot gratis verzending'
+      : 'Gelukt — jouw bestelling wordt gratis verzonden';
+    $('#shipFill').style.width = Math.min(100, (total / FREE_SHIPPING) * 100) + '%';
+  }
+  function openCart() {
+    drawer.classList.add('is-on'); scrim.classList.add('is-on');
+    drawer.setAttribute('aria-hidden', 'false');
+    $('#drawerClose').focus();
+  }
+  function closeCart() {
+    drawer.classList.remove('is-on'); scrim.classList.remove('is-on');
+    drawer.setAttribute('aria-hidden', 'true');
+  }
+  function add(id, qty, origin) {
+    if (!CATALOG[id]) return;
+    qty = qty || 1;
+    var line = cart.filter(function (l) { return l.id === id; })[0];
+    if (line) { line.qty += qty; } else { cart.push({ id: id, qty: qty }); }
+    renderCart();
+    say(CATALOG[id].name + ' toegevoegd');
+    if (origin) {
+      var r = origin.getBoundingClientRect();
+      pop(r.left + r.width / 2, r.top + r.height / 2);
+    }
+    openCart();
+  }
+
+  document.addEventListener('click', function (e) {
+    var addBtn = e.target.closest('[data-add]');
+    if (addBtn) { add(addBtn.getAttribute('data-add'), 1, addBtn); return; }
+
+    var rm = e.target.closest('[data-remove]');
+    if (rm) {
+      var id = rm.getAttribute('data-remove');
+      cart = cart.filter(function (l) { return l.id !== id; });
+      renderCart(); return;
+    }
+    if (e.target.closest('#cartBtn')) { openCart(); return; }
+    if (e.target.closest('#drawerClose') || e.target === scrim) { closeCart(); return; }
+    if (e.target.closest('#checkoutBtn')) {
+      if (!cart.length) { say('Leg eerst een spel in je winkelwagen'); return; }
+      say('Prototype — hier opent straks de WooCommerce-checkout');
+    }
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeCart(); });
+
+  /* ---------- Routing (#/ en #/product) ---------- */
+  var routes = $$('[data-route]');
+  function show(route, scrollTo) {
+    routes.forEach(function (r) { r.classList.toggle('is-active', r.getAttribute('data-route') === route); });
+    if (scrollTo) {
+      var el = document.getElementById(scrollTo);
+      if (el) { el.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' }); return; }
+    }
+    window.scrollTo({ top: 0, behavior: 'auto' });
+    onScroll();
+  }
+  function routeFromHash() {
+    var h = (location.hash || '#/').slice(1);
+    if (h === '' || h === '/') return show('home');
+    if (h === '/product') return show('product');
+    var el = document.getElementById(h);
+    var host = el && el.closest('[data-route]');
+    show(host ? host.getAttribute('data-route') : 'home', el ? h : null);
+  }
+  window.addEventListener('hashchange', routeFromHash);
+  routeFromHash();
+
+  /* ---------- Memory-demo ---------- */
+  var ICONS = ['ic-ball', 'ic-boot', 'ic-whistle', 'ic-shirt', 'ic-trophy', 'ic-flag'];
+  var boardEl = $('#board'), msgEl = $('#boardMsg');
+  var lock = false, open = [], moves = 0, pairs = 0;
+
+  function shuffle(a) {
+    for (var i = a.length - 1; i > 0; i--) { var j = (Math.random() * (i + 1)) | 0; var t = a[i]; a[i] = a[j]; a[j] = t; }
+    return a;
+  }
+  function newGame() {
+    lock = false; open = []; moves = 0; pairs = 0;
+    $('#mvCount').textContent = '0';
+    $('#prCount').textContent = '0';
+    msgEl.textContent = 'Draai twee kaarten om en zoek het paar.';
+    msgEl.classList.remove('is-win');
+    boardEl.innerHTML = shuffle(ICONS.concat(ICONS)).map(function (ic, i) {
+      return '<button class="mcard" data-ic="' + ic + '" aria-label="Kaart ' + (i + 1) + ', gesloten">' +
+        '<span class="mcard__inner">' +
+          '<span class="mcard__face mcard__back"><svg><use href="#ic-ball"></use></svg></span>' +
+          '<span class="mcard__face mcard__front"><svg><use href="#' + ic + '"></use></svg></span>' +
+        '</span></button>';
+    }).join('');
+  }
+  boardEl.addEventListener('click', function (e) {
+    var card = e.target.closest('.mcard');
+    if (!card || lock || card.classList.contains('is-open') || card.classList.contains('is-done')) return;
+
+    card.classList.add('is-open');
+    card.setAttribute('aria-label', 'Kaart open');
+    open.push(card);
+    if (open.length < 2) return;
+
+    moves++;
+    $('#mvCount').textContent = moves;
+
+    if (open[0].dataset.ic === open[1].dataset.ic) {
+      open.forEach(function (c) { c.classList.remove('is-open'); c.classList.add('is-done'); c.disabled = true; });
+      open = []; pairs++;
+      $('#prCount').textContent = pairs;
+      msgEl.textContent = pairs === 6 ? '' : 'Paar gevonden! Nog ' + (6 - pairs) + ' te gaan.';
+      if (pairs === 6) {
+        msgEl.textContent = 'Uitgespeeld in ' + moves + ' zetten. In het echte spel liggen er 48 kaarten.';
+        msgEl.classList.add('is-win');
+        var r = boardEl.getBoundingClientRect();
+        pop(r.left + r.width / 2, r.top + r.height / 3);
+      }
+    } else {
+      lock = true;
+      msgEl.textContent = 'Net niet — onthoud waar ze lagen.';
+      setTimeout(function () {
+        open.forEach(function (c) { c.classList.remove('is-open'); c.setAttribute('aria-label', 'Kaart gesloten'); });
+        open = []; lock = false;
+      }, reduced ? 350 : 800);
+    }
+  });
+  $('#boardReset').addEventListener('click', newGame);
+  newGame();
+
+  /* ---------- Productpagina: galerij ---------- */
+  var galMain = $('#galMain');
+  $('#thumbs').addEventListener('click', function (e) {
+    var t = e.target.closest('.thumb');
+    if (!t) return;
+    $$('.thumb').forEach(function (b) { b.setAttribute('aria-current', String(b === t)); });
+    galMain.innerHTML = '<use href="#' + t.getAttribute('data-art') + '"></use>';
+    galMain.setAttribute('aria-label', t.getAttribute('aria-label'));
+  });
+
+  /* ---------- Productpagina: bundels, aantal, prijs ---------- */
+  var bundle = 'memo', qty = 1;
+  function currentPrice() {
+    return (CATALOG[bundle].price + ($('#giftWrap').checked ? CATALOG.gift.price : 0)) * qty;
+  }
+  function paint() {
+    var t = euro.format(currentPrice());
+    $('#pdpPrice').textContent = t;
+    $('#stickyPrice').textContent = t;
+    $('#qtyVal').textContent = qty;
+  }
+  $$('.bundle').forEach(function (b) {
+    b.addEventListener('click', function () {
+      $$('.bundle').forEach(function (o) { o.setAttribute('data-selected', String(o === b)); });
+      $('input', b).checked = true;
+      bundle = b.getAttribute('data-bundle');
+      paint();
+    });
+  });
+  $('#giftWrap').addEventListener('change', paint);
+  $('#qtyPlus').addEventListener('click', function () { qty = Math.min(20, qty + 1); paint(); });
+  $('#qtyMinus').addEventListener('click', function () { qty = Math.max(1, qty - 1); paint(); });
+
+  function pdpAdd(origin) {
+    add(bundle, qty, origin);
+    if ($('#giftWrap').checked) { add('gift', 1); }
+  }
+  $('#pdpAdd').addEventListener('click', function (e) { pdpAdd(e.currentTarget); });
+  $('#stickyAdd').addEventListener('click', function (e) { pdpAdd(e.currentTarget); });
+  paint();
+
+  /* ---------- Sticky koopbalk ---------- */
+  var stickybar = $('#stickybar'), anchor = $('#pdpAdd');
+  function onScroll() {
+    if (!stickybar || !anchor) return;
+    var onPdp = $('[data-route="product"]').classList.contains('is-active');
+    var past = anchor.getBoundingClientRect().bottom < 0;
+    stickybar.classList.toggle('is-on', onPdp && past);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  /* ---------- Verzendteller tot 22:00 ---------- */
+  function cutdown() {
+    var now = new Date(), end = new Date(now);
+    end.setHours(22, 0, 0, 0);
+    var el = $('#cutoff');
+    if (now >= end) { el.textContent = 'morgen voor 22:00'; return; }
+    var s = Math.floor((end - now) / 1000);
+    el.textContent = Math.floor(s / 3600) + ' u ' + ('0' + Math.floor((s % 3600) / 60)).slice(-2) + ' m';
+  }
+  cutdown();
+  setInterval(cutdown, 30000);
+
+  /* ---------- Nieuwsbrief ---------- */
+  $('#newsForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var input = $('#newsEmail');
+    if (!input.value || input.value.indexOf('@') < 0) { input.focus(); say('Vul een geldig e-mailadres in'); return; }
+    say('Check je mail — de code staat onderweg');
+    input.value = '';
+  });
+
+  /* ---------- Scroll-reveal (pas actief als JS draait) ---------- */
+  if (!reduced && 'IntersectionObserver' in window) {
+    document.documentElement.classList.add('reveal-ready');
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); }
+      });
+    }, { rootMargin: '0px 0px -8% 0px' });
+    $$('.reveal').forEach(function (el) {
+      if (el.getBoundingClientRect().top < window.innerHeight) { el.classList.add('is-in'); }
+      else { io.observe(el); }
+    });
+  }
+
+  renderCart();
+})();
