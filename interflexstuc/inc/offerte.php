@@ -22,7 +22,7 @@ function ifs_quote_steps() {
 			'hint'    => 'Meerdere antwoorden mogelijk — we stemmen de offerte daarop af.',
 			'type'    => 'multi',
 			'options' => array(
-				'wanden'       => array( 'label' => 'Wanden stucen', 'desc' => 'Glad pleisterwerk, behangklaar', 'icon' => 'wall', 'rate' => 15.00, 'headline' => true ),
+				'wanden'       => array( 'label' => 'Wanden stucen', 'desc' => 'Glad pleisterwerk, behangklaar', 'icon' => 'wall', 'rate' => 16.00, 'headline' => true ),
 				'plafonds'     => array( 'label' => 'Plafonds stucen', 'desc' => 'Strak wit plafond zonder naden', 'icon' => 'ceiling', 'rate' => 17.50 ),
 				'sierpleister' => array( 'label' => 'Sierpleister / spachtelputz', 'desc' => 'Structuurpleister binnen of buiten', 'icon' => 'sparkles', 'rate' => 21.00 ),
 				'buitengevel'  => array( 'label' => 'Buitengevel stucen', 'desc' => 'Gevelpleister, eventueel met isolatie', 'icon' => 'building', 'rate' => 45.00 ),

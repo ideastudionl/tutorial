@@ -50,7 +50,7 @@ while ( have_posts() ) :
 						<div class="ifs-aside__card">
 							<span class="ifs-badge">Richtprijs</span>
 							<h3 style="margin:.75rem 0 .25rem"><?php echo esc_html( $ifs_price ); ?></h3>
-							<p>Inclusief materiaal en btw. De definitieve prijs hangt af van de ondergrond en het afwerkingsniveau.</p>
+							<p>Inclusief materiaal. De definitieve prijs hangt af van de ondergrond en het afwerkingsniveau.</p>
 							<a class="ifs-btn ifs-btn--block" href="<?php echo esc_url( ifs_quote_url() ); ?>">Bereken jouw prijs</a>
 						</div>
 					<?php endif; ?>

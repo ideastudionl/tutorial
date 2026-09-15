@@ -161,6 +161,28 @@ function ifs_customize_register( $wp_customize ) {
 			);
 		}
 	}
+
+	// Herofoto — eigen control, want dit is geen tekstveld.
+	$wp_customize->add_setting(
+		'ifs_hero_image',
+		array(
+			'default'           => '',
+			'sanitize_callback' => 'absint',
+			'transport'         => 'refresh',
+		)
+	);
+	$wp_customize->add_control(
+		new WP_Customize_Media_Control(
+			$wp_customize,
+			'ifs_hero_image',
+			array(
+				'label'       => 'Herofoto',
+				'description' => 'Staande foto (ongeveer 1000 x 1200 px) van je eigen team aan het werk.',
+				'section'     => 'ifs_hero',
+				'mime_type'   => 'image',
+			)
+		)
+	);
 }
 add_action( 'customize_register', 'ifs_customize_register' );
 

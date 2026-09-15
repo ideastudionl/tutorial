@@ -125,3 +125,141 @@
 		}
 	}
 })();
+
+/**
+ * Reviewslider: knoppen en stippen op een horizontaal scrollbare lijst.
+ * Het scrollen zelf doet de browser, dus zonder JavaScript blijft alles leesbaar.
+ */
+(function () {
+	'use strict';
+
+	document.querySelectorAll( '[data-slider]' ).forEach( function ( slider ) {
+		var track = slider.querySelector( '[data-slider-track]' );
+		var prev = slider.querySelector( '[data-slider-prev]' );
+		var next = slider.querySelector( '[data-slider-next]' );
+		var dotsBox = slider.querySelector( '[data-slider-dots]' );
+		var cards = track ? Array.prototype.slice.call( track.children ) : [];
+
+		if ( ! track || cards.length < 2 ) {
+			return;
+		}
+
+		/**
+		 * Aantal kaarten dat tegelijk in beeld past.
+		 *
+		 * @return {number} Aantal kaarten.
+		 */
+		function perView() {
+			return Math.max( 1, Math.round( track.clientWidth / cards[ 0 ].offsetWidth ) );
+		}
+
+		/**
+		 * Index van de kaart die nu vooraan staat.
+		 *
+		 * @return {number} Index.
+		 */
+		function currentIndex() {
+			return Math.round( track.scrollLeft / cards[ 0 ].offsetWidth );
+		}
+
+		/**
+		 * Scrollt naar een kaart.
+		 *
+		 * @param {number} index Index van de kaart.
+		 */
+		function scrollTo( index ) {
+			var max = cards.length - perView();
+			index = Math.min( Math.max( index, 0 ), Math.max( max, 0 ) );
+			track.scrollTo( { left: index * cards[ 0 ].offsetWidth, behavior: 'smooth' } );
+		}
+
+		var dots = [];
+
+		/**
+		 * Bouwt de stippen opnieuw op: één per scrollpositie, niet per kaart.
+		 *
+		 * Wordt ook aangeroepen zodra de slider breedte krijgt — op een pagina
+		 * die nog verborgen is, meet hij anders nul.
+		 */
+		function buildDots() {
+			if ( ! dotsBox ) {
+				return;
+			}
+
+			var count = Math.max( 1, cards.length - perView() + 1 );
+			if ( count === dots.length ) {
+				return;
+			}
+
+			dotsBox.innerHTML = '';
+			dots = [];
+
+			for ( var i = 0; i < count; i++ ) {
+				var dot = document.createElement( 'button' );
+				dot.type = 'button';
+				dot.setAttribute( 'aria-label', 'Ga naar beoordeling ' + ( i + 1 ) );
+				dot.addEventListener( 'click', ( function ( index ) {
+					return function () {
+						scrollTo( index );
+					};
+				} )( i ) );
+				dotsBox.appendChild( dot );
+				dots.push( dot );
+			}
+		}
+
+		/** Werkt knoppen en stippen bij aan de huidige scrollpositie. */
+		function sync() {
+			if ( ! track.clientWidth || ! cards[ 0 ].offsetWidth ) {
+				return; // Nog niet zichtbaar: meten heeft geen zin.
+			}
+
+			buildDots();
+
+			var index = currentIndex();
+			var max = Math.max( cards.length - perView(), 0 );
+
+			if ( prev ) {
+				prev.disabled = index <= 0;
+			}
+			if ( next ) {
+				next.disabled = index >= max;
+			}
+			dots.forEach( function ( dot, i ) {
+				dot.setAttribute( 'aria-current', i === index ? 'true' : 'false' );
+			} );
+		}
+
+		if ( prev ) {
+			prev.addEventListener( 'click', function () {
+				scrollTo( currentIndex() - 1 );
+			} );
+		}
+		if ( next ) {
+			next.addEventListener( 'click', function () {
+				scrollTo( currentIndex() + 1 );
+			} );
+		}
+
+		var ticking = false;
+		track.addEventListener( 'scroll', function () {
+			if ( ticking ) {
+				return;
+			}
+			ticking = true;
+			window.requestAnimationFrame( function () {
+				sync();
+				ticking = false;
+			} );
+		}, { passive: true } );
+
+		window.addEventListener( 'resize', sync );
+
+		// Hermeten zodra de slider zichtbaar wordt en dus pas breedte krijgt.
+		if ( window.ResizeObserver ) {
+			new window.ResizeObserver( sync ).observe( track );
+		}
+
+		sync();
+	} );
+})();

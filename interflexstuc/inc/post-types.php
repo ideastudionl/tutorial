@@ -163,6 +163,8 @@ function ifs_meta_fields() {
 				'ifs_city'     => array( 'label' => 'Plaats', 'type' => 'text' ),
 				'ifs_rating'   => array( 'label' => 'Beoordeling (1-5)', 'type' => 'number' ),
 				'ifs_job'      => array( 'label' => 'Soort klus', 'type' => 'text' ),
+				'ifs_source'   => array( 'label' => 'Bron', 'type' => 'select', 'options' => array( 'google' => 'Google-review', 'eigen' => 'Rechtstreeks van de klant' ) ),
+				'ifs_date'     => array( 'label' => 'Datum van de review (bijv. "juli 2026")', 'type' => 'text' ),
 			),
 		),
 	);

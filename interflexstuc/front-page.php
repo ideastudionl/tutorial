@@ -13,11 +13,11 @@ get_header();
 
 $ifs_services = ifs_get_items( 'ifs_dienst', 6 );
 $ifs_projects = ifs_get_items( 'ifs_project', 3 );
-$ifs_reviews  = ifs_get_items( 'ifs_review', 3 );
+$ifs_reviews  = ifs_get_items( 'ifs_review', 9 );
 $ifs_areas    = ifs_get_items( 'ifs_werkgebied', 24 );
 ?>
 
-<?php // ---------- Hero: eerste wizardvraag staat meteen in beeld ---------- ?>
+<?php // ---------- Hero: rustig gehouden — kop, belofte, twee acties ---------- ?>
 <section class="ifs-hero">
 	<div class="ifs-container ifs-hero__inner">
 
@@ -37,72 +37,15 @@ $ifs_areas    = ifs_get_items( 'ifs_werkgebied', 24 );
 				</a>
 			</div>
 
-			<p style="margin:1.1rem 0 0">
-				<span class="ifs-price-tag">
-					<strong>&euro;&nbsp;<?php echo esc_html( ifs_price_from() ); ?></strong> per m&sup2; &mdash; glad stucwerk, inclusief materiaal en btw
-				</span>
-			</p>
-
-			<div class="ifs-hero__quickstart">
-				<span class="ifs-hero__quickstart-label">Waar gaat het om?</span>
-				<div class="ifs-places">
-					<?php
-					$ifs_quick = array(
-						'wanden'       => 'Wanden stucen',
-						'plafonds'     => 'Plafonds stucen',
-						'sierpleister' => 'Sierpleister',
-						'buitengevel'  => 'Buitengevel',
-						'betonlook'    => 'Betonlook',
-						'schilderwerk' => 'Schilderwerk',
-					);
-					foreach ( $ifs_quick as $ifs_value => $ifs_label ) :
-						?>
-						<a class="ifs-place" data-quote-preset="<?php echo esc_attr( $ifs_value ); ?>"
-							href="<?php echo esc_url( add_query_arg( 'werk', $ifs_value, ifs_quote_url() ) ); ?>">
-							<?php echo esc_html( $ifs_label ); ?>
-							<span aria-hidden="true">→</span>
-						</a>
-					<?php endforeach; ?>
-				</div>
-			</div>
-
-			<div class="ifs-hero__proof">
-				<div class="ifs-hero__proof-item">
-					<span class="ifs-hero__proof-icon"><?php ifs_the_icon( 'star', 19 ); ?></span>
-					<span>
-						<strong><?php echo esc_html( ifs_option( 'rating_score' ) ); ?> gemiddeld</strong>
-						<span><?php echo esc_html( ifs_option( 'rating_count' ) ); ?> klantbeoordelingen</span>
-					</span>
-				</div>
-				<div class="ifs-hero__proof-item">
-					<span class="ifs-hero__proof-icon"><?php ifs_the_icon( 'shield', 19 ); ?></span>
-					<span>
-						<strong><?php echo esc_html( ifs_option( 'warranty_years' ) ); ?> jaar garantie</strong>
-						<span>op de uitvoering</span>
-					</span>
-				</div>
-				<div class="ifs-hero__proof-item">
-					<span class="ifs-hero__proof-icon"><?php ifs_the_icon( 'award', 19 ); ?></span>
-					<span>
-						<strong><?php echo esc_html( ifs_option( 'years_active' ) ); ?>+ jaar ervaring</strong>
-						<span><?php echo esc_html( ifs_option( 'projects_done' ) ); ?>+ projecten</span>
-					</span>
-				</div>
-			</div>
+			<ul class="ifs-hero__facts">
+				<li><strong>vanaf &euro;&nbsp;<?php echo esc_html( ifs_price_from() ); ?></strong> per m&sup2;</li>
+				<li><?php echo esc_html( ifs_option( 'rating_score' ) ); ?> uit <?php echo esc_html( ifs_option( 'rating_count' ) ); ?> beoordelingen</li>
+				<li><?php echo esc_html( ifs_option( 'warranty_years' ) ); ?> jaar garantie</li>
+			</ul>
 		</div>
 
 		<div class="ifs-hero__visual">
-			<?php
-			$ifs_hero_img = ! empty( $ifs_projects ) ? $ifs_projects[0]->ID : 0;
-			ifs_thumb( $ifs_hero_img, 'ifs-hero', '' );
-			?>
-			<div class="ifs-hero__float ifs-hero__float--tl">
-				<span class="ifs-hero__float-avatar" aria-hidden="true">✓</span>
-				<span>
-					<strong style="font-size:1rem">Vaste prijs vooraf</strong><br>
-					<small>Geen verrassingen achteraf</small>
-				</span>
-			</div>
+			<?php ifs_hero_image(); ?>
 			<div class="ifs-hero__float ifs-hero__float--br">
 				<?php echo ifs_stars( 5 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 				<strong><?php echo esc_html( ifs_option( 'rating_score' ) ); ?></strong>
@@ -150,6 +93,29 @@ $ifs_areas    = ifs_get_items( 'ifs_werkgebied', 24 );
 
 		<div class="ifs-quote__layout">
 			<div>
+				<div class="ifs-quickstart">
+					<span class="ifs-quickstart__label">Waar gaat het om?</span>
+					<div class="ifs-places">
+						<?php
+						$ifs_quick = array(
+							'wanden'       => 'Wanden stucen',
+							'plafonds'     => 'Plafonds stucen',
+							'sierpleister' => 'Sierpleister',
+							'buitengevel'  => 'Buitengevel',
+							'betonlook'    => 'Betonlook',
+							'schilderwerk' => 'Schilderwerk',
+						);
+						foreach ( $ifs_quick as $ifs_value => $ifs_label ) :
+							?>
+							<a class="ifs-place" data-quote-preset="<?php echo esc_attr( $ifs_value ); ?>"
+								href="<?php echo esc_url( add_query_arg( 'werk', $ifs_value, ifs_quote_url() ) ); ?>">
+								<?php echo esc_html( $ifs_label ); ?>
+								<span aria-hidden="true">&rarr;</span>
+							</a>
+						<?php endforeach; ?>
+					</div>
+				</div>
+
 				<?php get_template_part( 'template-parts/quote-form' ); ?>
 			</div>
 
@@ -306,19 +272,16 @@ $ifs_areas    = ifs_get_items( 'ifs_werkgebied', 24 );
 				<span class="ifs-eyebrow ifs-eyebrow--center">Klantbeoordelingen</span>
 				<h2>Wat klanten over ons zeggen</h2>
 				<p>
-					<span class="ifs-rating-summary">
+					<span class="ifs-google-summary">
+						<span class="ifs-google-summary__mark"><?php ifs_the_icon( 'google', 18 ); ?> Google</span>
 						<?php echo ifs_stars( 5 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-						<strong><?php echo esc_html( ifs_option( 'rating_score' ) ); ?> / 10</strong>
-						<span>gemiddeld uit <?php echo esc_html( ifs_option( 'rating_count' ) ); ?> beoordelingen</span>
+						<strong><?php echo esc_html( ifs_option( 'rating_score' ) ); ?></strong>
+						<span>uit <?php echo esc_html( ifs_option( 'rating_count' ) ); ?> beoordelingen</span>
 					</span>
 				</p>
 			</div>
 
-			<div class="ifs-grid ifs-grid--3">
-				<?php foreach ( $ifs_reviews as $ifs_review ) : ?>
-					<?php ifs_review_card( $ifs_review ); ?>
-				<?php endforeach; ?>
-			</div>
+			<?php ifs_review_slider( $ifs_reviews ); ?>
 		</div>
 	</section>
 <?php endif; ?>

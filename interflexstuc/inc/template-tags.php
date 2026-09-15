@@ -168,11 +168,17 @@ function ifs_review_card( $post ) {
 	$job    = get_post_meta( $post->ID, 'ifs_job', true );
 	$rating = (int) get_post_meta( $post->ID, 'ifs_rating', true );
 	$rating = $rating > 0 ? min( 5, $rating ) : 5;
+	$source = get_post_meta( $post->ID, 'ifs_source', true );
 	$author = $author ? $author : get_the_title( $post );
 	$meta   = array_filter( array( $job, $city ) );
 	?>
 	<article class="ifs-card ifs-review">
-		<?php echo ifs_stars( $rating ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+		<div style="display:flex;align-items:center;gap:.75rem">
+			<?php echo ifs_stars( $rating ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			<?php if ( 'google' === $source ) : ?>
+				<span class="ifs-review__source"><?php ifs_the_icon( 'google', 15 ); ?> via Google</span>
+			<?php endif; ?>
+		</div>
 		<div class="ifs-review__text"><?php echo esc_html( wp_strip_all_tags( get_the_content( null, false, $post ) ) ); ?></div>
 		<footer class="ifs-review__meta">
 			<span class="ifs-review__avatar" aria-hidden="true"><?php echo esc_html( mb_strtoupper( mb_substr( $author, 0, 1 ) ) ); ?></span>
@@ -326,4 +332,71 @@ function ifs_the_logo() {
 		esc_url( IFS_URI . '/assets/img/logo.svg' ),
 		esc_attr( ifs_option( 'company_name' ) )
 	);
+}
+
+/**
+ * Toont reviews in een horizontale slider met knoppen en stippen.
+ *
+ * @param WP_Post[] $reviews Reviews.
+ */
+function ifs_review_slider( $reviews ) {
+	if ( ! $reviews ) {
+		return;
+	}
+
+	$id = wp_unique_id( 'ifs-slider-' );
+	?>
+	<div class="ifs-slider" data-slider id="<?php echo esc_attr( $id ); ?>">
+		<div class="ifs-slider__track" data-slider-track tabindex="0" role="group" aria-label="Klantbeoordelingen, horizontaal scrollbaar">
+			<?php foreach ( $reviews as $review ) : ?>
+				<?php ifs_review_card( $review ); ?>
+			<?php endforeach; ?>
+		</div>
+
+		<?php if ( count( $reviews ) > 1 ) : ?>
+			<div class="ifs-slider__nav">
+				<div class="ifs-slider__dots" data-slider-dots></div>
+				<div class="ifs-slider__buttons">
+					<button type="button" class="ifs-slider__btn" data-slider-prev aria-label="Vorige beoordelingen">
+						<?php ifs_the_icon( 'chevron-left', 20 ); ?>
+					</button>
+					<button type="button" class="ifs-slider__btn" data-slider-next aria-label="Volgende beoordelingen">
+						<?php ifs_the_icon( 'chevron-right', 20 ); ?>
+					</button>
+				</div>
+			</div>
+		<?php endif; ?>
+	</div>
+	<?php
+}
+
+/**
+ * Toont de herofoto.
+ *
+ * Volgorde: de foto uit de Customizer, anders de uitgelichte afbeelding van het
+ * nieuwste project, anders de neutrale placeholder.
+ */
+function ifs_hero_image() {
+	$attachment_id = (int) get_theme_mod( 'ifs_hero_image', 0 );
+
+	if ( $attachment_id ) {
+		echo '<div class="ifs-media">';
+		echo wp_get_attachment_image(
+			$attachment_id,
+			'ifs-hero',
+			false,
+			array(
+				'class'         => 'ifs-hero__photo',
+				'alt'           => esc_attr( sprintf( 'Stukadoor van %s aan het werk', ifs_option( 'company_name' ) ) ),
+				'fetchpriority' => 'high',
+			)
+		);
+		echo '</div>';
+		return;
+	}
+
+	$projects = ifs_get_items( 'ifs_project', 1 );
+	$fallback = ( $projects && has_post_thumbnail( $projects[0]->ID ) ) ? $projects[0]->ID : 0;
+
+	ifs_thumb( $fallback, 'ifs-hero', '' );
 }

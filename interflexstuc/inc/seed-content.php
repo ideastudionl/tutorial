@@ -107,7 +107,7 @@ function ifs_seed_services() {
 			'title'   => 'Glad stucwerk (wanden)',
 			'slug'    => 'glad-stucwerk',
 			'icon'    => 'wall',
-			'price'   => '€ 15,00 per m²',
+			'price'   => '€ 16,00 per m²',
 			'excerpt' => 'Strak, vlak en behangklaar pleisterwerk voor binnenmuren — de basis van elk mooi afgewerkt interieur.',
 			'usps'    => "Vlak en naadloos resultaat\nDirect over te schilderen of te behangen\nGeschikt voor nieuwbouw en renovatie",
 			'content' => "<p>Glad stucwerk is de meest gevraagde afwerking voor binnenmuren. Wij brengen een dunne, egale laag pleister aan die de ondergrond volledig vlak maakt. Het resultaat is een strakke wand zonder zichtbare naden, klaar om te sausen of te behangen.</p>
@@ -280,7 +280,7 @@ function ifs_seed_areas() {
  */
 function ifs_seed_faq() {
 	$faq = array(
-		'Wat kost stucwerk per m²?'                       => '<p>Glad stucwerk op wanden begint bij € 15,00 per m², plafonds bij € 17,50 per m². De uiteindelijke prijs hangt af van de staat van de ondergrond, de hoogte van de ruimte en het gewenste afwerkingsniveau. Via de offerteaanvraag krijg je binnen 24 uur een prijs die past bij jouw situatie.</p>',
+		'Wat kost stucwerk per m²?'                       => '<p>Glad stucwerk op wanden begint bij € 16,00 per m², plafonds bij € 17,50 per m². De uiteindelijke prijs hangt af van de staat van de ondergrond, de hoogte van de ruimte en het gewenste afwerkingsniveau. Via de offerteaanvraag krijg je binnen 24 uur een prijs die past bij jouw situatie.</p>',
 		'Hoe lang duurt het voordat stucwerk droog is?'    => '<p>Reken op ongeveer één dag droogtijd per millimeter laagdikte. Glad stucwerk is meestal na twee tot vier dagen droog genoeg om te schilderen, maar in een koude of slecht geventileerde ruimte kan dat langer duren. We adviseren je bij oplevering wanneer je veilig kunt sausen.</p>',
 		'Kan ik in huis blijven wonen tijdens het werk?'   => '<p>Ja, dat is bij de meeste klussen prima. We werken per ruimte, schermen alles zorgvuldig af en ruimen dagelijks op. Bij een volledige woning stemmen we samen een planning af, zodat je altijd een leefbare ruimte houdt.</p>',
 		'Moet ik het behang er eerst zelf afhalen?'        => '<p>Dat hoeft niet — wij kunnen het behang verwijderen en de wand voorbereiden. Doe je het zelf, dan scheelt dat in de prijs. Geef bij de offerteaanvraag aan wat je kiest, dan verwerken we dat in de opgave.</p>',
@@ -391,11 +391,11 @@ function ifs_seed_pages() {
 	$pages['prijzen'] = ifs_seed_post(
 		'page',
 		'Prijzen',
-		'<p>Hieronder vind je onze richtprijzen. Het zijn indicaties: de uiteindelijke prijs hangt af van de staat van de ondergrond, de hoogte van de ruimte, de bereikbaarheid en het gewenste afwerkingsniveau. Alle bedragen zijn inclusief materiaal en btw, exclusief eventueel voorbereidend herstelwerk.</p>
+		'<p>Hieronder vind je onze richtprijzen. Het zijn indicaties: de uiteindelijke prijs hangt af van de staat van de ondergrond, de hoogte van de ruimte, de bereikbaarheid en het gewenste afwerkingsniveau. Alle bedragen zijn inclusief materiaal, exclusief eventueel voorbereidend herstelwerk.</p>
 <table>
 <thead><tr><th>Werkzaamheid</th><th>Toelichting</th><th>Vanafprijs</th></tr></thead>
 <tbody>
-<tr><td>Glad stucwerk wanden</td><td>Behangklaar, bestaande ondergrond</td><td>€ 15,00 / m²</td></tr>
+<tr><td>Glad stucwerk wanden</td><td>Behangklaar, bestaande ondergrond</td><td>€ 16,00 / m²</td></tr>
 <tr><td>Glad stucwerk wanden</td><td>Sausklaar, extra afwerkgang</td><td>€ 19,50 / m²</td></tr>
 <tr><td>Plafond stucen</td><td>Inclusief wegwerken naden</td><td>€ 17,50 / m²</td></tr>
 <tr><td>Sierpleister / spachtelputz</td><td>Binnen, korrel naar keuze</td><td>€ 21,00 / m²</td></tr>
@@ -415,7 +415,7 @@ function ifs_seed_pages() {
 </ul>
 <h2>Geen verrassingen achteraf</h2>
 <p>Wat in de offerte staat, is wat je betaalt. Komen we tijdens het werk iets tegen dat we vooraf niet konden zien — bijvoorbeeld vocht achter een wand — dan leggen we het eerst aan je voor. We voeren nooit ongevraagd meerwerk uit.</p>',
-		array( 'slug' => 'prijzen', 'excerpt' => 'Richtprijzen voor stucwerk, sierpleister, betonlook en schilderwerk — inclusief materiaal en btw.' )
+		array( 'slug' => 'prijzen', 'excerpt' => 'Richtprijzen voor stucwerk, sierpleister, betonlook en schilderwerk — inclusief materiaal.' )
 	);
 
 	$pages['contact'] = ifs_seed_post(

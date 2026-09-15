@@ -17,7 +17,7 @@ while ( have_posts() ) :
 	$ifs_travel    = get_post_meta( get_the_ID(), 'ifs_travel_time', true );
 	$ifs_districts = array_filter( array_map( 'trim', explode( ',', (string) get_post_meta( get_the_ID(), 'ifs_districts', true ) ) ) );
 	$ifs_services  = ifs_get_items( 'ifs_dienst', 6 );
-	$ifs_reviews   = ifs_get_items( 'ifs_review', 3 );
+	$ifs_reviews   = ifs_get_items( 'ifs_review', 9 );
 	?>
 
 	<div class="ifs-page-head">
@@ -106,11 +106,7 @@ while ( have_posts() ) :
 				<div class="ifs-section-head ifs-section-head--center">
 					<h2>Wat klanten zeggen</h2>
 				</div>
-				<div class="ifs-grid ifs-grid--3">
-					<?php foreach ( $ifs_reviews as $ifs_review ) : ?>
-						<?php ifs_review_card( $ifs_review ); ?>
-					<?php endforeach; ?>
-				</div>
+				<?php ifs_review_slider( $ifs_reviews ); ?>
 			</div>
 		</section>
 	<?php endif; ?>

@@ -50,7 +50,7 @@ $ifs_uid    = wp_unique_id( 'ifs-wizard-' );
 			</div>
 			<p class="ifs-price-panel__note">
 				<?php ifs_the_icon( 'clipboard', 15 ); ?>
-				Indicatie op basis van je antwoorden, inclusief materiaal en btw. Na een gratis opname leggen we de prijs vast.
+				Indicatie op basis van je antwoorden, inclusief materiaal. Na een gratis opname leggen we de prijs vast.
 			</p>
 		</div>
 	</div>

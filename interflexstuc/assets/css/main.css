@@ -866,3 +866,74 @@ a:hover > .ifs-media img, .ifs-card--link:hover .ifs-media img { transform: scal
   font-family: var(--ifs-font-head); font-weight: 700; font-size: 1.05rem;
   color: var(--ifs-ink); letter-spacing: -.02em;
 }
+
+/* ---------- Rustiger hero: één compacte feitenregel ---------- */
+.ifs-hero__facts {
+  display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1.5rem;
+  margin: 2rem 0 0; padding: 0; list-style: none;
+  font-size: var(--ifs-fs-sm); color: var(--ifs-stone);
+}
+.ifs-hero__facts li { display: inline-flex; align-items: center; gap: .5rem; }
+.ifs-hero__facts li + li::before {
+  content: ""; width: 4px; height: 4px; border-radius: 50%;
+  background: var(--ifs-stone-soft); margin-right: 1rem; margin-left: -1rem;
+}
+.ifs-hero__facts strong { color: var(--ifs-ink); font-family: var(--ifs-font-head); font-weight: 700; }
+
+/* Snelkeuze, nu boven de wizard in plaats van in de hero. */
+.ifs-quickstart { margin-bottom: 1.25rem; }
+.ifs-quickstart__label {
+  display: block; margin-bottom: .7rem;
+  font-family: var(--ifs-font-head); font-size: var(--ifs-fs-xs);
+  font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ifs-stone);
+}
+.ifs-quickstart .ifs-place span { color: var(--ifs-orange); display: inline-block; transition: transform .2s var(--ifs-ease); }
+.ifs-quickstart .ifs-place:hover span { color: #fff; transform: translateX(3px); }
+
+/* ---------- Reviewslider ---------- */
+.ifs-slider { position: relative; }
+/* Flex met een vaste basis en flex-shrink 0: grid met minmax(0, …) liet de
+   kaarten krimpen tot ze allemaal pasten, waardoor er niets te scrollen viel. */
+.ifs-slider__track {
+  display: flex; gap: var(--ifs-gap);
+  overflow-x: auto; scroll-snap-type: x mandatory;
+  scroll-behavior: smooth; padding-bottom: .5rem;
+  scrollbar-width: none; -ms-overflow-style: none;
+}
+.ifs-slider__track::-webkit-scrollbar { display: none; }
+.ifs-slider__track > * { flex: 0 0 min(85%, 340px); scroll-snap-align: start; }
+@media (min-width: 700px) { .ifs-slider__track > * { flex-basis: calc((100% - var(--ifs-gap)) / 2); } }
+@media (min-width: 1000px) { .ifs-slider__track > * { flex-basis: calc((100% - var(--ifs-gap) * 2) / 3); } }
+
+.ifs-slider__nav { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 1.75rem; }
+.ifs-slider__buttons { display: flex; gap: .5rem; }
+.ifs-slider__btn {
+  width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center;
+  background: #fff; border: 1px solid var(--ifs-line); color: var(--ifs-ink); cursor: pointer;
+  transition: border-color .18s var(--ifs-ease), background-color .18s var(--ifs-ease), opacity .18s;
+}
+.ifs-slider__btn:hover:not(:disabled) { border-color: var(--ifs-ink); }
+.ifs-slider__btn:disabled { opacity: .35; cursor: default; }
+.ifs-slider__btn svg { width: 20px; height: 20px; }
+.ifs-slider__dots { display: flex; gap: .4rem; }
+.ifs-slider__dots button {
+  width: 8px; height: 8px; padding: 0; border: 0; border-radius: 50%;
+  background: var(--ifs-line); cursor: pointer; transition: background-color .2s, width .2s;
+}
+.ifs-slider__dots button[aria-current="true"] { background: var(--ifs-blue); width: 22px; border-radius: 4px; }
+
+/* Google-herkomst bij een review. */
+.ifs-review__source {
+  display: inline-flex; align-items: center; gap: .4rem;
+  font-size: var(--ifs-fs-xs); color: var(--ifs-stone); margin-left: auto;
+}
+.ifs-review__source svg { width: 15px; height: 15px; }
+.ifs-google-summary {
+  display: inline-flex; flex-wrap: wrap; align-items: center; gap: .6rem 1rem;
+  padding: .8rem 1.4rem; border-radius: 999px;
+  background: #fff; border: 1px solid var(--ifs-line-soft); box-shadow: var(--ifs-shadow-sm);
+}
+.ifs-google-summary__mark { display: inline-flex; align-items: center; gap: .45rem; font-family: var(--ifs-font-head); font-weight: 700; color: var(--ifs-ink); }
+.ifs-google-summary__mark svg { width: 18px; height: 18px; }
+.ifs-google-summary strong { font-family: var(--ifs-font-head); font-size: 1.25rem; color: var(--ifs-ink); }
+.ifs-google-summary span { font-size: var(--ifs-fs-sm); color: var(--ifs-stone); }
