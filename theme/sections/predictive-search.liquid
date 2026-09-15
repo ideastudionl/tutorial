@@ -1,0 +1,157 @@
+{%- comment -%}
+  Rendered two ways: as the panel in the header, and as a fragment when the
+  runtime fetches it with ?section_id=predictive-search. The inner wrapper is
+  what the fetch swaps in, so the outer chrome is not duplicated.
+{%- endcomment -%}
+{%- if predictive_search.performed -%}
+  <div data-search-results-inner>
+    {%- if predictive_search.resources.products.size == 0
+       and predictive_search.resources.collections.size == 0
+       and predictive_search.resources.pages.size == 0
+       and predictive_search.resources.articles.size == 0 -%}
+      <div class="search-empty">
+        <p><strong>{{ 'general.search.no_results' | t: terms: predictive_search.terms }}</strong></p>
+        <p>{{ 'general.search.no_results_help' | t }}</p>
+      </div>
+    {%- else -%}
+      <div class="search-results__grid">
+        <div>
+          {%- if predictive_search.resources.collections.size > 0 -%}
+            <p class="search-group__title">{{ 'general.search.collections' | t }}</p>
+            <ul class="search-links">
+              {%- for c in predictive_search.resources.collections -%}
+                <li data-search-result><a href="{{ c.url }}">{% render 'icon', name: 'box', size: 15 %}{{ c.title }}</a></li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+          {%- if predictive_search.resources.pages.size > 0 or predictive_search.resources.articles.size > 0 -%}
+            <p class="search-group__title" style="margin-top:1.25rem">{{ 'general.search.pages' | t }}</p>
+            <ul class="search-links">
+              {%- for p in predictive_search.resources.pages -%}
+                <li data-search-result><a href="{{ p.url }}">{{ p.title }}</a></li>
+              {%- endfor -%}
+              {%- for a in predictive_search.resources.articles -%}
+                <li data-search-result><a href="{{ a.url }}">{{ a.title }}</a></li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+        </div>
+
+        <div>
+          <p class="search-group__title">{{ 'general.search.products' | t }}</p>
+          {%- for p in predictive_search.resources.products -%}
+            <a href="{{ p.url }}" class="search-product" data-search-result>
+              <div class="media media--square">
+                {%- if p.featured_media -%}
+                  {{ p.featured_media | image_url: width: 160 | image_tag:
+                       loading: 'lazy', widths: '80,160', sizes: '64px',
+                       alt: p.featured_media.alt | default: p.title | escape }}
+                {%- else -%}
+                  {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                {%- endif -%}
+              </div>
+              <div>
+                <div class="search-product__title">{{ p.title }}</div>
+                {% render 'price', product: p, class: 'text-sm' %}
+              </div>
+            </a>
+          {%- endfor -%}
+
+          <a href="{{ routes.search_url }}?q={{ predictive_search.terms | url_encode }}" class="link" style="margin-top:1rem">
+            {{ 'general.search.view_all' | t }}
+            {% render 'icon', name: 'arrow-right', size: 15 %}
+          </a>
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+{%- else -%}
+  <div class="search-panel" id="SearchPanel" data-search-panel aria-hidden="true">
+    <div class="container search-panel__head">
+      <form action="{{ routes.search_url }}" method="get" role="search" class="search-form">
+        {% render 'icon', name: 'search', size: 20, class: 'search-form__icon' %}
+        <label class="visually-hidden" for="SearchInput">{{ 'general.search.title' | t }}</label>
+        <input type="search" id="SearchInput" name="q" class="input"
+          placeholder="{{ 'general.search.placeholder' | t }}"
+          autocomplete="off" data-search-input data-autofocus>
+        <input type="hidden" name="options[prefix]" value="last">
+        <button type="button" class="search-form__clear" data-search-clear hidden
+          aria-label="{{ 'general.search.clear' | t }}">
+          {% render 'icon', name: 'close', size: 16 %}
+        </button>
+      </form>
+      <button type="button" class="icon-btn" data-close aria-label="{{ 'accessibility.close' | t }}">
+        {% render 'icon', name: 'close', size: 18 %}
+      </button>
+    </div>
+
+    <div class="search-results container">
+      <p class="visually-hidden" role="status" data-search-status></p>
+
+      <div data-search-default>
+        <div class="search-results__grid">
+          <div>
+            <p class="search-group__title">{{ 'general.search.popular' | t }}</p>
+            <ul class="search-links">
+              {%- for block in section.blocks -%}
+                <li>
+                  <a href="{{ routes.search_url }}?q={{ block.settings.term | url_encode }}" {{ block.shopify_attributes }}>
+                    {% render 'icon', name: 'search', size: 15 %}{{ block.settings.term }}
+                  </a>
+                </li>
+              {%- endfor -%}
+            </ul>
+          </div>
+          <div>
+            {%- if section.settings.suggested_collection != blank -%}
+              {%- assign sc = collections[section.settings.suggested_collection] -%}
+              <p class="search-group__title">{{ sc.title }}</p>
+              {%- for p in sc.products limit: 4 -%}
+                <a href="{{ p.url }}" class="search-product">
+                  <div class="media media--square">
+                    {%- if p.featured_media -%}
+                      {{ p.featured_media | image_url: width: 160 | image_tag:
+                           loading: 'lazy', widths: '80,160', sizes: '64px',
+                           alt: p.featured_media.alt | default: p.title | escape }}
+                    {%- else -%}
+                      {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                    {%- endif -%}
+                  </div>
+                  <div>
+                    <div class="search-product__title">{{ p.title }}</div>
+                    {% render 'price', product: p, class: 'text-sm' %}
+                  </div>
+                </a>
+              {%- endfor -%}
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+
+      <div data-search-results hidden></div>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Zoeken",
+  "settings": [
+    { "type": "collection", "id": "suggested_collection", "label": "Voorgestelde collectie" }
+  ],
+  "blocks": [
+    {
+      "type": "term", "name": "Populaire zoekterm", "limit": 8,
+      "settings": [ { "type": "text", "id": "term", "label": "Zoekterm" } ]
+    }
+  ],
+  "default": {
+    "blocks": [
+      { "type": "term", "settings": { "term": "C9" } },
+      { "type": "term", "settings": { "term": "Aloe Vera Gel" } },
+      { "type": "term", "settings": { "term": "F15" } },
+      { "type": "term", "settings": { "term": "Propolis" } }
+    ]
+  }
+}
+{% endschema %}

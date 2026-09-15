@@ -1,0 +1,45 @@
+<div class="container section">
+  <h1>
+    {%- if search.performed -%}{{ 'general.search.results_for' | t: terms: search.terms }}
+    {%- else -%}{{ 'general.search.title' | t }}{%- endif -%}
+  </h1>
+
+  <form action="{{ routes.search_url }}" method="get" role="search" class="search-form" style="max-width:520px;margin-bottom:var(--sp-8)">
+    {% render 'icon', name: 'search', size: 20, class: 'search-form__icon' %}
+    <label class="visually-hidden" for="SearchPageInput">{{ 'general.search.title' | t }}</label>
+    <input type="search" id="SearchPageInput" name="q" class="input" value="{{ search.terms | escape }}"
+      placeholder="{{ 'general.search.placeholder' | t }}">
+  </form>
+
+  {%- if search.performed -%}
+    {%- if search.results_count == 0 -%}
+      <div class="note" style="max-width:52ch">
+        <p><strong>{{ 'general.search.no_results' | t: terms: search.terms }}</strong></p>
+        <p>{{ 'general.search.no_results_help' | t }}</p>
+      </div>
+    {%- else -%}
+      <p class="text-sm text-soft" style="margin-bottom:var(--sp-6)">
+        {{ 'general.search.results_count' | t: count: search.results_count }}
+      </p>
+      {%- paginate search.results by 24 -%}
+        <div class="grid grid--4">
+          {%- for item in search.results -%}
+            {%- if item.object_type == 'product' -%}
+              {% render 'product-card', product: item, lazy: forloop.index > 8 %}
+            {%- else -%}
+              <a href="{{ item.url }}" class="note" style="text-decoration:none">
+                <strong>{{ item.title }}</strong>
+                <p class="text-sm">{{ item.content | default: item.excerpt | strip_html | truncate: 120 }}</p>
+              </a>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+        {% render 'pagination', paginate: paginate %}
+      {%- endpaginate -%}
+    {%- endif -%}
+  {%- endif -%}
+</div>
+
+{% schema %}
+{ "name": "Zoekresultaten", "settings": [] }
+{% endschema %}

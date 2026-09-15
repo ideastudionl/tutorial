@@ -1,0 +1,112 @@
+{%- comment -%}
+  Product card. Accepts: product (required), lazy (bool), sizes (string).
+  The whole card is clickable via a pseudo-element on the title link, so the
+  link text stays the accessible name and quick-add remains separately
+  focusable.
+{%- endcomment -%}
+{%- liquid
+  assign ratio_class = 'media--square'
+  case settings.card_image_ratio
+    when 'portrait'
+      assign ratio_class = 'media--portrait'
+    when 'natural'
+      assign ratio_class = 'media--natural'
+  endcase
+  assign loading = 'eager'
+  if lazy
+    assign loading = 'lazy'
+  endif
+  assign benefit = product.metafields.custom.short_benefit.value
+  assign badge = product.metafields.custom.badge.value
+  assign on_sale = false
+  if product.compare_at_price and product.compare_at_price > product.price
+    assign on_sale = true
+  endif
+-%}
+<article class="card">
+  <div class="card__media">
+    <div class="media {{ ratio_class }}">
+      {%- if product.featured_media -%}
+        {{ product.featured_media | image_url: width: 800 | image_tag:
+             loading: loading,
+             widths: '200,300,400,500,600,800',
+             sizes: sizes | default: '(min-width: 990px) 25vw, 45vw',
+             alt: product.featured_media.alt | default: product.title | escape }}
+        {%- if settings.card_second_image and product.media[1] -%}
+          <div class="card__img-alt">
+            {{ product.media[1] | image_url: width: 800 | image_tag:
+                 loading: 'lazy',
+                 widths: '200,300,400,500,600,800',
+                 sizes: sizes | default: '(min-width: 990px) 25vw, 45vw',
+                 alt: '' }}
+          </div>
+        {%- endif -%}
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      {%- endif -%}
+    </div>
+
+    <div class="badge-stack">
+      {%- if on_sale -%}
+        {%- assign pct = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
+        <span class="badge badge--sale">{{ 'products.product.save_percent' | t: percent: pct }}</span>
+      {%- endif -%}
+      {%- if badge != blank -%}
+        <span class="badge badge--accent">{{ badge }}</span>
+      {%- endif -%}
+      {%- unless product.available -%}
+        <span class="badge badge--out">{{ 'products.product.sold_out' | t }}</span>
+      {%- endunless -%}
+    </div>
+  </div>
+
+  <div class="card__body">
+    {%- if product.type != blank -%}
+      <span class="card__cat">{{ product.type }}</span>
+    {%- endif -%}
+
+    {%- if settings.card_show_rating -%}
+      {% render 'rating', product: product %}
+    {%- endif -%}
+
+    <h3 class="card__title">
+      <a href="{{ product.url }}">{{ product.title | escape }}</a>
+    </h3>
+
+    {%- if settings.card_show_benefit and benefit != blank -%}
+      <p class="card__benefit">{{ benefit }}</p>
+    {%- endif -%}
+
+    <div class="card__footer">
+      {% render 'price', product: product, show_from: true %}
+
+      {%- if settings.card_quick_add -%}
+        {%- if product.available -%}
+          {%- if product.variants.size == 1 -%}
+            <form method="post" action="{{ routes.cart_add_url }}" data-product-form class="card__add">
+              <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+              <input type="hidden" name="quantity" value="1">
+              <button type="submit" class="btn btn--ghost btn--sm btn--full">
+                <span data-add-label>{{ 'products.product.quick_add' | t }}</span>
+                <span class="visually-hidden">{{ 'products.product.quick_add_for' | t: title: product.title }}</span>
+              </button>
+              <span class="field__error" data-cart-error hidden></span>
+            </form>
+          {%- else -%}
+            {%- comment -%}
+              Multiple variants need a choice, so the card links to the product
+              instead of guessing one. Guessing is the classic quick-add bug.
+            {%- endcomment -%}
+            <a href="{{ product.url }}" class="btn btn--ghost btn--sm btn--full card__add">
+              {{ 'products.product.view_details' | t }}
+            </a>
+          {%- endif -%}
+        {%- else -%}
+          <button type="button" class="btn btn--ghost btn--sm btn--full card__add" disabled>
+            {{ 'products.product.sold_out' | t }}
+          </button>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+  </div>
+</article>

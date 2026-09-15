@@ -1,0 +1,28 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "rating": { "type": "rating", "settings": {} },
+        "title": { "type": "title", "settings": {} },
+        "benefit": { "type": "benefit", "settings": {} },
+        "price": { "type": "price", "settings": {} },
+        "stock": { "type": "stock", "settings": {} },
+        "form": { "type": "form", "settings": {} },
+        "trust": { "type": "trust", "settings": {} },
+        "contents": { "type": "accordion", "settings": { "heading": "Wat zit erin?", "metafield": "custom.contents" } },
+        "usage": { "type": "accordion", "settings": { "heading": "Hoe gebruik je het?", "metafield": "custom.usage" } },
+        "who": { "type": "accordion", "settings": { "heading": "Voor wie is dit geschikt?", "metafield": "custom.suitable_for" } },
+        "ingredients": { "type": "accordion", "settings": { "heading": "Ingrediënten", "metafield": "custom.ingredients" } },
+        "description": { "type": "description", "settings": {} }
+      },
+      "block_order": ["rating", "title", "benefit", "price", "stock", "form", "trust", "contents", "usage", "who", "ingredients", "description"],
+      "settings": {}
+    },
+    "related": {
+      "type": "featured-collection",
+      "settings": { "heading": "Anderen bekeken ook", "limit": 4, "columns": 4, "background": "sand" }
+    }
+  },
+  "order": ["main", "related"]
+}

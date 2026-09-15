@@ -1,0 +1,29 @@
+{%- comment -%}
+  Accepts: paginate (required). Crawlable links; the facet script intercepts
+  clicks for an in-place swap but the hrefs stay real for search engines.
+{%- endcomment -%}
+{%- if paginate.pages > 1 -%}
+  <nav class="pagination" aria-label="{{ 'general.pagination.label' | t }}" data-pagination>
+    {%- if paginate.previous -%}
+      <a href="{{ paginate.previous.url }}" aria-label="{{ 'general.pagination.previous' | t }}">
+        {% render 'icon', name: 'chevron-left', size: 14 %}
+      </a>
+    {%- endif -%}
+
+    {%- for part in paginate.parts -%}
+      {%- if part.is_link -%}
+        <a href="{{ part.url }}" aria-label="{{ 'general.pagination.page' | t: number: part.title }}">{{ part.title }}</a>
+      {%- elsif part.title == hellip -%}
+        <span>{{ part.title }}</span>
+      {%- else -%}
+        <span aria-current="page">{{ part.title }}</span>
+      {%- endif -%}
+    {%- endfor -%}
+
+    {%- if paginate.next -%}
+      <a href="{{ paginate.next.url }}" aria-label="{{ 'general.pagination.next' | t }}">
+        {% render 'icon', name: 'chevron-right', size: 14 %}
+      </a>
+    {%- endif -%}
+  </nav>
+{%- endif -%}

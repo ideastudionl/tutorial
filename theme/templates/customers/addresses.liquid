@@ -1,0 +1,35 @@
+<div class="container section container--narrow">
+  <h1>{{ 'customer.addresses.title' | t }}</h1>
+  {%- paginate customer.addresses by 10 -%}
+    {%- for address in customer.addresses -%}
+      <div class="note" style="margin-bottom:1rem">
+        {{ address | format_address }}
+        {%- if address == customer.default_address -%}
+          <p class="text-xs text-soft">{{ 'customer.addresses.default' | t }}</p>
+        {%- endif -%}
+      </div>
+    {%- else -%}
+      <p class="text-soft">{{ 'customer.addresses.none' | t }}</p>
+    {%- endfor -%}
+    {% render 'pagination', paginate: paginate %}
+  {%- endpaginate -%}
+
+  <h2>{{ 'customer.addresses.add_new' | t }}</h2>
+  {% form 'customer_address', customer.new_address %}
+    <label class="field"><span class="field__label">{{ 'customer.addresses.first_name' | t }}</span>
+      <input type="text" name="address[first_name]" class="input" autocomplete="given-name"></label>
+    <label class="field"><span class="field__label">{{ 'customer.addresses.last_name' | t }}</span>
+      <input type="text" name="address[last_name]" class="input" autocomplete="family-name"></label>
+    <label class="field"><span class="field__label">{{ 'customer.addresses.address1' | t }}</span>
+      <input type="text" name="address[address1]" class="input" autocomplete="address-line1"></label>
+    <label class="field"><span class="field__label">{{ 'customer.addresses.zip' | t }}</span>
+      <input type="text" name="address[zip]" class="input" autocomplete="postal-code"></label>
+    <label class="field"><span class="field__label">{{ 'customer.addresses.city' | t }}</span>
+      <input type="text" name="address[city]" class="input" autocomplete="address-level2"></label>
+    <label class="field"><span class="field__label">{{ 'customer.addresses.country' | t }}</span>
+      <select name="address[country]" class="select" autocomplete="country">{{ country_option_tags }}</select></label>
+    <label class="field"><span class="field__label">{{ 'customer.addresses.phone' | t }}</span>
+      <input type="tel" name="address[phone]" class="input" autocomplete="tel"></label>
+    <button type="submit" class="btn">{{ 'customer.addresses.save' | t }}</button>
+  {% endform %}
+</div>

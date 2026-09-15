@@ -1,0 +1,68 @@
+<section class="hero section--sand" style="border-bottom:1px solid var(--c-line)">
+  <div class="container hero__inner">
+    <div class="hero__text">
+      {%- if section.settings.eyebrow != blank -%}
+        <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+      {%- endif -%}
+      <h1>{{ section.settings.heading }}</h1>
+      {%- if section.settings.text != blank -%}
+        <div class="rte lede">{{ section.settings.text }}</div>
+      {%- endif -%}
+
+      <div class="hero__cta">
+        {%- if section.settings.cta_label != blank -%}
+          <a href="{{ section.settings.cta_link }}" class="btn btn--lg">{{ section.settings.cta_label }}</a>
+        {%- endif -%}
+        {%- if section.settings.cta2_label != blank -%}
+          <a href="{{ section.settings.cta2_link }}" class="btn btn--secondary btn--lg">{{ section.settings.cta2_label }}</a>
+        {%- endif -%}
+      </div>
+
+      {%- if section.blocks.size > 0 -%}
+        <ul class="hero__points">
+          {%- for block in section.blocks -%}
+            <li {{ block.shopify_attributes }}>
+              {% render 'icon', name: 'check', size: 15 %}{{ block.settings.text }}
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </div>
+
+    <div class="hero__art">
+      <div class="media media--portrait">
+        {%- if section.settings.image -%}
+          {{ section.settings.image | image_url: width: 1200 | image_tag:
+               loading: 'eager', fetchpriority: 'high',
+               widths: '400,600,800,1000,1200',
+               sizes: '(min-width: 990px) 40vw, 92vw',
+               alt: section.settings.image.alt | default: section.settings.heading | escape }}
+        {%- else -%}
+          {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Bovenkop", "default": "Officieel Forever-assortiment" },
+    { "type": "text", "id": "heading", "label": "Kop", "default": "Aloë vera van Forever. Uit eigen voorraad." },
+    { "type": "richtext", "id": "text", "label": "Tekst",
+      "default": "<p>Het volledige Forever-assortiment, verzonden vanuit Nederland.</p>" },
+    { "type": "image_picker", "id": "image", "label": "Afbeelding" },
+    { "type": "text", "id": "cta_label", "label": "Knop 1", "default": "Bekijk de C9 kuur" },
+    { "type": "url", "id": "cta_link", "label": "Link knop 1" },
+    { "type": "text", "id": "cta2_label", "label": "Knop 2", "default": "Alle producten" },
+    { "type": "url", "id": "cta2_link", "label": "Link knop 2" }
+  ],
+  "blocks": [
+    { "type": "point", "name": "Punt", "limit": 4,
+      "settings": [ { "type": "text", "id": "text", "label": "Tekst" } ] }
+  ],
+  "presets": [ { "name": "Hero" } ]
+}
+{% endschema %}

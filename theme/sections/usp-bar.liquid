@@ -1,0 +1,47 @@
+<section class="trust-bar">
+  <div class="container">
+    <ul class="trust-bar__list" style="--trust-cols: {{ section.blocks.size }}">
+      {%- for block in section.blocks -%}
+        <li class="trust-bar__item" {{ block.shopify_attributes }}>
+          {% render 'icon', name: block.settings.icon, size: 20 %}
+          {{ block.settings.text }}
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "USP-balk",
+  "blocks": [
+    {
+      "type": "usp", "name": "USP", "limit": 6,
+      "settings": [
+        { "type": "text", "id": "text", "label": "Tekst", "default": "Gratis verzending in NL" },
+        {
+          "type": "select", "id": "icon", "label": "Icoon", "default": "truck",
+          "options": [
+            { "value": "truck", "label": "Verzending" },
+            { "value": "return", "label": "Retour" },
+            { "value": "box", "label": "Voorraad" },
+            { "value": "lock", "label": "Veilig betalen" },
+            { "value": "chat", "label": "Klantenservice" },
+            { "value": "leaf", "label": "Natuurlijk" },
+            { "value": "check", "label": "Vinkje" }
+          ]
+        }
+      ]
+    }
+  ],
+  "default": {
+    "blocks": [
+      { "type": "usp", "settings": { "text": "Gratis verzending in Nederland", "icon": "truck" } },
+      { "type": "usp", "settings": { "text": "14 dagen bedenktijd", "icon": "return" } },
+      { "type": "usp", "settings": { "text": "Uit eigen voorraad", "icon": "box" } },
+      { "type": "usp", "settings": { "text": "Veilig betalen", "icon": "lock" } }
+    ]
+  },
+  "presets": [ { "name": "USP-balk" } ]
+}
+{% endschema %}

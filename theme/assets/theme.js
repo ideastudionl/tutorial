@@ -793,6 +793,13 @@
       return window.location.pathname + (qs ? '?' + qs : '');
     }
 
+    // Mobile: the filter panel is collapsed until asked for.
+    on($('[data-facet-toggle]'), 'click', function () {
+      var expanded = this.getAttribute('aria-expanded') === 'true';
+      this.setAttribute('aria-expanded', String(!expanded));
+      form.classList.toggle('is-open', !expanded);
+    });
+
     on(form, 'change', function () { apply(urlFromForm(), true); });
     on(form, 'submit', function (e) { e.preventDefault(); apply(urlFromForm(), true); });
 

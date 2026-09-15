@@ -1,0 +1,51 @@
+<section class="section{% if section.settings.background == 'brand' %} section--brand{% elsif section.settings.background == 'sand' %} section--sand{% endif %}">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-head__text">
+        {%- if section.settings.eyebrow != blank -%}<span class="eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+        <h2>{{ section.settings.heading }}</h2>
+        {%- if section.settings.text != blank -%}<p>{{ section.settings.text }}</p>{%- endif -%}
+      </div>
+    </div>
+    <div class="grid grid--3">
+      {%- for block in section.blocks -%}
+        <div class="feature" {{ block.shopify_attributes }}>
+          <span class="feature__icon">{% render 'icon', name: block.settings.icon, size: 22 %}</span>
+          <div>
+            <h3>{{ block.settings.heading }}</h3>
+            <p>{{ block.settings.text }}</p>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Waarom wij",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Bovenkop" },
+    { "type": "text", "id": "heading", "label": "Kop", "default": "Waar we op afgerekend willen worden" },
+    { "type": "text", "id": "text", "label": "Tekst" },
+    { "type": "select", "id": "background", "label": "Achtergrond", "default": "brand",
+      "options": [ { "value": "white", "label": "Wit" }, { "value": "sand", "label": "Zacht" }, { "value": "brand", "label": "Merkkleur" } ] }
+  ],
+  "blocks": [
+    {
+      "type": "feature", "name": "Blok", "limit": 6,
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Kop", "default": "Eigen voorraad" },
+        { "type": "textarea", "id": "text", "label": "Tekst" },
+        { "type": "select", "id": "icon", "label": "Icoon", "default": "box",
+          "options": [
+            { "value": "box", "label": "Voorraad" }, { "value": "truck", "label": "Verzending" },
+            { "value": "chat", "label": "Klantenservice" }, { "value": "return", "label": "Retour" },
+            { "value": "leaf", "label": "Natuurlijk" }, { "value": "lock", "label": "Veilig betalen" }
+          ] }
+      ]
+    }
+  ],
+  "presets": [ { "name": "Waarom wij" } ]
+}
+{% endschema %}

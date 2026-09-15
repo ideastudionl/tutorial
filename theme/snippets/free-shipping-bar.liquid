@@ -1,0 +1,30 @@
+{%- comment -%}
+  Free-shipping progress. Renders only when the merchant has enabled it AND
+  set a real threshold — an invented threshold is a fake urgency device and
+  breaks trust the moment the customer reaches checkout.
+{%- endcomment -%}
+{%- liquid
+  assign threshold_setting = settings.free_shipping_threshold | replace: ',', '.' | times: 1
+  assign threshold = threshold_setting | times: 100
+-%}
+{%- if settings.free_shipping_enabled and threshold > 0 and cart.item_count > 0 -%}
+  {%- assign remaining = threshold | minus: cart.total_price -%}
+  {%- if remaining > 0 -%}
+    {%- assign pct = cart.total_price | times: 100 | divided_by: threshold -%}
+    <div class="shipping-bar">
+      <p class="shipping-bar__text">
+        {{ 'sections.cart.free_shipping_progress' | t: amount: remaining | money }}
+      </p>
+      <div class="shipping-bar__track">
+        <div class="shipping-bar__fill" style="width: {{ pct }}%"></div>
+      </div>
+    </div>
+  {%- else -%}
+    <div class="shipping-bar shipping-bar--complete">
+      <p class="shipping-bar__text">{{ 'sections.cart.free_shipping_reached' | t }}</p>
+      <div class="shipping-bar__track">
+        <div class="shipping-bar__fill" style="width: 100%"></div>
+      </div>
+    </div>
+  {%- endif -%}
+{%- endif -%}
