@@ -80,8 +80,8 @@ $ifs_areas    = ifs_get_items( 'ifs_werkgebied', 24 );
 <section class="ifs-quote" id="offerte">
 	<div class="ifs-container">
 
-		<div class="ifs-section-head ifs-section-head--center">
-			<span class="ifs-eyebrow ifs-eyebrow--center">Offerte aanvragen</span>
+		<div class="ifs-section-head">
+			<span class="ifs-eyebrow">Offerte aanvragen</span>
 			<h2>Weet binnen 3 minuten wat je klus kost</h2>
 			<p class="ifs-lead">Beantwoord vijf korte vragen en zie meteen een richtprijs — vanaf &euro;&nbsp;<?php echo esc_html( ifs_price_from() ); ?> per m&sup2;. Daarna volgt <?php echo esc_html( ifs_option( 'quote_response' ) ); ?> een vrijblijvende opgave die past bij jouw situatie.</p>
 		</div>
@@ -263,8 +263,8 @@ $ifs_areas    = ifs_get_items( 'ifs_werkgebied', 24 );
 <?php if ( $ifs_reviews ) : ?>
 	<section class="ifs-section">
 		<div class="ifs-container">
-			<div class="ifs-section-head ifs-section-head--center">
-				<span class="ifs-eyebrow ifs-eyebrow--center">Klantbeoordelingen</span>
+			<div class="ifs-section-head">
+				<span class="ifs-eyebrow">Klantbeoordelingen</span>
 				<h2>Wat klanten over ons zeggen</h2>
 				<p>
 					<span class="ifs-google-summary">
@@ -318,8 +318,8 @@ $ifs_areas    = ifs_get_items( 'ifs_werkgebied', 24 );
 <?php // ---------- FAQ ---------- ?>
 <section class="ifs-section">
 	<div class="ifs-container">
-		<div class="ifs-section-head ifs-section-head--center">
-			<span class="ifs-eyebrow ifs-eyebrow--center">Veelgestelde vragen</span>
+		<div class="ifs-section-head">
+			<span class="ifs-eyebrow">Veelgestelde vragen</span>
 			<h2>Goed om te weten</h2>
 		</div>
 		<div class="ifs-narrow">

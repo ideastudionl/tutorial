@@ -103,7 +103,7 @@ while ( have_posts() ) :
 	<?php if ( $ifs_reviews ) : ?>
 		<section class="ifs-section ifs-section--tint">
 			<div class="ifs-container">
-				<div class="ifs-section-head ifs-section-head--center">
+				<div class="ifs-section-head">
 					<h2>Wat klanten zeggen</h2>
 				</div>
 				<?php ifs_review_slider( $ifs_reviews ); ?>
@@ -113,7 +113,7 @@ while ( have_posts() ) :
 
 	<section class="ifs-quote" id="offerte">
 		<div class="ifs-container">
-			<div class="ifs-section-head ifs-section-head--center">
+			<div class="ifs-section-head">
 				<h2>Offerte voor je klus in <?php echo esc_html( $ifs_city ); ?></h2>
 				<p class="ifs-lead">Vijf korte vragen. Reactie <?php echo esc_html( ifs_option( 'quote_response' ) ); ?>.</p>
 			</div>

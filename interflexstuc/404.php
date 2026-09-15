@@ -12,7 +12,7 @@ get_header();
 
 <section class="ifs-section">
 	<div class="ifs-container ifs-narrow" style="text-align:center">
-		<span class="ifs-eyebrow ifs-eyebrow--center">Foutmelding 404</span>
+		<span class="ifs-eyebrow">Foutmelding 404</span>
 		<h1>Deze pagina bestaat niet (meer)</h1>
 		<p class="ifs-lead">Mogelijk is de pagina verplaatst of klopt het adres niet. Hieronder vind je de meest bezochte pagina&rsquo;s.</p>
 

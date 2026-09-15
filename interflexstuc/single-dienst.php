@@ -99,7 +99,7 @@ while ( have_posts() ) :
 
 	<section class="ifs-quote" id="offerte">
 		<div class="ifs-container">
-			<div class="ifs-section-head ifs-section-head--center">
+			<div class="ifs-section-head">
 				<h2>Wat kost <?php echo esc_html( mb_strtolower( get_the_title() ) ); ?> bij jou?</h2>
 				<p class="ifs-lead">Vul de vragen in en ontvang <?php echo esc_html( ifs_option( 'quote_response' ) ); ?> een vrijblijvende prijsopgave.</p>
 			</div>

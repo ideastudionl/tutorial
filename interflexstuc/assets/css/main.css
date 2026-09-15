@@ -44,16 +44,17 @@
   /* Ruimte */
   --ifs-gap:       1.5rem;
   --ifs-section:   clamp(3.5rem, 2rem + 6vw, 7rem);
-  --ifs-container: 1200px;
+  --ifs-container: 1440px;
   --ifs-narrow:    760px;
+  --ifs-prose:     900px;   /* leesbare regellengte binnen de brede opzet */
 
   /* Vorm */
   /* Rustiger vormtaal: minder ronding en schaduw dan eerder, zodat de
      pagina zakelijker oogt en de aandacht naar de inhoud gaat. */
-  --ifs-radius-sm: 6px;
-  --ifs-radius:    10px;
-  --ifs-radius-lg: 12px;
-  --ifs-radius-xl: 16px;
+  --ifs-radius-sm: 4px;
+  --ifs-radius:    6px;
+  --ifs-radius-lg: 8px;
+  --ifs-radius-xl: 10px;
 
   --ifs-shadow-sm: 0 1px 2px rgba(11, 27, 51, .05);
   --ifs-shadow:    0 1px 2px rgba(11, 27, 51, .04), 0 8px 24px rgba(11, 27, 51, .06);
@@ -130,28 +131,46 @@ p:last-child { margin-bottom: 0; }
 
 .ifs-lead { font-size: var(--ifs-fs-lg); line-height: 1.62; color: var(--ifs-stone); text-wrap: pretty; }
 .ifs-eyebrow {
-  display: inline-flex; align-items: center; gap: .5rem;
+  display: block;
   font-family: var(--ifs-font-head); font-size: var(--ifs-fs-xs);
-  font-weight: 700; letter-spacing: .11em; text-transform: uppercase;
-  color: var(--ifs-blue); margin-bottom: 1rem;
+  font-weight: 700; letter-spacing: .09em; text-transform: uppercase;
+  color: var(--ifs-stone); margin-bottom: .75rem;
 }
-.ifs-eyebrow::before { content: ""; width: 26px; height: 2px; background: currentColor; border-radius: 2px; }
-.ifs-eyebrow--center::before { display: none; }
 
 /* ---------- 4. Layout ---------- */
-.ifs-container { width: 100%; max-width: var(--ifs-container); margin-inline: auto; padding-inline: clamp(1.15rem, 4vw, 2.5rem); }
+.ifs-container { width: 100%; max-width: var(--ifs-container); margin-inline: auto; padding-inline: clamp(1.15rem, 3vw, 3.25rem); }
 .ifs-narrow { max-width: var(--ifs-narrow); margin-inline: auto; }
 .ifs-section { padding-block: var(--ifs-section); }
 .ifs-section--tight { padding-block: clamp(2.5rem, 1.5rem + 4vw, 4.5rem); }
 .ifs-section--tint { background: var(--ifs-mist); }
 
-.ifs-section-head { max-width: 660px; margin-bottom: clamp(2rem, 1rem + 3vw, 3.5rem); }
-.ifs-section-head--center { margin-inline: auto; text-align: center; }
+/* Kop links, inleiding rechts ernaast: benut de bredere pagina en leest
+   rustiger dan een gecentreerde blok-op-blok-opbouw. De kinderen worden
+   expliciet geplaatst, want de sjablonen leveren eyebrow, h2 en p als drie
+   losse elementen aan. */
+.ifs-section-head {
+  display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
+  gap: .25rem clamp(1.5rem, 1rem + 3vw, 4rem);
+  max-width: 100%; margin-bottom: clamp(2rem, 1rem + 3vw, 3.5rem);
+  padding-bottom: 1.5rem; border-bottom: 1px solid var(--ifs-line-soft);
+}
+.ifs-section-head > .ifs-eyebrow { grid-column: 1; grid-row: 1; margin-bottom: .35rem; }
+.ifs-section-head > h2 { grid-column: 1; grid-row: 2; margin: 0; }
+.ifs-section-head > p { grid-column: 2; grid-row: 2; margin: 0; align-self: end; max-width: 52ch; }
+/* Zonder eyebrow schuift de kop naar de eerste rij, zodat er geen gat valt. */
+.ifs-section-head:not(:has(.ifs-eyebrow)) > h2,
+.ifs-section-head:not(:has(.ifs-eyebrow)) > p { grid-row: 1; }
+@media (max-width: 860px) {
+  .ifs-section-head { grid-template-columns: 1fr; gap: .5rem; }
+  .ifs-section-head > .ifs-eyebrow,
+  .ifs-section-head > h2,
+  .ifs-section-head > p { grid-column: 1; grid-row: auto; }
+}
 .ifs-section-head p { margin-bottom: 0; }
 
 .ifs-grid { display: grid; gap: var(--ifs-gap); }
 .ifs-grid--2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
-.ifs-grid--3 { grid-template-columns: repeat(auto-fit, minmax(275px, 1fr)); }
+.ifs-grid--3 { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
 .ifs-grid--4 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
 
 /* ---------- 5. Componenten ---------- */
@@ -338,17 +357,15 @@ p:last-child { margin-bottom: 0; }
 /* Kaarten */
 .ifs-card {
   background: #fff; border: 1px solid var(--ifs-line-soft); border-radius: var(--ifs-radius-lg);
-  padding: clamp(1.5rem, 1rem + 1.5vw, 2rem);
+  padding: clamp(1.35rem, 1rem + 1.2vw, 1.75rem);
   transition: transform .25s var(--ifs-ease), box-shadow .25s var(--ifs-ease), border-color .25s var(--ifs-ease);
 }
 .ifs-card--link:hover { border-color: var(--ifs-stone-soft); }
 
 .ifs-icon-box {
-  width: 52px; height: 52px; border-radius: 15px; margin-bottom: 1.15rem;
-  display: grid; place-items: center;
-  background: var(--ifs-blue-tint); color: var(--ifs-blue);
+  margin-bottom: 1rem; color: var(--ifs-blue);
 }
-.ifs-icon-box svg { width: 25px; height: 25px; }
+.ifs-icon-box svg { width: 26px; height: 26px; }
 
 /* Media */
 .ifs-media { position: relative; overflow: hidden; border-radius: var(--ifs-radius-lg); background: var(--ifs-mist-deep); }
@@ -370,8 +387,8 @@ a:hover > .ifs-media img, .ifs-card--link:hover .ifs-media img { transform: scal
 /* Hero */
 .ifs-hero { position: relative; padding-block: clamp(2.5rem, 1.5rem + 4vw, 5rem) clamp(3rem, 2rem + 4vw, 5.5rem); background: var(--ifs-mist); overflow: hidden; }
 
-.ifs-hero__inner { position: relative; display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(2rem, 1rem + 4vw, 4.5rem); align-items: center; }
-.ifs-hero__content { max-width: 620px; }
+.ifs-hero__inner { position: relative; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: clamp(2rem, 1rem + 5vw, 6rem); align-items: center; }
+.ifs-hero__content { max-width: 38rem; }
 .ifs-hero h1 { margin-bottom: .55em; }
 .ifs-hero h1 em { font-style: normal; color: var(--ifs-orange); }
 .ifs-hero__actions { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2rem; }
@@ -434,7 +451,7 @@ a:hover > .ifs-media img, .ifs-card--link:hover .ifs-media img { transform: scal
 .ifs-stat span { font-size: var(--ifs-fs-xs); color: var(--ifs-stone); }
 
 /* Projecten */
-.ifs-projects { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--ifs-gap); }
+.ifs-projects { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: var(--ifs-gap); }
 .ifs-project { position: relative; display: block; text-decoration: none; border-radius: var(--ifs-radius-lg); overflow: hidden; }
 .ifs-project .ifs-media { border-radius: 0; aspect-ratio: 4 / 3; }
 .ifs-project { border: 1px solid var(--ifs-line-soft); }
@@ -510,7 +527,7 @@ a:hover > .ifs-media img, .ifs-card--link:hover .ifs-media img { transform: scal
 .ifs-crumbs span[aria-hidden] { opacity: .5; }
 
 /* Content (WYSIWYG) */
-.ifs-content { font-size: var(--ifs-fs-base); }
+.ifs-content { font-size: var(--ifs-fs-base); max-width: var(--ifs-prose); }
 .ifs-content > * + * { margin-top: 1.15em; }
 .ifs-content h2 { margin-top: 2em; }
 .ifs-content h3 { margin-top: 1.6em; }
