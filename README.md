@@ -70,13 +70,13 @@ Vervangen doet u op twee plekken:
 
 De achtergrond is overal wit; secties scheiden op kaderlijnen, niet op vlakken. Kleur zit
 alleen in wat iets betekent — oranje voor bestellen, groen voor bezorging en voorraad, blauw
-voor links en het merk. In de donkere variant zijn de vlaktinten wél nodig en staan ze onder
-`@media (prefers-color-scheme: dark)`. Het logo heeft twee uitvoeringen:
-`WK.logo(size, 'donker')` is blauw voor lichte achtergronden (overal gebruikt), `WK.logo(size)`
-is wit voor het geval u het merk toch op een gekleurd vlak wilt zetten.
+voor links en het merk. Het logo heeft twee uitvoeringen: `WK.logo(size, 'donker')` is blauw
+voor lichte achtergronden (overal gebruikt), `WK.logo(size)` is wit voor het geval u het merk
+toch op een gekleurd vlak wilt zetten.
 
-De donkere variant staat eronder in `@media (prefers-color-scheme: dark)` en
-`:root[data-theme="dark"]`. Past u een merkkleur aan, pas dan ook daar de tegenhanger aan.
+**De site heeft bewust geen donkere weergave.** `color-scheme: light` op `:root` zorgt dat de
+pagina wit blijft, ook bij bezoekers met hun systeem op donker. Een webwinkel hoort er voor
+iedereen hetzelfde uit te zien, en productfoto's staan in deze branche op wit.
 
 ## Koppelen aan een webshop
 

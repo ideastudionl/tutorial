@@ -11,7 +11,9 @@
 :root {
   --brand:      #0E7BC4;   /* koptekstbalk, merk — helder en vriendelijk */
   --brand-dark: #0A6199;
-  --brand-soft: #FFFFFF;   /* geen gekleurde vlakken in de lichte variant */
+  /* Vlak-tokens. Allemaal wit: secties scheiden op kaderlijnen, niet op
+     vulkleur. Wilt u een sectie toch een tint geven, dan is dit de plek. */
+  --brand-soft: #FFFFFF;
   --link:       #0A6199;   /* klikbare tekst */
   --cta:        #C25208;   /* bestelknoppen */
   --cta-hover:  #D96010;
@@ -22,7 +24,7 @@
   --amber:      #E8A33D;   /* sterren */
 
   --bg:      #FFFFFF;
-  --band:    #FFFFFF;      /* secties scheiden op kaderlijnen, niet op vlakken */
+  --band:    #FFFFFF;
   --band-2:  #FFFFFF;
   --line:    #DDE4EB;
   --line-2:  #EDF1F5;
@@ -38,61 +40,10 @@
   --maxw: 1220px;
   --font: "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
 
+  /* Vast op licht: de pagina volgt niet de donkere weergave van het systeem.
+     Een webwinkel hoort er voor iedereen hetzelfde uit te zien, en
+     productfoto's op een witte ondergrond zijn de norm in de branche. */
   color-scheme: light;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --brand:      #1F6FA8;
-    --brand-dark: #16537E;
-    --brand-soft: #12242F;
-    --link:       #6FBDEE;
-    --cta:        #D9670F;
-    --cta-hover:  #EC7A1E;
-    --cta-soft:   #2A1B0D;
-    --green:      #3FAE79;
-    --green-soft: #12291F;
-    --red:        #E8776C;
-    --amber:      #E8A33D;
-
-    --bg:      #101821;
-    --band:    #16202B;
-    --band-2:  #131C25;
-    --line:    #2A3744;
-    --line-2:  #212C38;
-    --text:    #E9EEF3;
-    --muted:   #A2AEBA;
-    --muted-2: #808D9A;
-
-    --shadow: 0 1px 3px rgba(0,0,0,.4);
-    --shadow-lg: 0 4px 18px rgba(0,0,0,.5);
-    color-scheme: dark;
-  }
-}
-
-:root[data-theme="dark"] {
-  --brand:      #1F6FA8;
-  --brand-dark: #16537E;
-  --brand-soft: #12242F;
-  --link:       #6FBDEE;
-  --cta:        #D9670F;
-  --cta-hover:  #EC7A1E;
-  --cta-soft:   #2A1B0D;
-  --green:      #3FAE79;
-  --green-soft: #12291F;
-  --red:        #E8776C;
-  --amber:      #E8A33D;
-  --bg:      #101821;
-  --band:    #16202B;
-  --band-2:  #131C25;
-  --line:    #2A3744;
-  --line-2:  #212C38;
-  --text:    #E9EEF3;
-  --muted:   #A2AEBA;
-  --muted-2: #808D9A;
-  --shadow: 0 1px 3px rgba(0,0,0,.4);
-  --shadow-lg: 0 4px 18px rgba(0,0,0,.5);
-  color-scheme: dark;
 }
 
 /* ---------------------------------------------------------------- basis -- */
@@ -101,7 +52,7 @@
 
 body {
   margin: 0;
-  background: var(--bg);
+  background: #FFFFFF;
   color: var(--text);
   font-family: var(--font);
   font-size: 15px;

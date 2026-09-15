@@ -156,7 +156,7 @@ Daarom volgt het ontwerp de Nederlandse retail-conventies, niet een eigen vormta
 | Sterren | Bij elk apparaat, met het aantal beoordelingen | 82% van de shoppers leest reviews vóór aankoop |
 | Typografie | Eén schreefloze letter (Source Sans 3), verschil door grootte en gewicht | Twee opvallende letters maken van een winkel een portfoliostuk |
 | Kleurgebruik | Oranje voor bestellen, groen voor bezorging en voorraad, blauw voor links en merk, verder wit | Kleur betekent iets. Waar alles kleur heeft, valt de bestelknop niet meer op |
-| Grondtoon | Overal wit. Secties scheiden op haarlijnen, met een dunne blauwe lijn boven aan de pagina en boven de voettekst | Een gekleurde achtergrond concurreert met de productfoto's. Wit laat de apparaten het werk doen |
+| Grondtoon | Overal wit, ook bij bezoekers met hun systeem op donker. Secties scheiden op haarlijnen, met een dunne blauwe lijn boven aan de pagina en boven de voettekst | Een gekleurde achtergrond concurreert met de productfoto's. Wit laat de apparaten het werk doen, en de winkel ziet er voor iedereen hetzelfde uit |
 
 Wat er bewust **niet** in zit: paginavullende sfeerbeelden, uitvergrote koppen, siercijfers bij
 processtappen, en decoratieve accentkleuren. Dat zijn kenmerken van een portfoliosite, niet van
