@@ -1,0 +1,230 @@
+/* ==========================================================================
+   Soccer Games — winkelwagen en afrekenen in de huisstijl
+   Plakken in: WordPress → Weergave → Customizer → Algemene stijlen → Custom CSS
+   (Flatsome). Raakt alleen de WooCommerce-pagina's aan, niet de rest van de site.
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700..800&family=DM+Mono:wght@500&family=Instrument+Sans:wght@400;500;600&display=swap');
+
+:root{
+  --sg-paper:#FFFFFF;
+  --sg-surface-2:#F2F7EE;
+  --sg-ink:#121A14;
+  --sg-muted:#5D6B5C;
+  --sg-line:#DFE6D8;
+  --sg-brand:#22C55E;
+  --sg-pitch:#0B6B3A;
+  --sg-flame:#FF5A00;
+  --sg-display:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;
+  --sg-body:"Instrument Sans","Helvetica Neue",Arial,sans-serif;
+  --sg-mono:"DM Mono",ui-monospace,Menlo,monospace;
+}
+
+/* ---------- Basis ---------- */
+.woocommerce-cart, .woocommerce-checkout{
+  background:var(--sg-paper);
+  font-family:var(--sg-body);
+  color:var(--sg-ink);
+}
+.woocommerce-cart h1, .woocommerce-checkout h1,
+.woocommerce-cart h3, .woocommerce-checkout h3,
+.woocommerce-checkout #order_review_heading{
+  font-family:var(--sg-display);
+  font-weight:800;
+  letter-spacing:-.02em;
+  text-transform:none;
+}
+.woocommerce-cart .shop_table th, .woocommerce-checkout .shop_table th{
+  font-family:var(--sg-mono);
+  font-size:.72rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--sg-muted);
+  border-bottom:1px solid var(--sg-line);
+}
+.woocommerce .amount, .woocommerce-Price-amount{
+  font-family:var(--sg-mono);
+  font-variant-numeric:tabular-nums;
+}
+
+/* ---------- Knoppen ---------- */
+.woocommerce-cart .button, .woocommerce-checkout .button,
+.woocommerce #place_order, .wc-proceed-to-checkout .checkout-button{
+  font-family:var(--sg-body);
+  font-weight:600;
+  letter-spacing:0;
+  text-transform:none;
+  border-radius:999px;
+  border:2px solid var(--sg-ink);
+  padding:14px 26px;
+  min-height:auto;
+  line-height:1.2;
+  transition:transform .12s ease, box-shadow .12s ease;
+}
+.wc-proceed-to-checkout .checkout-button,
+.woocommerce #place_order{
+  background:var(--sg-flame);
+  color:#fff;
+  box-shadow:4px 4px 0 var(--sg-ink);
+  width:100%;
+  font-size:1.05rem;
+}
+.wc-proceed-to-checkout .checkout-button:hover,
+.woocommerce #place_order:hover{
+  background:var(--sg-flame);
+  color:#fff;
+  transform:translate(-1px,-1px);
+  box-shadow:5px 5px 0 var(--sg-ink);
+}
+.woocommerce #place_order:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--sg-ink)}
+.woocommerce-cart .button[name="update_cart"]{
+  background:transparent;
+  color:var(--sg-ink);
+  box-shadow:none;
+}
+
+/* Gerustellende regel onder de bestelknop */
+.woocommerce-checkout #place_order::after{
+  content:"";
+}
+.woocommerce-checkout .woocommerce-terms-and-conditions-wrapper + #place_order,
+.woocommerce-checkout #payment .form-row.place-order::after{
+  content:"Veilig betalen · 30 dagen bedenktijd · voor 22:00 besteld, morgen in huis";
+  display:block;
+  margin-top:12px;
+  font-size:.78rem;
+  color:var(--sg-muted);
+  text-align:center;
+}
+
+/* ---------- Invoervelden ---------- */
+.woocommerce form .form-row label{
+  font-weight:600;
+  font-size:.9rem;
+  margin-bottom:6px;
+  color:var(--sg-ink);
+}
+.woocommerce form .form-row input.input-text,
+.woocommerce form .form-row textarea,
+.woocommerce form .form-row .select2-selection,
+.woocommerce form .form-row select{
+  font-size:16px;              /* voorkomt inzoomen op iPhone */
+  height:auto;
+  min-height:52px;
+  padding:14px 16px;
+  border:2px solid var(--sg-line);
+  border-radius:12px;
+  background:var(--sg-paper);
+  box-shadow:none;
+  color:var(--sg-ink);
+}
+.woocommerce form .form-row input.input-text:focus,
+.woocommerce form .form-row textarea:focus,
+.woocommerce form .form-row select:focus{
+  border-color:var(--sg-pitch);
+  outline:3px solid rgba(34,197,94,.25);
+  outline-offset:1px;
+}
+.woocommerce form .form-row.woocommerce-invalid input.input-text{border-color:#D92D20}
+.woocommerce form .form-row-first, .woocommerce form .form-row-last{width:calc(50% - 8px)}
+
+/* ---------- Overzicht van de bestelling ---------- */
+.woocommerce-checkout #order_review,
+.woocommerce .cart_totals{
+  background:var(--sg-surface-2);
+  border:1px solid var(--sg-line);
+  border-radius:18px;
+  padding:22px;
+}
+.woocommerce-checkout-review-order-table,
+.woocommerce .cart_totals table{
+  border:0;
+  background:transparent;
+}
+.woocommerce-checkout-review-order-table td,
+.woocommerce-checkout-review-order-table th,
+.woocommerce .cart_totals th, .woocommerce .cart_totals td{
+  border-color:var(--sg-line);
+  padding:12px 0;
+}
+.woocommerce-checkout-review-order-table tfoot .order-total th,
+.woocommerce-checkout-review-order-table tfoot .order-total td{
+  font-size:1.15rem;
+  font-family:var(--sg-display);
+  font-weight:800;
+  border-top:2px solid var(--sg-ink);
+}
+@media (min-width:850px){
+  .woocommerce-checkout #order_review{position:sticky;top:24px}
+}
+
+/* ---------- Betaalmethodes als keuzeblokken ---------- */
+.woocommerce-checkout #payment{background:transparent}
+.woocommerce-checkout #payment ul.payment_methods{
+  border:0;
+  padding:0;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.woocommerce-checkout #payment ul.payment_methods li{
+  border:2px solid var(--sg-line);
+  border-radius:14px;
+  padding:14px 16px;
+  margin:0;
+  background:var(--sg-paper);
+  transition:border-color .14s ease, background .14s ease;
+}
+.woocommerce-checkout #payment ul.payment_methods li:hover{border-color:var(--sg-muted)}
+.woocommerce-checkout #payment ul.payment_methods li.wc_payment_method label{
+  font-weight:600;
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+}
+.woocommerce-checkout #payment ul.payment_methods li img{max-height:26px;width:auto}
+.woocommerce-checkout #payment div.payment_box{
+  background:var(--sg-surface-2);
+  border-radius:10px;
+  margin-top:10px;
+  font-size:.9rem;
+}
+.woocommerce-checkout #payment div.payment_box::before{display:none}
+
+/* ---------- Meldingen ---------- */
+.woocommerce-message, .woocommerce-info, .woocommerce-error,
+.woocommerce .message-container{
+  border-radius:14px;
+  border:1px solid var(--sg-line);
+  border-left:4px solid var(--sg-pitch);
+  background:var(--sg-surface-2);
+  color:var(--sg-ink);
+  font-size:.95rem;
+}
+.woocommerce-error{border-left-color:#D92D20}
+
+/* ---------- Waardebon: uitgeklapt is afleiding, ingeklapt niet ---------- */
+.woocommerce-cart .coupon, .woocommerce-checkout .checkout_coupon{
+  border:1px dashed var(--sg-line);
+  border-radius:14px;
+  padding:14px;
+  background:var(--sg-paper);
+}
+
+/* ---------- Productregel ---------- */
+.woocommerce-cart-form__cart-item .product-thumbnail img{
+  border-radius:10px;
+  border:1px solid var(--sg-line);
+}
+.woocommerce-cart-form__cart-item .product-name a{
+  font-weight:600;
+  color:var(--sg-ink);
+  text-decoration:none;
+}
+
+/* ---------- Mobiel ---------- */
+@media (max-width:849px){
+  .woocommerce-checkout #order_review{margin-top:20px}
+  .woocommerce form .form-row-first, .woocommerce form .form-row-last{width:100%}
+  .woocommerce #place_order{position:sticky;bottom:12px;z-index:5}
+}
