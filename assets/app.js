@@ -13,9 +13,9 @@
 
   /* ---------- Catalogus (stand-in voor /wc/store/v1/products) ---------- */
   var CATALOG = {
-    memo:   { name: 'Soccer MeMo',            sub: '48 kaarten · 24 paren', price: 19.95, art: 'art-box' },
-    duo:    { name: 'Duo-pack',               sub: '2 spellen',             price: 34.95, art: 'art-fan' },
-    trio:   { name: 'Trio-pack',              sub: '3 spellen',             price: 49.95, art: 'art-fan' },
+    memo:   { name: 'Soccer MeMo',            sub: '48 kaarten · 24 paren', price: 14.95, art: 'art-box' },
+    duo:    { name: 'Duo-pack',               sub: '2 spellen',             price: 24.95, art: 'art-fan' },
+    trio:   { name: 'Trio-pack',              sub: '3 spellen',             price: 34.95, art: 'art-fan' },
     gift:   { name: 'Cadeauverpakking',       sub: 'Lint + kaartje',        price:  2.95, art: 'art-giftbox' },
     poster: { name: 'Poster "Elftal" A2',     sub: 'Dik papier',            price:  9.95, art: 'art-poster' }
   };
@@ -267,7 +267,7 @@
 
   function pdpAdd(origin) {
     add(bundle, qty, origin);
-    if ($('#giftWrap').checked) { add('gift', 1); }
+    if ($('#giftWrap').checked) { add('gift', qty); }
   }
   $('#pdpAdd').addEventListener('click', function (e) { pdpAdd(e.currentTarget); });
   $('#stickyAdd').addEventListener('click', function (e) { pdpAdd(e.currentTarget); });

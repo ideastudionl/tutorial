@@ -1,6 +1,6 @@
 # Conversiekeuzes en hoe je ze meet
 
-Uitgangspunt: één product van ± € 20 met een korte beslistijd. De winst zit niet in
+Uitgangspunt: één product van ± € 15 met een korte beslistijd. De winst zit niet in
 lange overtuiging maar in twijfel wegnemen (bezorging, leeftijd, cadeau) en in
 gemiddelde orderwaarde (bundel, cadeauverpakking, poster).
 
@@ -15,7 +15,7 @@ gemiddelde orderwaarde (bundel, cadeauverpakking, poster).
 | Voorraadregel met aantal | Concreet en controleerbaar | lichte urgentie zonder wantrouwen |
 | Bundel 1 / 2 / 3 met streepprijs | Cadeau + eigen exemplaar is het echte koopmoment | hogere gemiddelde orderwaarde |
 | Cadeauverpakking als vinkje | Wegneemt het "moet ik nog inpakken"-bezwaar | + € 2,95 op een deel van de orders |
-| Verzendmeter in de lade | Maakt de stap van € 19,95 naar € 30 zichtbaar | meer tweede artikel per order |
+| Verzendmeter in de lade | Maakt de stap van € 14,95 naar € 30 zichtbaar | meer tweede artikel per order |
 | Sticky koopbalk op de PDP | De knop blijft bereikbaar tijdens het lezen | meer toevoegingen vanaf onderin de pagina |
 | Reviews met verdeling én tekst | Sociale bevestiging van ouders, niet van het merk | vertrouwen bij nieuw verkeer |
 | FAQ over leeftijd, bezorging, retour | De vier vragen die anders naar de klantenservice gaan | minder uitval en minder mails |
