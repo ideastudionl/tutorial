@@ -9,8 +9,11 @@ ouders rekenen af — die als front-end op een bestaande WooCommerce draait.
 
 ```
 index.html            prototype: homepagina + productpagina (hash-routing)
-assets/styles.css     ontwerpsysteem in tokens, licht én donker
+assets/styles.css     ontwerpsysteem in tokens, vaste lichte weergave
 assets/app.js         memorydemo, winkelwagen, bundels, aftelklok, galerij
+assets/logo/          beeldmerk in groen en wit (natekening, zie docs)
+build.mjs             zet index.html in een volledig HTML-document in dist/
+bundle.mjs            bouwt dist/standalone.html: alles in één bestand
 docs/headless-woocommerce.md   koppeling: Store API, cart-token, checkout, caching
 docs/design-system.md          kleur, typografie, componenten, beweging, toegankelijkheid
 docs/conversie.md              elk conversie-element met reden en meetplan
@@ -25,6 +28,10 @@ python3 -m http.server 4173   # → http://localhost:4173
 ```
 
 `#/` is de homepagina, `#/product` de productpagina.
+
+Demo voor de klant: **https://soccer-memo-shop.vercel.app** — dat is
+`dist/standalone.html` uit deze branch, gedeployd op Vercel zonder inlogmuur,
+met `noindex` zodat Google hem niet oppikt.
 
 ## Over de inhoud
 
