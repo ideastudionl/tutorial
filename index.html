@@ -28,48 +28,175 @@
   <symbol id="ic-arrow" viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="ic-leaf" viewBox="0 0 24 24"><path d="M20 4c0 9-5.4 13.6-11.4 13.6-1.6 0-3-.4-4-1 .6-6.6 5.6-11 11.4-11.6z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M4 20c1.6-4 4.6-7 8.4-8.6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
 
+  <!-- Merk -->
+  <symbol id="logo-mark" viewBox="0 0 120 120">
+    <mask id="sgFigure" maskUnits="userSpaceOnUse" x="0" y="0" width="120" height="120">
+      <rect width="120" height="120" fill="#fff"/>
+      <g fill="#000">
+        <circle cx="66" cy="27" r="10"/>
+        <path d="M97 44 L104 52 L36 47 L4 34 Z"/>
+        <path d="M52 40 L74 50 L68 74 L46 64 Z"/>
+        <path d="M46 62 L62 70 L44 106 L27 99 Z"/>
+        <path d="M62 68 L76 72 L74 100 L60 101 Z"/>
+        <path d="M2 70 L48 84 L34 96 L4 82 Z"/>
+        <circle cx="90" cy="100" r="9"/>
+      </g>
+    </mask>
+    <circle cx="60" cy="60" r="58" fill="currentColor" mask="url(#sgFigure)"/>
+  </symbol>
+
+
+  <!-- Kaartillustraties in de stijl van het spel: dikke zwarte lijn, vlakke kleuren -->
+  <symbol id="card-ball" viewBox="0 0 100 100">
+    <rect x="2" y="2" width="96" height="96" rx="13" fill="#7FBF3F"/>
+    <g stroke="#111" stroke-width="4.5" stroke-linejoin="round" stroke-linecap="round">
+      <circle cx="46" cy="52" r="27" fill="#fff"/>
+      <path d="M46 36l12 8.8-4.6 14.4H38.6L34 44.8z" fill="#111" stroke-width="3"/>
+      <path d="M46 25v11M22 43l12.5 2M70 43l-12.5 2M31 76l7.5-9.5M61 76l-7.5-9.5" stroke-width="3.6"/>
+      <path d="M79 36c3 3 3 7 0 10M85 31c5.4 5.4 5.4 14.6 0 20" fill="none" stroke-width="3.4"/>
+    </g>
+  </symbol>
+
+  <symbol id="card-trophy" viewBox="0 0 100 100">
+    <rect x="2" y="2" width="96" height="96" rx="13" fill="#6DC9A9"/>
+    <g stroke="#111" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M22 44c-7-2-9-9-8-16h12" fill="none"/>
+      <path d="M78 44c7-2 9-9 8-16H74" fill="none"/>
+      <path d="M30 34l-12 22 8 4 12-18z" fill="#2D9CDB"/>
+      <path d="M70 34l12 22-8 4-12-18z" fill="#E8352E"/>
+      <path d="M28 22h44l-3 20c-1.4 10-8.6 17-19 17s-17.6-7-19-17z" fill="#FFD23F"/>
+      <ellipse cx="50" cy="22" rx="22" ry="5" fill="#FFE07A"/>
+      <path d="M42 40v8M50 41v8M58 40v8" stroke-width="3.4"/>
+      <path d="M45 59h10v10H45z" fill="#FFD23F"/>
+      <rect x="34" y="69" width="32" height="14" rx="3" fill="#A9682F"/>
+    </g>
+  </symbol>
+
+  <symbol id="card-team" viewBox="0 0 100 100">
+    <rect x="2" y="2" width="96" height="96" rx="13" fill="#F8EFC0"/>
+    <g stroke="#111" stroke-width="3.6" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M14 46h72" stroke-width="3.2"/>
+      <g>
+        <circle cx="26" cy="30" r="10" fill="#F6D9B0"/><path d="M17 27c1-7 17-7 18 0-5-3-13-3-18 0z" fill="#E8A33D"/>
+        <path d="M18 42h16v20H18z" fill="#E8352E"/><path d="M20 62h12v11H20z" fill="#2D9CDB"/>
+        <path d="M21 73v9M31 73v9" stroke-width="4"/>
+      </g>
+      <g>
+        <circle cx="50" cy="27" r="10.5" fill="#C08552"/><path d="M40 24c1-8 19-8 20 0-6-3.6-14-3.6-20 0z" fill="#111"/>
+        <path d="M42 39h16v21H42z" fill="#E8352E"/><path d="M44 60h12v12H44z" fill="#2D9CDB"/>
+        <path d="M45 72v10M55 72v10" stroke-width="4"/>
+      </g>
+      <g>
+        <circle cx="74" cy="30" r="10" fill="#F2C89B"/><path d="M65 27c1-7 17-7 18 0-5-3-13-3-18 0z" fill="#8B5E34"/>
+        <path d="M66 42h16v20H66z" fill="#E8352E"/><path d="M68 62h12v11H68z" fill="#2D9CDB"/>
+        <path d="M69 73v9M79 73v9" stroke-width="4"/>
+      </g>
+      <path d="M16 86h68" stroke-width="3.2"/>
+    </g>
+  </symbol>
+
+  <symbol id="card-goal" viewBox="0 0 100 100">
+    <rect x="2" y="2" width="96" height="96" rx="13" fill="#A9DCEE"/>
+    <path d="M2 62c16-6 80-6 96 0v23a13 13 0 0 1-13 13H15A13 13 0 0 1 2 85z" fill="#7FBF3F"/>
+    <g stroke="#111" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M16 62V26h68v36" fill="#D6DEE4"/>
+      <g stroke-width="1.6" opacity=".85">
+        <path d="M26 26v36M36 26v36M46 26v36M56 26v36M66 26v36M76 26v36M16 34h68M16 42h68M16 50h68M16 58h68"/>
+      </g>
+      <path d="M16 62V26h68v36" fill="none"/>
+      <circle cx="50" cy="66" r="14" fill="#fff"/>
+      <path d="M50 58l6.5 4.8-2.5 7.7h-8L43.5 63z" fill="#111" stroke-width="2.4"/>
+      <path d="M68 58c2 2 2 5 0 7M74 55c3.4 3.4 3.4 9 0 12.5" fill="none" stroke-width="3"/>
+    </g>
+  </symbol>
+
+  <symbol id="card-kit" viewBox="0 0 100 100">
+    <rect x="2" y="2" width="96" height="96" rx="13" fill="#7FBF3F"/>
+    <g stroke="#111" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M34 16l-20 8 5 14 9-4v22h44V34l9 4 5-14-20-8z" fill="#fff"/>
+      <path d="M40 18h7v38h-7zM53 18h7v38h-7z" fill="#E8352E" stroke="none"/>
+      <path d="M34 16l-20 8 5 14 9-4v22h44V34l9 4 5-14-20-8z" fill="none"/>
+      <path d="M41 16c3 6 15 6 18 0" fill="none"/>
+      <path d="M45 24l5 6 5-6z" fill="#FFD23F" stroke-width="2.6"/>
+      <path d="M36 58h44v22H36z" fill="#fff"/>
+      <path d="M36 74h44v6H36z" fill="#E8352E" stroke="none"/>
+      <path d="M36 58h44v22H36z" fill="none"/>
+      <path d="M52 62l4 5 4-5z" fill="#FFD23F" stroke-width="2.6"/>
+    </g>
+  </symbol>
+
+  <symbol id="card-bottle" viewBox="0 0 100 100">
+    <rect x="2" y="2" width="96" height="96" rx="13" fill="#4FA85C"/>
+    <g stroke="#111" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+      <rect x="42" y="10" width="16" height="10" rx="3" fill="#D6DEE4"/>
+      <path d="M36 24c0-3 2-4 6-4h16c4 0 6 1 6 4l3 52c.3 5-3 8-8 8H41c-5 0-8.3-3-8-8z" fill="#fff"/>
+      <path d="M44 40l6 8 6-8c2-3-1-7-6-3-5-4-8 0-6 3z" fill="#E8352E" stroke-width="3"/>
+      <circle cx="50" cy="64" r="9" fill="#fff"/>
+      <path d="M50 58l4.6 3.4-1.8 5.4h-5.6L45.4 61z" fill="#111" stroke-width="2.2"/>
+      <path d="M26 88h48" stroke-width="3.4"/>
+    </g>
+  </symbol>
+
+  <symbol id="card-player" viewBox="0 0 100 100">
+    <rect x="2" y="2" width="96" height="96" rx="13" fill="#6DC9A9"/>
+    <g stroke="#111" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+      <circle cx="58" cy="24" r="12" fill="#F6D9B0"/>
+      <path d="M46 22c2-11 22-11 24 0-1 4-4 5-4 5-2-6-16-6-18 1 0 0-2-2-2-6z" fill="#111"/>
+      <path d="M46 38h24v22H46z" fill="#D63384"/>
+      <path d="M46 44l-18 6 3 7 15-4M70 44l14 5-3 7-11-3" fill="#F6D9B0" stroke-width="3.6"/>
+      <path d="M48 60h20v12H48z" fill="#6B3FA0"/>
+      <path d="M50 72l-8 14M66 72l10 10" stroke-width="5"/>
+      <path d="M38 84h10M74 78l8 6" stroke-width="5" stroke="#FFD23F"/>
+      <circle cx="26" cy="76" r="11" fill="#fff"/>
+      <path d="M26 69l5.4 4-2 6.2h-6.8L20.6 73z" fill="#111" stroke-width="2.4"/>
+    </g>
+  </symbol>
+
+  <symbol id="card-back" viewBox="0 0 100 100">
+    <rect x="2" y="2" width="96" height="96" rx="13" fill="#2E8B43"/>
+    <svg x="33" y="18" width="34" height="34" viewBox="0 0 120 120"><use href="#logo-mark" color="#fff"></use></svg>
+    <g fill="#fff" text-anchor="middle" font-family="Bricolage Grotesque, Arial" font-weight="800">
+      <text x="50" y="68" font-size="13">SOCCER</text>
+      <text x="50" y="80" font-size="13">GAMES</text>
+      <text x="50" y="90" font-family="DM Mono, monospace" font-size="5.6" letter-spacing="1.1" fill="#BFE6C8">PLAY FOCUS AND LEARN</text>
+    </g>
+  </symbol>
+
   <!-- Productbeelden -->
   <symbol id="art-box" viewBox="0 0 400 400">
-    <rect x="52" y="70" width="296" height="250" rx="16" fill="#0B6B3A"/>
-    <rect x="52" y="70" width="296" height="250" rx="16" fill="none" stroke="#06341E" stroke-width="4"/>
-    <path d="M52 232h296v40H52z" fill="#FF5A00"/>
-    <circle cx="200" cy="160" r="52" fill="#F6F8F1"/>
-    <use href="#ic-ball" x="160" y="120" width="80" height="80" color="#0B6B3A"/>
-    <text x="200" y="262" text-anchor="middle" font-family="Bricolage Grotesque, Arial" font-size="28" font-weight="800" fill="#fff">SOCCER MeMo</text>
-    <rect x="248" y="86" width="82" height="30" rx="15" fill="#FFC630"/>
-    <text x="289" y="107" text-anchor="middle" font-family="DM Mono, monospace" font-size="15" fill="#121A14">48 KRT</text>
-    <text x="200" y="300" text-anchor="middle" font-family="Instrument Sans, Arial" font-size="15" fill="#C9E3CF">Voetbal-memory · 2–4 spelers · 4+</text>
+    <rect x="46" y="54" width="308" height="292" rx="14" fill="#2E8B43" stroke="#1C5C2C" stroke-width="4"/>
+    <rect x="66" y="72" width="268" height="256" rx="10" fill="#FFFFFF" stroke="#E8352E" stroke-width="3"/>
+    <text x="200" y="118" text-anchor="middle" font-family="Instrument Sans, Arial" font-size="20" fill="#2E8B43">my first</text>
+    <text x="200" y="146" text-anchor="middle" font-family="DM Mono, monospace" font-size="22" letter-spacing="7" fill="#2D6BB5">SOCCER</text>
+    <text x="200" y="192" text-anchor="middle" font-family="Bricolage Grotesque, Arial" font-size="52" font-weight="800" fill="#F26722">MeMo</text>
+    <g transform="translate(96 206) rotate(-5)"><svg width="88" height="88" viewBox="0 0 100 100"><use href="#card-ball"></use></svg></g>
+    <g transform="translate(212 206) rotate(5)"><svg width="88" height="88" viewBox="0 0 100 100"><use href="#card-ball"></use></svg></g>
+    <svg x="140" y="300" width="26" height="26" viewBox="0 0 120 120"><use href="#logo-mark" color="#2E8B43"></use></svg>
+    <text x="176" y="313" font-family="Bricolage Grotesque, Arial" font-size="13" font-weight="800" fill="#2E8B43">SOCCER GAMES</text>
+    <text x="176" y="325" font-family="DM Mono, monospace" font-size="7.5" letter-spacing="1.4" fill="#4FA85C">PLAY FOCUS AND LEARN</text>
   </symbol>
   <symbol id="art-fan" viewBox="0 0 400 400">
-    <g stroke="#06341E" stroke-width="3.5">
-      <g transform="rotate(-9 94 300)"><rect x="52" y="140" width="84" height="116" rx="12" fill="#EFF3E9"/><use href="#ic-boot" x="74" y="168" width="40" height="40" color="#0B6B3A" stroke="none"/></g>
-      <g transform="rotate(-3 166 300)"><rect x="124" y="140" width="84" height="116" rx="12" fill="#FFFFFF"/><use href="#ic-whistle" x="146" y="168" width="40" height="40" color="#FF5A00" stroke="none"/></g>
-      <g transform="rotate(3 238 300)"><rect x="196" y="140" width="84" height="116" rx="12" fill="#EFF3E9"/><use href="#ic-trophy" x="218" y="168" width="40" height="40" color="#E0A400" stroke="none"/></g>
-      <g transform="rotate(9 310 300)"><rect x="268" y="140" width="84" height="116" rx="12" fill="#FFFFFF"/><use href="#ic-flag" x="290" y="168" width="40" height="40" color="#FF5A00" stroke="none"/></g>
+    <g>
+      <g transform="rotate(-11 94 320)"><svg x="46" y="128" width="104" height="104" viewBox="0 0 100 100"><use href="#card-trophy"></use></svg></g>
+      <g transform="rotate(-4 166 320)"><svg x="118" y="120" width="104" height="104" viewBox="0 0 100 100"><use href="#card-team"></use></svg></g>
+      <g transform="rotate(4 238 320)"><svg x="190" y="120" width="104" height="104" viewBox="0 0 100 100"><use href="#card-kit"></use></svg></g>
+      <g transform="rotate(11 310 320)"><svg x="262" y="128" width="104" height="104" viewBox="0 0 100 100"><use href="#card-goal"></use></svg></g>
     </g>
   </symbol>
   <symbol id="art-play" viewBox="0 0 400 400">
-    <rect x="10" y="10" width="380" height="380" rx="18" fill="#0B6B3A"/>
-    <g stroke="#EAF6EC" stroke-width="2" opacity=".5" fill="none"><circle cx="200" cy="200" r="70"/><path d="M200 10v380M10 130h70v140H10M390 130h-70v140h70"/></g>
-    <g stroke="#06341E" stroke-width="3">
-      <rect x="44" y="60" width="72" height="96" rx="10" fill="#F6F8F1"/><use href="#ic-ball" x="60" y="82" width="40" height="40" color="#0B6B3A" stroke="none"/>
-      <rect x="140" y="60" width="72" height="96" rx="10" fill="#0B6B3A"/><use href="#ic-ball" x="156" y="82" width="40" height="40" color="#EAF6EC" opacity=".5" stroke="none"/>
-      <rect x="236" y="60" width="72" height="96" rx="10" fill="#0B6B3A"/><use href="#ic-ball" x="252" y="82" width="40" height="40" color="#EAF6EC" opacity=".5" stroke="none"/>
-      <rect x="44" y="176" width="72" height="96" rx="10" fill="#FFE8DA"/><use href="#ic-shirt" x="60" y="198" width="40" height="40" color="#FF5A00" stroke="none"/>
-      <rect x="140" y="176" width="72" height="96" rx="10" fill="#FFE8DA"/><use href="#ic-shirt" x="156" y="198" width="40" height="40" color="#FF5A00" stroke="none"/>
-      <rect x="236" y="176" width="72" height="96" rx="10" fill="#0B6B3A"/><use href="#ic-ball" x="252" y="198" width="40" height="40" color="#EAF6EC" opacity=".5" stroke="none"/>
-      <rect x="44" y="292" width="72" height="60" rx="10" fill="#0B6B3A"/>
-      <rect x="140" y="292" width="72" height="60" rx="10" fill="#F6F8F1"/><use href="#ic-cone" x="156" y="300" width="40" height="40" color="#FF5A00" stroke="none"/>
-      <rect x="236" y="292" width="72" height="60" rx="10" fill="#0B6B3A"/>
-    </g>
-    <rect x="318" y="60" width="38" height="292" rx="10" fill="#FFC630" opacity=".9"/>
+    <rect x="8" y="8" width="384" height="384" rx="20" fill="#F2F7EE"/>
+    <svg x="28" y="28" width="104" height="104" viewBox="0 0 100 100"><use href="#card-ball"></use></svg>
+    <svg x="148" y="28" width="104" height="104" viewBox="0 0 100 100"><use href="#card-back"></use></svg>
+    <svg x="268" y="28" width="104" height="104" viewBox="0 0 100 100"><use href="#card-ball"></use></svg>
+    <svg x="28" y="148" width="104" height="104" viewBox="0 0 100 100"><use href="#card-back"></use></svg>
+    <svg x="148" y="148" width="104" height="104" viewBox="0 0 100 100"><use href="#card-team"></use></svg>
+    <svg x="268" y="148" width="104" height="104" viewBox="0 0 100 100"><use href="#card-back"></use></svg>
+    <svg x="28" y="268" width="104" height="104" viewBox="0 0 100 100"><use href="#card-bottle"></use></svg>
+    <svg x="148" y="268" width="104" height="104" viewBox="0 0 100 100"><use href="#card-back"></use></svg>
+    <svg x="268" y="268" width="104" height="104" viewBox="0 0 100 100"><use href="#card-player"></use></svg>
   </symbol>
   <symbol id="art-card" viewBox="0 0 400 400">
-    <rect x="70" y="40" width="260" height="320" rx="22" fill="#0B6B3A" stroke="#06341E" stroke-width="5"/>
-    <g stroke="#EAF6EC" stroke-width="3" fill="none" opacity=".65"><circle cx="200" cy="200" r="72"/><path d="M200 52v296M92 122h60v156H92M308 122h-60v156h60"/></g>
-    <circle cx="200" cy="200" r="30" fill="#FF5A00"/>
-    <use href="#ic-ball" x="178" y="178" width="44" height="44" color="#FFFFFF"/>
-    <text x="200" y="336" text-anchor="middle" font-family="DM Mono, monospace" font-size="16" fill="#EAF6EC">SOCCER MeMo</text>
+    <svg x="40" y="40" width="320" height="320" viewBox="0 0 100 100"><use href="#card-back"></use></svg>
   </symbol>
   <symbol id="art-poster" viewBox="0 0 400 400">
     <rect x="96" y="40" width="208" height="300" rx="8" fill="#F6F8F1" stroke="#06341E" stroke-width="4"/>
@@ -89,9 +216,9 @@
 <!-- ===== Header ===== -->
 <header class="header">
   <div class="wrap header__bar">
-    <a class="logo" href="#/" data-link>
-      <span class="logo__mark"><svg><use href="#ic-ball"></use></svg></span>
-      Soccer <em>MeMo</em>
+    <a class="logo" href="#/" data-link aria-label="Soccer Games, naar de homepagina">
+      <svg class="logo__mark" viewBox="0 0 120 120" aria-hidden="true"><use href="#logo-mark"></use></svg>
+      <span class="logo__word"><span>Soccer</span><span>Games</span></span>
     </a>
     <nav class="nav" aria-label="Hoofdmenu">
       <a href="#/product" data-link>Het spel</a>
@@ -129,20 +256,28 @@
 <div data-route="home" class="is-active">
 
   <section class="hero">
+    <svg class="pitch-lines" viewBox="0 0 1200 620" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 96 H1200" style="--len:1200"/>
+      <circle cx="600" cy="96" r="118" style="--len:742"/>
+      <path d="M600 -30 V620" style="--len:650"/>
+      <path d="M0 470 H190 V620 M1200 470 H1010 V620" style="--len:680"/>
+    </svg>
     <div class="wrap hero__grid">
       <div class="stack">
         <div class="hero__badges">
           <span class="badge"><svg><use href="#ic-leaf"></use></svg> Ontworpen &amp; gedrukt in Nederland</span>
           <span class="badge badge--flame"><svg><use href="#ic-users"></use></svg> Vanaf 4 jaar</span>
         </div>
-        <h1>Omdraaien.<br>Onthouden.<br><span class="flip-word">Scoren.</span></h1>
+        <h1>Omdraaien.<br>Onthouden.<br><span class="flip-word">Scoren.</span>
+          <svg class="hero__ball" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-ball"></use></svg>
+        </h1>
         <p class="lead">Soccer MeMo is het voetbal-memoryspel met <span class="under">48 kaarten</span> en 24 unieke illustraties. Je kind traint concentratie en geheugen — en jij speelt eindelijk weer eens mee aan tafel.</p>
         <div class="rating">
           <span class="stars" aria-hidden="true"><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg></span>
-          <span><b>9,4</b> gemiddeld · 212 beoordelingen</span>
+          <span><b class="count" data-count="9.4" data-dec="1">9,4</b> gemiddeld · <span class="count" data-count="212">212</span> beoordelingen</span>
         </div>
         <div class="hero__buy">
-          <button class="btn btn--primary" data-add="memo">In de winkelwagen <span class="btn__price">€ 19,95</span></button>
+          <button class="btn btn--primary" data-add="memo"><svg class="btn__ball" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-ball"></use></svg> In de winkelwagen <span class="btn__price">€ 19,95</span></button>
           <a class="btn btn--ghost" href="#/product" data-link>Bekijk het spel <svg width="18" height="18"><use href="#ic-arrow"></use></svg></a>
         </div>
         <p class="eyebrow">Nog 23 stuks op voorraad · vandaag verzonden</p>
@@ -205,7 +340,8 @@
   <!-- Shop -->
   <section class="section" id="shop">
     <div class="wrap">
-      <div class="section__head">
+      <div class="ball-rail" aria-hidden="true"><span class="ball-rail__ball"><svg viewBox="0 0 24 24"><use href="#ic-ball"></use></svg></span></div>
+      <div class="section__head netted">
         <div class="stack">
           <p class="eyebrow">De collectie</p>
           <h2>Kies je pakket</h2>
@@ -267,6 +403,7 @@
   <!-- Hoe speel je het -->
   <section class="section" id="hoe-speel-je">
     <div class="wrap">
+      <div class="ball-rail" aria-hidden="true"><span class="ball-rail__ball"><svg viewBox="0 0 24 24"><use href="#ic-ball"></use></svg></span></div>
       <div class="section__head">
         <div class="stack">
           <p class="eyebrow">Spelregels in 3 stappen</p>
@@ -294,8 +431,8 @@
   <section class="section">
     <div class="wrap">
       <dl class="specs reveal">
-        <div class="spec"><dt>Kaarten</dt><dd>48 stuks</dd></div>
-        <div class="spec"><dt>Illustraties</dt><dd>24 paren</dd></div>
+        <div class="spec"><dt>Kaarten</dt><dd><span class="count" data-count="48">48</span> stuks</dd></div>
+        <div class="spec"><dt>Illustraties</dt><dd><span class="count" data-count="24">24</span> paren</dd></div>
         <div class="spec"><dt>Spelers</dt><dd>2 – 4</dd></div>
         <div class="spec"><dt>Leeftijd</dt><dd>Vanaf 4 jaar</dd></div>
         <div class="spec"><dt>Speelduur</dt><dd>± 10 min</dd></div>
@@ -333,7 +470,7 @@
       </div>
       <div class="cols cols--4 reveal">
         <div class="score-panel">
-          <div><span class="score-panel__big">9,4</span></div>
+          <div><span class="score-panel__big count" data-count="9.4" data-dec="1">9,4</span></div>
           <span class="stars" aria-hidden="true"><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg></span>
           <p style="font-size:.9rem;color:var(--muted)">Gebaseerd op 212 beoordelingen van klanten die het spel kochten.</p>
           <div class="bars">
@@ -461,7 +598,7 @@
             <output id="qtyVal" aria-live="polite">1</output>
             <button type="button" id="qtyPlus" aria-label="Aantal verhogen">+</button>
           </div>
-          <button class="btn btn--primary" id="pdpAdd">In de winkelwagen <span class="btn__price" id="pdpPrice">€ 19,95</span></button>
+          <button class="btn btn--primary" id="pdpAdd"><svg class="btn__ball" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-ball"></use></svg> In de winkelwagen <span class="btn__price" id="pdpPrice">€ 19,95</span></button>
         </div>
         <p class="stock"><span class="dot-live" aria-hidden="true"></span> Op voorraad — nog 23 stuks in ons magazijn in Zwolle</p>
 
@@ -562,7 +699,10 @@
   <div class="wrap">
     <div class="footer__cols">
       <div>
-        <a class="logo" href="#/" data-link style="color:#fff"><span class="logo__mark" style="background:var(--flame)"><svg><use href="#ic-ball"></use></svg></span> Soccer <em style="color:var(--lemon)">MeMo</em></a>
+        <a class="logo logo--light" href="#/" data-link aria-label="Soccer Games">
+          <svg class="logo__mark" viewBox="0 0 120 120" aria-hidden="true"><use href="#logo-mark"></use></svg>
+          <span class="logo__word"><span>Soccer</span><span>Games</span><span class="logo__tag">Play Focus and Learn</span></span>
+        </a>
         <p style="margin-top:12px;max-width:34ch;font-size:.92rem">Spellen die voetbalgekke kinderen scherp houden. Bedacht, getekend en gedrukt in Nederland.</p>
       </div>
       <div><h4>Shop</h4><ul><li><a href="#/product" data-link>Soccer MeMo</a></li><li><a href="#shop" data-link>Duo-pack</a></li><li><a href="#cadeau" data-link>Cadeauverpakking</a></li><li><a href="#shop" data-link>Poster A2</a></li></ul></div>

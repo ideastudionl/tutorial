@@ -169,7 +169,7 @@
   routeFromHash();
 
   /* ---------- Memory-demo ---------- */
-  var ICONS = ['ic-ball', 'ic-boot', 'ic-whistle', 'ic-shirt', 'ic-trophy', 'ic-flag'];
+  var ICONS = ['card-ball', 'card-trophy', 'card-team', 'card-goal', 'card-kit', 'card-bottle'];
   var boardEl = $('#board'), msgEl = $('#boardMsg');
   var lock = false, open = [], moves = 0, pairs = 0;
 
@@ -186,10 +186,16 @@
     boardEl.innerHTML = shuffle(ICONS.concat(ICONS)).map(function (ic, i) {
       return '<button class="mcard" data-ic="' + ic + '" aria-label="Kaart ' + (i + 1) + ', gesloten">' +
         '<span class="mcard__inner">' +
-          '<span class="mcard__face mcard__back"><svg><use href="#ic-ball"></use></svg></span>' +
-          '<span class="mcard__face mcard__front"><svg><use href="#' + ic + '"></use></svg></span>' +
+          '<span class="mcard__face mcard__back"><svg viewBox="0 0 100 100"><use href="#card-back"></use></svg></span>' +
+          '<span class="mcard__face mcard__front"><svg viewBox="0 0 100 100"><use href="#' + ic + '"></use></svg></span>' +
         '</span></button>';
     }).join('');
+    if (!reduced) {
+      $$('.mcard', boardEl).forEach(function (c, i) {
+        c.classList.add('is-dealt');
+        c.style.animationDelay = (i * 45) + 'ms';
+      });
+    }
   }
   boardEl.addEventListener('click', function (e) {
     var card = e.target.closest('.mcard');
@@ -310,6 +316,40 @@
       if (el.getBoundingClientRect().top < window.innerHeight) { el.classList.add('is-in'); }
       else { io.observe(el); }
     });
+  }
+
+  /* ---------- Rollende bal bij de sectie-overgangen ---------- */
+  if ('IntersectionObserver' in window) {
+    var rails = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add('is-rolling'); rails.unobserve(en.target); }
+      });
+    }, { threshold: 0.6 });
+    $$('.ball-rail').forEach(function (el) { rails.observe(el); });
+  }
+
+  /* ---------- Cijfers die oplopen ---------- */
+  function countUp(el) {
+    var target = parseFloat(el.getAttribute('data-count'));
+    var dec = parseInt(el.getAttribute('data-dec') || '0', 10);
+    var fmt = new Intl.NumberFormat('nl-NL', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+    if (reduced) { el.textContent = fmt.format(target); return; }
+    var t0 = null, dur = 900;
+    function step(t) {
+      if (t0 === null) t0 = t;
+      var k = Math.min(1, (t - t0) / dur);
+      el.textContent = fmt.format(target * (1 - Math.pow(1 - k, 3)));
+      if (k < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  if ('IntersectionObserver' in window) {
+    var nums = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { countUp(en.target); nums.unobserve(en.target); }
+      });
+    }, { threshold: 0.9 });
+    $$('.count').forEach(function (el) { nums.observe(el); });
   }
 
   renderCart();

@@ -5,15 +5,17 @@
    ========================================================================== */
 
 :root{
-  /* Kleur — licht */
-  --paper:#F6F8F1;
+  /* Kleur — vaste lichte weergave */
+  color-scheme:light;
+  --paper:#FFFFFF;
   --surface:#FFFFFF;
-  --surface-2:#EFF3E9;
+  --surface-2:#F2F7EE;
   --ink:#121A14;
   --muted:#5D6B5C;
-  --line:#D9E0D2;
+  --line:#DFE6D8;
   --line-strong:#121A14;
 
+  --brand:#22C55E;
   --pitch:#0B6B3A;
   --pitch-deep:#06341E;
   --pitch-soft:#E1EFE4;
@@ -37,47 +39,6 @@
   --f-display:"Bricolage Grotesque","Helvetica Neue",Helvetica,Arial,sans-serif;
   --f-body:"Instrument Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
   --f-mono:"DM Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
-}
-
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --paper:#0C110D;
-    --surface:#141C15;
-    --surface-2:#19231A;
-    --ink:#ECF2E7;
-    --muted:#9FAD9D;
-    --line:#2A3628;
-    --line-strong:#000000;
-    --pitch:#25A163;
-    --pitch-deep:#0B3B22;
-    --pitch-soft:#16301F;
-    --flame:#FF7A2E;
-    --flame-soft:#3A1D0B;
-    --lemon:#FFD25C;
-    --sky:#6E97FF;
-    --ok:#3DBF7B;
-    --warn:#E9A24A;
-    --shadow-soft:0 12px 30px rgba(0,0,0,.45);
-  }
-}
-:root[data-theme="dark"]{
-  --paper:#0C110D;
-  --surface:#141C15;
-  --surface-2:#19231A;
-  --ink:#ECF2E7;
-  --muted:#9FAD9D;
-  --line:#2A3628;
-  --line-strong:#000000;
-  --pitch:#25A163;
-  --pitch-deep:#0B3B22;
-  --pitch-soft:#16301F;
-  --flame:#FF7A2E;
-  --flame-soft:#3A1D0B;
-  --lemon:#FFD25C;
-  --sky:#6E97FF;
-  --ok:#3DBF7B;
-  --warn:#E9A24A;
-  --shadow-soft:0 12px 30px rgba(0,0,0,.45);
 }
 
 *,*::before,*::after{box-sizing:border-box}
@@ -140,9 +101,11 @@ button{font:inherit;color:inherit}
 }
 .header__bar{display:flex;align-items:center;gap:18px;min-height:64px}
 .logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--f-display);font-weight:800;font-size:1.18rem;letter-spacing:-.03em}
-.logo__mark{width:34px;height:34px;flex:none;border-radius:10px;background:var(--pitch);display:grid;place-items:center;color:#fff}
-.logo__mark svg{width:22px;height:22px}
-.logo em{font-style:normal;color:var(--flame)}
+.logo__mark{width:38px;height:38px;flex:none;color:var(--brand)}
+.logo__word{display:flex;flex-direction:column;line-height:.86;text-transform:uppercase;letter-spacing:-.02em;color:var(--brand);font-size:1.02rem}
+.logo--light .logo__mark,.logo--light .logo__word{color:#fff}
+.logo__tag{font-family:var(--f-mono);font-size:.6rem;letter-spacing:.18em;color:var(--muted);text-transform:uppercase}
+.logo--light .logo__tag{color:#A9CDB2}
 .nav{display:flex;gap:22px;margin-left:auto;font-size:.95rem}
 .nav a{text-decoration:none;color:var(--muted);font-weight:500;padding-block:6px;border-bottom:2px solid transparent}
 .nav a:hover{color:var(--ink);border-bottom-color:var(--flame)}
@@ -209,7 +172,7 @@ button{font:inherit;color:inherit}
 .scoreline b{color:var(--ink);font-weight:500}
 .board{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(7px,1.3vw,11px)}
 .mcard{
-  position:relative;aspect-ratio:3/4;border:0;padding:0;background:none;cursor:pointer;
+  position:relative;aspect-ratio:1/1;border:0;padding:0;background:none;cursor:pointer;
   perspective:800px;border-radius:var(--r-tile);
 }
 .mcard__inner{
@@ -221,12 +184,11 @@ button{font:inherit;color:inherit}
   position:absolute;inset:0;backface-visibility:hidden;border-radius:var(--r-tile);
   border:2px solid var(--line-strong);display:grid;place-items:center;overflow:hidden;
 }
-.mcard__back{background:var(--pitch);color:#EAF6EC}
-.mcard__back svg{width:44%;height:44%;opacity:.55}
-.mcard__front{transform:rotateY(180deg);background:var(--surface-2);color:var(--pitch)}
-.mcard__front svg{width:58%;height:58%}
+.mcard__back{background:#2E8B43}
+.mcard__front{transform:rotateY(180deg);background:var(--surface)}
+.mcard__face svg{width:100%;height:100%;display:block}
 .mcard.is-done{cursor:default}
-.mcard.is-done .mcard__front{background:var(--flame-soft);color:var(--flame)}
+.mcard.is-done .mcard__face{border-color:var(--flame);box-shadow:inset 0 0 0 3px var(--flame-soft)}
 .mcard:disabled{cursor:default}
 .board-panel__foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-top:14px}
 .board-msg{font-size:.9rem;color:var(--muted);min-height:1.5em}
@@ -504,4 +466,70 @@ button{font:inherit;color:inherit}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
   .reveal-ready .reveal{opacity:1;transform:none}
+}
+
+
+/* ==========================================================================
+   Voetbalelementen en beweging
+   ========================================================================== */
+
+/* Krijtlijnen in de hero, getekend bij het laden */
+.pitch-lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;color:var(--line)}
+.pitch-lines path,.pitch-lines circle{
+  fill:none;stroke:currentColor;stroke-width:1.5;
+  stroke-dasharray:var(--len,1200);stroke-dashoffset:var(--len,1200);
+  animation:chalk 1.6s .15s cubic-bezier(.3,.9,.3,1) forwards;
+}
+.pitch-lines *:nth-child(2){animation-delay:.3s}
+.pitch-lines *:nth-child(3){animation-delay:.45s}
+.pitch-lines *:nth-child(4){animation-delay:.6s}
+@keyframes chalk{to{stroke-dashoffset:0}}
+
+/* Zwevende bal naast de kop */
+.hero__ball{
+  position:absolute;right:-6px;top:6px;width:54px;height:54px;color:var(--brand);
+  animation:bob 3.6s ease-in-out infinite;
+}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-10deg)}50%{transform:translateY(-13px) rotate(12deg)}}
+.hero h1{position:relative;display:inline-block;padding-right:64px}
+
+/* Bal die over de zijlijn rolt, per sectie één keer */
+.ball-rail{position:relative;height:34px;display:flex;align-items:center;overflow:hidden}
+.ball-rail::before{content:"";position:absolute;left:0;right:0;height:2px;background:repeating-linear-gradient(90deg,var(--line) 0 14px,transparent 14px 26px)}
+.ball-rail__ball{position:absolute;left:0;width:30px;height:30px;color:var(--pitch);opacity:0}
+.ball-rail.is-rolling .ball-rail__ball{animation:roll 1.5s cubic-bezier(.25,.6,.35,1) forwards}
+@keyframes roll{
+  0%{opacity:1;transform:translateX(-40px) rotate(0)}
+  100%{opacity:1;transform:translateX(calc(100vw - 60px)) rotate(900deg)}
+}
+
+/* Bal in de koopknop draait bij hover */
+.btn__ball{width:19px;height:19px;flex:none}
+.btn:hover .btn__ball{animation:spin .9s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Kaarten worden gedeeld bij een nieuw potje */
+.mcard.is-dealt{animation:deal .42s cubic-bezier(.2,.8,.3,1) backwards}
+@keyframes deal{from{opacity:0;transform:translateY(-16px) scale(.94) rotate(-4deg)}to{opacity:1;transform:none}}
+.mcard:not(.is-done):hover .mcard__inner{transform:translateY(-3px)}
+.mcard:not(.is-done).is-open:hover .mcard__inner{transform:rotateY(180deg)}
+
+/* Doelnet achter de sectiekop van de collectie */
+.netted{position:relative}
+.netted::before{
+  content:"";position:absolute;right:0;top:-10px;width:190px;height:96px;opacity:.5;pointer-events:none;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:16px 16px;
+  -webkit-mask-image:linear-gradient(180deg,#000,transparent);mask-image:linear-gradient(180deg,#000,transparent);
+}
+@media (max-width:760px){.netted::before{display:none}}
+
+/* Cijfers die oplopen */
+.count{font-variant-numeric:tabular-nums}
+
+@media (prefers-reduced-motion:reduce){
+  .pitch-lines path,.pitch-lines circle{animation:none;stroke-dashoffset:0}
+  .hero__ball,.ball-rail.is-rolling .ball-rail__ball{animation:none}
+  .ball-rail__ball{opacity:1}
+  .mcard.is-dealt{animation:none}
 }
