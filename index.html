@@ -534,6 +534,7 @@ html{scroll-behavior:smooth}
     <symbol id="i-hart" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 27.5S3.5 19.8 3.5 12.2A6.7 6.7 0 0 1 16 8.6a6.7 6.7 0 0 1 12.5 3.6C28.5 19.8 16 27.5 16 27.5z"/></symbol>
     <symbol id="i-blad" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M26 5C12 5 5 11 5 20c0 3.4 1.6 6 1.6 6S9 17 26 5z"/><path d="M6.6 26C11 21.6 16 14 26 5"/></symbol>
     <symbol id="i-appel" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 10c-6-4-12 0-12 8 0 6 4 11 7 11 1.6 0 2.9-1 5-1s3.4 1 5 1c3 0 7-5 7-11 0-8-6-12-12-8z"/><path d="M16 10V5c0-1.6 1.4-3 3.4-3"/></symbol>
+    <symbol id="i-camera" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5a2 2 0 0 1 2-2h2.2l1.2-2h7.2l1.2 2H19a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="12.8" r="3.6"/></symbol>
     <symbol id="i-ster" viewBox="0 0 24 24"><path d="M12 2.8l2.8 5.9 6.3.9-4.6 4.5 1.1 6.4-5.6-3.1-5.6 3.1 1.1-6.4-4.6-4.5 6.3-.9z" fill="currentColor"/></symbol>
 
     <!-- Roos uit het logo: gevulde blaadjes met witte scheidingen -->
@@ -752,11 +753,17 @@ html{scroll-behavior:smooth}
 
     <div class="loc-grid op">
       <article class="kaart loc">
-        <div class="loc__beeld">
-          <svg class="rk" viewBox="0 0 140 140" aria-hidden="true"><use href="#roos-klein"/></svg>
-          <svg class="kd" viewBox="0 0 80 130" aria-hidden="true"><use href="#kind-zwaai"/></svg>
-          <svg class="kd2" viewBox="0 0 80 130" aria-hidden="true"><use href="#kind-loop"/></svg>
-        </div>
+        <figure class="loc__beeld foto">
+          <!-- FOTO 1 — vervang het blok hieronder door:
+               <img src="fotos/baarsjesweg-groepsruimte.jpg"
+                    alt="De groepsruimte van de Vlinders aan de Baarsjesweg"
+                    width="800" height="600" loading="lazy"> -->
+          <div class="foto__leeg">
+            <svg aria-hidden="true"><use href="#i-camera"/></svg>
+            <span>Foto Baarsjesweg</span>
+            <small>liggend, minimaal 800 px breed</small>
+          </div>
+        </figure>
         <div class="loc__body">
           <div><span class="loc__wijk">De Baarsjes · West</span><h3 style="margin-top:.2rem">Baarsjesweg</h3></div>
           <span class="merkje"><svg aria-hidden="true"><use href="#i-vink"/></svg> 2 plaatsen beschikbaar</span>
@@ -818,6 +825,40 @@ html{scroll-behavior:smooth}
           </div>
         </div>
       </article>
+    </div>
+
+    <div class="fotostrook op">
+      <div class="fotostrook__kop">
+        <h3>Een kijkje bij de Baarsjesweg</h3>
+        <p class="small grijs">Foto's van de locatie zelf — geen stockbeeld.</p>
+      </div>
+      <div class="fotostrook__grid">
+        <figure class="foto">
+          <!-- FOTO 2 — <img src="fotos/baarsjesweg-tuin.jpg" alt="De tuin achter de Baarsjesweg met de zandbak en de moestuinbak" width="900" height="675" loading="lazy"> -->
+          <div class="foto__leeg">
+            <svg aria-hidden="true"><use href="#i-camera"/></svg>
+            <span>De tuin</span>
+            <small>zandbak en moestuinbak</small>
+          </div>
+        </figure>
+        <figure class="foto">
+          <!-- FOTO 3 — <img src="fotos/baarsjesweg-kring.jpg" alt="De kinderen eten fruit in de kring" width="800" height="600" loading="lazy"> -->
+          <div class="foto__leeg">
+            <svg aria-hidden="true"><use href="#i-camera"/></svg>
+            <span>Fruit in de kring</span>
+            <small>een gewone ochtend</small>
+          </div>
+        </figure>
+        <figure class="foto">
+          <!-- FOTO 4 — <img src="fotos/baarsjesweg-slaapkamer.jpg" alt="Een van de slaapkamers aan de Baarsjesweg" width="800" height="600" loading="lazy"> -->
+          <div class="foto__leeg">
+            <svg aria-hidden="true"><use href="#i-camera"/></svg>
+            <span>De slaapkamer</span>
+            <small>of de verschoonhoek</small>
+          </div>
+        </figure>
+      </div>
+      <p class="voetnoot" style="margin-top:.8rem">Deze vier plekken staan klaar voor uw eigen foto's. Zolang ze leeg zijn, tonen de twee andere locaties nog de tekening uit het logo.</p>
     </div>
 
     <div class="tabelwrap op" style="margin-top:clamp(1.8rem,3.5vw,2.6rem)">
@@ -1257,6 +1298,38 @@ html{scroll-behavior:smooth}
 </footer>
 
 <style>
+/* ---------------- foto's ---------------- */
+.foto{margin:0;position:relative;overflow:hidden;background:var(--roos-zacht)}
+.foto img{width:100%;height:100%;object-fit:cover;display:block}
+.foto__leeg{
+  position:absolute;inset:.55rem;border:2px dashed var(--roos-lijn);border-radius:14px;
+  display:grid;place-items:center;align-content:center;gap:.4rem;text-align:center;padding:.6rem;
+}
+.foto__leeg svg{width:26px;height:26px;color:var(--roos);opacity:.7}
+.foto__leeg span{font-size:.76rem;font-weight:700;color:var(--roos);letter-spacing:.02em}
+.foto__leeg small{font-size:.7rem;color:var(--grijs);font-weight:500;display:block;margin-top:-.15rem}
+
+.fotostrook{margin-top:clamp(1.6rem,3vw,2.4rem)}
+.fotostrook__kop{display:flex;flex-wrap:wrap;gap:.4rem 1rem;align-items:baseline;margin-bottom:1rem}
+.fotostrook__grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:clamp(.7rem,1.6vw,1.1rem)}
+@media (max-width:820px){.fotostrook__grid{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.fotostrook__grid{grid-template-columns:1fr}}
+.fotostrook .foto{
+  border:1.5px solid var(--lijn);border-radius:var(--rad);aspect-ratio:4/3;
+  box-shadow:var(--schaduw);
+}
+.fotostrook .foto:nth-child(2){background:var(--blad-zacht)}
+.fotostrook .foto:nth-child(2) .foto__leeg{border-color:var(--blad-vlak,#CFE0C4)}
+.fotostrook .foto:nth-child(2) .foto__leeg svg,.fotostrook .foto:nth-child(2) .foto__leeg span{color:var(--blad)}
+.fotostrook .foto:nth-child(3){background:var(--perzik-zacht)}
+.fotostrook .foto:nth-child(3) .foto__leeg{border-color:var(--zon-vlak,#F6D3AC)}
+.fotostrook .foto:nth-child(3) .foto__leeg svg,.fotostrook .foto:nth-child(3) .foto__leeg span{color:var(--perzik)}
+.foto__bijschrift{
+  position:absolute;left:0;right:0;bottom:0;padding:.45rem .8rem;
+  background:linear-gradient(transparent,rgba(65,48,41,.72));color:#fff;
+  font-size:.79rem;font-weight:600;
+}
+
 /* ---------------- formulier in stappen ---------------- */
 .stapbalk{
   position:sticky;top:0;z-index:5;background:var(--wit);
