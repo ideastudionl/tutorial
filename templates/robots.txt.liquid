@@ -1,0 +1,19 @@
+{%- comment -%}
+  Shopify's default rules, plus explicit blocks on URLs that only create
+  duplicate or thin pages for crawlers. Keep collection filter URLs out of the
+  index: faceted combinations multiply fast and dilute the collection pages we
+  actually want ranking.
+{%- endcomment -%}
+{% for group in robots.default_groups %}
+  {{- group.user_agent }}
+  {% for rule in group.rules %}{{ rule }}
+  {% endfor %}
+  {%- if group.user_agent.value == '*' -%}
+    {{ 'Disallow: /*filter.p.' }}
+    {{ 'Disallow: /*filter.v.' }}
+    {{ 'Disallow: /*?sort_by=' }}
+  {%- endif -%}
+  {%- if group.sitemap != blank %}
+  {{ group.sitemap }}
+  {% endif %}
+{% endfor %}

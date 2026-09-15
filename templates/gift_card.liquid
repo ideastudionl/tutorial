@@ -1,0 +1,52 @@
+{% layout none %}
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ shop.name }} — {{ 'gift_cards.issued.title' | t | default: 'Cadeaukaart' }}</title>
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+    <style>
+      :root {
+        --c-ink: {{ settings.color_ink }}; --c-ink-soft: {{ settings.color_ink_soft }};
+        --c-surface: {{ settings.color_surface }}; --c-sand: {{ settings.color_sand }};
+        --c-line: {{ settings.color_line }}; --c-brand: {{ settings.color_brand }};
+        --c-cta: {{ settings.color_cta }}; --c-cta-text: {{ settings.color_cta_text }};
+        --c-brand-hover: {{ settings.color_brand_hover }};
+        --r-card: {{ settings.radius_card }}px; --r-button: {{ settings.radius_button }}px;
+        --font-body: ui-sans-serif, system-ui, sans-serif; --font-heading: ui-sans-serif, system-ui, sans-serif;
+      }
+      .gift { max-width: 460px; margin: 0 auto; padding: 3rem 1.25rem; text-align: center; }
+      .gift__code {
+        display: inline-block; margin: 1.5rem 0; padding: .9rem 1.4rem;
+        border: 1px dashed var(--c-line); background: var(--c-sand);
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 1.35rem; letter-spacing: .12em;
+      }
+      .gift__amount { font-size: 2.6rem; font-weight: 700; margin: .5rem 0; }
+      @media print { .no-print { display: none; } }
+    </style>
+  </head>
+  <body>
+    <div class="gift">
+      <h1>{{ shop.name }}</h1>
+      <p class="text-soft">Cadeaukaart</p>
+
+      <p class="gift__amount">{{ gift_card.initial_value | money }}</p>
+      {%- if gift_card.balance != gift_card.initial_value -%}
+        <p class="text-sm text-soft">Resterend saldo: {{ gift_card.balance | money }}</p>
+      {%- endif -%}
+
+      {{ gift_card.qr_identifier }}
+      <p class="gift__code">{{ gift_card.code | format_code }}</p>
+
+      {%- if gift_card.expires_on -%}
+        <p class="text-sm text-soft">Geldig tot {{ gift_card.expires_on | date: '%-d %B %Y' }}</p>
+      {%- endif -%}
+
+      <p class="no-print" style="margin-top:2rem">
+        <a href="{{ shop.url }}" class="btn">Naar de winkel</a>
+      </p>
+    </div>
+  </body>
+</html>
