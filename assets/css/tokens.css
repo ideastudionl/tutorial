@@ -1,66 +1,71 @@
 /* =========================================================
    Clover Uitzendbureau — Design tokens
-   Dutch Design: bold grid, vlakken, primaire kleuren,
-   speels maar zakelijk.
+   Zakelijk, stevig, modern. Terughoudend in kleur,
+   uitgesproken in typografie en raster.
    ========================================================= */
 
 :root {
-  /* ---- Merkkleuren -------------------------------------- */
-  --clover-950: #042414;
-  --clover-900: #06331D;
-  --clover-700: #0A6238;
-  --clover-600: #0E8049;
-  --clover-500: #12A15A;   /* primair */
-  --clover-400: #35BE79;
-  --clover-300: #7BD9A6;
-  --clover-200: #B6ECCD;
-  --clover-100: #DEF6E9;
-  --clover-050: #EFFBF4;
+  color-scheme: light;
 
-  /* ---- Accenten (Dutch Design vlakken) ------------------ */
-  --oranje: #FF5A1F;
-  --oranje-licht: #FFD9CB;
-  --geel: #FFC93F;
-  --blauw: #2B4FFF;
-  --blauw-licht: #D6DEFF;
-  --roze: #FF8FB1;
+  /* ---- Merkkleuren: diep, verzadigd, niet fel ----------- */
+  --clover-950: #06231A;
+  --clover-900: #0A3327;
+  --clover-800: #0E4633;
+  --clover-700: #125740;
+  --clover-600: #166B4B;
+  --clover-500: #1B7F58;   /* primair */
+  --clover-400: #2E9B6E;
+  --clover-300: #7FC0A5;
+  --clover-200: #BEDCD0;
+  --clover-100: #E2EFE9;
+  --clover-050: #F3F8F6;
 
-  /* ---- Neutraal ----------------------------------------- */
-  --inkt: #0C1410;
-  --inkt-70: rgba(12, 20, 16, .70);
-  --inkt-55: rgba(12, 20, 16, .55);
-  --inkt-30: rgba(12, 20, 16, .30);
-  --inkt-12: rgba(12, 20, 16, .12);
-  --inkt-06: rgba(12, 20, 16, .06);
-  --papier: #FAF8F2;
-  --papier-2: #F2EFE5;
+  /* ---- Accenten: één signaalkleur, één zakelijk blauw --- */
+  --signaal: #A8401C;        /* spoed, urgentie */
+  --signaal-zacht: #F6E7E1;
+  --staal: #24466B;          /* het opdrachtgeverspad */
+  --staal-zacht: #E4EAF1;
+  --ster: #E8A317;           /* beoordelingen */
+
+  /* ---- Neutraal, licht groen gebogen ------------------- */
+  --inkt: #101614;
+  --inkt-75: rgba(16, 22, 20, .75);
+  --inkt-60: rgba(16, 22, 20, .60);
+  --inkt-40: rgba(16, 22, 20, .40);
+  --inkt-14: rgba(16, 22, 20, .14);
+  --inkt-08: rgba(16, 22, 20, .08);
+  --inkt-04: rgba(16, 22, 20, .04);
   --wit: #FFFFFF;
+  --grijs-050: #F7F8F7;
+  --grijs-100: #EFF1F0;
+  --grijs-200: #E2E5E3;
 
   /* ---- Semantisch --------------------------------------- */
-  --bg: var(--papier);
+  --bg: var(--grijs-050);
   --bg-alt: var(--wit);
   --tekst: var(--inkt);
-  --tekst-zacht: var(--inkt-70);
-  --lijn: var(--inkt-12);
-  --lijn-sterk: var(--inkt);
+  --tekst-zacht: var(--inkt-60);
+  --lijn: var(--inkt-14);
+  --lijn-zacht: var(--inkt-08);
 
   /* ---- Typografie --------------------------------------- */
-  --font-display: "Bricolage Grotesque", "Archivo", ui-sans-serif, system-ui,
-    -apple-system, "Segoe UI", Roboto, sans-serif;
-  --font-body: "Instrument Sans", ui-sans-serif, system-ui, -apple-system,
+  /* Archivo: brede, stevige grotesk voor koppen.
+     IBM Plex Sans: technisch en helder voor lopende tekst. */
+  --font-display: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-body: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system,
     "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 
-  --stap: clamp(1rem, .82rem + .75vw, 1.125rem);
+  --stap: clamp(.9375rem, .86rem + .35vw, 1.0625rem);
 
-  --t-xs: .75rem;
+  --t-xs: .6875rem;
   --t-sm: .8125rem;
   --t-base: 1rem;
   --t-lg: clamp(1.0625rem, 1rem + .3vw, 1.1875rem);
-  --t-xl: clamp(1.25rem, 1.1rem + .6vw, 1.5rem);
-  --t-2xl: clamp(1.5rem, 1.25rem + 1.1vw, 2.125rem);
-  --t-3xl: clamp(2rem, 1.5rem + 2.2vw, 3.25rem);
-  --t-4xl: clamp(2.5rem, 1.6rem + 4vw, 5rem);
-  --t-5xl: clamp(3rem, 1.5rem + 6.2vw, 7rem);
+  --t-xl: clamp(1.1875rem, 1.08rem + .5vw, 1.4375rem);
+  --t-2xl: clamp(1.4375rem, 1.24rem + .95vw, 2rem);
+  --t-3xl: clamp(1.875rem, 1.45rem + 1.9vw, 2.875rem);
+  --t-4xl: clamp(2.375rem, 1.6rem + 3.4vw, 4.25rem);
+  --t-5xl: clamp(2.75rem, 1.5rem + 5.4vw, 5.75rem);
 
   /* ---- Ruimte ------------------------------------------- */
   --ruimte-1: .25rem;
@@ -72,29 +77,29 @@
   --ruimte-7: 3rem;
   --ruimte-8: 4rem;
   --ruimte-9: 6rem;
-  --sectie: clamp(3.5rem, 2rem + 6vw, 7rem);
+  --sectie: clamp(3.5rem, 2rem + 5.5vw, 6.5rem);
   --gutter: clamp(1.25rem, .6rem + 2.4vw, 2.5rem);
   --max: 1280px;
-  --max-smal: 760px;
+  --max-smal: 720px;
 
-  /* ---- Vorm --------------------------------------------- */
-  --radius-s: 8px;
-  --radius-m: 14px;
-  --radius-l: 22px;
-  --radius-xl: 32px;
+  /* ---- Vorm: strak, kleine radii ------------------------ */
+  --radius-s: 3px;
+  --radius-m: 5px;
+  --radius-l: 8px;
+  --radius-xl: 12px;
   --radius-rond: 999px;
-  --rand: 1.5px solid var(--inkt);
+  --rand: 1px solid var(--lijn);
 
-  /* ---- Schaduw (hard, Dutch Design) --------------------- */
-  --schaduw-s: 3px 3px 0 var(--inkt);
-  --schaduw-m: 6px 6px 0 var(--inkt);
-  --schaduw-l: 10px 10px 0 var(--inkt);
-  --schaduw-zacht: 0 18px 40px -24px rgba(12, 20, 16, .45);
+  /* ---- Schaduw: subtiel, geen sticker-offset ------------ */
+  --schaduw-s: 0 1px 2px rgba(16, 22, 20, .05);
+  --schaduw-m: 0 6px 16px -6px rgba(16, 22, 20, .14), 0 2px 4px -2px rgba(16, 22, 20, .06);
+  --schaduw-l: 0 22px 48px -20px rgba(16, 22, 20, .26), 0 4px 10px -6px rgba(16, 22, 20, .08);
+  --schaduw-zacht: 0 18px 40px -26px rgba(16, 22, 20, .4);
 
   /* ---- Beweging ----------------------------------------- */
-  --vlot: 180ms cubic-bezier(.4, 0, .2, 1);
-  --soepel: 420ms cubic-bezier(.22, 1, .36, 1);
-  --veer: 620ms cubic-bezier(.34, 1.4, .5, 1);
+  --vlot: 160ms cubic-bezier(.4, 0, .2, 1);
+  --soepel: 380ms cubic-bezier(.22, 1, .36, 1);
+  --veer: 520ms cubic-bezier(.3, 1.1, .45, 1);
 
-  --header-h: 76px;
+  --header-h: 74px;
 }

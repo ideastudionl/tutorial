@@ -68,6 +68,7 @@ function router() {
   initReveal();
   initSplit();
   initTellers();
+  initBalken();
   initAccordeons();
   initTabs();
   initFormulieren();
@@ -154,6 +155,19 @@ function initTellers() {
       };
       requestAnimationFrame(stap);
     }, { threshold: 0.4 }).observe(el);
+  });
+}
+
+/* staafjes in het Google-scorepaneel laten vollopen */
+function initBalken() {
+  $$('[data-balk]').forEach((el) => {
+    const pct = el.dataset.balk + '%';
+    if (rustig()) { el.style.width = pct; return; }
+    new IntersectionObserver((entries, o) => {
+      if (!entries[0].isIntersecting) return;
+      o.disconnect();
+      requestAnimationFrame(() => { el.style.width = pct; });
+    }, { threshold: .5 }).observe(el);
   });
 }
 

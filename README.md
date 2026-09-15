@@ -1,11 +1,12 @@
 # Clover Uitzendbureau — redesign demo
 
 Klikbare designdemo voor de nieuwe website van Clover Uitzendbureau: een
-vacaturebank met filters, een duidelijk pad voor opdrachtgevers en een
-speelse, Nederlandse vormtaal die zakelijk blijft.
+vacaturebank met filters, een duidelijk pad voor opdrachtgevers,
+Google-beoordelingen als vertrouwenssignaal, en een zakelijke, moderne
+vormtaal.
 
-**Inspiratie/opdracht:** vacaturebank in de geest van axstechniek.nl,
-vertaald naar een eigen Dutch Design-signatuur voor Clover.
+**Opdracht:** vacaturebank in de geest van axstechniek.nl, vertaald naar een
+eigen, professionele signatuur voor Clover.
 
 ---
 
@@ -23,11 +24,11 @@ npx http-server -p 8099 -s
 
 | Pagina | Route | Wat je ziet |
 |---|---|---|
-| Home | `#/` | Hero met directe vacaturezoeker, splitsing werkzoekende/opdrachtgever, uitgelichte vacatures, sectoren, cijfers, werkwijze, reviews, keurmerken |
+| Home | `#/` | Hero met directe vacaturezoeker en een preview van de vacaturebank, splitsing werkzoekende/opdrachtgever, uitgelichte vacatures, sectoren, cijfers, werkwijze, Google-beoordelingen, keurmerken |
 | Vacaturebank | `#/vacatures` | 24 vacatures, filters op sector/plaats/dienstverband/contractvorm/opleiding/uurloon, sorteren, actieve-filterchips, lege staat |
 | Vacaturedetail | `#/vacature/v-1001` | Volledige vacature, sticky solliciteerkaart met intercedent, WhatsApp-sollicitatie, vergelijkbare vacatures |
 | Sectoren | `#/sectoren` | Acht sectoren met vacaturetelling en instapsalaris |
-| Voor werkgevers | `#/werkgevers` | Diensten, werkwijze, keurmerken, aanvraagformulier, FAQ |
+| Voor werkgevers | `#/werkgevers` | Hero met een voorbeeldaanvraag en voorgedragen kandidaten, diensten, werkwijze, keurmerken, Google-reviews, aanvraagformulier, FAQ |
 | Over Clover | `#/over` | Belofte, cijfers, team met directe doorkiesnummers, FAQ werkzoekenden |
 | Contact | `#/contact` | Contactkaarten, inloopspreekuur, contactformulier |
 
@@ -49,10 +50,13 @@ accordeons, mobiel menu, mobiele filterlade, deel-knop.
   correctieronde.
 - **Formulieren versturen niets.** Ze valideren, tonen een succesbeeld en
   stoppen daar. Koppeling aan het ATS of de mailservice is stap 2.
-- **Illustraties in plaats van fotografie.** De lachende figuren zijn
-  handgetekende SVG's in de huisstijl. Ze zijn bedoeld als plaatsvervanger:
+- **Monogrammen in plaats van portretfoto's.** Medewerkers en reviewers
+  krijgen hun initialen in een merktint. Dat is een bewuste plaatsvervanger:
   echte foto's van echte mensen op de werkvloer maken dit merk sterker.
   Zie *Fotografie inbouwen* hieronder.
+- **De Google-reviews zijn voorbeelddata.** Score, aantal, sterverdeling en
+  de reviews zelf staan in `GOOGLE` en `REVIEWS_*` in `assets/js/data.js`,
+  met dezelfde velden die de Google Places API teruggeeft.
 
 ## Structuur
 
@@ -96,13 +100,32 @@ een sleutel in `ICO` (`assets/js/icons.js`).
 **Merkkleuren en typografie** — alles staat in `assets/css/tokens.css`.
 Eén waarde veranderen werkt door in de hele site.
 
+## Google-reviews live koppelen
+
+`GOOGLE` in `assets/js/data.js` heeft dezelfde vorm als het antwoord van de
+Google Places API (`Place Details`):
+
+```js
+const GOOGLE = {
+  score: 4.8,        // → result.rating
+  aantal: 137,       // → result.user_ratings_total
+  url: '…',          // → result.url
+  verdeling: [112, 18, 4, 2, 1]   // 5★ → 1★ (zelf tellen of via een widgetdienst)
+};
+```
+
+De losse reviews (`REVIEWS_WERKZOEKEND` / `REVIEWS_WERKGEVER`) mappen op
+`result.reviews`: `author_name` → `naam`, `rating` → `ster`,
+`relative_time_description` → `datum`, `text` → `quote`. Het veld `rol`
+voegt Clover zelf toe, want dat geeft Google niet terug. Haal de API-call in
+productie aan de serverkant op en cache het resultaat — de sleutel hoort
+niet in de front-end, en Google staat geen onbeperkt aantal calls toe.
+
 ## Fotografie inbouwen
 
-De hero is opgebouwd uit vier panelen (`heroPaneel()` in `icons.js`). Elk
-paneel heeft al een `clipPath`; vervang de `<g>` met de illustratie door een
-`<image>` en de foto valt meteen netjes binnen de afgeronde hoek met
-inktrand. Hetzelfde geldt voor de portretten bij het team, de reviews en de
-sectorpagina: vervang `portret(i, kleur)` door een `<img>`.
+Vervang `monogram(naam, i)` in `assets/js/views.js` door een `<img>` met
+dezelfde `.avatar`-klasse; de vorm en afmeting blijven dan kloppen. Op de
+teampagina zit al een vlak van 4:3 klaar waar een portret in past.
 
 ## Ontwerpkeuzes
 

@@ -51,94 +51,65 @@ const ICO = {
 const klaverLogo = (size = 40) => `
 <svg class="merk-mark" viewBox="0 0 48 48" width="${size}" height="${size}" role="img" aria-label="Clover">
   <g>
-    <path class="klaver-blad" d="M24 22C24 13 20 7 13.5 7 7.8 7 4 11.2 4 16.4 4 20.6 7.6 22 24 22Z" fill="#12A15A"/>
-    <path class="klaver-blad" d="M26 22c0-9 4-15 10.5-15C42.2 7 46 11.2 46 16.4 46 20.6 42.4 22 26 22Z" fill="#35BE79"/>
-    <path class="klaver-blad" d="M24 24C24 33 20 39 13.5 39 7.8 39 4 34.8 4 29.6 4 25.4 7.6 24 24 24Z" fill="#0A6238"/>
-    <path class="klaver-blad" d="M26 24c0 9 4 15 10.5 15C42.2 39 46 34.8 46 29.6 46 25.4 42.4 24 26 24Z" fill="#7BD9A6"/>
-    <rect x="23" y="20" width="4" height="6" rx="2" fill="#0C1410"/>
+    <path class="klaver-blad" d="M24 22C24 13 20 7 13.5 7 7.8 7 4 11.2 4 16.4 4 20.6 7.6 22 24 22Z" fill="#1B7F58"/>
+    <path class="klaver-blad" d="M26 22c0-9 4-15 10.5-15C42.2 7 46 11.2 46 16.4 46 20.6 42.4 22 26 22Z" fill="#2E9B6E"/>
+    <path class="klaver-blad" d="M24 24C24 33 20 39 13.5 39 7.8 39 4 34.8 4 29.6 4 25.4 7.6 24 24 24Z" fill="#0E4633"/>
+    <path class="klaver-blad" d="M26 24c0 9 4 15 10.5 15C42.2 39 46 34.8 46 29.6 46 25.4 42.4 24 26 24Z" fill="#7FC0A5"/>
+    <rect x="23" y="20" width="4" height="6" rx="2" fill="#101614"/>
   </g>
 </svg>`;
 
-/* -- Geïllustreerde portretten (Dutch Design, geometrisch) --
-   Plaatsvervangers voor echte fotografie. Vervang deze door
-   foto's van échte mensen zodra het beeldmateriaal er is.     */
-const PORTRET_PALET = [
-  { huid: '#F2C9A8', haar: '#3A2418', kleding: '#12A15A' },
-  { huid: '#8C5A38', haar: '#1B1410', kleding: '#FF5A1F' },
-  { huid: '#E8B98E', haar: '#6B3F1D', kleding: '#2B4FFF' },
-  { huid: '#C98A5E', haar: '#241A12', kleding: '#FFC93F' },
-  { huid: '#F5D6BC', haar: '#9C5A20', kleding: '#E04B7C' },
-  { huid: '#6B4227', haar: '#120C08', kleding: '#0A6238' }
-];
+/* -- Google-logo & ster ------------------------------------ */
 
-const portret = (i = 0, bg = '#DEF6E9') => {
-  const p = PORTRET_PALET[i % PORTRET_PALET.length];
-  const bril = i % 3 === 0;
-  return `
-<svg viewBox="0 0 120 120" role="img" aria-label="Illustratie van een lachende medewerker" style="width:100%;height:100%">
-  <rect width="120" height="120" fill="${bg}"/>
-  <circle cx="60" cy="104" r="42" fill="${p.kleding}"/>
-  <path d="M60 104c-8-10-8-22 0-26 8 4 8 16 0 26Z" fill="rgba(255,255,255,.28)"/>
-  <rect x="50" y="62" width="20" height="20" rx="9" fill="${p.huid}"/>
-  <circle cx="60" cy="52" r="24" fill="${p.huid}"/>
-  <path d="M36 50c0-15 11-24 24-24s24 9 24 24c0-6-5-9-11-10-5-1-9-4-13-4-7 0-10 6-16 7-5 1-8 3-8 7Z" fill="${p.haar}"/>
-  <circle cx="51" cy="52" r="2.6" fill="#0C1410"/>
-  <circle cx="69" cy="52" r="2.6" fill="#0C1410"/>
-  <path d="M51 61c3 4 15 4 18 0" stroke="#0C1410" stroke-width="2.6" stroke-linecap="round" fill="none"/>
-  <circle cx="43" cy="58" r="4" fill="#FF8FB1" opacity=".5"/>
-  <circle cx="77" cy="58" r="4" fill="#FF8FB1" opacity=".5"/>
-  ${bril ? `<g stroke="#0C1410" stroke-width="2" fill="none"><circle cx="51" cy="52" r="7"/><circle cx="69" cy="52" r="7"/><path d="M58 52h4"/></g>` : ''}
+const googleG = (w = 18) => `
+<svg width="${w}" height="${w}" viewBox="0 0 48 48" aria-hidden="true">
+  <path fill="#4285F4" d="M45.1 24.5c0-1.6-.1-3.2-.4-4.7H24v8.9h11.8c-.5 2.7-2.1 5-4.4 6.6v5.5h7.1c4.2-3.8 6.6-9.5 6.6-16.3Z"/>
+  <path fill="#34A853" d="M24 46c6 0 11-2 14.6-5.2l-7.1-5.5c-2 1.3-4.5 2.1-7.5 2.1-5.8 0-10.7-3.9-12.4-9.1H4.3v5.7C7.9 41.1 15.4 46 24 46Z"/>
+  <path fill="#FBBC05" d="M11.6 28.3c-.4-1.3-.7-2.7-.7-4.3s.2-2.9.7-4.3v-5.7H4.3A22 22 0 0 0 2 24c0 3.6.9 6.9 2.3 9.9l7.3-5.6Z"/>
+  <path fill="#EA4335" d="M24 10.6c3.3 0 6.2 1.1 8.5 3.3l6.3-6.3C35 4.1 30 2 24 2 15.4 2 7.9 6.9 4.3 14l7.3 5.7c1.7-5.2 6.6-9.1 12.4-9.1Z"/>
 </svg>`;
+
+const sterRij = (score, w = 15) => {
+  const vol = Math.floor(score);
+  const half = score - vol >= 0.35;
+  let uit = '';
+  for (let i = 0; i < 5; i++) {
+    const vulling = i < vol ? 1 : (i === vol && half ? 0.5 : 0);
+    uit += `
+      <svg width="${w}" height="${w}" viewBox="0 0 24 24" aria-hidden="true">
+        <defs><linearGradient id="st${i}-${String(score).replace('.', '')}">
+          <stop offset="${vulling * 100}%" stop-color="currentColor"/>
+          <stop offset="${vulling * 100}%" stop-color="rgba(16,22,20,.16)"/>
+        </linearGradient></defs>
+        <path fill="url(#st${i}-${String(score).replace('.', '')})"
+          d="m12 3.5 2.6 5.5 6 .8-4.4 4.2 1.1 6-5.3-2.9-5.3 2.9 1.1-6L3.4 9.8l6-.8L12 3.5Z"/>
+      </svg>`;
+  }
+  return `<span class="sterren" role="img" aria-label="${String(score).replace('.', ',')} van de 5 sterren">${uit}</span>`;
 };
 
-/* -- Hero-illustratie: raster van mensen (Dutch Design vlakken) --
-   Vier vlakken, drie lachende collega's en het klavermotief.
-   Vervangbaar door echte fotografie: zelfde panelen, <image> i.p.v. <g>. */
+/* -- Monogram-avatar ---------------------------------------
+   Plaatsvervanger voor portretfotografie. Vervang door een
+   <img> zodra het beeldmateriaal van Clover er is.          */
 
-const heroPaneel = (id, x, y, w, h, bg, inhoud) => `
-  <g>
-    <clipPath id="${id}"><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="20"/></clipPath>
-    <g clip-path="url(#${id})">
-      <rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${bg}"/>
-      ${inhoud}
-    </g>
-    <rect x="${x}" y="${y}" width="${w}" height="${h}" rx="20" fill="none" stroke="#0C1410" stroke-width="3"/>
-  </g>`;
+const AVATAR_TINTEN = [
+  { bg: '#E2EFE9', tekst: '#0E4633' },
+  { bg: '#E4EAF1', tekst: '#24466B' },
+  { bg: '#EFEBE6', tekst: '#6B4A2A' },
+  { bg: '#E9E7F0', tekst: '#3F3A6B' },
+  { bg: '#E6EFEE', tekst: '#2C6357' },
+  { bg: '#F1E9EC', tekst: '#7A3B52' }
+];
 
-/* kop + schouders van een figuur, geschaald binnen een paneel */
-const figuur = (x, y, schaal, huid, haar, kleding, hoofddeksel = '') => `
-  <g transform="translate(${x} ${y}) scale(${schaal})">
-    <circle cx="60" cy="104" r="44" fill="${kleding}"/>
-    <rect x="50" y="62" width="20" height="20" rx="9" fill="${huid}"/>
-    <circle cx="60" cy="52" r="24" fill="${huid}"/>
-    ${hoofddeksel || `<path d="M36 50c0-15 11-24 24-24s24 9 24 24c0-6-5-9-11-10-5-1-9-4-13-4-7 0-10 6-16 7-5 1-8 3-8 7Z" fill="${haar}"/>`}
-    <circle cx="51" cy="52" r="2.6" fill="#0C1410"/>
-    <circle cx="69" cy="52" r="2.6" fill="#0C1410"/>
-    <path d="M51 61c3 4 15 4 18 0" stroke="#0C1410" stroke-width="2.6" stroke-linecap="round" fill="none"/>
-    <circle cx="43" cy="58" r="4.2" fill="#FF8FB1" opacity=".5"/>
-    <circle cx="77" cy="58" r="4.2" fill="#FF8FB1" opacity=".5"/>
-  </g>`;
+const initialen = (naam) => naam
+  .split(/\s+/)
+  .filter((w) => w.length > 1 && !/^(de|van|der|den|el|het)$/i.test(w))
+  .slice(0, 2)
+  .map((w) => w[0])
+  .join('');
 
-const heroScene = () => `
-<svg viewBox="0 0 400 400" role="img" aria-label="Illustratie: lachende collega's uit verschillende sectoren" style="width:100%;height:100%">
-  ${heroPaneel('p-a', 0, 0, 196, 234, '#DEF6E9',
-    `<circle cx="150" cy="40" r="52" fill="#B6ECCD"/>
-     ${figuur(-26, -30, 2.1, '#E8B98E', '#3A2418', '#12A15A')}`)}
-
-  ${heroPaneel('p-b', 204, 0, 196, 150, '#FFD9CB',
-    `${figuur(200, -22, 1.7, '#8C5A38', '#1B1410', '#FF5A1F',
-      `<path d="M34 46h52v-3c0-14-11-23-26-23S34 29 34 43Z" fill="#FFC93F"/>
-       <rect x="29" y="44" width="62" height="8" rx="4" fill="#FFC93F"/>`)}`)}
-
-  ${heroPaneel('p-c', 204, 158, 196, 242, '#D6DEFF',
-    `<rect x="248" y="306" width="130" height="120" rx="18" fill="#B9C7FF"/>
-     ${figuur(176, 127, 2.1, '#F5D6BC', '#9C5A20', '#2B4FFF')}`)}
-
-  ${heroPaneel('p-d', 0, 242, 196, 158, '#FFC93F',
-    `<g transform="translate(54 277) scale(1.85)">
-       <path d="M24 22C24 13 20 7 13.5 7 7.8 7 4 11.2 4 16.4 4 20.6 7.6 22 24 22Z" fill="#0A6238"/>
-       <path d="M26 22c0-9 4-15 10.5-15C42.2 7 46 11.2 46 16.4 46 20.6 42.4 22 26 22Z" fill="#12A15A"/>
-       <path d="M24 24C24 33 20 39 13.5 39 7.8 39 4 34.8 4 29.6 4 25.4 7.6 24 24 24Z" fill="#0C1410"/>
-       <path d="M26 24c0 9 4 15 10.5 15C42.2 39 46 34.8 46 29.6 46 25.4 42.4 24 26 24Z" fill="#35BE79"/>
-     </g>`)}
-</svg>`;
+const monogram = (naam, i = 0, klasse = 'avatar') => {
+  const t = AVATAR_TINTEN[i % AVATAR_TINTEN.length];
+  return `<span class="${klasse} monogram" style="--avatar-bg:${t.bg};--avatar-tekst:${t.tekst}"
+    aria-hidden="true">${initialen(naam)}</span>`;
+};

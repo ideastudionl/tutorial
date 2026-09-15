@@ -7,29 +7,29 @@
    ========================================================= */
 
 const SECTOREN = [
-  { id: 'techniek',   naam: 'Techniek & Installatie', kleur: '#2B4FFF', zacht: '#D6DEFF', icoon: 'moersleutel',
+  { id: 'techniek',   naam: 'Techniek & Installatie', kleur: '#24466B', zacht: '#E4EAF1', icoon: 'moersleutel',
     pitch: 'Monteurs, servicetechnici en engineers voor installatie, W&E en industrie.' },
-  { id: 'bouw',       naam: 'Bouw & Infra',           kleur: '#FF5A1F', zacht: '#FFD9CB', icoon: 'helm',
+  { id: 'bouw',       naam: 'Bouw & Infra',           kleur: '#8A4B1E', zacht: '#F3EAE1', icoon: 'helm',
     pitch: 'Van timmerman tot uitvoerder. Vakmensen met VCA die morgen kunnen starten.' },
-  { id: 'logistiek',  naam: 'Logistiek & Transport',  kleur: '#12A15A', zacht: '#DEF6E9', icoon: 'doos',
+  { id: 'logistiek',  naam: 'Logistiek & Transport',  kleur: '#1B7F58', zacht: '#E2EFE9', icoon: 'doos',
     pitch: 'Orderpickers, heftruck- en reachtruckchauffeurs, planners en chauffeurs.' },
-  { id: 'productie',  naam: 'Productie & Industrie',  kleur: '#0C1410', zacht: '#E7E5DE', icoon: 'tandwiel',
+  { id: 'productie',  naam: 'Productie & Industrie',  kleur: '#3E4A54', zacht: '#E9EBED', icoon: 'tandwiel',
     pitch: 'Productiemedewerkers, operators en machinebedieners in 2- en 3-ploegendienst.' },
-  { id: 'zorg',       naam: 'Zorg & Welzijn',         kleur: '#E04B7C', zacht: '#FFE1EA', icoon: 'hart',
+  { id: 'zorg',       naam: 'Zorg & Welzijn',         kleur: '#7A3B52', zacht: '#F1E7EB', icoon: 'hart',
     pitch: 'Verzorgenden IG, helpenden en begeleiders voor thuiszorg, VVT en gehandicaptenzorg.' },
-  { id: 'horeca',     naam: 'Horeca & Facilitair',    kleur: '#C58A00', zacht: '#FFF0C4', icoon: 'kop',
+  { id: 'horeca',     naam: 'Horeca & Facilitair',    kleur: '#6B5A2A', zacht: '#EFEBDF', icoon: 'kop',
     pitch: 'Bediening, keukenhulp en facilitair personeel voor hotels, events en zorginstellingen.' },
-  { id: 'kantoor',    naam: 'Administratie & Kantoor',kleur: '#5B3FD6', zacht: '#E7E1FF', icoon: 'map',
+  { id: 'kantoor',    naam: 'Administratie & Kantoor',kleur: '#3F3A6B', zacht: '#E9E7F0', icoon: 'map',
     pitch: 'Klantenservice, financieel administratief en backoffice — hybride mogelijk.' },
-  { id: 'schoonmaak', naam: 'Schoonmaak & Groen',     kleur: '#0A6238', zacht: '#D9F0E3', icoon: 'blad',
+  { id: 'schoonmaak', naam: 'Schoonmaak & Groen',     kleur: '#2C6357', zacht: '#E3EDEA', icoon: 'blad',
     pitch: 'Schoonmakers, glazenwassers en hoveniers met oog voor detail.' }
 ];
 
 const RECRUITERS = [
-  { id: 'nadia',  naam: 'Nadia El Amrani', rol: 'Intercedent Techniek & Bouw',   tel: '+31 6 12 34 56 71', mail: 'nadia@cloveruitzendbureau.nl',  kleur: '#FFC93F' },
-  { id: 'daan',   naam: 'Daan Verhoeven',  rol: 'Intercedent Logistiek & Productie', tel: '+31 6 12 34 56 72', mail: 'daan@cloveruitzendbureau.nl', kleur: '#7BD9A6' },
-  { id: 'saskia', naam: 'Saskia de Wit',   rol: 'Intercedent Zorg & Kantoor',    tel: '+31 6 12 34 56 73', mail: 'saskia@cloveruitzendbureau.nl', kleur: '#FFB3C8' },
-  { id: 'joris',  naam: 'Joris Bakker',    rol: 'Accountmanager Opdrachtgevers', tel: '+31 6 12 34 56 74', mail: 'joris@cloveruitzendbureau.nl',  kleur: '#B9C7FF' }
+  { id: 'nadia',  naam: 'Nadia El Amrani', rol: 'Intercedent Techniek & Bouw',   tel: '+31 6 12 34 56 71', mail: 'nadia@cloveruitzendbureau.nl' },
+  { id: 'daan',   naam: 'Daan Verhoeven',  rol: 'Intercedent Logistiek & Productie', tel: '+31 6 12 34 56 72', mail: 'daan@cloveruitzendbureau.nl' },
+  { id: 'saskia', naam: 'Saskia de Wit',   rol: 'Intercedent Zorg & Kantoor',    tel: '+31 6 12 34 56 73', mail: 'saskia@cloveruitzendbureau.nl' },
+  { id: 'joris',  naam: 'Joris Bakker',    rol: 'Accountmanager Opdrachtgevers', tel: '+31 6 12 34 56 74', mail: 'joris@cloveruitzendbureau.nl' }
 ];
 
 const DIENSTVERBANDEN = ['Fulltime', 'Parttime', 'Bijbaan'];
@@ -305,16 +305,32 @@ const VACATURES = [
   }
 ];
 
+/* ---------------------------------------------------------
+   Google-beoordelingen
+   In productie komen score, aantal en de losse reviews live
+   binnen via de Google Places API (Place Details → rating,
+   user_ratings_total, reviews) of via een widgetdienst.
+   Onderstaande waarden zijn voorbeelddata.
+   --------------------------------------------------------- */
+
+const GOOGLE = {
+  score: 4.8,
+  aantal: 137,
+  url: 'https://www.google.com/maps',
+  /* verdeling van 5 sterren naar 1 ster */
+  verdeling: [112, 18, 4, 2, 1]
+};
+
 const REVIEWS_WERKZOEKEND = [
-  { quote: 'Maandag gebeld, woensdag kennismaken, maandag erna begonnen. En ze belden daarna nog om te vragen hoe het ging.', naam: 'Youssef', rol: 'Heftruckchauffeur in Tilburg', ster: 5, kleur: '#FFC93F' },
-  { quote: 'Eindelijk een bureau dat niet alleen zegt “ik bel je terug”, maar het ook doet. Mijn contactpersoon kende de werkvloer echt.', naam: 'Linda', rol: 'Verzorgende IG in Utrecht', ster: 5, kleur: '#FFB3C8' },
-  { quote: 'Ik zocht iets naast mijn studie. Binnen tien minuten had ik gefilterd op bijbaan en avonddiensten en gesolliciteerd via WhatsApp.', naam: 'Tim', rol: 'Magazijnmedewerker in Almere', ster: 5, kleur: '#B9C7FF' }
+  { quote: 'Maandag gebeld, woensdag kennismaken, maandag erna begonnen. En ze belden daarna nog om te vragen hoe het ging.', naam: 'Youssef Bakkali', rol: 'Heftruckchauffeur, Tilburg', ster: 5, datum: '2 weken geleden' },
+  { quote: 'Eindelijk een bureau dat niet alleen zegt “ik bel je terug”, maar het ook doet. Mijn contactpersoon kende de werkvloer echt.', naam: 'Linda Hoekstra', rol: 'Verzorgende IG, Utrecht', ster: 5, datum: 'een maand geleden' },
+  { quote: 'Ik zocht iets naast mijn studie. Binnen tien minuten gefilterd op bijbaan en avonddiensten, en via WhatsApp gesolliciteerd.', naam: 'Tim Wolters', rol: 'Magazijnmedewerker, Almere', ster: 5, datum: '3 weken geleden' }
 ];
 
 const REVIEWS_WERKGEVER = [
-  { quote: 'Binnen 48 uur drie kandidaten op gesprek, waarvan er twee zijn gebleven. Clover snapt onze productieomgeving.', naam: 'Marjolein Brouwer', rol: 'Productiemanager, voedingsmiddelenindustrie', ster: 5, kleur: '#7BD9A6' },
-  { quote: 'We werken met een vaste pool via Clover. Geen onverwachte facturen, altijd NEN 4400-1 in orde, en ze denken mee over planning.', naam: 'Erik Vermeulen', rol: 'Operationeel directeur, logistiek dienstverlener', ster: 5, kleur: '#FFD9CB' },
-  { quote: 'De accountmanager kwam eerst een dag meelopen op de bouwplaats. Daarna waren de voorgestelde vakmensen ook echt raak.', naam: 'Sandra Kok', rol: 'Hoofd bedrijfsbureau, aannemersbedrijf', ster: 5, kleur: '#D6DEFF' }
+  { quote: 'Binnen 48 uur drie kandidaten op gesprek, waarvan er twee zijn gebleven. Clover snapt onze productieomgeving.', naam: 'Marjolein Brouwer', rol: 'Productiemanager, voedingsmiddelenindustrie', ster: 5, datum: '1 maand geleden' },
+  { quote: 'We werken met een vaste pool via Clover. Geen onverwachte facturen, altijd NEN 4400-1 in orde, en ze denken mee over de planning.', naam: 'Erik Vermeulen', rol: 'Operationeel directeur, logistiek dienstverlener', ster: 5, datum: '2 maanden geleden' },
+  { quote: 'De accountmanager kwam eerst een dag meelopen op de bouwplaats. Daarna waren de voorgestelde vakmensen ook echt raak.', naam: 'Sandra Kok', rol: 'Hoofd bedrijfsbureau, aannemersbedrijf', ster: 4, datum: '3 maanden geleden' }
 ];
 
 const KEURMERKEN = [
@@ -359,16 +375,16 @@ const STAPPEN_WERKGEVER = [
 ];
 
 const DIENSTEN = [
-  { titel: 'Uitzenden', kleur: '#12A15A', zacht: '#DEF6E9',
+  { titel: 'Uitzenden', kleur: '#1B7F58', zacht: '#E2EFE9', icoon: 'mensen',
     tekst: 'Flexibele capaciteit voor pieken, ziekte en seizoenswerk. U betaalt alleen de gewerkte uren, wij nemen het werkgeverschap volledig over.',
     punten: ['Binnen 48 uur kandidaten', 'Geen risico bij ziekte', 'Kosteloos overnemen na 1.040 uur'] },
-  { titel: 'Detachering', kleur: '#2B4FFF', zacht: '#D6DEFF',
+  { titel: 'Detachering', kleur: '#24466B', zacht: '#E4EAF1', icoon: 'koffer',
     tekst: 'Een vakkracht voor een langere periode of een concreet project, in dienst bij Clover. Vaste kosten per uur, vaste zekerheid voor de medewerker.',
     punten: ['Voor 6 maanden tot 3 jaar', 'Vast contract voor de medewerker', 'Eén vaste contactpersoon'] },
-  { titel: 'Werving & selectie', kleur: '#FF5A1F', zacht: '#FFD9CB',
+  { titel: 'Werving & selectie', kleur: '#8A4B1E', zacht: '#F3EAE1', icoon: 'kompas',
     tekst: 'Wij werven, screenen en dragen voor — u neemt direct zelf in dienst. Eenmalige fee, no cure no pay, en drie maanden garantie.',
     punten: ['No cure, no pay', 'Maximaal 3 kandidaten', '3 maanden nazorggarantie'] },
-  { titel: 'Payroll & ZZP-bemiddeling', kleur: '#C58A00', zacht: '#FFF0C4',
+  { titel: 'Payroll & ZZP-bemiddeling', kleur: '#3F3A6B', zacht: '#E9E7F0', icoon: 'document',
     tekst: 'Heeft u zelf iemand gevonden? Wij nemen het juridisch werkgeverschap of de zzp-toetsing (DBA) voor onze rekening.',
     punten: ['Modelovereenkomsten DBA-proof', 'Volledige loonadministratie', 'Wekelijkse verloning'] }
 ];

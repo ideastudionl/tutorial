@@ -18,7 +18,21 @@ const geplaatst = (d) =>
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) =>
   ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
-const sterren = (n) => `<div class="sterren" aria-label="${n} van de 5 sterren">${ICO.ster({ w: 15 }).repeat(n)}</div>`;
+const sterren = (n, w = 15) => sterRij(n, w);
+
+/* compacte Google-badge: score, sterren, aantal reviews */
+function googleBadge(compact = false) {
+  return `
+  <a class="google-badge" href="${GOOGLE.url}" target="_blank" rel="noopener"
+     aria-label="${String(GOOGLE.score).replace('.', ',')} sterren uit ${GOOGLE.aantal} Google-reviews">
+    ${googleG(compact ? 18 : 22)}
+    <span class="g-cijfer">${String(GOOGLE.score).replace('.', ',')}</span>
+    <span class="g-meta">
+      ${sterRij(GOOGLE.score, 13)}
+      <small>${GOOGLE.aantal} Google-reviews</small>
+    </span>
+  </a>`;
+}
 
 /* ---- herbruikbare onderdelen ---------------------------- */
 
@@ -45,7 +59,7 @@ function vacKaart(v, opt = {}) {
       <li>${ICO.klok({ w: 15 })} ${v.uren} uur p/w</li>
       <li>${ICO.document({ w: 15 })} ${esc(v.opleiding)}</li>
     </ul>
-    ${opt.kort ? '' : `<p style="color:var(--inkt-70);font-size:.9375rem;margin:0">${esc(v.intro.slice(0, 118))}…</p>`}
+    ${opt.kort ? '' : `<p style="color:var(--inkt-75);font-size:.9375rem;margin:0">${esc(v.intro.slice(0, 118))}…</p>`}
     <div class="vac-voet">
       <span class="vac-salaris">${euro(v.min)} – ${euro(v.max)}<small>bruto per uur</small></span>
       <span class="link-pijl" style="font-size:.9375rem">Bekijk ${ICO.pijl({ w: 17 })}</span>
@@ -58,21 +72,54 @@ function sectorKaart(s, aantal) {
   <a class="sector-kaart" href="#/vacatures?sector=${s.id}" style="--sector-kleur:${s.kleur};--sector-zacht:${s.zacht}">
     <span class="sector-icoon">${ICO[s.icoon]({ w: 26 })}</span>
     <h3>${esc(s.naam)}</h3>
-    <p style="color:var(--inkt-70);font-size:.9375rem;margin:0">${esc(s.pitch)}</p>
+    <p style="color:var(--inkt-75);font-size:.9375rem;margin:0">${esc(s.pitch)}</p>
     <span class="telling-regel">${aantal} ${aantal === 1 ? 'vacature' : 'vacatures'} ${ICO.pijl({ w: 15 })}</span>
   </a>`;
 }
 
 function reviewKaart(r, i) {
   return `
-  <figure class="review" data-reveal style="--vertraag:${i * 90}ms">
-    ${sterren(r.ster)}
-    <blockquote>“${esc(r.quote)}”</blockquote>
-    <figcaption>
-      <span class="avatar">${portret(i + 1, r.kleur)}</span>
-      <span><b>${esc(r.naam)}</b><small>${esc(r.rol)}</small></span>
+  <figure class="review" data-reveal style="--vertraag:${i * 80}ms">
+    <figcaption class="review-kop">
+      ${monogram(r.naam, i)}
+      <span style="flex:1;min-width:0">
+        <b>${esc(r.naam)}</b>
+        <small>${esc(r.rol)}</small>
+      </span>
+      ${googleG(18)}
     </figcaption>
+    <div class="rij" style="gap:.5rem">
+      ${sterRij(r.ster, 15)}
+      <span class="review-bron">${esc(r.datum)}</span>
+    </div>
+    <blockquote>${esc(r.quote)}</blockquote>
   </figure>`;
+}
+
+/* scorepaneel met verdeling per sterwaardering */
+function googlePaneel() {
+  const totaal = GOOGLE.verdeling.reduce((a, b) => a + b, 0);
+  return `
+  <div class="google-paneel" data-reveal>
+    <div class="rij" style="gap:.6rem">${googleG(24)}<b style="font-weight:600">Google-beoordelingen</b></div>
+    <div class="google-score">
+      <b>${String(GOOGLE.score).replace('.', ',')}</b>
+      <span>/ 5</span>
+    </div>
+    ${sterRij(GOOGLE.score, 20)}
+    <p style="font-size:var(--t-sm);color:var(--inkt-60);margin:0">Gebaseerd op ${GOOGLE.aantal} reviews van werkzoekenden en opdrachtgevers.</p>
+    <div class="verdeling">
+      ${GOOGLE.verdeling.map((n, i) => `
+        <div class="verdeling-rij">
+          <span>${5 - i} ★</span>
+          <span class="verdeling-balk"><i data-balk="${Math.round((n / totaal) * 100)}"></i></span>
+          <span>${n}</span>
+        </div>`).join('')}
+    </div>
+    <a class="knop knop--leeg knop--breed" href="${GOOGLE.url}" target="_blank" rel="noopener">
+      Alle reviews op Google ${ICO.pijlKlein({ w: 16 })}
+    </a>
+  </div>`;
 }
 
 function stappenLijst(stappen) {
@@ -81,7 +128,7 @@ function stappenLijst(stappen) {
       <span class="stap-bol" aria-hidden="true"></span>
       <div>
         <h3>${esc(s.t)}</h3>
-        <p style="color:var(--inkt-70);margin-top:.35rem">${esc(s.d)}</p>
+        <p style="color:var(--inkt-75);margin-top:.35rem">${esc(s.d)}</p>
       </div>
     </li>`).join('')}</ol>`;
 }
@@ -113,7 +160,7 @@ function ctaBlok() {
     <span class="cirkel" style="width:160px;height:160px;bottom:-70px;left:14%"></span>
     <div style="position:relative;display:grid;gap:1.5rem;max-width:44ch">
       <h2>Liever even iemand spreken?</h2>
-      <p class="lead" style="color:var(--inkt-70)">Bel ons tussen ${esc(BEDRIJF.openingstijden)}. Je krijgt een intercedent aan de lijn die de werkvloer kent — geen keuzemenu.</p>
+      <p class="lead" style="color:var(--inkt-75)">Bel ons tussen ${esc(BEDRIJF.openingstijden)}. Je krijgt een intercedent aan de lijn die de werkvloer kent — geen keuzemenu.</p>
       <div class="rij">
         <a class="knop knop--inkt knop--groot" href="tel:${BEDRIJF.telRaw}">${ICO.telefoon({ w: 18 })} ${esc(BEDRIJF.tel)}</a>
         <a class="knop knop--wit knop--groot" href="#/contact">Stuur een bericht ${ICO.pijl({ w: 18 })}</a>
@@ -131,23 +178,21 @@ function viewHome() {
   const telPerSector = (id) => VACATURES.filter((v) => v.sector === id).length;
 
   return `
-  <section class="hero raster-lijnen">
-    <span class="vlek" style="width:420px;height:420px;background:var(--clover-300);top:-120px;left:-140px"></span>
-    <span class="vlek" style="width:320px;height:320px;background:var(--geel);bottom:-140px;right:8%;opacity:.3"></span>
+  <section class="hero">
     <div class="wrap">
       <div class="hero-raster">
         <div class="hero-tekst">
           <span class="oogje" data-reveal>Uitzenden · Detacheren · Werving &amp; selectie</span>
-          <h1 data-split>Werk waar je<br>met een <span class="markeer">glimlach</span><br>naartoe gaat.</h1>
-          <p class="lead" data-reveal style="--vertraag:140ms">
-            Clover brengt vakmensen en werkgevers in acht sectoren bij elkaar. Zonder ruis, zonder callcenter —
-            met een vaste contactpersoon die weet hoe het er op de werkvloer aan toegaat.
+          <h1 data-split>Werk dat klopt.<br><span class="markeer">Mensen</span> die blijven.</h1>
+          <p class="lead" data-reveal style="--vertraag:120ms">
+            Clover bemiddelt vakmensen in acht sectoren. Eén vaste contactpersoon die de werkvloer kent,
+            een voorselectie die klopt, en afspraken die we nakomen — bij de eerste plaatsing en bij de honderdste.
           </p>
 
-          <form class="zoekbalk" id="hero-zoek" data-reveal style="--vertraag:220ms" role="search" aria-label="Zoek een vacature">
+          <form class="zoekbalk" id="hero-zoek" data-reveal style="--vertraag:200ms" role="search" aria-label="Zoek een vacature">
             <div class="veld">
-              <label for="hz-term">Wat zoek je?</label>
-              <input id="hz-term" name="term" type="search" placeholder="monteur, zorg…" autocomplete="off">
+              <label for="hz-term">Functie</label>
+              <input id="hz-term" name="term" type="search" placeholder="monteur" autocomplete="off">
             </div>
             <div class="veld">
               <label for="hz-sector">Sector</label>
@@ -163,23 +208,61 @@ function viewHome() {
             <button class="knop knop--groot" type="submit">${ICO.zoek({ w: 18 })} Zoeken</button>
           </form>
 
-          <ul class="hero-bewijs" data-reveal style="--vertraag:300ms">
-            <li>${ICO.vink({ w: 16 })} ${VACATURES.length} actuele vacatures</li>
-            <li>${ICO.vink({ w: 16 })} Reactie binnen 1 werkdag</li>
-            <li>${ICO.vink({ w: 16 })} SNA / NEN 4400-1 gecertificeerd</li>
-          </ul>
+          <div class="rij" data-reveal style="--vertraag:260ms;gap:1rem">
+            ${googleBadge()}
+            <ul class="hero-bewijs" style="gap:.35rem 1rem">
+              <li>${ICO.vink({ w: 15 })} ${VACATURES.length} actuele vacatures</li>
+              <li>${ICO.vink({ w: 15 })} Reactie binnen 1 werkdag</li>
+              <li>${ICO.vink({ w: 15 })} SNA / NEN 4400-1 gecertificeerd</li>
+            </ul>
+          </div>
         </div>
 
         <div class="hero-beeld" data-reveal="schaal" style="--vertraag:180ms">
-          <div class="zweef" style="position:absolute;inset:0">${heroScene()}</div>
-          <div class="stat-bubbel zweef zweef--2" style="top:6%;right:-4%">
-            <b data-tel="1250">0</b><small>plaatsingen per jaar</small>
+          <div class="toon-paneel">
+            <div class="toon-balk">
+              <span class="stip"></span><span class="stip"></span><span class="stip"></span>
+              <span style="margin-left:.5rem">Vacaturebank · ${VACATURES.length} resultaten</span>
+            </div>
+            ${[...VACATURES].sort((a, b) => a.dagen - b.dagen).slice(0, 5).map((v, i) => {
+              const s = sectorVan(v.sector);
+              return `
+              <div class="toon-rij ${i === 0 ? 'is-actief' : ''}" style="--sector-kleur:${s.kleur};--sector-zacht:${s.zacht}">
+                <span class="merkje">${ICO[s.icoon]({ w: 17 })}</span>
+                <span style="min-width:0">
+                  <b style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(v.titel)}</b>
+                  <small>${esc(v.plaats)} · ${v.uren} uur · ${esc(v.dienstverband)}</small>
+                </span>
+                <span class="loon">${euro(v.min)}</span>
+              </div>`;
+            }).join('')}
+            <div class="toon-balk" style="border-bottom:0;border-top:1px solid var(--lijn);padding-top:.75rem;padding-bottom:0">
+              <span style="color:var(--clover-700);font-weight:600">Filters: 8 sectoren · 6 provincies · uurloon</span>
+            </div>
           </div>
-          <div class="stat-bubbel zweef zweef--3" style="bottom:8%;left:-6%">
-            <b>4,8<span style="color:var(--oranje)">★</span></b><small>gemiddelde beoordeling</small>
+
+          <div class="zweef-kaart zweef" style="top:-22px;right:-26px">
+            <div style="display:grid;gap:.15rem">
+              <b style="font-family:var(--font-display);font-size:1.5rem;line-height:1;font-variant-numeric:tabular-nums"><span data-tel="1250">0</span>+</b>
+              <small style="font-size:var(--t-xs);color:var(--inkt-60)">plaatsingen per jaar</small>
+            </div>
           </div>
-          <div class="vlak zweef zweef--2" style="--rot:-8deg;width:64px;height:64px;border-radius:50%;background:var(--geel);top:-18px;left:16%;display:grid;place-items:center">
-            ${ICO.bliksem({ w: 26 })}
+
+          <div class="raster raster--2" style="gap:.75rem;margin-top:.75rem">
+            <div class="kaart kaart--zacht" style="flex-direction:row;align-items:center;gap:.7rem;padding:.85rem 1rem">
+              <span style="color:var(--clover-600);flex:none">${ICO.klok({ w: 20 })}</span>
+              <span>
+                <b style="font-family:var(--font-display);font-size:1rem;display:block;line-height:1.2">48 uur</b>
+                <small style="font-size:var(--t-xs);color:var(--inkt-60)">tot de eerste kandidaat</small>
+              </span>
+            </div>
+            <div class="kaart kaart--zacht" style="flex-direction:row;align-items:center;gap:.7rem;padding:.85rem 1rem">
+              <span style="color:var(--clover-600);flex:none">${ICO.schild({ w: 20 })}</span>
+              <span>
+                <b style="font-family:var(--font-display);font-size:1rem;display:block;line-height:1.2">96%</b>
+                <small style="font-size:var(--t-xs);color:var(--inkt-60)">maakt de opdracht af</small>
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -199,7 +282,7 @@ function viewHome() {
         <a class="pad-kaart" href="#/vacatures" data-reveal="links">
           <span class="pad-nummer">01 — Werkzoekend</span>
           <h3 style="font-size:var(--t-2xl)">Ik zoek werk</h3>
-          <p style="color:var(--inkt-70)">Filter op sector, plaats en uren. Solliciteer in één minuut, met of zonder cv.</p>
+          <p style="color:var(--inkt-75)">Filter op sector, plaats en uren. Solliciteer in één minuut, met of zonder cv.</p>
           <ul>
             <li>${ICO.vink({ w: 18 })} <span>${VACATURES.length} vacatures, dagelijks bijgewerkt</span></li>
             <li>${ICO.vink({ w: 18 })} <span>Solliciteren zonder cv of via WhatsApp</span></li>
@@ -210,7 +293,7 @@ function viewHome() {
         <a class="pad-kaart pad-kaart--werkgever" href="#/werkgevers" data-reveal="rechts">
           <span class="pad-nummer">02 — Opdrachtgever</span>
           <h3 style="font-size:var(--t-2xl)">Ik zoek personeel</h3>
-          <p style="color:var(--inkt-70)">Vertel wat u nodig heeft. Wij komen langs, selecteren scherp en sturen maximaal drie kandidaten.</p>
+          <p style="color:var(--inkt-75)">Vertel wat u nodig heeft. Wij komen langs, selecteren scherp en sturen maximaal drie kandidaten.</p>
           <ul>
             <li>${ICO.vink({ w: 18 })} <span>Eerste kandidaten binnen 48 uur</span></li>
             <li>${ICO.vink({ w: 18 })} <span>Transparante omrekenfactor, geen verrassingen</span></li>
@@ -283,7 +366,7 @@ function viewHome() {
         <div class="kaart" data-reveal="rechts" style="background:var(--clover-050);gap:var(--ruimte-4)">
           <span class="sector-icoon" style="background:var(--geel)">${ICO.bel({ w: 26 })}</span>
           <h3 style="font-size:var(--t-2xl)">Niets gevonden? Laat ons zoeken.</h3>
-          <p style="color:var(--inkt-70)">Zet een jobalert aan en ontvang alleen de vacatures die matchen met jouw sector, plaats en uren. Eén mail per week, uitschrijven met één klik.</p>
+          <p style="color:var(--inkt-75)">Zet een jobalert aan en ontvang alleen de vacatures die matchen met jouw sector, plaats en uren. Eén mail per week, uitschrijven met één klik.</p>
           <form class="formulier" data-form="jobalert">
             <div class="invoer">
               <label for="ja-mail">E-mailadres</label>
@@ -304,26 +387,31 @@ function viewHome() {
     </div>
   </section>
 
-  <!-- Reviews -->
+  <!-- Google-beoordelingen -->
   <section class="sectie">
     <div class="wrap">
-      <div class="sectie-kop" data-reveal>
-        <span class="oogje">Wat anderen zeggen</span>
-        <h2>Mensen die hier al langslopen</h2>
+      <div class="sectie-kop sectie-kop--split" data-reveal>
+        <div class="stapel">
+          <span class="oogje">Beoordelingen</span>
+          <h2>Wat werkzoekenden en opdrachtgevers schrijven</h2>
+        </div>
+        <a class="knop knop--leeg" href="${GOOGLE.url}" target="_blank" rel="noopener">
+          ${googleG(17)} Alles op Google ${ICO.pijlKlein({ w: 16 })}
+        </a>
       </div>
-      <div class="raster raster--3">
-        ${REVIEWS_WERKZOEKEND.map(reviewKaart).join('')}
-      </div>
-      <div class="raster raster--3" style="margin-top:var(--ruimte-5)">
-        ${REVIEWS_WERKGEVER.slice(0, 3).map((r, i) => reviewKaart(r, i + 3)).join('')}
+      <div class="bank" style="grid-template-columns:300px minmax(0,1fr)">
+        ${googlePaneel()}
+        <div class="raster raster--2">
+          ${[...REVIEWS_WERKZOEKEND, ...REVIEWS_WERKGEVER].map(reviewKaart).join('')}
+        </div>
       </div>
     </div>
   </section>
 
   <!-- Keurmerken -->
-  <section class="sectie sectie--strak sectie--papier">
+  <section class="sectie sectie--strak sectie--grijs-050">
     <div class="wrap" data-reveal>
-      <p style="text-align:center;font-weight:700;color:var(--inkt-55);margin-bottom:var(--ruimte-5);font-size:.8125rem;letter-spacing:.14em;text-transform:uppercase">
+      <p style="text-align:center;font-weight:700;color:var(--inkt-60);margin-bottom:var(--ruimte-5);font-size:.8125rem;letter-spacing:.14em;text-transform:uppercase">
         Aangesloten &amp; gecertificeerd
       </p>
       ${keurmerkStrip()}
@@ -431,7 +519,7 @@ function viewVacatures() {
               <b id="tel-resultaten">${VACATURES.length}</b> vacatures gevonden
             </p>
             <label class="sorteer">
-              <span style="color:var(--inkt-55)">Sorteer</span>
+              <span style="color:var(--inkt-60)">Sorteer</span>
               <select id="sorteer" aria-label="Sorteervolgorde">
                 <option value="nieuw">Nieuwste eerst</option>
                 <option value="loon">Hoogste uurloon</option>
@@ -445,12 +533,12 @@ function viewVacatures() {
           <div class="resultaten" id="resultaten"></div>
 
           <div style="margin-top:var(--ruimte-6)">
-            <div class="kaart" style="background:var(--clover-950);color:var(--papier);border-radius:var(--radius-xl);gap:var(--ruimte-4)">
+            <div class="kaart" style="background:var(--clover-950);color:var(--grijs-050);border-radius:var(--radius-xl);gap:var(--ruimte-4)">
               <h3 style="font-size:var(--t-2xl)">Staat jouw baan er niet tussen?</h3>
-              <p style="color:rgba(250,248,242,.72);max-width:52ch">Stuur een open sollicitatie. We hebben lang niet alles online staan — veel opdrachtgevers vragen ons rechtstreeks.</p>
+              <p style="color:rgba(247, 248, 247,.72);max-width:52ch">Stuur een open sollicitatie. We hebben lang niet alles online staan — veel opdrachtgevers vragen ons rechtstreeks.</p>
               <div class="rij">
-                <button class="knop knop--geel" data-open-sollicitatie="open">Open sollicitatie ${ICO.pijl({ w: 17 })}</button>
-                <a class="knop knop--leeg" style="--knop-tekst:var(--papier);border-color:rgba(250,248,242,.4)" href="https://wa.me/${BEDRIJF.whatsapp.replace(/\D/g, '')}" target="_blank" rel="noopener">
+                <button class="knop knop--wit" data-open-sollicitatie="open">Open sollicitatie ${ICO.pijl({ w: 17 })}</button>
+                <a class="knop knop--leeg" style="--knop-tekst:var(--grijs-050);--knop-rand:rgba(247,248,247,.3);--knop-bg-hover:rgba(247,248,247,.1)" href="https://wa.me/${BEDRIJF.whatsapp.replace(/\D/g, '')}" target="_blank" rel="noopener">
                   ${ICO.whatsapp({ w: 17 })} App ons
                 </a>
               </div>
@@ -520,7 +608,7 @@ function viewVacature(id) {
               <span class="sector-icoon" style="width:44px;height:44px;background:var(--wit)">${ICO.schild({ w: 20 })}</span>
               <div>
                 <b style="font-family:var(--font-display);font-size:1.05rem">Inlenersbeloning gegarandeerd</b>
-                <p style="font-size:.9375rem;color:var(--inkt-70);margin:0">Je verdient vanaf dag één hetzelfde als een vaste collega in dezelfde functie, inclusief toeslagen en reiskosten.</p>
+                <p style="font-size:.9375rem;color:var(--inkt-75);margin:0">Je verdient vanaf dag één hetzelfde als een vaste collega in dezelfde functie, inclusief toeslagen en reiskosten.</p>
               </div>
             </div>
           </div>
@@ -529,10 +617,10 @@ function viewVacature(id) {
         <aside class="solliciteer-kaart">
           <h2 style="font-size:var(--t-xl)">Solliciteren duurt 1 minuut</h2>
           <p class="lead" style="font-size:.9375rem">Een cv mag, maar hoeft niet. We bellen je binnen één werkdag terug.</p>
-          <button class="knop knop--geel knop--breed knop--groot" data-open-sollicitatie="${v.id}">
+          <button class="knop knop--wit knop--breed knop--groot" data-open-sollicitatie="${v.id}">
             Solliciteer direct ${ICO.pijl({ w: 18 })}
           </button>
-          <a class="knop knop--wit knop--breed" href="https://wa.me/${BEDRIJF.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent('Hoi Clover, ik heb interesse in de vacature ' + v.titel + ' (' + v.id + ').')}" target="_blank" rel="noopener">
+          <a class="knop knop--leeg knop--breed" style="--knop-tekst:var(--grijs-050);--knop-rand:rgba(247,248,247,.3);--knop-bg-hover:rgba(247,248,247,.1)" href="https://wa.me/${BEDRIJF.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent('Hoi Clover, ik heb interesse in de vacature ' + v.titel + ' (' + v.id + ').')}" target="_blank" rel="noopener">
             ${ICO.whatsapp({ w: 18 })} Solliciteer via WhatsApp
           </a>
           <dl>
@@ -543,17 +631,17 @@ function viewVacature(id) {
             <div><dt>Ploegendienst</dt><dd>${v.ploegen ? 'Ja' : 'Nee'}</dd></div>
           </dl>
           <div class="recruiter">
-            <span class="avatar">${portret(RECRUITERS.indexOf(r), r.kleur)}</span>
+            ${monogram(r.naam, RECRUITERS.indexOf(r))}
             <span>
               <b>${esc(r.naam)}</b>
               <small>${esc(r.rol)}</small>
             </span>
           </div>
-          <div class="rij" style="gap:.5rem">
-            <a class="knop knop--wit" style="flex:1" href="tel:${esc(r.tel.replace(/\s/g, ''))}">${ICO.telefoon({ w: 16 })} Bellen</a>
-            <a class="knop knop--wit" style="flex:1" href="mailto:${esc(r.mail)}">${ICO.mail({ w: 16 })} Mailen</a>
+          <div class="rij" style="gap:.5rem;flex-wrap:nowrap">
+            <a class="knop knop--leeg" style="flex:1;--knop-tekst:var(--grijs-050);--knop-rand:rgba(247,248,247,.3);--knop-bg-hover:rgba(247,248,247,.1)" href="tel:${esc(r.tel.replace(/\s/g, ''))}">${ICO.telefoon({ w: 16 })} Bellen</a>
+            <a class="knop knop--leeg" style="flex:1;--knop-tekst:var(--grijs-050);--knop-rand:rgba(247,248,247,.3);--knop-bg-hover:rgba(247,248,247,.1)" href="mailto:${esc(r.mail)}">${ICO.mail({ w: 16 })} Mailen</a>
           </div>
-          <button class="knop knop--leeg knop--breed" style="--knop-tekst:var(--papier);border-color:rgba(250,248,242,.35)" data-deel="${v.id}">
+          <button class="knop knop--leeg knop--breed" style="--knop-tekst:var(--grijs-050);--knop-rand:rgba(247,248,247,.3);--knop-bg-hover:rgba(247,248,247,.1)" data-deel="${v.id}">
             ${ICO.pijlKlein({ w: 16 })} Deel deze vacature
           </button>
         </aside>
@@ -592,13 +680,13 @@ function viewNietGevonden() {
 
 function viewWerkgevers() {
   return `
-  <section class="hero raster-lijnen" style="background:var(--blauw-licht);border-bottom:1.5px solid var(--inkt)">
+  <section class="hero raster-lijnen" style="background:var(--staal-zacht);border-bottom:1.5px solid var(--inkt)">
     <div class="wrap">
       <div class="hero-raster">
         <div class="hero-tekst">
-          <span class="oogje" data-reveal style="color:var(--blauw)">Voor opdrachtgevers</span>
-          <h1 data-split>Personeel dat <span class="markeer markeer--oranje">blijft</span>.</h1>
-          <p class="lead" data-reveal style="--vertraag:120ms;color:var(--inkt-70)">
+          <span class="oogje" data-reveal style="color:var(--staal)">Voor opdrachtgevers</span>
+          <h1 data-split>Personeel dat <span class="markeer markeer--staal">blijft</span>.</h1>
+          <p class="lead" data-reveal style="--vertraag:120ms;color:var(--inkt-75)">
             96% van onze kandidaten maakt de opdracht af. Dat komt niet door een grotere database,
             maar doordat we eerst uw werkvloer leren kennen en daarna pas gaan werven.
           </p>
@@ -606,33 +694,50 @@ function viewWerkgevers() {
             <a class="knop knop--blauw knop--groot" href="#aanvraag">Personeel aanvragen ${ICO.pijl({ w: 18 })}</a>
             <a class="knop knop--wit knop--groot" href="tel:${BEDRIJF.telRaw}">${ICO.telefoon({ w: 18 })} ${esc(BEDRIJF.tel)}</a>
           </div>
-          <ul class="hero-bewijs" data-reveal style="--vertraag:260ms">
-            <li>${ICO.vink({ w: 16 })} Eerste kandidaten binnen 48 uur</li>
-            <li>${ICO.vink({ w: 16 })} Maximaal 3 voorgedragen kandidaten</li>
-            <li>${ICO.vink({ w: 16 })} Eén vast aanspreekpunt</li>
-          </ul>
+          <div class="rij" data-reveal style="--vertraag:260ms;gap:1rem">
+            ${googleBadge()}
+            <ul class="hero-bewijs" style="gap:.35rem 1rem">
+              <li>${ICO.vink({ w: 15 })} Eerste kandidaten binnen 48 uur</li>
+              <li>${ICO.vink({ w: 15 })} Maximaal 3 voorgedragen kandidaten</li>
+              <li>${ICO.vink({ w: 15 })} Eén vast aanspreekpunt</li>
+            </ul>
+          </div>
         </div>
         <div class="hero-beeld" data-reveal="schaal">
-          <div class="vlak vlak--foto zweef" style="inset:6% 0 6% 0;background:var(--wit)">
-            <div style="padding:clamp(1.25rem, 1rem + 1.5vw, 2rem);display:grid;gap:1rem;align-content:center;height:100%">
-              <span class="oogje" style="color:var(--blauw)">Aanvraag → kandidaat</span>
+          <div class="toon-paneel">
+            <div class="toon-balk">
+              <span class="stip"></span><span class="stip"></span><span class="stip"></span>
+              <span style="margin-left:.5rem">Aanvraag CLV-2291 · Voorselectie</span>
+            </div>
+
+            <div style="display:grid;gap:.5rem;padding:.25rem .6rem .5rem">
+              <div class="rij rij--tussen" style="font-size:var(--t-xs);color:var(--inkt-60)">
+                <span>Aanvraag ontvangen</span><span>Kandidaten voorgedragen</span>
+              </div>
               <div class="voortgang" aria-hidden="true">
                 <span class="voortgang-stap is-klaar"><i></i></span>
                 <span class="voortgang-stap is-klaar"><i></i></span>
                 <span class="voortgang-stap is-bezig"><i></i></span>
                 <span class="voortgang-stap"><i></i></span>
               </div>
-              ${VACATURES.slice(0, 3).map((v, i) => {
-                const s = sectorVan(v.sector);
-                return `<div class="kaart kaart--zacht zweef ${i === 1 ? 'zweef--2' : i === 2 ? 'zweef--3' : ''}" style="padding:.85rem;flex-direction:row;align-items:center;gap:.75rem;border-radius:var(--radius-m)">
-                  <span class="avatar" style="width:40px;height:40px">${portret(i, s.zacht)}</span>
-                  <span style="flex:1;min-width:0">
-                    <b style="font-family:var(--font-display);font-size:.95rem;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(v.titel)}</b>
-                    <small style="color:var(--inkt-55);font-size:.78rem">Beschikbaar per direct · ${esc(v.plaats)}</small>
-                  </span>
-                  <span class="label label--groen" style="font-size:.7rem">Match ${92 - i * 4}%</span>
-                </div>`;
-              }).join('')}
+            </div>
+
+            ${VACATURES.slice(0, 3).map((v, i) => {
+              const s = sectorVan(v.sector);
+              const r = RECRUITERS.find((x) => x.id === v.recruiter);
+              return `
+              <div class="toon-rij ${i === 0 ? 'is-actief' : ''}">
+                ${monogram(['Bas Overmars', 'Ilse Nagel', 'Kevin Rood'][i], i + 2, 'avatar')}
+                <span style="min-width:0">
+                  <b style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(['Bas Overmars', 'Ilse Nagel', 'Kevin Rood'][i])}</b>
+                  <small>${esc(v.titel)} · beschikbaar per direct</small>
+                </span>
+                <span class="label label--zand" style="font-size:var(--t-xs)">${92 - i * 4}% match</span>
+              </div>`;
+            }).join('')}
+
+            <div class="toon-balk" style="border-bottom:0;border-top:1px solid var(--lijn);padding-top:.75rem;padding-bottom:0">
+              <span>Voorgedragen door <b style="font-weight:600;color:var(--inkt)">${esc(RECRUITERS[3].naam)}</b> · 41 uur na aanvraag</span>
             </div>
           </div>
         </div>
@@ -653,9 +758,9 @@ function viewWerkgevers() {
       <div class="raster raster--2">
         ${DIENSTEN.map((d, i) => `
           <article class="kaart" data-reveal style="--vertraag:${i * 70}ms;gap:var(--ruimte-4)">
-            <span class="sector-icoon" style="background:${d.zacht};color:${d.kleur}">${ICO.koffer({ w: 26 })}</span>
+            <span class="sector-icoon" style="background:${d.zacht};color:${d.kleur}">${ICO[d.icoon]({ w: 24 })}</span>
             <h3 style="font-size:var(--t-2xl)">${esc(d.titel)}</h3>
-            <p style="color:var(--inkt-70)">${esc(d.tekst)}</p>
+            <p style="color:var(--inkt-75)">${esc(d.tekst)}</p>
             <ul style="display:grid;gap:.5rem">
               ${d.punten.map((p) => `<li style="display:flex;gap:.6rem;align-items:start;font-weight:500;font-size:.9375rem">
                 <span style="color:${d.kleur};flex:none">${ICO.vink({ w: 18 })}</span><span>${esc(p)}</span></li>`).join('')}
@@ -697,11 +802,14 @@ function viewWerkgevers() {
   </section>
 
   <!-- Reviews werkgevers -->
-  <section class="sectie sectie--donker">
+  <section class="sectie sectie--papier">
     <div class="wrap">
-      <div class="sectie-kop" data-reveal>
-        <span class="oogje oogje--licht">Opdrachtgevers aan het woord</span>
-        <h2>Samenwerkingen die blijven duren</h2>
+      <div class="sectie-kop sectie-kop--split" data-reveal>
+        <div class="stapel">
+          <span class="oogje">Opdrachtgevers aan het woord</span>
+          <h2>Samenwerkingen die blijven duren</h2>
+        </div>
+        ${googleBadge()}
       </div>
       <div class="raster raster--3">${REVIEWS_WERKGEVER.map(reviewKaart).join('')}</div>
     </div>
@@ -716,10 +824,10 @@ function viewWerkgevers() {
           <h2>Vertel wat u zoekt</h2>
           <p class="lead">Vul het formulier in of bel ${esc(BEDRIJF.tel)}. U krijgt binnen één werkdag een reactie van een vaste accountmanager, geen algemene inbox.</p>
           <div class="kaart kaart--zacht" style="background:var(--clover-050);border-color:var(--clover-200);flex-direction:row;gap:.85rem;align-items:center">
-            <span class="avatar" style="width:56px;height:56px">${portret(3, RECRUITERS[3].kleur)}</span>
+            ${monogram(RECRUITERS[3].naam, 3)}
             <div>
               <b style="font-family:var(--font-display);font-size:1.05rem;display:block">${esc(RECRUITERS[3].naam)}</b>
-              <small style="color:var(--inkt-55)">${esc(RECRUITERS[3].rol)}</small>
+              <small style="color:var(--inkt-60)">${esc(RECRUITERS[3].rol)}</small>
               <div class="rij" style="gap:.75rem;margin-top:.4rem;font-size:.875rem;font-weight:600">
                 <a href="tel:${esc(RECRUITERS[3].tel.replace(/\s/g, ''))}" class="link-pijl" style="font-size:.875rem">${esc(RECRUITERS[3].tel)}</a>
               </div>
@@ -787,14 +895,14 @@ function viewWerkgevers() {
             <span>Ik ga akkoord met de <a href="#/privacy">privacyverklaring</a> en wil gebeld worden over deze aanvraag.</span>
           </label>
           <button class="knop knop--blauw knop--breed knop--groot" type="submit">Aanvraag versturen ${ICO.pijl({ w: 18 })}</button>
-          <p style="font-size:.8125rem;color:var(--inkt-55);text-align:center;margin:0">Reactie binnen 1 werkdag · Vrijblijvend · Geen abonnement</p>
+          <p style="font-size:.8125rem;color:var(--inkt-60);text-align:center;margin:0">Reactie binnen 1 werkdag · Vrijblijvend · Geen abonnement</p>
         </form>
       </div>
     </div>
   </section>
 
   <!-- FAQ -->
-  <section class="sectie sectie--papier">
+  <section class="sectie sectie--grijs-050">
     <div class="wrap wrap--smal">
       <div class="sectie-kop" data-reveal>
         <span class="oogje">Veelgestelde vragen</span>
@@ -837,7 +945,7 @@ function viewSectoren() {
                 <span class="telling-regel">${vacs.length} open ${vacs.length === 1 ? 'vacature' : 'vacatures'}${vanaf ? ` · vanaf ${euro(vanaf)} p/u` : ''}</span>
               </div>
             </div>
-            <p style="color:var(--inkt-70);max-width:52ch">${esc(s.pitch)}</p>
+            <p style="color:var(--inkt-75);max-width:52ch">${esc(s.pitch)}</p>
             <div class="rij" style="gap:.4rem">
               ${[...new Set(vacs.map((v) => v.plaats))].slice(0, 5).map((p) => `<span class="label label--rand">${ICO.pin({ w: 13 })} ${esc(p)}</span>`).join('')}
             </div>
@@ -846,8 +954,22 @@ function viewSectoren() {
               <a class="knop knop--leeg" href="#/werkgevers">Personeel in deze sector</a>
             </div>
           </div>
-          <div style="flex:1 1 220px;min-height:230px;background:${s.zacht};border-left:1.5px solid var(--inkt);display:grid;place-items:center;padding:var(--ruimte-4)">
-            <div style="width:min(210px,80%);aspect-ratio:1;border-radius:50%;overflow:hidden;border:1.5px solid var(--inkt)">${portret(i, s.zacht)}</div>
+          <div style="flex:1 1 230px;min-height:220px;background:${s.zacht};border-left:1px solid var(--lijn);display:grid;align-content:center;gap:.9rem;padding:var(--ruimte-5)">
+            <span style="color:${s.kleur}">${ICO[s.icoon]({ w: 34, sw: 1.6 })}</span>
+            <dl style="display:grid;gap:.65rem;margin:0">
+              <div style="display:flex;justify-content:space-between;gap:1rem;font-size:.875rem">
+                <dt style="color:var(--inkt-60)">Open vacatures</dt>
+                <dd style="font-weight:600;font-variant-numeric:tabular-nums">${vacs.length}</dd>
+              </div>
+              <div style="display:flex;justify-content:space-between;gap:1rem;font-size:.875rem">
+                <dt style="color:var(--inkt-60)">Uurloon vanaf</dt>
+                <dd style="font-weight:600;font-variant-numeric:tabular-nums">${vanaf ? euro(vanaf) : '—'}</dd>
+              </div>
+              <div style="display:flex;justify-content:space-between;gap:1rem;font-size:.875rem">
+                <dt style="color:var(--inkt-60)">Intercedent</dt>
+                <dd style="font-weight:600">${esc((RECRUITERS.find((x) => vacs.some((v) => v.recruiter === x.id)) || RECRUITERS[3]).naam.split(' ')[0])}</dd>
+              </div>
+            </dl>
           </div>
         </article>`;
       }).join('')}
@@ -888,7 +1010,7 @@ function viewOver() {
           <article class="kaart" data-reveal style="--vertraag:${i * 80}ms">
             <span class="sector-icoon">${ICO[k.i]({ w: 26 })}</span>
             <h3 style="font-size:var(--t-xl)">${esc(k.t)}</h3>
-            <p style="color:var(--inkt-70)">${esc(k.d)}</p>
+            <p style="color:var(--inkt-75)">${esc(k.d)}</p>
           </article>`).join('')}
       </div>
     </div>
@@ -915,10 +1037,12 @@ function viewOver() {
       <div class="raster raster--4">
         ${RECRUITERS.map((r, i) => `
           <article class="kaart kaart--klik" data-reveal style="--vertraag:${i * 70}ms;padding:0;overflow:hidden">
-            <div style="aspect-ratio:1;background:${r.kleur}">${portret(i, r.kleur)}</div>
+            <div style="aspect-ratio:4/3;display:grid;place-items:center;background:var(--grijs-100);border-bottom:1px solid var(--lijn)">
+              ${monogram(r.naam, i, 'avatar')}
+            </div>
             <div style="padding:var(--ruimte-4);display:grid;gap:.5rem">
               <h3 style="font-size:1.15rem">${esc(r.naam)}</h3>
-              <small style="color:var(--inkt-55);font-size:.85rem">${esc(r.rol)}</small>
+              <small style="color:var(--inkt-60);font-size:.85rem">${esc(r.rol)}</small>
               <a class="link-pijl" style="font-size:.9rem;justify-self:start" href="tel:${esc(r.tel.replace(/\s/g, ''))}">${esc(r.tel)}</a>
             </div>
           </article>`).join('')}
@@ -926,7 +1050,7 @@ function viewOver() {
     </div>
   </section>
 
-  <section class="sectie sectie--papier">
+  <section class="sectie sectie--grijs-050">
     <div class="wrap wrap--smal">
       <div class="sectie-kop" data-reveal>
         <span class="oogje">Voor werkzoekenden</span>
@@ -957,28 +1081,28 @@ function viewContact() {
             <a class="kaart kaart--klik" href="tel:${BEDRIJF.telRaw}" style="gap:.6rem">
               <span class="sector-icoon" style="background:var(--geel)">${ICO.telefoon({ w: 24 })}</span>
               <b style="font-family:var(--font-display);font-size:1.1rem">${esc(BEDRIJF.tel)}</b>
-              <small style="color:var(--inkt-55)">${esc(BEDRIJF.openingstijden)}</small>
+              <small style="color:var(--inkt-60)">${esc(BEDRIJF.openingstijden)}</small>
             </a>
             <a class="kaart kaart--klik" href="https://wa.me/${BEDRIJF.whatsapp.replace(/\D/g, '')}" target="_blank" rel="noopener" style="gap:.6rem">
               <span class="sector-icoon" style="background:var(--clover-200)">${ICO.whatsapp({ w: 24 })}</span>
               <b style="font-family:var(--font-display);font-size:1.1rem">WhatsApp</b>
-              <small style="color:var(--inkt-55)">Meestal binnen een uur antwoord</small>
+              <small style="color:var(--inkt-60)">Meestal binnen een uur antwoord</small>
             </a>
             <a class="kaart kaart--klik" href="mailto:${esc(BEDRIJF.mail)}" style="gap:.6rem">
-              <span class="sector-icoon" style="background:var(--blauw-licht)">${ICO.mail({ w: 24 })}</span>
+              <span class="sector-icoon" style="background:var(--staal-zacht)">${ICO.mail({ w: 24 })}</span>
               <b style="font-family:var(--font-display);font-size:1rem;word-break:break-all">${esc(BEDRIJF.mail)}</b>
-              <small style="color:var(--inkt-55)">Reactie binnen 1 werkdag</small>
+              <small style="color:var(--inkt-60)">Reactie binnen 1 werkdag</small>
             </a>
             <div class="kaart" style="gap:.6rem">
-              <span class="sector-icoon" style="background:var(--oranje-licht)">${ICO.pin({ w: 24 })}</span>
+              <span class="sector-icoon" style="background:var(--signaal-zacht)">${ICO.pin({ w: 24 })}</span>
               <b style="font-family:var(--font-display);font-size:1.1rem">${esc(BEDRIJF.adres)}</b>
-              <small style="color:var(--inkt-55)">${esc(BEDRIJF.postcode)} ${esc(BEDRIJF.stad)}</small>
+              <small style="color:var(--inkt-60)">${esc(BEDRIJF.postcode)} ${esc(BEDRIJF.stad)}</small>
             </div>
           </div>
 
           <div class="kaart kaart--zacht" style="margin-top:var(--ruimte-4);background:var(--clover-050);border-color:var(--clover-200)">
             <b style="font-family:var(--font-display);font-size:1.05rem">Liever langskomen zonder afspraak?</b>
-            <p style="color:var(--inkt-70);font-size:.9375rem;margin:0">Elke donderdag tussen 15:00 en 18:00 is het inloopspreekuur. Neem je ID-bewijs mee, dan kunnen we je meteen inschrijven.</p>
+            <p style="color:var(--inkt-75);font-size:.9375rem;margin:0">Elke donderdag tussen 15:00 en 18:00 is het inloopspreekuur. Neem je ID-bewijs mee, dan kunnen we je meteen inschrijven.</p>
           </div>
         </div>
 
@@ -1071,7 +1195,7 @@ function sollicitatieFormulier(vacId) {
     <div>
       <span class="oogje">Solliciteren</span>
       <h2 id="modal-titel" style="font-size:var(--t-2xl);margin-top:.4rem">${esc(titel)}</h2>
-      ${v ? `<p style="color:var(--inkt-55);font-size:.9375rem;margin-top:.3rem">${esc(v.plaats)} · ${v.uren} uur · ${euro(v.min)} – ${euro(v.max)} p/u</p>` : ''}
+      ${v ? `<p style="color:var(--inkt-60);font-size:.9375rem;margin-top:.3rem">${esc(v.plaats)} · ${v.uren} uur · ${euro(v.min)} – ${euro(v.max)} p/u</p>` : ''}
     </div>
     <button class="sluit-knop" data-sluit-modal aria-label="Sluiten">${ICO.kruis({ w: 18 })}</button>
   </div>
@@ -1128,7 +1252,7 @@ function sollicitatieFormulier(vacId) {
 
     <button class="knop knop--breed knop--groot" type="submit">Verstuur sollicitatie ${ICO.pijl({ w: 18 })}</button>
 
-    <div class="rij" style="justify-content:center;gap:.5rem;font-size:.875rem;color:var(--inkt-55)">
+    <div class="rij" style="justify-content:center;gap:.5rem;font-size:.875rem;color:var(--inkt-60)">
       ${ICO.klok({ w: 15 })} <span>Je hoort binnen 1 werkdag van ${esc(r.naam.split(' ')[0])}</span>
     </div>
   </form>`;
@@ -1148,16 +1272,16 @@ function sollicitatieSucces(vacId) {
       ${esc(r.naam)} kijkt ernaar en belt je binnen één werkdag. Je krijgt zo ook een bevestiging per e-mail.
     </p>
     <div class="recruiter" style="color:var(--inkt);justify-content:center">
-      <span class="avatar">${portret(RECRUITERS.indexOf(r), r.kleur)}</span>
+      ${monogram(r.naam, RECRUITERS.indexOf(r))}
       <span style="text-align:left">
         <b style="font-family:var(--font-display);font-size:1.05rem">${esc(r.naam)}</b>
-        <small style="color:var(--inkt-55);display:block">${esc(r.rol)}</small>
+        <small style="color:var(--inkt-60);display:block">${esc(r.rol)}</small>
       </span>
     </div>
     <div class="rij" style="justify-content:center">
       <a class="knop knop--wit" href="tel:${esc(r.tel.replace(/\s/g, ''))}">${ICO.telefoon({ w: 17 })} Bel alvast zelf</a>
       <button class="knop" data-sluit-modal>Verder kijken ${ICO.pijl({ w: 17 })}</button>
     </div>
-    <p style="font-size:.8125rem;color:var(--inkt-55)">Demo: er wordt niets echt verstuurd of opgeslagen.</p>
+    <p style="font-size:.8125rem;color:var(--inkt-60)">Demo: er wordt niets echt verstuurd of opgeslagen.</p>
   </div>`;
 }
