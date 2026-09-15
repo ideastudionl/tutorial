@@ -10,23 +10,31 @@
    Het logo staat verderop in de HTML, gemarkeerd met  <!-- LOGO -->.
    ======================================================================= */
 :root{
-  --roos:#B23A5F;          /* merkkleur 1 — roos */
-  --blad:#3F6B52;          /* merkkleur 2 — blad */
+  --roos:#CE4269;          /* merkkleur 1 — roos */
+  --blad:#27825C;          /* merkkleur 2 — blad */
 
-  --roos-zacht:#F4E2E8;
-  --roos-lijn:#E7C7D2;
-  --blad-zacht:#E2EBE5;
+  --roos-vlak:#F6A9BF;
+  --roos-zacht:#FFEBF1;
+  --roos-lijn:#FBD5E0;
+  --blad-vlak:#7CCBA6;
+  --blad-zacht:#E5F6EE;
+  --zon:#B87411;
+  --zon-vlak:#FFCB6B;
+  --zon-zacht:#FFF4DF;
+  --lucht:#2E77BC;
+  --lucht-vlak:#9CC8EE;
+  --lucht-zacht:#E9F3FC;
 
-  --inkt:#241D22;
-  --inkt-70:#574A51;
-  --grijs:#7A6D74;
-  --papier:#FCFAF9;
-  --vlak:#F6F0EC;
-  --lijn:#E4DAD4;
+  --inkt:#3C3037;
+  --inkt-70:#685961;
+  --grijs:#8B7C84;
+  --papier:#FFFDFC;
+  --vlak:#FFF7F4;
+  --lijn:#F2E5DF;
   --wit:#FFFFFF;
 
-  --ok:#3F6B52;
-  --let:#A8681E;
+  --ok:#27825C;
+  --let:#B87411;
 
   --fs-hero:clamp(2.3rem,4.6vw,3.7rem);
   --fs-h2:clamp(1.65rem,3vw,2.35rem);
@@ -34,32 +42,45 @@
   --fs-body:clamp(1rem,.42vw + .92rem,1.1rem);
   --gut:clamp(1.15rem,4vw,2.5rem);
   --maxw:1180px;
-  --rad:12px;
+  --rad:14px;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --roos:#E8899F;
-    --blad:#7FBF9B;
+    --roos:#F393AE;
+    --blad:#74CBA3;
+    --roos-vlak:#B85376;
     --roos-zacht:#33212A;
-    --roos-lijn:#4C3039;
-    --blad-zacht:#1D2E26;
-    --inkt:#F3EAEC;
-    --inkt-70:#C4B4BA;
-    --grijs:#9C8D94;
-    --papier:#171316;
-    --vlak:#1F1A1F;
-    --lijn:#352C33;
-    --wit:#1F1A1F;
-    --ok:#7FBF9B;
-    --let:#E0A85C;
+    --roos-lijn:#4C303A;
+    --blad-vlak:#3E8F6C;
+    --blad-zacht:#1C2F27;
+    --zon:#F0BE6A;
+    --zon-vlak:#B98A38;
+    --zon-zacht:#322715;
+    --lucht:#8FBEEB;
+    --lucht-vlak:#3E6E9E;
+    --lucht-zacht:#182734;
+
+    --inkt:#F5ECEF;
+    --inkt-70:#C7B7BE;
+    --grijs:#9E8F96;
+    --papier:#191418;
+    --vlak:#221C21;
+    --lijn:#372E35;
+    --wit:#221C21;
+
+    --ok:#74CBA3;
+    --let:#F0BE6A;
   }
 }
 :root[data-theme="dark"]{
-  --roos:#E8899F; --blad:#7FBF9B;
-  --roos-zacht:#33212A; --roos-lijn:#4C3039; --blad-zacht:#1D2E26;
-  --inkt:#F3EAEC; --inkt-70:#C4B4BA; --grijs:#9C8D94;
-  --papier:#171316; --vlak:#1F1A1F; --lijn:#352C33; --wit:#1F1A1F;
-  --ok:#7FBF9B; --let:#E0A85C;
+  --roos:#F393AE; --blad:#74CBA3;
+  --roos-vlak:#B85376; --roos-zacht:#33212A; --roos-lijn:#4C303A;
+  --blad-vlak:#3E8F6C; --blad-zacht:#1C2F27;
+  --zon:#F0BE6A; --zon-vlak:#B98A38; --zon-zacht:#322715;
+  --lucht:#8FBEEB; --lucht-vlak:#3E6E9E; --lucht-zacht:#182734;
+  --inkt:#F5ECEF; --inkt-70:#C7B7BE; --grijs:#9E8F96;
+  --papier:#191418; --vlak:#221C21; --lijn:#372E35; --wit:#221C21;
+  --ok:#74CBA3; --let:#F0BE6A;
 }
 
 *,*::before,*::after{box-sizing:border-box}
@@ -88,6 +109,10 @@ a{color:inherit}
 .narrow{max-width:900px}
 .sec{padding-block:clamp(3rem,6.5vw,5.5rem)}
 .sec--vlak{background:var(--vlak);border-block:1px solid var(--lijn)}
+.sec--mint{background:var(--blad-zacht);border-block:1px solid var(--lijn)}
+.sec--lucht{background:var(--lucht-zacht);border-block:1px solid var(--lijn)}
+.sec--zon{background:var(--zon-zacht);border-block:1px solid var(--lijn)}
+.sec--roos{background:var(--roos-zacht);border-block:1px solid var(--lijn)}
 .measure{max-width:64ch}
 .lede{font-size:clamp(1.08rem,1.5vw,1.24rem);line-height:1.6;color:var(--inkt-70)}
 .small{font-size:.92rem}
@@ -126,14 +151,15 @@ a{color:inherit}
 .btn svg{flex:0 0 17px;width:17px;height:17px}
 
 /* ======================= kop van de site ======================= */
-.utility{background:var(--inkt);color:var(--papier);font-size:.82rem}
+.utility{background:var(--blad-zacht);color:var(--inkt);font-size:.82rem;border-bottom:1px solid var(--lijn)}
 .utility__in{display:flex;flex-wrap:wrap;gap:.3rem 1.6rem;align-items:center;min-height:38px;padding-block:.35rem}
 .utility a{text-decoration:none}
 .utility a:hover{text-decoration:underline;text-underline-offset:3px}
 .utility li{display:flex;align-items:center;gap:.45rem}
 .utility ul{display:flex;flex-wrap:wrap;gap:.3rem 1.6rem;list-style:none;margin:0;padding:0}
 .utility .rechts{margin-left:auto;display:flex;gap:1.3rem}
-.utility svg{width:15px;height:15px;opacity:.75}
+.utility svg{width:15px;height:15px;color:var(--blad)}
+.utility .rechts a:hover{color:var(--roos)}
 @media (max-width:760px){.utility .verberg-s{display:none}}
 
 .masthead{
@@ -177,10 +203,10 @@ a{color:inherit}
 
 .beeld{
   position:relative;border:1px solid var(--lijn);border-radius:var(--rad);
-  background:linear-gradient(170deg,var(--roos-zacht) 0%,var(--vlak) 62%,var(--blad-zacht) 100%);
+  background:linear-gradient(165deg,var(--zon-zacht) 0%,var(--wit) 58%,var(--blad-zacht) 100%);
   aspect-ratio:5/4;max-width:100%;overflow:hidden;
 }
-.beeld__roos{position:absolute;right:6%;top:7%;width:40%;height:auto;color:var(--roos);opacity:.9}
+.beeld__roos{position:absolute;right:6%;top:7%;width:40%;height:auto;color:var(--roos);opacity:1}
 .beeld__grond{position:absolute;left:0;right:0;bottom:0;height:30%;background:var(--wit);opacity:.55;border-top:1px solid var(--roos-lijn)}
 .beeld__kind{position:absolute;bottom:14%;color:var(--inkt)}
 .beeld__kind--a{left:7%;width:24%}
@@ -193,7 +219,7 @@ a{color:inherit}
 }
 
 /* feitenstrook */
-.feiten{border-top:1px solid var(--lijn);background:var(--vlak)}
+.feiten{border-top:1px solid var(--lijn);background:var(--wit)}
 .feiten__in{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
 @media (max-width:820px){.feiten__in{grid-template-columns:1fr 1fr}}
 .feit{padding:1.15rem 0;display:flex;gap:.8rem;align-items:flex-start}
@@ -261,9 +287,10 @@ a{color:inherit}
   background:var(--roos-zacht);
 }
 .loc--b .loc__beeld{background:var(--blad-zacht)}
-.loc--c .loc__beeld{background:var(--vlak)}
-.loc__beeld svg.rk{position:absolute;right:-6px;top:-14px;width:118px;color:var(--roos);opacity:.42}
+.loc--c .loc__beeld{background:var(--lucht-zacht)}
+.loc__beeld svg.rk{position:absolute;right:-6px;top:-14px;width:118px;color:var(--roos);opacity:.55}
 .loc--b .loc__beeld svg.rk{color:var(--blad)}
+.loc--c .loc__beeld svg.rk{color:var(--lucht)}
 .loc__beeld svg.kd{position:absolute;left:20px;bottom:0;width:58px;color:var(--inkt);opacity:.75}
 .loc__beeld svg.kd2{position:absolute;left:78px;bottom:0;width:42px;color:var(--inkt);opacity:.35}
 .loc__body{padding:1.15rem 1.3rem 1.35rem;display:flex;flex-direction:column;gap:.75rem;flex:1}
@@ -343,8 +370,8 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;bac
 .bedrag-sub{font-size:.88rem;color:var(--grijs);margin-top:.35rem}
 .verdeling{display:flex;height:8px;border-radius:99px;overflow:hidden;background:var(--lijn)}
 .verdeling i{display:block;transition:flex-grow .4s cubic-bezier(.4,0,.2,1)}
-.verdeling .s-toeslag{background:var(--blad)}
-.verdeling .s-eigen{background:var(--roos)}
+.verdeling .s-toeslag{background:var(--blad-vlak)}
+.verdeling .s-eigen{background:var(--roos-vlak)}
 .legenda{display:flex;flex-wrap:wrap;gap:.4rem 1.2rem;font-size:.84rem;color:var(--inkt-70)}
 .legenda span{display:inline-flex;align-items:center;gap:.4rem}
 .stip{width:9px;height:9px;border-radius:50%;flex:0 0 9px}
@@ -431,23 +458,22 @@ textarea:focus{border-color:var(--roos)}
 .contactlijst span{font-size:.9rem;color:var(--inkt-70)}
 
 /* ======================= voet ======================= */
-.voet{background:var(--inkt);color:var(--papier);padding-block:clamp(2.6rem,5vw,4rem) 2rem;margin-top:0}
+.voet{background:var(--blad-zacht);color:var(--inkt);border-top:1px solid var(--lijn);padding-block:clamp(2.6rem,5vw,4rem) 2rem}
 .voet a{text-decoration:none}
 .voet a:hover{text-decoration:underline;text-underline-offset:3px}
 .voet__grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:clamp(1.6rem,3vw,2.6rem)}
 @media (max-width:880px){.voet__grid{grid-template-columns:1fr 1fr}}
 @media (max-width:520px){.voet__grid{grid-template-columns:1fr}}
-.voet h4{font-size:.73rem;text-transform:uppercase;letter-spacing:.15em;opacity:.6;margin-bottom:.9rem}
+.voet h4{font-size:.73rem;text-transform:uppercase;letter-spacing:.15em;color:var(--blad);margin-bottom:.9rem}
+.voet a:hover{color:var(--roos)}
 .voet ul{list-style:none;margin:0;padding:0;display:grid;gap:.55rem;font-size:.92rem}
-.voet .lrk{font-size:.79rem;opacity:.55;font-variant-numeric:tabular-nums;display:block}
-.voet .merk__naam{color:var(--papier)}
-.voet .merk__mark{color:var(--papier)}
+.voet .lrk{font-size:.79rem;color:var(--grijs);font-variant-numeric:tabular-nums;display:block}
+.voet .merk__mark{color:var(--roos)}
 .voet__onder{
-  margin-top:2.6rem;padding-top:1.3rem;border-top:1px solid rgba(255,255,255,.16);
-  display:flex;flex-wrap:wrap;gap:.6rem 1.6rem;justify-content:space-between;font-size:.8rem;opacity:.68;
+  margin-top:2.6rem;padding-top:1.3rem;border-top:1px solid var(--lijn);
+  display:flex;flex-wrap:wrap;gap:.6rem 1.6rem;justify-content:space-between;
+  font-size:.8rem;color:var(--grijs);
 }
-:root[data-theme="dark"] .voet__onder,
-:root:not([data-theme="light"]) .voet__onder{border-top-color:color-mix(in srgb, currentColor 22%, transparent)}
 
 /* mobiele balk */
 .mobalk{
@@ -548,7 +574,7 @@ html{scroll-behavior:smooth}
 <div class="utility">
   <div class="wrap utility__in">
     <ul>
-      <li><svg aria-hidden="true"><use href="#i-klok"/></svg> Maandag t/m vrijdag · 07:30 – 18:30</li>
+      <li><svg aria-hidden="true"><use href="#i-klok"/></svg> Ma t/m vr 07:30 – 18:30 · zaterdag en zondag in overleg</li>
       <li class="verberg-s"><svg aria-hidden="true"><use href="#i-checkrond"/></svg> Geregistreerd in het Landelijk Register Kinderopvang</li>
     </ul>
     <div class="rechts">
@@ -592,9 +618,9 @@ html{scroll-behavior:smooth}
 <section class="hero">
   <div class="wrap hero__grid">
     <div class="hero__copy">
-      <span class="kop">Kinderopvang 0 – 4 jaar in Amsterdam</span>
-      <h1>Een plek waar uw kind <em>gezien</em> wordt, elke dag opnieuw.</h1>
-      <p class="lede measure">KDV Roosje is een kleinschalig kinderdagverblijf met drie locaties in Amsterdam-West en Amsterdam-Zuid. Wij werken met vaste verticale groepen, een eigen mentor per kind en een dagritme waar ouders op kunnen bouwen.</p>
+      <span class="kop">Kinderdagverblijf in Amsterdam · De Baarsjes &amp; Geuzenveld</span>
+      <h1>Veilige en <em>liefdevolle</em> opvang, met aandacht voor elk kind.</h1>
+      <p class="lede measure">KDV Roosje biedt kinderen van 0 tot 4 jaar een veilige, liefdevolle en leerzame omgeving om in te groeien. Kleine groepen, ervaren leidsters en persoonlijke aandacht — structuur, warmte en plezier voor zowel ouder als kind.</p>
       <div class="hero__acties">
         <a class="btn" href="#contact">Rondleiding aanvragen</a>
         <a class="btn btn--lijn" href="#plek">Beschikbaarheid bekijken</a>
@@ -608,21 +634,21 @@ html{scroll-behavior:smooth}
       <svg class="beeld__kind beeld__kind--a" viewBox="0 0 80 130" aria-hidden="true"><use href="#kind-zwaai"/></svg>
       <svg class="beeld__kind beeld__kind--b" viewBox="0 0 80 130" aria-hidden="true"><use href="#kind-loop"/></svg>
       <svg class="beeld__kind beeld__kind--c" viewBox="0 0 110 150" aria-hidden="true"><use href="#volwassen-kind"/></svg>
-      <figcaption class="beeld__bijschrift">De rozentuin bij de Baarsjesweg, waar de peuters elk voorjaar zelf planten.</figcaption>
+      <figcaption class="beeld__bijschrift">Drie verticale groepen — Vogels, Bijtjes en Vlinders — aan de Baarsjesweg.</figcaption>
     </figure>
   </div>
 
   <div class="feiten">
     <div class="wrap feiten__in">
-      <div class="feit"><svg aria-hidden="true"><use href="#i-groep"/></svg><div><b>0 tot 4 jaar</b><span>Verticale groepen van maximaal 12 kinderen</span></div></div>
-      <div class="feit"><svg aria-hidden="true"><use href="#i-klok"/></svg><div><b>07:30 – 18:30</b><span>Maandag tot en met vrijdag, 52 weken per jaar</span></div></div>
-      <div class="feit"><svg aria-hidden="true"><use href="#i-pin"/></svg><div><b>Drie locaties</b><span>De Baarsjes, Zuid en Nieuw-West</span></div></div>
+      <div class="feit"><svg aria-hidden="true"><use href="#i-groep"/></svg><div><b>0 tot 4 jaar</b><span>Kleine verticale groepen, ervaren leidsters</span></div></div>
+      <div class="feit"><svg aria-hidden="true"><use href="#i-klok"/></svg><div><b>07:30 – 18:30</b><span>Ma t/m vr · zaterdag en zondag in overleg</span></div></div>
+      <div class="feit"><svg aria-hidden="true"><use href="#i-pin"/></svg><div><b>Drie locaties</b><span>De Baarsjes, Geuzenveld en Zuid</span></div></div>
       <div class="feit"><svg aria-hidden="true"><use href="#i-checkrond"/></svg><div><b>GGD-geïnspecteerd</b><span>Rapporten en beleidsplannen openbaar</span></div></div>
     </div>
   </div>
 </section>
 
-<section class="sec sec--vlak" id="plek">
+<section class="sec sec--lucht" id="plek">
   <div class="wrap">
     <div class="checker">
       <div class="checker__uitleg">
@@ -729,15 +755,15 @@ html{scroll-behavior:smooth}
           </div>
           <span class="merkje">2 plaatsen beschikbaar</span>
           <dl>
-            <dt>Adres</dt><dd>Baarsjesweg 296-H<br>1058 AG Amsterdam</dd>
-            <dt>Groepen</dt><dd>Vogels, Bijtjes, Vlinders</dd>
+            <dt>Adres</dt><dd>Baarsjesweg 296<br>1058 AG Amsterdam</dd>
+            <dt>Groepen</dt><dd>Vogels, Bijtjes en Vlinders</dd>
             <dt>Plaatsen</dt><dd>39 kindplaatsen</dd>
-            <dt>Tuin</dt><dd>Diepe achtertuin met moestuinbak</dd>
+            <dt>Open</dt><dd>07:30 – 18:30, weekend in overleg</dd>
           </dl>
-          <p class="small" style="color:var(--inkt-70)">Ons grootste huis. Het Rembrandtpark ligt op vijf minuten lopen; de peuters gaan er twee keer per week met de bolderkar naartoe.</p>
+          <p class="small" style="color:var(--inkt-70)">Ons grootste huis, met drie verticale groepen. Het Rembrandtpark ligt op vijf minuten lopen; de peuters gaan er twee keer per week met de bolderkar naartoe.</p>
           <div class="loc__voet">
             <a class="btn btn--sm" href="#contact" data-loc="baarsjesweg">Rondleiding</a>
-            <a class="btn btn--sm btn--lijn" href="#dagindeling">Dagindeling</a>
+            <a class="btn btn--sm btn--lijn" href="https://kdvroosje.nl/baarsjes/" target="_blank" rel="noopener">Locatiepagina</a>
           </div>
         </div>
       </article>
@@ -755,14 +781,14 @@ html{scroll-behavior:smooth}
           <span class="merkje merkje--wacht">Wachtlijst ± 4 maanden</span>
           <dl>
             <dt>Adres</dt><dd>Zeilstraat 17-H<br>1075 SB Amsterdam</dd>
-            <dt>Groepen</dt><dd>Zonnebloemen</dd>
+            <dt>Groepen</dt><dd>Eén verticale groep</dd>
             <dt>Plaatsen</dt><dd>16 kindplaatsen</dd>
-            <dt>Tuin</dt><dd>Binnentuin op het zuiden</dd>
+            <dt>Open</dt><dd>07:30 – 18:30, weekend in overleg</dd>
           </dl>
           <p class="small" style="color:var(--inkt-70)">Eén groep, twee vaste medewerkers, veel rust. Geschikt voor kinderen die moeite hebben met drukte. Het Vondelpark ligt om de hoek.</p>
           <div class="loc__voet">
             <a class="btn btn--sm" href="#contact" data-loc="zeilstraat">Op de wachtlijst</a>
-            <a class="btn btn--sm btn--lijn" href="#dagindeling">Dagindeling</a>
+            <a class="btn btn--sm btn--lijn" href="https://kdvroosje.nl/contact/" target="_blank" rel="noopener">Contactpagina</a>
           </div>
         </div>
       </article>
@@ -780,15 +806,15 @@ html{scroll-behavior:smooth}
           </div>
           <span class="merkje">2 plaatsen beschikbaar</span>
           <dl>
-            <dt>Adres</dt><dd>Adresgegevens op aanvraag<br>Amsterdam Nieuw-West</dd>
-            <dt>Groepen</dt><dd>Mussen, Merels</dd>
+            <dt>Adres</dt><dd>Zie de locatiepagina<br>Amsterdam Nieuw-West</dd>
+            <dt>Groepen</dt><dd>Twee verticale groepen</dd>
             <dt>Plaatsen</dt><dd>24 kindplaatsen</dd>
-            <dt>Tuin</dt><dd>Omheind speelplein met zandbak</dd>
+            <dt>Open</dt><dd>07:30 – 18:30, weekend in overleg</dd>
           </dl>
           <p class="small" style="color:var(--inkt-70)">Hier bieden wij voorschoolse educatie (VVE) aan. Onze medewerkers spreken naast Nederlands ook Engels, Arabisch en Turks.</p>
           <div class="loc__voet">
             <a class="btn btn--sm" href="#contact" data-loc="geuzenveld">Rondleiding</a>
-            <a class="btn btn--sm btn--lijn" href="#dagindeling">Dagindeling</a>
+            <a class="btn btn--sm btn--lijn" href="https://kdvroosje.nl/geuzenveld/" target="_blank" rel="noopener">Locatiepagina</a>
           </div>
         </div>
       </article>
@@ -796,14 +822,14 @@ html{scroll-behavior:smooth}
 
     <div class="tabelwrap op" style="margin-top:clamp(1.8rem,3.5vw,2.6rem)">
       <table>
-        <caption>De drie locaties naast elkaar — stand per 1 september 2026</caption>
+        <caption>De drie locaties naast elkaar. Alle locaties zijn op werkdagen open van 07:30 tot 18:30; opvang op zaterdag en zondag is in overleg mogelijk. Stand per 1 september 2026.</caption>
         <thead>
           <tr><th scope="col">Locatie</th><th scope="col">Stadsdeel</th><th scope="col">Groepen</th><th scope="col" class="num">Kindplaatsen</th><th scope="col">Openingstijden</th><th scope="col">Beschikbaarheid</th></tr>
         </thead>
         <tbody>
-          <tr><th scope="row">Baarsjesweg</th><td>West</td><td>3 verticaal</td><td class="num">39</td><td>07:30 – 18:30</td><td style="color:var(--ok);font-weight:600">2 plaatsen</td></tr>
-          <tr><th scope="row">Zeilstraat</th><td>Zuid</td><td>1 verticaal</td><td class="num">16</td><td>07:30 – 18:30</td><td style="color:var(--let);font-weight:600">Wachtlijst ± 4 mnd</td></tr>
-          <tr><th scope="row">Geuzenveld</th><td>Nieuw-West</td><td>2 verticaal + VVE</td><td class="num">24</td><td>07:30 – 18:30</td><td style="color:var(--ok);font-weight:600">2 plaatsen</td></tr>
+          <tr><th scope="row">Baarsjesweg 296</th><td>De Baarsjes · West</td><td>Vogels, Bijtjes, Vlinders</td><td class="num">39</td><td>07:30 – 18:30<br><span class="grijs" style="font-size:.85em">weekend in overleg</span></td><td style="color:var(--ok);font-weight:600">2 plaatsen</td></tr>
+          <tr><th scope="row">Zeilstraat 17-H</th><td>Zuid</td><td>1 verticale groep</td><td class="num">16</td><td>07:30 – 18:30<br><span class="grijs" style="font-size:.85em">weekend in overleg</span></td><td style="color:var(--let);font-weight:600">Wachtlijst ± 4 mnd</td></tr>
+          <tr><th scope="row">Geuzenveld</th><td>Nieuw-West</td><td>2 verticale groepen</td><td class="num">24</td><td>07:30 – 18:30<br><span class="grijs" style="font-size:.85em">weekend in overleg</span></td><td style="color:var(--ok);font-weight:600">2 plaatsen</td></tr>
         </tbody>
       </table>
     </div>
@@ -843,7 +869,7 @@ html{scroll-behavior:smooth}
   </div>
 </section>
 
-<section class="sec sec--vlak" id="tarieven">
+<section class="sec sec--mint" id="tarieven">
   <div class="wrap">
     <div class="sec-head op">
       <span class="kop">Tarieven 2027</span>
@@ -914,8 +940,8 @@ html{scroll-behavior:smooth}
           </div>
           <div class="verdeling" aria-hidden="true"><i class="s-toeslag" id="s-toeslag" style="flex-grow:85"></i><i class="s-eigen" id="s-eigen" style="flex-grow:15"></i></div>
           <div class="legenda">
-            <span><i class="stip" style="background:var(--blad)"></i> Kinderopvangtoeslag</span>
-            <span><i class="stip" style="background:var(--roos)"></i> Eigen bijdrage</span>
+            <span><i class="stip" style="background:var(--blad-vlak)"></i> Kinderopvangtoeslag</span>
+            <span><i class="stip" style="background:var(--roos-vlak)"></i> Eigen bijdrage</span>
           </div>
           <ul class="specificatie">
             <li><span>Opvanguren per maand</span><b id="r-urenmaand">136,5</b></li>
@@ -941,14 +967,14 @@ html{scroll-behavior:smooth}
     <div class="prak">
       <div>
         <h3 style="font-size:1.15rem">Documenten en inspectie</h3>
-        <p class="small" style="color:var(--inkt-70);margin-top:.5rem">Wij publiceren onze beleidsstukken en de rapporten van de GGD volledig. In deze demo zijn het voorbeeldbestanden.</p>
+        <p class="small" style="color:var(--inkt-70);margin-top:.5rem">Wij publiceren onze beleidsstukken en de rapporten van de GGD volledig. De bovenste twee zijn de echte documenten van KDV Roosje; de rest staat klaar om te vullen.</p>
         <ul class="docs" id="documenten" style="margin-top:1.1rem">
-          <li><a href="#documenten"><svg aria-hidden="true"><use href="#i-doc"/></svg> Pedagogisch beleidsplan Baarsjesweg<span class="meta">PDF · feb 2026</span></a></li>
-          <li><a href="#documenten"><svg aria-hidden="true"><use href="#i-doc"/></svg> Beleid Veiligheid en Gezondheid<span class="meta">PDF · feb 2026</span></a></li>
-          <li><a href="#documenten"><svg aria-hidden="true"><use href="#i-doc"/></svg> GGD-inspectierapport Baarsjesweg<span class="meta">PDF · 2026</span></a></li>
-          <li><a href="#documenten"><svg aria-hidden="true"><use href="#i-doc"/></svg> GGD-inspectierapport Zeilstraat<span class="meta">PDF · 2026</span></a></li>
-          <li><a href="#documenten"><svg aria-hidden="true"><use href="#i-doc"/></svg> Huisreglement en klachtenregeling<span class="meta">PDF · 2026</span></a></li>
-          <li><a href="#documenten"><svg aria-hidden="true"><use href="#i-doc"/></svg> Jaarverslag oudercommissie<span class="meta">PDF · 2025</span></a></li>
+          <li><a href="https://kdvroosje.nl/wp-content/uploads/2026/02/Pedagogisch-beleidsplan-KDV-Roosje-Baarsjesweg-Februari-2026-v1.4.pdf" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-doc"/></svg> Pedagogisch beleidsplan — locatie Baarsjesweg<span class="meta">PDF · versie 1.4 · feb 2026</span></a></li>
+          <li><a href="https://kdvroosje.nl/wp-content/uploads/2026/02/Beleid-Veiligheid-en-Gezondheid-KDV-Roosjes-Baarsjesweg-Februari-2026-v1.4.pdf" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-doc"/></svg> Beleid Veiligheid en Gezondheid — locatie Baarsjesweg<span class="meta">PDF · versie 1.4 · feb 2026</span></a></li>
+          <li><a href="#documenten"><svg aria-hidden="true"><use href="#i-doc"/></svg> GGD-inspectierapport Baarsjesweg<span class="meta">nog toe te voegen</span></a></li>
+          <li><a href="#documenten"><svg aria-hidden="true"><use href="#i-doc"/></svg> GGD-inspectierapport Geuzenveld<span class="meta">nog toe te voegen</span></a></li>
+          <li><a href="#documenten"><svg aria-hidden="true"><use href="#i-doc"/></svg> Huisreglement en klachtenregeling<span class="meta">nog toe te voegen</span></a></li>
+          <li><a href="#documenten"><svg aria-hidden="true"><use href="#i-doc"/></svg> Jaarverslag oudercommissie<span class="meta">nog toe te voegen</span></a></li>
         </ul>
       </div>
 
@@ -1003,6 +1029,13 @@ html{scroll-behavior:smooth}
           </div>
         </details>
         <details>
+          <summary>Openingstijden en weekendopvang<svg class="teken" aria-hidden="true"><use href="#i-plus"/></svg></summary>
+          <div class="antwoord">
+            <p>Wij zijn op werkdagen open van 07:30 tot 18:30, het hele jaar door. Dat zijn ruime openingstijden: u kunt uw kind om half acht brengen en tot half zeven ophalen.</p>
+            <p>Werkt u in de zorg, de horeca of in ploegendienst? Opvang op zaterdag en zondag is bij Roosje in overleg mogelijk. Neem daarvoor contact op met de locatiemanager, dan kijken wij samen wat haalbaar is.</p>
+          </div>
+        </details>
+        <details>
           <summary>De ouderapp<svg class="teken" aria-hidden="true"><use href="#i-plus"/></svg></summary>
           <div class="antwoord">
             <p>In de ouderapp ziet u het dagbericht met eet-, slaap- en verschoonmomenten, en de foto's van die dag. U meldt er ziekte en vakantie, vraagt ruildagen aan en leest de nieuwsbrief. Foto's worden alleen gedeeld met de ouders van de kinderen die erop staan.</p>
@@ -1013,7 +1046,7 @@ html{scroll-behavior:smooth}
   </div>
 </section>
 
-<section class="sec sec--vlak" id="ouders">
+<section class="sec sec--zon" id="ouders">
   <div class="wrap">
     <div class="sec-head op">
       <span class="kop">Ouders over Roosje</span>
@@ -1058,7 +1091,7 @@ html{scroll-behavior:smooth}
   </div>
 </section>
 
-<section class="sec sec--vlak" id="contact">
+<section class="sec sec--roos" id="contact">
   <div class="wrap contact">
     <div>
       <span class="kop">Contact</span>
@@ -1066,8 +1099,9 @@ html{scroll-behavior:smooth}
       <p class="lede" style="margin-top:.8rem">Wij leiden rond op dinsdag- en donderdagochtend tussen 09:30 en 11:00, op een gewone opvangdag. Geen opgepoetste open dag: u ziet de groep zoals die is.</p>
       <ul class="contactlijst">
         <li><svg aria-hidden="true"><use href="#i-tel"/></svg><div><b>020 – 123 45 67</b><span>Maandag t/m vrijdag, 08:00 – 17:00</span></div></li>
+        <li><svg aria-hidden="true"><use href="#i-klok"/></svg><div><b>Openingstijden</b><span>Ma t/m vr 07:30 – 18:30 · zaterdag en zondag in overleg</span></div></li>
         <li><svg aria-hidden="true"><use href="#i-mail"/></svg><div><b>info@kdvroosje.nl</b><span>Reactie binnen één werkdag</span></div></li>
-        <li><svg aria-hidden="true"><use href="#i-pin"/></svg><div><b>Postadres</b><span>Baarsjesweg 296-H, 1058 AG Amsterdam</span></div></li>
+        <li><svg aria-hidden="true"><use href="#i-pin"/></svg><div><b>Postadres</b><span>Baarsjesweg 296, 1058 AG Amsterdam</span></div></li>
         <li><svg aria-hidden="true"><use href="#i-kal"/></svg><div><b>Rondleidingen</b><span>Dinsdag en donderdag, 09:30 – 11:00</span></div></li>
       </ul>
     </div>
@@ -1122,14 +1156,14 @@ html{scroll-behavior:smooth}
           </svg>
           <span><span class="merk__naam">Roosje</span></span>
         </div>
-        <p class="small" style="opacity:.8;max-width:36ch">Kinderdagverblijf voor kinderen van 0 tot 4 jaar. Drie kleinschalige locaties in Amsterdam-West en Amsterdam-Zuid, sinds 2008.</p>
+        <p class="small" style="color:var(--inkt-70);max-width:36ch">Veilige en liefdevolle opvang voor kinderen van 0 tot 4 jaar. Kleine groepen, ervaren leidsters en persoonlijke aandacht voor elk kind.</p>
       </div>
       <div>
         <h4>Locaties</h4>
         <ul>
-          <li>Baarsjesweg 296-H<span class="lrk">1058 AG Amsterdam · LRK 000000001</span></li>
-          <li>Zeilstraat 17-H<span class="lrk">1075 SB Amsterdam · LRK 000000002</span></li>
-          <li>Geuzenveld<span class="lrk">Amsterdam Nieuw-West · LRK 000000003</span></li>
+          <li><a href="https://kdvroosje.nl/baarsjes/" target="_blank" rel="noopener">Baarsjesweg 296</a><span class="lrk">1058 AG Amsterdam · De Baarsjes</span></li>
+          <li>Zeilstraat 17-H<span class="lrk">1075 SB Amsterdam · Zuid</span></li>
+          <li><a href="https://kdvroosje.nl/geuzenveld/" target="_blank" rel="noopener">Geuzenveld</a><span class="lrk">Amsterdam Nieuw-West</span></li>
         </ul>
       </div>
       <div>
@@ -1149,13 +1183,14 @@ html{scroll-behavior:smooth}
           <li><a href="tel:+31201234567">020 – 123 45 67</a></li>
           <li><a href="mailto:info@kdvroosje.nl">info@kdvroosje.nl</a></li>
           <li>Ma t/m vr · 07:30 – 18:30</li>
-          <li><a href="#contact">Rondleiding aanvragen</a></li>
+          <li>Zaterdag en zondag in overleg</li>
+          <li><a href="https://kdvroosje.nl/contact/" target="_blank" rel="noopener">Contactpagina</a></li>
         </ul>
       </div>
     </div>
     <div class="voet__onder">
       <span>© 2026 Stichting Kinderopvang Roosje · KvK 98814710</span>
-      <span>Ontwerpdemo. Tarieven, telefoonnummer, LRK-nummers, citaten en enkele adresgegevens zijn ter illustratie ingevuld.</span>
+      <span>Ontwerpdemo. Locaties, groepsnamen, openingstijden en de beleidsdocumenten zijn echt; tarieven, telefoonnummer en citaten zijn ter illustratie ingevuld.</span>
     </div>
   </div>
 </footer>
