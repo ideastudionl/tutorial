@@ -18,19 +18,19 @@
         "type": "color",
         "id": "color_brand",
         "label": "t:settings.colors.brand",
-        "default": "#1f4d3d"
+        "default": "#0f6b46"
       },
       {
         "type": "color",
         "id": "color_brand_hover",
         "label": "t:settings.colors.brand_hover",
-        "default": "#28624e"
+        "default": "#0a5537"
       },
       {
         "type": "color",
         "id": "color_accent",
         "label": "t:settings.colors.accent",
-        "default": "#c98a3c",
+        "default": "#b57b1e",
         "info": "t:settings.colors.accent_info"
       },
       {
@@ -41,13 +41,13 @@
         "type": "color",
         "id": "color_ink",
         "label": "t:settings.colors.ink",
-        "default": "#14201c"
+        "default": "#111a15"
       },
       {
         "type": "color",
         "id": "color_ink_soft",
         "label": "t:settings.colors.ink_soft",
-        "default": "#4a5b54"
+        "default": "#55625b"
       },
       {
         "type": "header",
@@ -63,13 +63,13 @@
         "type": "color",
         "id": "color_sand",
         "label": "t:settings.colors.sand",
-        "default": "#f6f3ee"
+        "default": "#f1f2ee"
       },
       {
         "type": "color",
         "id": "color_line",
         "label": "t:settings.colors.line",
-        "default": "#e3ded6"
+        "default": "#dfe2db"
       },
       {
         "type": "header",
@@ -79,7 +79,7 @@
         "type": "color",
         "id": "color_cta",
         "label": "t:settings.colors.cta",
-        "default": "#1f4d3d",
+        "default": "#0f6b46",
         "info": "t:settings.colors.cta_info"
       },
       {
@@ -92,13 +92,13 @@
         "type": "color",
         "id": "color_sale",
         "label": "t:settings.colors.sale",
-        "default": "#b4432f"
+        "default": "#b6412a"
       },
       {
         "type": "color",
         "id": "color_success",
         "label": "t:settings.colors.success",
-        "default": "#2f7d5b"
+        "default": "#147a52"
       }
     ]
   },
@@ -160,7 +160,7 @@
         "max": 1600,
         "step": 40,
         "unit": "px",
-        "default": 1360
+        "default": 1320
       },
       {
         "type": "range",
@@ -170,7 +170,7 @@
         "max": 24,
         "step": 2,
         "unit": "px",
-        "default": 12
+        "default": 2
       },
       {
         "type": "range",
@@ -180,7 +180,7 @@
         "max": 32,
         "step": 2,
         "unit": "px",
-        "default": 8
+        "default": 2
       },
       {
         "type": "checkbox",

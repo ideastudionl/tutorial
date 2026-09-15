@@ -2,55 +2,72 @@
 
 ## 1. Navigation
 
-Built from buyer intent, not from Forever's internal catalogue tree.
+Built from the categories the live catalogue actually uses. An earlier draft of this document
+re-grouped C9 and F15 under an invented "Programma's" parent; that has been reverted. Inventing a
+category tier costs existing URLs and existing search equity, and buyers already search for "C9"
+and "F15" by name — so the real eight categories are kept verbatim.
 
 ```
 SHOP (mega menu)
-├─ Programma's        → /collections/programmas      (C9, F15)
-├─ Dranken            → /collections/dranken         (aloe vera gels/drinks)
-├─ Supplementen       → /collections/supplementen
-├─ Sport & Fitness    → /collections/sport-fitness
-├─ Huidverzorging     → /collections/huidverzorging
-├─ Persoonlijke verzorging → /collections/persoonlijke-verzorging
-├─ Bijenproducten     → /collections/bijenproducten
-└─ [promo column]  Bestsellers · Nieuw · Aanbiedingen · Bundels
+├─ C9 kuur                  → /collections/c9-kuur
+├─ Forever F15              → /collections/forever-f15
+├─ Sport & Fitness          → /collections/sport-fitness
+├─ Dranken                  → /collections/dranken
+├─ Huidverzorging           → /collections/huidverzorging
+├─ Persoonlijke verzorging  → /collections/persoonlijke-verzorging
+├─ Voedingssupplementen     → /collections/voedingssupplementen
+├─ Bijenproducten           → /collections/bijenproducten
+└─ [promo column]  De C9 kuur
 
-C9              → /collections/c9          (own landing, highest commercial value)
-F15             → /collections/f15
-Sport & Fitness → /collections/sport-fitness
-Wellness        → /collections/wellness
-Over ons        → /pages/over-ons
+C9 kuur          → top-level, highest commercial value and the brand's namesake
+Forever F15      → top-level, the follow-on programme
+Sport & Fitness  → top-level
+Over ons         → /pages/over-ons
 ```
 
 Utility: Zoeken · Account · Cart. Mobile header: logo · zoeken · cart · hamburger.
 
-Rationale: max two clicks to any product. "Programma's" groups C9 and F15 because buyers
-shop the *outcome* (a 9-day programme) not the *SKU*. C9 additionally gets a top-level slot
-because it is the primary demand driver and the brand's namesake.
+**Verify the handles before launch.** The handles above are the expected slugs; the live
+collection handles could not be read from this environment (egress blocked, and the connected
+Admin API belongs to a different store). Whatever the live handles are, keep them — do not rename
+collections as part of this redesign.
+
+Rationale: every product is at most two clicks away. The mega menu shows a live product count per
+category, which both helps the visitor choose and signals that the catalogue is real and stocked.
 
 ## 2. Collection architecture
 
-| Handle | Purpose | Filters that matter |
-| --- | --- | --- |
-| `c9` | Hero programme, all flavour variants | smaak, prijs, beschikbaarheid |
-| `f15` | Follow-on programme | niveau, smaak |
-| `programmas` | C9 + F15 parent | programma, duur |
-| `dranken` | Aloe gels & drinks | smaak, inhoud |
-| `supplementen` | Daily supplements | doel, vorm |
-| `sport-fitness` | Sport range | doel, vorm |
-| `huidverzorging` | Skincare | huidtype, producttype |
-| `persoonlijke-verzorging` | Personal care | producttype |
-| `bijenproducten` | Bee products | producttype |
-| `bestsellers` | Social-proof driven | — |
-| `nieuw` | Recency | — |
-| `aanbiedingen` | Price-led | — |
-| `bundels` | AOV | — |
+| Category | Filters that matter |
+| --- | --- |
+| C9 kuur | smaak, beschikbaarheid |
+| Forever F15 | niveau, smaak |
+| Sport & Fitness | doel, vorm |
+| Dranken | smaak, inhoud |
+| Huidverzorging | huidtype, producttype |
+| Persoonlijke verzorging | producttype |
+| Voedingssupplementen | doel, vorm |
+| Bijenproducten | producttype |
+
+Plus merchandising collections that cut across the eight: `bestsellers`, `nieuw`, `aanbiedingen`,
+`bundels`.
 
 Filters are delivered by **Shopify Search & Discovery** (native `filters` on the collection
-object) — no filter app, no extra JS. Recommended facet setup in the Search & Discovery app:
-product type, availability, price, plus metafield facets `smaak` and `doel`.
+object) — no filter app, no extra JavaScript. Recommended facet setup in the Search & Discovery
+app: product type, availability, price, plus metafield facets `smaak` and `doel`.
 
 Keep facets to a maximum of five per collection. More than that measurably reduces use.
+
+### One catalogue change worth making
+
+The five C9 flavours are currently five separate products with five handles
+(`c9-gel-vanilla-nl`, `c9-berry-chocolate-nl-1`, `c9-peach-vanilla-nl`, …). That splits the
+ranking signal for the shop's single most valuable search term across five URLs, and it splits
+reviews across five products.
+
+Recommendation: consolidate them into **one product with a "Smaak" variant option**, pick the
+strongest-ranking handle as the canonical one, and 301 the other four onto it. The prototype's
+product page shows this working. It is a catalogue change, not a theme change, and it should be
+done in the Admin before the theme goes live so the redirects land in the same deploy.
 
 ## 3. URL & redirect policy
 

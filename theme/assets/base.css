@@ -49,9 +49,11 @@
   --tracking-tight: -0.02em;
   --tracking-wide: 0.08em;
 
-  /* Elevation — deliberately only two */
-  --shadow-1: 0 1px 2px rgba(20, 32, 28, 0.04), 0 8px 24px rgba(20, 32, 28, 0.07);
-  --shadow-2: 0 4px 12px rgba(20, 32, 28, 0.08), 0 24px 60px rgba(20, 32, 28, 0.16);
+  /* Elevation — deliberately only two, and used sparingly. The design
+     language is flat: borders and colour blocks separate things, shadow is
+     reserved for surfaces that genuinely float (drawers, the search panel). */
+  --shadow-1: 0 1px 2px rgba(17, 26, 21, 0.04), 0 8px 24px rgba(17, 26, 21, 0.06);
+  --shadow-2: 0 4px 12px rgba(17, 26, 21, 0.08), 0 24px 60px rgba(17, 26, 21, 0.18);
 
   /* Motion */
   --ease: cubic-bezier(0.2, 0.7, 0.3, 1);
@@ -208,15 +210,29 @@ summary::-webkit-details-marker { display: none; }
 .section-head__text p { color: var(--c-ink-soft); }
 .section-head h2 { margin-bottom: var(--sp-2); }
 
+/* Micro-label. The recurring structural device: a rule, then a short
+   wide-tracked label. It must always carry real information — a count, a
+   step, a category — never decoration. See docs/04-design-system.md. */
 .eyebrow {
-  display: block;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
   font-size: var(--fs-2xs);
   font-weight: 600;
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
-  color: var(--c-brand);
-  margin-bottom: var(--sp-2);
+  color: var(--c-ink-soft);
+  margin-bottom: var(--sp-3);
 }
+.eyebrow::before {
+  content: "";
+  width: 14px;
+  height: 1px;
+  background: var(--c-brand);
+  flex: none;
+}
+.eyebrow--plain::before { display: none; }
+.eyebrow b { color: var(--c-brand); font-weight: 700; font-variant-numeric: tabular-nums; }
 
 .grid { display: grid; gap: var(--sp-6); }
 .grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
