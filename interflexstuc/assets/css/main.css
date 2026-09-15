@@ -706,14 +706,17 @@ a:hover > .ifs-media img, .ifs-card--link:hover .ifs-media img { transform: scal
 
 /* Zijkolom offerte */
 .ifs-quote__aside { display: grid; gap: 1rem; position: sticky; top: calc(var(--ifs-header-h) + 24px); }
-.ifs-quote__aside .ifs-card { background: #fff; }
+/* :not() erbij, anders wint deze van .ifs-contact-card en wordt de donkere
+   contactkaart wit — inclusief de witte knop erop. */
+.ifs-quote__aside .ifs-card:not(.ifs-contact-card) { background: #fff; }
 .ifs-quote__aside h3 { font-size: var(--ifs-fs-lg); }
 .ifs-quote__aside ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .75rem; font-size: var(--ifs-fs-sm); }
 .ifs-quote__aside li { display: flex; gap: .65rem; align-items: flex-start; }
 .ifs-quote__aside li svg { width: 19px; height: 19px; color: var(--ifs-green); flex: none; margin-top: 2px; }
 .ifs-contact-card { background: var(--ifs-ink); color: #93A1B8; }
 .ifs-contact-card h3 { color: #fff; }
-.ifs-contact-card a { color: #fff; }
+/* Niet op knoppen: die halen hun kleur uit --btn-fg en werden zo wit-op-wit. */
+.ifs-contact-card a:not(.ifs-btn) { color: #fff; }
 
 /* ---------- 8. Responsive ---------- */
 @media (max-width: 1080px) {

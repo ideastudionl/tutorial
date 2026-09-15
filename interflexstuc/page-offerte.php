@@ -55,7 +55,18 @@ $ifs_reviews = ifs_get_items( 'ifs_review', 2 );
 
 				<div class="ifs-card ifs-contact-card">
 					<h3>Liever bellen?</h3>
-					<p style="font-size:var(--ifs-fs-sm)"><?php echo esc_html( implode( ' · ', array_keys( ifs_hours() ) ) ); ?></p>
+					<?php $ifs_hours = ifs_hours(); ?>
+					<?php if ( $ifs_hours ) : ?>
+						<p style="font-size:var(--ifs-fs-sm)">
+							<?php
+							$ifs_lines = array();
+							foreach ( $ifs_hours as $ifs_label => $ifs_time ) {
+								$ifs_lines[] = $ifs_label . ': ' . $ifs_time;
+							}
+							echo esc_html( implode( ' · ', $ifs_lines ) );
+							?>
+						</p>
+					<?php endif; ?>
 					<p>
 						<a class="ifs-btn ifs-btn--light ifs-btn--block" href="<?php echo esc_url( ifs_phone_href() ); ?>">
 							<?php ifs_the_icon( 'phone', 18 ); ?> <?php echo esc_html( ifs_option( 'phone' ) ); ?>
