@@ -984,3 +984,97 @@ a:hover > .ifs-media img, .ifs-card--link:hover .ifs-media img { transform: scal
   .ifs-area__row { flex-wrap: wrap; }
   .ifs-area__result { min-width: auto; margin-left: auto; }
 }
+
+/* ===========================================================
+   Offerte-wizard: compacte uitvoering + venster
+   =========================================================== */
+
+/* Keuzekaarten: één regel per optie, geen omschrijving meer. */
+.ifs-options { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: .5rem; }
+.ifs-option__box { padding: .7rem .85rem; gap: .65rem; border-width: 1px; align-items: center; }
+.ifs-option__icon { width: 30px; height: 30px; border-radius: 8px; }
+.ifs-option__label { font-family: var(--ifs-font-head); font-size: var(--ifs-fs-sm); font-weight: 500; color: var(--ifs-ink); line-height: 1.3; }
+.ifs-option__check { width: 18px; height: 18px; border-width: 1px; }
+.ifs-option:hover .ifs-option__box { transform: none; border-color: var(--ifs-stone-soft); }
+.ifs-option input:checked + .ifs-option__box { border-color: var(--ifs-blue); border-width: 1px; box-shadow: inset 0 0 0 1px var(--ifs-blue); }
+
+/* Kop en voortgang strakker. */
+.ifs-wizard__head { padding: 1.15rem clamp(1.15rem, 1rem + 1vw, 1.75rem) 0; }
+.ifs-wizard__body { padding: 1.15rem clamp(1.15rem, 1rem + 1vw, 1.75rem); }
+.ifs-wizard__nav { padding: 1rem clamp(1.15rem, 1rem + 1vw, 1.75rem); }
+.ifs-wizard__trust { padding: .7rem clamp(1.15rem, 1rem + 1vw, 1.75rem); gap: .35rem 1.15rem; }
+.ifs-step-panel h2 { font-size: var(--ifs-fs-lg); margin-bottom: .25rem; }
+.ifs-step-panel__hint { margin-bottom: 1rem; }
+.ifs-price-panel { margin-top: .9rem; padding: .7rem .9rem; }
+.ifs-price-panel__figure { align-items: baseline; gap: .2rem .6rem; }
+.ifs-price-panel__label { width: auto; font-size: .68rem; }
+.ifs-price-panel__figure strong { font-size: clamp(1.15rem, 1rem + .7vw, 1.5rem); }
+
+/* Velden in een raster: postcode en plaats naast elkaar op één helft. */
+.ifs-fields--grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: .8rem; }
+.ifs-field--full { grid-column: 1 / -1; }
+.ifs-field--half { grid-column: span 2; }
+.ifs-field--quarter { grid-column: span 1; }
+.ifs-field input, .ifs-field select, .ifs-field textarea { padding: .65rem .8rem; border-width: 1px; }
+.ifs-field label { font-size: var(--ifs-fs-xs); font-weight: 500; }
+.ifs-field textarea { min-height: 72px; }
+@media (max-width: 620px) {
+  .ifs-fields--grid { grid-template-columns: repeat(2, 1fr); }
+  .ifs-field--half { grid-column: 1 / -1; }
+}
+
+/* Samenvatting van de vorige stappen, inline boven de gegevens. */
+.ifs-recap {
+  display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.15rem;
+  padding: .8rem .95rem; background: var(--ifs-mist); border-radius: var(--ifs-radius-sm);
+  font-size: var(--ifs-fs-xs);
+}
+.ifs-recap dl { margin: 0; display: grid; gap: .3rem; flex: 1; min-width: 0; }
+.ifs-recap .ifs-summary__row { display: flex; gap: .5rem; }
+.ifs-recap dt { color: var(--ifs-stone); flex: none; }
+.ifs-recap dd { margin: 0; font-weight: 500; color: var(--ifs-ink); }
+.ifs-recap__edit {
+  flex: none; background: none; border: 0; padding: 0; cursor: pointer;
+  color: var(--ifs-blue); font-weight: 500; font-size: var(--ifs-fs-xs); text-decoration: underline;
+}
+
+.ifs-consent { margin-top: 1rem; }
+.ifs-activity { padding: .55rem clamp(1.15rem, 1rem + 1vw, 1.75rem); }
+.ifs-area { margin-top: 1.15rem; }
+.ifs-area__or { margin-bottom: .9rem }
+.ifs-area__tabs { margin-bottom: .9rem }
+
+/* ---- Venster ---- */
+.ifs-modal {
+  width: min(620px, calc(100vw - 2rem));
+  max-height: min(90vh, 900px);
+  padding: 0; border: 0; border-radius: var(--ifs-radius-lg);
+  background: var(--ifs-white); color: var(--ifs-ink-soft);
+  box-shadow: var(--ifs-shadow-lg);
+  overflow: hidden;
+}
+.ifs-modal::backdrop { background: rgba(11, 27, 51, .55); }
+.ifs-modal[open] { display: flex; flex-direction: column; }
+.ifs-modal__head {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem;
+  padding: 1.25rem clamp(1.15rem, 1rem + 1vw, 1.75rem) 1rem;
+  border-bottom: 1px solid var(--ifs-line-soft); flex: none;
+}
+.ifs-modal__eyebrow {
+  margin: 0 0 .15rem; font-size: var(--ifs-fs-xs); font-weight: 500;
+  letter-spacing: .06em; text-transform: uppercase; color: var(--ifs-green);
+}
+.ifs-modal__title { margin: 0; font-size: var(--ifs-fs-xl); }
+.ifs-modal__close {
+  flex: none; width: 34px; height: 34px; display: grid; place-items: center; cursor: pointer;
+  background: var(--ifs-mist); border: 0; border-radius: 50%; color: var(--ifs-stone);
+}
+.ifs-modal__close:hover { background: var(--ifs-mist-deep); color: var(--ifs-ink); }
+.ifs-modal__body { overflow-y: auto; -webkit-overflow-scrolling: touch; }
+
+/* In het venster draagt de kaart zelf geen rand of schaduw meer. */
+.ifs-wizard--compact { box-shadow: none; border-radius: 0; }
+.ifs-wizard--compact .ifs-wizard__nav { position: sticky; bottom: 0; background: var(--ifs-white); }
+@media (max-width: 560px) {
+  .ifs-modal { width: 100vw; max-width: 100vw; max-height: 100dvh; height: 100dvh; border-radius: 0; }
+}

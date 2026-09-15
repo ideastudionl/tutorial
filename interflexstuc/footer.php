@@ -128,8 +128,10 @@ $ifs_socials = array_filter( $ifs_socials );
 	<a class="ifs-btn ifs-btn--ghost" href="<?php echo esc_url( ifs_phone_href() ); ?>">
 		<?php ifs_the_icon( 'phone', 18 ); ?> Bel direct
 	</a>
-	<a class="ifs-btn" href="<?php echo esc_url( ifs_quote_url() ); ?>">Offerte aanvragen</a>
+	<a class="ifs-btn" href="<?php echo esc_url( ifs_quote_url() ); ?>" data-quote-open>Offerte aanvragen</a>
 </div>
+
+<?php get_template_part( 'template-parts/quote-modal' ); ?>
 
 <?php wp_footer(); ?>
 </body>

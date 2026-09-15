@@ -1,24 +1,28 @@
 <?php
 /**
- * Meerstaps offerte-wizard.
+ * Offerte-wizard.
+ *
+ * Vier stappen, compact genoeg om ook in een venster te passen.
  *
  * Argumenten (via get_template_part):
- *   compact  bool   Toon geen zijkolom-onderdelen.
- *   preset   string Vooraf geselecteerde waarde voor stap 1.
+ *   preset  string  Vooraf geselecteerde waarde voor stap 1.
+ *   compact bool    Strakkere variant voor in de popup.
  *
  * @package Interflex_Stuc
  */
 
 defined( 'ABSPATH' ) || exit;
 
-$ifs_steps  = ifs_quote_steps();
-$ifs_total  = count( $ifs_steps ) + 1; // +1 voor de samenvattingsstap.
-$ifs_preset = isset( $args['preset'] ) ? sanitize_key( $args['preset'] ) : '';
-$ifs_uid    = wp_unique_id( 'ifs-wizard-' );
+$ifs_steps   = ifs_quote_steps();
+$ifs_total   = count( $ifs_steps );
+$ifs_preset  = isset( $args['preset'] ) ? sanitize_key( $args['preset'] ) : '';
+$ifs_compact = ! empty( $args['compact'] );
+$ifs_uid     = wp_unique_id( 'ifs-wizard-' );
+$ifs_recent  = ifs_recent_quotes( 1 );
 ?>
-<div class="ifs-wizard" id="<?php echo esc_attr( $ifs_uid ); ?>" data-wizard data-total="<?php echo esc_attr( $ifs_total ); ?>">
+<div class="ifs-wizard<?php echo $ifs_compact ? ' ifs-wizard--compact' : ''; ?>"
+	id="<?php echo esc_attr( $ifs_uid ); ?>" data-wizard data-total="<?php echo esc_attr( $ifs_total ); ?>">
 
-	<?php $ifs_recent = ifs_recent_quotes( 1 ); ?>
 	<?php if ( $ifs_recent ) : ?>
 		<p class="ifs-activity">
 			<span class="ifs-activity__dot" aria-hidden="true"></span>
@@ -36,7 +40,7 @@ $ifs_uid    = wp_unique_id( 'ifs-wizard-' );
 	<div class="ifs-wizard__head">
 		<div class="ifs-wizard__progress">
 			<span class="ifs-wizard__count" data-counter>Stap <b>1</b> van <?php echo esc_html( $ifs_total ); ?></span>
-			<span class="ifs-wizard__time"><?php ifs_the_icon( 'clock', 14 ); ?> Klaar in ± 3 minuten</span>
+			<span class="ifs-wizard__time"><?php ifs_the_icon( 'clock', 14 ); ?> ± 2 minuten</span>
 		</div>
 		<div class="ifs-wizard__bar" role="progressbar" aria-valuemin="1" aria-valuemax="<?php echo esc_attr( $ifs_total ); ?>" aria-valuenow="1" aria-label="Voortgang offerteaanvraag">
 			<i data-bar style="width:<?php echo esc_attr( round( 100 / $ifs_total ) ); ?>%"></i>
@@ -44,14 +48,10 @@ $ifs_uid    = wp_unique_id( 'ifs-wizard-' );
 
 		<div class="ifs-price-panel" data-price hidden>
 			<div class="ifs-price-panel__figure">
-				<span class="ifs-price-panel__label">Richtprijs voor jouw klus</span>
+				<span class="ifs-price-panel__label">Richtprijs</span>
 				<strong data-price-value aria-live="polite"></strong>
 				<span class="ifs-price-panel__unit" data-price-unit></span>
 			</div>
-			<p class="ifs-price-panel__note">
-				<?php ifs_the_icon( 'clipboard', 15 ); ?>
-				Indicatie op basis van je antwoorden, inclusief materiaal. Na een gratis opname leggen we de prijs vast.
-			</p>
 		</div>
 	</div>
 
@@ -72,13 +72,17 @@ $ifs_uid    = wp_unique_id( 'ifs-wizard-' );
 
 				<?php if ( 'fields' === $ifs_step['type'] ) : ?>
 
-					<div class="ifs-fields ifs-fields--2">
+					<?php if ( ! empty( $ifs_step['summary'] ) ) : ?>
+						<div class="ifs-recap">
+							<dl data-summary></dl>
+							<button type="button" class="ifs-recap__edit" data-goto="1">Wijzigen</button>
+						</div>
+					<?php endif; ?>
+
+					<div class="ifs-fields ifs-fields--grid">
 						<?php foreach ( $ifs_step['fields'] as $ifs_key => $ifs_field ) : ?>
-							<?php
-							$ifs_id    = $ifs_uid . '-' . $ifs_key;
-							$ifs_style = 'full' === $ifs_field['width'] ? ' style="grid-column:1/-1"' : '';
-							?>
-							<div class="ifs-field"<?php echo $ifs_style; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- vaste waarde. ?>>
+							<?php $ifs_id = $ifs_uid . '-' . $ifs_key; ?>
+							<div class="ifs-field ifs-field--<?php echo esc_attr( $ifs_field['width'] ); ?>">
 								<label for="<?php echo esc_attr( $ifs_id ); ?>">
 									<?php echo esc_html( $ifs_field['label'] ); ?>
 									<?php if ( ! empty( $ifs_field['required'] ) ) : ?>
@@ -87,8 +91,18 @@ $ifs_uid    = wp_unique_id( 'ifs-wizard-' );
 								</label>
 
 								<?php if ( 'textarea' === $ifs_field['type'] ) : ?>
-									<textarea id="<?php echo esc_attr( $ifs_id ); ?>" name="ifs_<?php echo esc_attr( $ifs_key ); ?>" rows="4"
+									<textarea id="<?php echo esc_attr( $ifs_id ); ?>" name="ifs_<?php echo esc_attr( $ifs_key ); ?>" rows="3"
 										<?php echo ! empty( $ifs_field['required'] ) ? 'required' : ''; ?>></textarea>
+
+								<?php elseif ( 'select' === $ifs_field['type'] ) : ?>
+									<select id="<?php echo esc_attr( $ifs_id ); ?>" name="ifs_<?php echo esc_attr( $ifs_key ); ?>"
+										<?php echo ! empty( $ifs_field['required'] ) ? 'required' : ''; ?>>
+										<option value="">— kies —</option>
+										<?php foreach ( $ifs_field['options'] as $ifs_val => $ifs_text ) : ?>
+											<option value="<?php echo esc_attr( $ifs_val ); ?>"><?php echo esc_html( $ifs_text ); ?></option>
+										<?php endforeach; ?>
+									</select>
+
 								<?php else : ?>
 									<input type="<?php echo esc_attr( $ifs_field['type'] ); ?>"
 										id="<?php echo esc_attr( $ifs_id ); ?>"
@@ -107,10 +121,14 @@ $ifs_uid    = wp_unique_id( 'ifs-wizard-' );
 						<?php endforeach; ?>
 					</div>
 
-					<p class="ifs-reassure">
-						<?php ifs_the_icon( 'shield', 17 ); ?>
-						We gebruiken je gegevens alleen voor deze aanvraag. Geen nieuwsbrief, geen doorverkoop, geen telefoontjes van andere bedrijven.
-					</p>
+					<label class="ifs-consent">
+						<input type="checkbox" name="ifs_consent" value="1" required>
+						<span>
+							Ik ga akkoord met de
+							<a href="<?php echo esc_url( get_privacy_policy_url() ? get_privacy_policy_url() : home_url( '/privacyverklaring/' ) ); ?>" target="_blank" rel="noopener">privacyverklaring</a>.
+							We gebruiken je gegevens alleen voor deze aanvraag.
+						</span>
+					</label>
 
 					<div class="ifs-hp" aria-hidden="true">
 						<label for="<?php echo esc_attr( $ifs_uid ); ?>-website">Laat dit veld leeg</label>
@@ -130,7 +148,6 @@ $ifs_uid    = wp_unique_id( 'ifs-wizard-' );
 							<?php foreach ( $ifs_step['options'] as $ifs_value => $ifs_option_data ) : ?>
 								<?php
 								$ifs_label     = $ifs_option_data['label'];
-								$ifs_desc      = isset( $ifs_option_data['desc'] ) ? $ifs_option_data['desc'] : '';
 								$ifs_icon_name = isset( $ifs_option_data['icon'] ) ? $ifs_option_data['icon'] : 'clipboard';
 								?>
 								<label class="ifs-option">
@@ -139,14 +156,9 @@ $ifs_uid    = wp_unique_id( 'ifs-wizard-' );
 										value="<?php echo esc_attr( $ifs_value ); ?>"
 										<?php checked( 0 === $ifs_index && $ifs_preset === $ifs_value ); ?>>
 									<span class="ifs-option__box">
-										<span class="ifs-option__icon"><?php ifs_the_icon( $ifs_icon_name, 21 ); ?></span>
-										<span class="ifs-option__label">
-											<strong><?php echo esc_html( $ifs_label ); ?></strong>
-											<?php if ( $ifs_desc ) : ?>
-												<span><?php echo esc_html( $ifs_desc ); ?></span>
-											<?php endif; ?>
-										</span>
-										<span class="ifs-option__check" aria-hidden="true"><?php ifs_the_icon( 'check', 12 ); ?></span>
+										<span class="ifs-option__icon"><?php ifs_the_icon( $ifs_icon_name, 18 ); ?></span>
+										<span class="ifs-option__label"><?php echo esc_html( $ifs_label ); ?></span>
+										<span class="ifs-option__check" aria-hidden="true"><?php ifs_the_icon( 'check', 11 ); ?></span>
 									</span>
 								</label>
 							<?php endforeach; ?>
@@ -166,16 +178,14 @@ $ifs_uid    = wp_unique_id( 'ifs-wizard-' );
 								<div class="ifs-field">
 									<label for="<?php echo esc_attr( $ifs_uid ); ?>-m2">Oppervlakte in m&sup2;</label>
 									<input type="number" inputmode="decimal" min="1" max="99999" step="0.1"
-										id="<?php echo esc_attr( $ifs_uid ); ?>-m2"
-										data-area-direct placeholder="bijvoorbeeld 48">
+										id="<?php echo esc_attr( $ifs_uid ); ?>-m2" data-area-direct placeholder="bijv. 48">
 								</div>
 							</div>
 
 							<div class="ifs-area__panel" data-area-panel="reken" hidden>
-								<p class="ifs-area__hint">Vul per muur of plafond de breedte en hoogte in. We tellen ze bij elkaar op.</p>
 								<div data-area-rows></div>
 								<button type="button" class="ifs-area__add" data-area-add>
-									<?php ifs_the_icon( 'check', 15 ); ?> Nog een vlak toevoegen
+									<?php ifs_the_icon( 'check', 14 ); ?> Vlak toevoegen
 								</button>
 							</div>
 
@@ -191,22 +201,6 @@ $ifs_uid    = wp_unique_id( 'ifs-wizard-' );
 			</section>
 		<?php endforeach; ?>
 
-		<?php // Samenvatting. ?>
-		<section class="ifs-step-panel" data-panel="<?php echo esc_attr( $ifs_total ); ?>" hidden>
-			<h2>Klopt dit zo?</h2>
-			<p class="ifs-step-panel__hint">Controleer je aanvraag en verstuur hem. Je zit nergens aan vast.</p>
-
-			<dl class="ifs-summary" data-summary></dl>
-
-			<label class="ifs-consent">
-				<input type="checkbox" name="ifs_consent" value="1" required>
-				<span>
-					Ik ga ermee akkoord dat <?php echo esc_html( ifs_option( 'company_name' ) ); ?> mijn gegevens gebruikt om contact met mij op te nemen over deze aanvraag, zoals beschreven in de
-					<a href="<?php echo esc_url( get_privacy_policy_url() ? get_privacy_policy_url() : home_url( '/privacyverklaring/' ) ); ?>" target="_blank" rel="noopener">privacyverklaring</a>.
-				</span>
-			</label>
-		</section>
-
 		<div class="ifs-notice ifs-notice--err ifs-wizard__error" data-form-error hidden role="alert"></div>
 	</form>
 
@@ -214,34 +208,29 @@ $ifs_uid    = wp_unique_id( 'ifs-wizard-' );
 		<button type="button" class="ifs-btn ifs-btn--ghost" data-prev hidden>
 			<span aria-hidden="true">←</span> Vorige
 		</button>
-		<button type="button" class="ifs-btn ifs-btn--lg" data-next>
-			Volgende stap <?php ifs_the_icon( 'arrow-right', 18 ); ?>
+		<button type="button" class="ifs-btn" data-next>
+			Volgende <?php ifs_the_icon( 'arrow-right', 17 ); ?>
 		</button>
-		<button type="button" class="ifs-btn ifs-btn--lg" data-submit hidden>
-			Aanvraag versturen <?php ifs_the_icon( 'arrow-right', 18 ); ?>
+		<button type="button" class="ifs-btn" data-submit hidden>
+			Aanvraag versturen <?php ifs_the_icon( 'arrow-right', 17 ); ?>
 		</button>
 	</div>
 
 	<ul class="ifs-wizard__trust">
-		<li><?php ifs_the_icon( 'check-circle', 16 ); ?> Gratis en vrijblijvend</li>
-		<li><?php ifs_the_icon( 'check-circle', 16 ); ?> Geen aanbetaling</li>
-		<li><?php ifs_the_icon( 'check-circle', 16 ); ?> <?php echo esc_html( ifs_option( 'warranty_years' ) ); ?> jaar garantie op de uitvoering</li>
+		<li><?php ifs_the_icon( 'check-circle', 15 ); ?> Gratis en vrijblijvend</li>
+		<li><?php ifs_the_icon( 'check-circle', 15 ); ?> Geen aanbetaling</li>
+		<li><?php ifs_the_icon( 'check-circle', 15 ); ?> <?php echo esc_html( ifs_option( 'warranty_years' ) ); ?> jaar garantie</li>
 	</ul>
 
 	<div class="ifs-wizard__done" data-done role="status" aria-live="polite">
-		<div class="ifs-wizard__done-icon"><?php ifs_the_icon( 'check-circle', 36 ); ?></div>
+		<div class="ifs-wizard__done-icon"><?php ifs_the_icon( 'check-circle', 32 ); ?></div>
 		<h2>Je aanvraag is verstuurd</h2>
 		<p data-done-message>We nemen <?php echo esc_html( ifs_option( 'quote_response' ) ); ?> contact met je op.</p>
 		<ul class="ifs-wizard__next">
-			<li><span>1</span> Je krijgt direct een bevestiging per e-mail</li>
+			<li><span>1</span> Direct een bevestiging per e-mail</li>
 			<li><span>2</span> We bellen je om de klus door te nemen</li>
-			<li><span>3</span> Je ontvangt een offerte met een vaste prijs per m²</li>
+			<li><span>3</span> Offerte met een vaste prijs per m&sup2;</li>
 		</ul>
-		<p style="margin-top:1.5rem">
-			<a class="ifs-btn ifs-btn--ghost" href="<?php echo esc_url( ifs_phone_href() ); ?>">
-				<?php ifs_the_icon( 'phone', 18 ); ?> Liever direct bellen? <?php echo esc_html( ifs_option( 'phone' ) ); ?>
-			</a>
-		</p>
 	</div>
 
 </div>

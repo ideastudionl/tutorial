@@ -61,7 +61,7 @@ defined( 'ABSPATH' ) || exit;
 				<?php ifs_the_icon( 'phone', 18 ); ?>
 				<?php echo esc_html( ifs_option( 'phone' ) ); ?>
 			</a>
-			<a class="ifs-btn" href="<?php echo esc_url( ifs_quote_url() ); ?>">Offerte aanvragen</a>
+			<a class="ifs-btn" href="<?php echo esc_url( ifs_quote_url() ); ?>" data-quote-open>Offerte aanvragen</a>
 			<button class="ifs-burger" type="button" aria-expanded="false" aria-controls="ifs-mobile-nav" aria-label="Menu openen">
 				<span></span>
 			</button>
@@ -88,7 +88,7 @@ defined( 'ABSPATH' ) || exit;
 	);
 	?>
 	<div class="ifs-mobile-nav__actions">
-		<a class="ifs-btn ifs-btn--block" href="<?php echo esc_url( ifs_quote_url() ); ?>">Offerte aanvragen</a>
+		<a class="ifs-btn ifs-btn--block" href="<?php echo esc_url( ifs_quote_url() ); ?>" data-quote-open>Offerte aanvragen</a>
 		<a class="ifs-btn ifs-btn--ghost ifs-btn--block" href="<?php echo esc_url( ifs_phone_href() ); ?>">
 			<?php ifs_the_icon( 'phone', 18 ); ?> <?php echo esc_html( ifs_option( 'phone' ) ); ?>
 		</a>

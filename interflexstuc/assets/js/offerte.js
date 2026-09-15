@@ -421,18 +421,21 @@
 
 			summary.innerHTML = '';
 
+			// De laatste stap draagt de samenvatting zelf, dus die slaan we over.
 			panels.forEach( function ( panel ) {
 				var heading = panel.querySelector( 'h2' );
-				if ( ! heading || panel.dataset.panel === String( total ) ) {
+				if ( ! heading || panel.contains( summary ) ) {
 					return;
 				}
 
 				var labels = [];
 
 				panel.querySelectorAll( 'input:checked' ).forEach( function ( input ) {
-					var strong = input.parentElement.querySelector( '.ifs-option__label strong' );
-					if ( strong ) {
-						labels.push( strong.textContent.trim() );
+					// De optietekst staat sinds de compacte opmaak rechtstreeks in
+					// .ifs-option__label, niet meer in een <strong> daarbinnen.
+					var label = input.parentElement.querySelector( '.ifs-option__label' );
+					if ( label ) {
+						labels.push( label.textContent.trim() );
 					}
 				} );
 
@@ -543,6 +546,12 @@
 		if ( submitBtn ) {
 			submitBtn.addEventListener( 'click', submit );
 		}
+
+		root.querySelectorAll( '[data-goto]' ).forEach( function ( link ) {
+			link.addEventListener( 'click', function () {
+				show( parseInt( link.dataset.goto, 10 ) || 1, true );
+			} );
+		} );
 
 		// Radiokeuze springt automatisch door naar de volgende stap.
 		form.addEventListener( 'change', function ( event ) {

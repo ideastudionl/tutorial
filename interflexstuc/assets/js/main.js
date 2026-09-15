@@ -263,3 +263,52 @@
 		sync();
 	} );
 })();
+
+/**
+ * Offerteaanvraag in een venster.
+ *
+ * Gebruikt het <dialog>-element, dat focus en Escape zelf afhandelt.
+ * Zonder ondersteuning volgt de knop gewoon zijn link naar de offertepagina.
+ */
+(function () {
+	'use strict';
+
+	var modal = document.getElementById( 'ifs-quote-modal' );
+	if ( ! modal || typeof modal.showModal !== 'function' ) {
+		return;
+	}
+
+	document.addEventListener( 'click', function ( event ) {
+		var opener = event.target.closest( '[data-quote-open]' );
+		if ( opener ) {
+			event.preventDefault();
+			modal.showModal();
+			document.body.style.overflow = 'hidden';
+
+			var first = modal.querySelector( '.ifs-step-panel.is-active input, .ifs-step-panel.is-active button' );
+			if ( first ) {
+				first.focus( { preventScroll: true } );
+			}
+			return;
+		}
+
+		if ( event.target.closest( '[data-quote-close]' ) ) {
+			modal.close();
+			return;
+		}
+
+		// Klik op de achtergrond sluit het venster.
+		if ( event.target === modal ) {
+			var box = modal.getBoundingClientRect();
+			var outside = event.clientY < box.top || event.clientY > box.bottom ||
+				event.clientX < box.left || event.clientX > box.right;
+			if ( outside ) {
+				modal.close();
+			}
+		}
+	} );
+
+	modal.addEventListener( 'close', function () {
+		document.body.style.overflow = '';
+	} );
+})();

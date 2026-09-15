@@ -59,44 +59,40 @@ function ifs_quote_steps() {
 			),
 		),
 		array(
-			'key'     => 'pand',
-			'title'   => 'Wat voor pand betreft het?',
-			'hint'    => '',
-			'type'    => 'choice',
-			'options' => array(
-				'appartement'  => array( 'label' => 'Appartement', 'icon' => 'building' ),
-				'tussenwoning' => array( 'label' => 'Tussen- of hoekwoning', 'icon' => 'home' ),
-				'vrijstaand'   => array( 'label' => 'Twee-onder-een-kap of vrijstaand', 'icon' => 'home' ),
-				'nieuwbouw'    => array( 'label' => 'Nieuwbouwproject', 'icon' => 'layers' ),
-				'zakelijk'     => array( 'label' => 'Bedrijfspand of VvE', 'icon' => 'building' ),
-			),
-		),
-		array(
-			'key'     => 'planning',
-			'title'   => 'Wanneer wil je dat het werk start?',
-			'hint'    => 'Zo kunnen we meteen realistisch inplannen.',
-			'type'    => 'choice',
-			'options' => array(
-				'asap'       => array( 'label' => 'Zo snel mogelijk', 'desc' => 'Spoedklus', 'icon' => 'zap' ),
-				'maand'      => array( 'label' => 'Binnen een maand', 'icon' => 'calendar' ),
-				'kwartaal'   => array( 'label' => 'Over 1 tot 3 maanden', 'icon' => 'calendar' ),
-				'later'      => array( 'label' => 'Later dit jaar', 'icon' => 'calendar' ),
-				'orienteren' => array( 'label' => 'Ik oriënteer me nog', 'desc' => 'Alleen een prijsindicatie', 'icon' => 'euro' ),
-			),
-		),
-		array(
-			'key'    => 'gegevens',
-			'title'  => 'Waar mogen we de offerte naartoe sturen?',
-			'hint'   => 'We nemen %s contact op met een vrijblijvende prijsopgave.',
-			'type'   => 'fields',
-			'fields' => array(
+			'key'     => 'gegevens',
+			'title'   => 'Waar mogen we de offerte naartoe sturen?',
+			'hint'    => 'We nemen %s contact op. Je zit nergens aan vast.',
+			'type'    => 'fields',
+			'summary' => true,
+			'fields'  => array(
 				'naam'      => array( 'label' => 'Naam', 'type' => 'text', 'required' => true, 'autocomplete' => 'name', 'width' => 'half' ),
-				'email'     => array( 'label' => 'E-mailadres', 'type' => 'email', 'required' => true, 'autocomplete' => 'email', 'width' => 'half' ),
 				'telefoon'  => array( 'label' => 'Telefoonnummer', 'type' => 'tel', 'required' => true, 'autocomplete' => 'tel', 'width' => 'half' ),
-				'postcode'  => array( 'label' => 'Postcode', 'type' => 'text', 'required' => true, 'autocomplete' => 'postal-code', 'width' => 'half' ),
-				'plaats'    => array( 'label' => 'Plaats', 'type' => 'text', 'required' => true, 'autocomplete' => 'address-level2', 'width' => 'half' ),
-				'adres'     => array( 'label' => 'Straat en huisnummer', 'type' => 'text', 'required' => false, 'autocomplete' => 'street-address', 'width' => 'half' ),
-				'opmerking' => array( 'label' => 'Toelichting op de klus', 'type' => 'textarea', 'required' => false, 'width' => 'full', 'hint' => 'Bijvoorbeeld: hoogte van de ruimte, gewenste afwerking of een deadline.' ),
+				'email'     => array( 'label' => 'E-mailadres', 'type' => 'email', 'required' => true, 'autocomplete' => 'email', 'width' => 'half' ),
+				'postcode'  => array( 'label' => 'Postcode', 'type' => 'text', 'required' => true, 'autocomplete' => 'postal-code', 'width' => 'quarter' ),
+				'plaats'    => array( 'label' => 'Plaats', 'type' => 'text', 'required' => true, 'autocomplete' => 'address-level2', 'width' => 'quarter' ),
+				// Pand en planning bepalen de prijs niet; als korte keuzelijst
+				// naast de gegevens kosten ze geen extra stap.
+				'pand'      => array(
+					'label' => 'Type pand', 'type' => 'select', 'required' => false, 'width' => 'half',
+					'options' => array(
+						'appartement'  => 'Appartement',
+						'tussenwoning' => 'Tussen- of hoekwoning',
+						'vrijstaand'   => 'Twee-onder-een-kap of vrijstaand',
+						'nieuwbouw'    => 'Nieuwbouwproject',
+						'zakelijk'     => 'Bedrijfspand of VvE',
+					),
+				),
+				'planning'  => array(
+					'label' => 'Gewenste start', 'type' => 'select', 'required' => false, 'width' => 'half',
+					'options' => array(
+						'asap'       => 'Zo snel mogelijk',
+						'maand'      => 'Binnen een maand',
+						'kwartaal'   => 'Over 1 tot 3 maanden',
+						'later'      => 'Later dit jaar',
+						'orienteren' => 'Ik oriënteer me nog',
+					),
+				),
+				'opmerking' => array( 'label' => 'Toelichting (optioneel)', 'type' => 'textarea', 'required' => false, 'width' => 'full', 'hint' => 'Bijvoorbeeld de hoogte van de ruimte of een deadline.' ),
 			),
 		),
 	);
@@ -230,6 +226,29 @@ function ifs_quote_label( $step_key, $value ) {
 }
 
 /**
+ * Zoekt het leesbare label van een keuzelijst in de gegevensstap.
+ *
+ * @param string $field_key Sleutel van het veld.
+ * @param string $value     Opgeslagen waarde.
+ * @return string
+ */
+function ifs_field_label( $field_key, $value ) {
+	if ( '' === $value ) {
+		return '';
+	}
+
+	foreach ( ifs_quote_steps() as $step ) {
+		if ( empty( $step['fields'][ $field_key ]['options'] ) ) {
+			continue;
+		}
+		$options = $step['fields'][ $field_key ]['options'];
+		return isset( $options[ $value ] ) ? $options[ $value ] : $value;
+	}
+
+	return $value;
+}
+
+/**
  * Beschrijft de opgegeven oppervlakte, exact als de bezoeker die invulde.
  *
  * @param array $data Gesaneerde aanvraag.
@@ -281,7 +300,12 @@ function ifs_handle_quote() {
 			foreach ( $step['fields'] as $field_key => $field ) {
 				$raw = isset( $_POST[ 'ifs_' . $field_key ] ) ? wp_unslash( $_POST[ 'ifs_' . $field_key ] ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- hieronder gesaneerd.
 
-				if ( 'email' === $field['type'] ) {
+				if ( 'select' === $field['type'] ) {
+					$value = sanitize_key( $raw );
+					if ( ! isset( $field['options'][ $value ] ) ) {
+						$value = '';
+					}
+				} elseif ( 'email' === $field['type'] ) {
 					$value = sanitize_email( $raw );
 					if ( $value && ! is_email( $value ) ) {
 						$errors[] = 'Het e-mailadres lijkt niet te kloppen.';
@@ -487,12 +511,12 @@ function ifs_mail_quote( $data, $post_id ) {
 		'Naam'            => $data['naam'],
 		'E-mail'          => $data['email'],
 		'Telefoon'        => $data['telefoon'],
-		'Adres'           => trim( $data['adres'] . ' ' . $data['postcode'] . ' ' . $data['plaats'] ),
+		'Adres'           => trim( $data['postcode'] . ' ' . $data['plaats'] ),
 		'Gewenst werk'    => implode( ', ', array_map( fn( $v ) => ifs_quote_label( 'werk', $v ), (array) $data['werk'] ) ),
 		'Ondergrond'      => ifs_quote_label( 'situatie', $data['situatie'] ),
 		'Oppervlakte'     => ifs_area_label( $data ),
-		'Type pand'       => ifs_quote_label( 'pand', $data['pand'] ),
-		'Gewenste start'  => ifs_quote_label( 'planning', $data['planning'] ),
+		'Type pand'       => ifs_field_label( 'pand', $data['pand'] ),
+		'Gewenste start'  => ifs_field_label( 'planning', $data['planning'] ),
 		'Toelichting'     => $data['opmerking'],
 	);
 
