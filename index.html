@@ -1,7 +1,7 @@
 <title>Kinderdagverblijf Roosje</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Karla:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Caveat:wght@600;700&family=Newsreader:opsz,wght@6..72,500&display=swap">
 <style>
 /* =======================================================================
    HUISSTIJL — pas hier het merk aan
@@ -47,13 +47,13 @@
   --ok:#557040;
   --let:#A85D18;
 
-  --fs-hero:clamp(2.3rem,4.6vw,3.7rem);
-  --fs-h2:clamp(1.65rem,3vw,2.35rem);
-  --fs-h3:clamp(1.08rem,1.6vw,1.28rem);
+  --fs-hero:clamp(1.95rem,3.5vw,2.85rem);
+  --fs-h2:clamp(1.42rem,2.4vw,1.95rem);
+  --fs-h3:clamp(1.06rem,1.5vw,1.22rem);
   --fs-body:clamp(1rem,.42vw + .92rem,1.1rem);
   --gut:clamp(1.15rem,4vw,2.5rem);
   --maxw:1180px;
-  --rad:14px;
+  --rad:22px;
 }
 /* De site heeft bewust een vaste lichte weergave: de achtergrond blijft wit,
    ook wanneer het apparaat op een donker thema staat. */
@@ -61,19 +61,18 @@
 *,*::before,*::after{box-sizing:border-box}
 body{
   margin:0;background:var(--papier);color:var(--inkt);
-  font-family:"Karla",system-ui,-apple-system,"Segoe UI",sans-serif;
-  font-size:var(--fs-body);line-height:1.68;
+  font-family:"Nunito",system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:var(--fs-body);line-height:1.72;
   -webkit-font-smoothing:antialiased;overflow-x:hidden;
 }
 h1,h2,h3,h4{
-  font-family:"Newsreader",Georgia,"Times New Roman",serif;
-  font-weight:500;line-height:1.16;letter-spacing:-.012em;text-wrap:balance;margin:0;
-  font-optical-sizing:auto;
+  font-family:"Baloo 2","Nunito",system-ui,sans-serif;
+  font-weight:600;line-height:1.22;letter-spacing:0;text-wrap:balance;margin:0;
 }
-h1{font-size:var(--fs-hero);line-height:1.08;letter-spacing:-.02em}
+h1{font-size:var(--fs-hero);line-height:1.18;font-weight:700}
 h2{font-size:var(--fs-h2)}
 h3{font-size:var(--fs-h3);line-height:1.3}
-h4{font-size:1rem;font-family:"Karla",sans-serif;font-weight:700;letter-spacing:0}
+h4{font-size:1.02rem;font-family:"Nunito",sans-serif;font-weight:800;letter-spacing:0}
 p{margin:0}
 svg{display:block}
 a{color:inherit}
@@ -90,8 +89,8 @@ a{color:inherit}
 .grijs{color:var(--grijs)}
 
 .kop{
-  font-family:"Karla",sans-serif;font-size:.74rem;font-weight:700;
-  text-transform:uppercase;letter-spacing:.17em;color:var(--roos);
+  font-family:"Nunito",sans-serif;font-size:.76rem;font-weight:800;
+  text-transform:uppercase;letter-spacing:.13em;color:var(--roos);
   display:flex;align-items:center;gap:.6rem;
 }
 .kop::before{content:"";width:22px;height:1px;background:var(--roos);flex:0 0 22px}
@@ -107,7 +106,7 @@ a{color:inherit}
 /* knoppen */
 .btn{
   display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
-  font-family:"Karla",sans-serif;font-weight:700;font-size:.97rem;line-height:1.2;
+  font-family:"Baloo 2","Nunito",sans-serif;font-weight:600;font-size:1.02rem;line-height:1.25;
   background:var(--roos);color:var(--papier);
   border:1px solid var(--roos);border-radius:999px;
   padding:.78rem 1.5rem;text-decoration:none;cursor:pointer;
@@ -141,15 +140,15 @@ a{color:inherit}
 .merk{display:flex;align-items:center;gap:.7rem;text-decoration:none;margin-right:auto}
 .merk__mark{width:42px;height:58px;flex:0 0 42px}
 .merk__kdv{
-  display:block;font-family:"Newsreader",serif;font-weight:500;font-size:.72rem;
+  display:block;font-family:"Newsreader",Georgia,serif;font-weight:500;font-size:.72rem;
   letter-spacing:.34em;text-transform:uppercase;color:var(--inkt-70);margin-bottom:.1rem;
 }
 .merk__naam{
-  font-family:"Newsreader",serif;font-weight:500;font-size:1.6rem;line-height:.95;
+  font-family:"Newsreader",Georgia,serif;font-weight:500;font-size:1.6rem;line-height:.95;
   letter-spacing:-.015em;display:block;color:var(--inkt);
 }
 .merk__sub{
-  display:block;font-family:"Karla",sans-serif;font-size:.63rem;font-weight:600;
+  display:block;font-family:"Nunito",sans-serif;font-size:.64rem;font-weight:700;
   letter-spacing:.19em;text-transform:uppercase;color:var(--grijs);margin-top:.28rem;
 }
 .hoofdnav{display:flex;align-items:center;gap:.15rem}
@@ -173,7 +172,10 @@ a{color:inherit}
 }
 @media (max-width:920px){.hero__grid{grid-template-columns:1fr;padding-block:2.2rem 2.6rem}}
 .hero__copy>*+*{margin-top:1.3rem}
-.hero h1 em{font-style:italic;color:var(--roos)}
+.hero h1 em{
+  font-family:"Caveat","Nunito",cursive;font-style:normal;font-weight:700;
+  font-size:1.26em;line-height:.8;color:var(--roos);
+}
 .hero__acties{display:flex;flex-wrap:wrap;gap:.7rem .8rem;align-items:center}
 
 .beeld{
@@ -188,9 +190,9 @@ a{color:inherit}
 .beeld__kind--b{left:25%;width:15%;opacity:.55}
 .beeld__kind--c{left:37%;width:24%;color:var(--logo-perzik)}
 .beeld__bijschrift{
-  position:absolute;left:0;bottom:0;padding:.55rem .9rem;background:var(--papier);
+  position:absolute;left:0;bottom:0;padding:.5rem .95rem .6rem;background:var(--papier);
   border-top:1px solid var(--lijn);border-right:1px solid var(--lijn);border-top-right-radius:var(--rad);
-  font-size:.79rem;color:var(--grijs);max-width:80%;
+  font-family:"Caveat","Nunito",cursive;font-size:1.12rem;line-height:1.25;color:var(--inkt-70);max-width:82%;
 }
 
 /* feitenstrook */
@@ -224,7 +226,7 @@ a{color:inherit}
 .veld label,.veld>span.lbl{font-size:.8rem;font-weight:700;color:var(--inkt-70)}
 .veld select,.veld input{
   font:inherit;font-size:.97rem;color:var(--inkt);background:var(--papier);
-  border:1px solid var(--lijn);border-radius:8px;padding:.62rem .75rem;width:100%;
+  border:1px solid var(--lijn);border-radius:14px;padding:.66rem .85rem;width:100%;
   appearance:none;-webkit-appearance:none;
 }
 .veld select{
@@ -234,7 +236,7 @@ a{color:inherit}
 }
 .veld input:focus,.veld select:focus{border-color:var(--roos)}
 .uitslag{
-  border:1px solid var(--lijn);border-left:3px solid var(--ok);border-radius:8px;
+  border:1px solid var(--lijn);border-left:4px solid var(--ok);border-radius:16px;
   padding:.95rem 1.1rem;background:var(--blad-zacht);
   display:flex;flex-wrap:wrap;gap:.8rem 1.2rem;align-items:center;justify-content:space-between;
 }
@@ -282,11 +284,12 @@ a{color:inherit}
 
 /* tabel */
 .tabelwrap{overflow-x:auto;border:1px solid var(--lijn);border-radius:var(--rad);background:var(--wit)}
+.loc__beeld{border-top-left-radius:calc(var(--rad) - 1px);border-top-right-radius:calc(var(--rad) - 1px)}
 table{border-collapse:collapse;width:100%;min-width:620px;font-size:.95rem}
 caption{text-align:left;padding:1rem 1.2rem .1rem;font-size:.86rem;color:var(--grijs)}
 th,td{text-align:left;padding:.8rem 1.2rem;border-bottom:1px solid var(--lijn);vertical-align:top}
 thead th{
-  font-family:"Karla",sans-serif;font-size:.76rem;font-weight:700;text-transform:uppercase;
+  font-family:"Nunito",sans-serif;font-size:.77rem;font-weight:800;text-transform:uppercase;
   letter-spacing:.11em;color:var(--grijs);background:var(--vlak);
 }
 tbody tr:last-child td{border-bottom:0}
@@ -305,7 +308,7 @@ tbody th{font-weight:700}
 .ritme button:hover{background:var(--vlak)}
 .ritme button:focus-visible{outline:2px solid var(--roos);outline-offset:-2px}
 .ritme time{font-variant-numeric:tabular-nums;font-weight:700;font-size:.92rem;color:var(--roos)}
-.ritme .wat{font-family:"Newsreader",serif;font-size:1.1rem;font-weight:500}
+.ritme .wat{font-family:"Baloo 2","Nunito",sans-serif;font-size:1.1rem;font-weight:600}
 .ritme .pijl{width:16px;height:16px;color:var(--grijs);opacity:0;transition:opacity .18s ease,transform .18s ease}
 .ritme li[aria-current="true"]{background:var(--vlak)}
 .ritme li[aria-current="true"] .pijl{opacity:1;transform:translateX(3px)}
@@ -338,7 +341,7 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;bac
 }
 .rekenaar__uit{background:var(--vlak);border-top:1px solid var(--lijn);padding:clamp(1.2rem,2.6vw,1.8rem);display:grid;gap:.9rem}
 .bedrag{
-  font-family:"Newsreader",serif;font-weight:500;font-size:clamp(2.4rem,5.5vw,3.2rem);
+  font-family:"Baloo 2","Nunito",sans-serif;font-weight:700;font-size:clamp(2.4rem,5.5vw,3.2rem);
   line-height:1;letter-spacing:-.025em;font-variant-numeric:tabular-nums;color:var(--roos);
 }
 .bedrag-sub{font-size:.88rem;color:var(--grijs);margin-top:.35rem}
@@ -362,7 +365,7 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;bac
 .acc details{border-bottom:1px solid var(--lijn)}
 .acc summary{
   list-style:none;cursor:pointer;padding:1rem .2rem;display:flex;gap:1rem;align-items:center;
-  font-family:"Newsreader",serif;font-size:1.1rem;font-weight:500;
+  font-family:"Baloo 2","Nunito",sans-serif;font-size:1.12rem;font-weight:600;
 }
 .acc summary::-webkit-details-marker{display:none}
 .acc summary:hover{color:var(--roos)}
@@ -389,14 +392,14 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;bac
 @media (max-width:880px){.citaten{grid-template-columns:1fr}}
 .citaat{display:grid;gap:.9rem;align-content:start;padding-top:1.3rem;border-top:1px solid var(--lijn)}
 .citaat blockquote{
-  margin:0;font-family:"Newsreader",serif;font-size:1.16rem;line-height:1.45;font-weight:400;
+  margin:0;font-family:"Caveat","Nunito",cursive;font-size:1.62rem;line-height:1.32;font-weight:600;color:var(--inkt);
 }
 .citaat figcaption{font-size:.87rem;color:var(--grijs)}
 .citaat figcaption b{display:block;color:var(--inkt);font-size:.92rem}
 .cijfers{display:grid;grid-template-columns:repeat(4,1fr);gap:1.4rem;margin-bottom:clamp(2rem,4vw,3rem)}
 @media (max-width:760px){.cijfers{grid-template-columns:1fr 1fr}}
 .cijfer b{
-  display:block;font-family:"Newsreader",serif;font-weight:500;font-size:clamp(2rem,4.4vw,2.7rem);
+  display:block;font-family:"Baloo 2","Nunito",sans-serif;font-weight:700;font-size:clamp(2rem,4.4vw,2.7rem);
   line-height:1;font-variant-numeric:tabular-nums;color:var(--roos);
 }
 .cijfer span{display:block;font-size:.88rem;color:var(--inkt-70);margin-top:.45rem;max-width:22ch}
@@ -420,10 +423,10 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;bac
 .akkoord input{width:18px;height:18px;flex:0 0 18px;accent-color:var(--roos);margin-top:.22rem}
 textarea{
   font:inherit;font-size:.97rem;color:var(--inkt);background:var(--papier);
-  border:1px solid var(--lijn);border-radius:8px;padding:.62rem .75rem;width:100%;resize:vertical;min-height:88px;
+  border:1px solid var(--lijn);border-radius:14px;padding:.66rem .85rem;width:100%;resize:vertical;min-height:88px;
 }
 textarea:focus{border-color:var(--roos)}
-.bevestiging{display:flex;gap:.9rem;align-items:flex-start;border:1px solid var(--lijn);border-left:3px solid var(--ok);border-radius:8px;padding:1.1rem 1.2rem;background:var(--blad-zacht)}
+.bevestiging{display:flex;gap:.9rem;align-items:flex-start;border:1px solid var(--lijn);border-left:4px solid var(--ok);border-radius:16px;padding:1.1rem 1.2rem;background:var(--blad-zacht)}
 .bevestiging svg{flex:0 0 22px;width:22px;height:22px;color:var(--ok);margin-top:.2rem}
 .contactlijst{list-style:none;margin:1.4rem 0 0;padding:0;display:grid;gap:1rem}
 .contactlijst li{display:flex;gap:.8rem;align-items:flex-start}
@@ -499,6 +502,7 @@ html{scroll-behavior:smooth}
       <path d="M100 26c36 0 66 24 74 56 6 24 0 49-17 66-15 15-36 24-57 24s-42-9-57-24c-17-17-23-42-17-66 8-32 38-56 74-56z" style="fill:var(--logo-roze)"/>
       <path d="M33 78c-12 16-15 38-9 58M167 78c12 16 15 38 9 58" style="fill:none;stroke:var(--logo-lijn)" stroke-width="6" stroke-linecap="round"/>
       <path d="M46 72c16-18 34-26 54-26s38 8 54 26" style="fill:none;stroke:var(--logo-lijn)" stroke-width="6" stroke-linecap="round"/>
+      <path d="M47 116c15 19 33 28 53 28s38-9 53-28" style="fill:none;stroke:var(--logo-lijn)" stroke-width="6" stroke-linecap="round"/>
       <path d="M100 52c27 0 48 20 48 45s-21 45-48 45-48-20-48-45 21-45 48-45z" style="fill:var(--logo-rozehart);stroke:var(--logo-lijn)" stroke-width="6"/>
       <path d="M124 90c0-14-11-24-23-24s-23 10-23 23 10 22 21 22 18-9 18-17-6-14-13-14-11 5-11 10" style="fill:none;stroke:var(--logo-lijn)" stroke-width="6" stroke-linecap="round"/>
     </symbol>
@@ -507,6 +511,7 @@ html{scroll-behavior:smooth}
       <path d="M70 12c31 0 57 21 64 48 5 21 0 43-15 57-13 13-31 21-49 21s-36-8-49-21c-15-14-20-36-15-57 7-27 33-48 64-48z" style="fill:var(--logo-roze)"/>
       <path d="M12 57c-9 14-11 32-7 49M128 57c9 14 11 32 7 49" style="fill:none;stroke:var(--logo-lijn)" stroke-width="5" stroke-linecap="round"/>
       <path d="M23 52c14-16 30-23 47-23s33 7 47 23" style="fill:none;stroke:var(--logo-lijn)" stroke-width="5" stroke-linecap="round"/>
+      <path d="M24 90c13 17 29 25 46 25s33-8 46-25" style="fill:none;stroke:var(--logo-lijn)" stroke-width="5" stroke-linecap="round"/>
       <path d="M70 34c24 0 42 17 42 39s-18 39-42 39-42-17-42-39 18-39 42-39z" style="fill:var(--logo-rozehart);stroke:var(--logo-lijn)" stroke-width="5"/>
       <path d="M91 67c0-12-10-21-20-21s-20 9-20 20 9 19 18 19 16-8 16-15-5-12-11-12-10 4-10 9" style="fill:none;stroke:var(--logo-lijn)" stroke-width="5" stroke-linecap="round"/>
     </symbol>
