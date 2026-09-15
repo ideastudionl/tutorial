@@ -83,11 +83,7 @@
   box-shadow:none;
 }
 
-/* Gerustellende regel onder de bestelknop */
-.woocommerce-checkout #place_order::after{
-  content:"";
-}
-.woocommerce-checkout .woocommerce-terms-and-conditions-wrapper + #place_order,
+/* Geruststellende regel onder de bestelknop */
 .woocommerce-checkout #payment .form-row.place-order::after{
   content:"Veilig betalen · 30 dagen bedenktijd · voor 22:00 besteld, morgen in huis";
   display:block;
