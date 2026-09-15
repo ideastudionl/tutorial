@@ -153,6 +153,40 @@ $ifs_uid    = wp_unique_id( 'ifs-wizard-' );
 						</div>
 					</fieldset>
 
+					<?php if ( 'area' === ( $ifs_step['custom'] ?? '' ) ) : ?>
+						<div class="ifs-area" data-area>
+							<div class="ifs-area__or"><span>of vul het exact in</span></div>
+
+							<div class="ifs-area__tabs" role="tablist" aria-label="Manier van opgeven">
+								<button type="button" role="tab" aria-selected="true" data-area-tab="direct">Ik weet de m&sup2;</button>
+								<button type="button" role="tab" aria-selected="false" data-area-tab="reken">Reken het uit</button>
+							</div>
+
+							<div class="ifs-area__panel is-active" data-area-panel="direct">
+								<div class="ifs-field">
+									<label for="<?php echo esc_attr( $ifs_uid ); ?>-m2">Oppervlakte in m&sup2;</label>
+									<input type="number" inputmode="decimal" min="1" max="99999" step="0.1"
+										id="<?php echo esc_attr( $ifs_uid ); ?>-m2"
+										data-area-direct placeholder="bijvoorbeeld 48">
+								</div>
+							</div>
+
+							<div class="ifs-area__panel" data-area-panel="reken" hidden>
+								<p class="ifs-area__hint">Vul per muur of plafond de breedte en hoogte in. We tellen ze bij elkaar op.</p>
+								<div data-area-rows></div>
+								<button type="button" class="ifs-area__add" data-area-add>
+									<?php ifs_the_icon( 'check', 15 ); ?> Nog een vlak toevoegen
+								</button>
+							</div>
+
+							<p class="ifs-area__total" data-area-total hidden>
+								Totaal: <strong data-area-total-value></strong>
+							</p>
+
+							<input type="hidden" name="ifs_oppervlakte_m2" value="" data-area-value>
+						</div>
+					<?php endif; ?>
+
 				<?php endif; ?>
 			</section>
 		<?php endforeach; ?>

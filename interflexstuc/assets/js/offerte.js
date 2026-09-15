@@ -157,6 +157,11 @@
 				var picked = Array.prototype.some.call( choices, function ( input ) {
 					return input.checked;
 				} );
+				// Op de oppervlaktestap telt een zelf ingevulde m² net zo goed.
+				if ( ! picked && areaTool && panel.contains( areaTool ) && toNumber( areaValue.value ) > 0 ) {
+					picked = true;
+				}
+
 				if ( ! picked ) {
 					showError( i18n.required );
 					return false;
@@ -207,6 +212,152 @@
 			return valid;
 		}
 
+		var areaTool = form.querySelector( '[data-area]' );
+		var areaValue = areaTool ? areaTool.querySelector( '[data-area-value]' ) : null;
+
+		/**
+		 * Zet een ingevulde maat om naar een getal. Accepteert zowel een komma als
+		 * een punt als decimaalteken, omdat beide in Nederland gebruikt worden.
+		 *
+		 * @param {string} raw Ingevoerde waarde.
+		 * @return {number} Getal, of 0 wanneer het geen bruikbare maat is.
+		 */
+		function toNumber( raw ) {
+			var n = parseFloat( String( raw ).replace( ',', '.' ) );
+			return isFinite( n ) && n > 0 ? n : 0;
+		}
+
+		/**
+		 * Formatteert een oppervlakte, hele getallen zonder decimaal.
+		 *
+		 * @param {number} n Aantal m².
+		 * @return {string} Tekst met eenheid.
+		 */
+		function formatArea( n ) {
+			var rounded = Math.round( n * 10 ) / 10;
+			return rounded.toLocaleString( 'nl-NL', { maximumFractionDigits: 1 } ) + ' m\u00b2';
+		}
+
+		/** Bouwt de oppervlaktehulp op: zelf invullen of uitrekenen. */
+		function initAreaTool() {
+			if ( ! areaTool ) {
+				return;
+			}
+
+			var tabs = areaTool.querySelectorAll( '[data-area-tab]' );
+			var panels2 = areaTool.querySelectorAll( '[data-area-panel]' );
+			var direct = areaTool.querySelector( '[data-area-direct]' );
+			var rowsBox = areaTool.querySelector( '[data-area-rows]' );
+			var addBtn = areaTool.querySelector( '[data-area-add]' );
+			var totalBox = areaTool.querySelector( '[data-area-total]' );
+			var totalValue = areaTool.querySelector( '[data-area-total-value]' );
+			var mode = 'direct';
+
+			/** Voegt een rij toe voor één vlak (breedte x hoogte). */
+			function addArea() {
+				var row = document.createElement( 'div' );
+				row.className = 'ifs-area__row';
+				row.innerHTML =
+					'<div class="ifs-field"><label>Breedte (m)</label>' +
+					'<input type="number" inputmode="decimal" min="0" step="0.01" data-area-w placeholder="0,00"></div>' +
+					'<span class="ifs-area__times" aria-hidden="true">&times;</span>' +
+					'<div class="ifs-field"><label>Hoogte (m)</label>' +
+					'<input type="number" inputmode="decimal" min="0" step="0.01" data-area-h placeholder="0,00"></div>' +
+					'<span class="ifs-area__result" data-area-sub>&mdash;</span>' +
+					'<button type="button" class="ifs-area__remove" data-area-remove aria-label="Dit vlak verwijderen">&times;</button>';
+
+				rowsBox.appendChild( row );
+				row.querySelector( '[data-area-remove]' ).addEventListener( 'click', function () {
+					row.remove();
+					recalc();
+				} );
+			}
+
+			/** Telt alles op en schrijft de uitkomst naar het verborgen veld. */
+			function recalc() {
+				var total = 0;
+
+				if ( mode === 'direct' ) {
+					total = toNumber( direct.value );
+				} else {
+					rowsBox.querySelectorAll( '.ifs-area__row' ).forEach( function ( row ) {
+						var sub = toNumber( row.querySelector( '[data-area-w]' ).value ) *
+							toNumber( row.querySelector( '[data-area-h]' ).value );
+						row.querySelector( '[data-area-sub]' ).textContent = sub ? formatArea( sub ) : '\u2014';
+						total += sub;
+					} );
+				}
+
+				areaValue.value = total > 0 ? Math.round( total * 10 ) / 10 : '';
+
+				if ( totalBox ) {
+					totalBox.hidden = ! total;
+					if ( total ) {
+						totalValue.textContent = formatArea( total );
+					}
+				}
+
+				// Een eigen opgave overrulet het gekozen bereik; die keuze weghalen
+				// voorkomt dat er twee antwoorden tegelijk actief zijn.
+				if ( total > 0 ) {
+					form.querySelectorAll( 'input[name="ifs_oppervlakte"]:checked' ).forEach( function ( input ) {
+						input.checked = false;
+					} );
+				}
+
+				updatePrice();
+			}
+
+			tabs.forEach( function ( tab ) {
+				tab.addEventListener( 'click', function () {
+					mode = tab.dataset.areaTab;
+
+					tabs.forEach( function ( t ) {
+						t.setAttribute( 'aria-selected', t === tab ? 'true' : 'false' );
+					} );
+					panels2.forEach( function ( panel ) {
+						var match = panel.dataset.areaPanel === mode;
+						panel.classList.toggle( 'is-active', match );
+						panel.hidden = ! match;
+					} );
+
+					if ( mode === 'reken' && ! rowsBox.children.length ) {
+						addArea();
+					}
+
+					recalc();
+				} );
+			} );
+
+			if ( addBtn ) {
+				addBtn.addEventListener( 'click', function () {
+					addArea();
+					rowsBox.lastElementChild.querySelector( '[data-area-w]' ).focus();
+				} );
+			}
+
+			areaTool.addEventListener( 'input', recalc );
+
+			// Een bereik aanklikken wist juist de eigen opgave.
+			form.querySelectorAll( 'input[name="ifs_oppervlakte"]' ).forEach( function ( input ) {
+				input.addEventListener( 'change', function () {
+					if ( ! input.checked ) {
+						return;
+					}
+					areaValue.value = '';
+					if ( direct ) {
+						direct.value = '';
+					}
+					rowsBox.innerHTML = '';
+					if ( totalBox ) {
+						totalBox.hidden = true;
+					}
+				} );
+			} );
+		}
+
+		initAreaTool();
+
 		/**
 		 * Leest de gekozen waarde(n) van een stap uit het formulier.
 		 *
@@ -242,7 +393,8 @@
 
 			var rate = Math.max.apply( null, rates );
 			var factor = pricing.factors[ answers( 'situatie' )[ 0 ] ] || 1;
-			var m2 = pricing.areas[ answers( 'oppervlakte' )[ 0 ] ];
+			var exact = areaValue ? toNumber( areaValue.value ) : 0;
+			var m2 = exact || pricing.areas[ answers( 'oppervlakte' )[ 0 ] ];
 
 			priceBox.hidden = false;
 
@@ -284,8 +436,13 @@
 					}
 				} );
 
+				if ( areaTool && panel.contains( areaTool ) && toNumber( areaValue.value ) > 0 ) {
+					addRow( heading.textContent.trim(), formatArea( toNumber( areaValue.value ) ) );
+					return;
+				}
+
 				panel.querySelectorAll( 'input:not([type="checkbox"]):not([type="radio"]), textarea' ).forEach( function ( input ) {
-					if ( input.name === 'ifs_website' || ! input.value.trim() ) {
+					if ( input.name === 'ifs_website' || ! input.value.trim() || input.closest( '[data-area]' ) ) {
 						return;
 					}
 					var label = panel.querySelector( 'label[for="' + input.id + '"]' );

@@ -47,8 +47,9 @@ function ifs_quote_steps() {
 		array(
 			'key'     => 'oppervlakte',
 			'title'   => 'Om hoeveel vierkante meter gaat het ongeveer?',
-			'hint'    => 'Een ruwe schatting is genoeg — je zit er niet aan vast.',
+			'hint'    => 'Kies een bereik, of vul hieronder het exacte aantal in voor een scherpere prijs.',
 			'type'    => 'choice',
+			'custom'  => 'area',
 			'options' => array(
 				'tot-25'   => array( 'label' => 'Tot 25 m²', 'desc' => 'Bijvoorbeeld één kamer', 'icon' => 'ruler', 'm2' => 20 ),
 				'25-60'    => array( 'label' => '25 – 60 m²', 'desc' => 'Enkele kamers', 'icon' => 'ruler', 'm2' => 42 ),
@@ -228,6 +229,23 @@ function ifs_quote_label( $step_key, $value ) {
 	return $value;
 }
 
+/**
+ * Beschrijft de opgegeven oppervlakte, exact als de bezoeker die invulde.
+ *
+ * @param array $data Gesaneerde aanvraag.
+ * @return string
+ */
+function ifs_area_label( $data ) {
+	$exact = isset( $data['oppervlakte_m2'] ) ? (float) $data['oppervlakte_m2'] : 0;
+
+	if ( $exact > 0 ) {
+		/* translators: %s: aantal vierkante meter. */
+		return sprintf( '%s m² (door de klant opgegeven)', number_format_i18n( $exact, ( floor( $exact ) === $exact ) ? 0 : 1 ) );
+	}
+
+	return ifs_quote_label( 'oppervlakte', isset( $data['oppervlakte'] ) ? $data['oppervlakte'] : '' );
+}
+
 /* -----------------------------------------------------------------------------
  * Verwerking
  * -------------------------------------------------------------------------- */
@@ -300,6 +318,19 @@ function ifs_handle_quote() {
 			$value = '';
 		}
 		$data[ $step['key'] ] = $value;
+
+		// Bij de oppervlaktestap mag de bezoeker het exacte aantal m² invullen.
+		// Dat is preciezer dan een bereik, dus het gaat voor.
+		if ( 'area' === ( $step['custom'] ?? '' ) ) {
+			$exact = isset( $_POST['ifs_oppervlakte_m2'] ) ? (float) str_replace( ',', '.', wp_unslash( $_POST['ifs_oppervlakte_m2'] ) ) : 0; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- naar float gecast.
+			$exact = ( $exact > 0 && $exact < 100000 ) ? round( $exact, 1 ) : 0;
+
+			$data['oppervlakte_m2'] = $exact;
+
+			if ( ! $value && ! $exact ) {
+				$errors[] = 'Kies een oppervlakte of vul het aantal m² in.';
+			}
+		}
 	}
 
 	if ( empty( $_POST['ifs_consent'] ) ) {
@@ -459,7 +490,7 @@ function ifs_mail_quote( $data, $post_id ) {
 		'Adres'           => trim( $data['adres'] . ' ' . $data['postcode'] . ' ' . $data['plaats'] ),
 		'Gewenst werk'    => implode( ', ', array_map( fn( $v ) => ifs_quote_label( 'werk', $v ), (array) $data['werk'] ) ),
 		'Ondergrond'      => ifs_quote_label( 'situatie', $data['situatie'] ),
-		'Oppervlakte'     => ifs_quote_label( 'oppervlakte', $data['oppervlakte'] ),
+		'Oppervlakte'     => ifs_area_label( $data ),
 		'Type pand'       => ifs_quote_label( 'pand', $data['pand'] ),
 		'Gewenste start'  => ifs_quote_label( 'planning', $data['planning'] ),
 		'Toelichting'     => $data['opmerking'],
