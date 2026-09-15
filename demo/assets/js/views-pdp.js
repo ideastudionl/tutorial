@@ -121,7 +121,7 @@
     const specRows = Object.keys(p.specs).map(k =>
       '<tr><th scope="row">' + esc(k) + '</th><td>' + esc(p.specs[k]) + '</td></tr>').join('');
     const replaced = (p.refurb || []).filter(r => r.status === 'repl').length;
-    const opgemaakt = WK.formatDate(WK.deliveryDate(-0, Date.now() - 9 * 864e5), true);
+    const opgemaakt = WK.formatDate(WK.workdayAgo(9), true);
 
     return '<div class="pdp-sections">' +
 

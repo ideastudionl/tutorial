@@ -60,15 +60,17 @@ Vervangen doet u op twee plekken:
 **Kleuren** — `demo/assets/css/app.css`, bovenaan in `:root`:
 
 ```css
---brand: #123A63;   /* koptekstbalk, footer, merk */
---link:  #12609E;   /* klikbare tekst */
---cta:   #BF5309;   /* bestelknoppen */
---green: #157347;   /* voorraad, bezorging, gratis */
---band:  #F4F5F7;   /* grijze secties */
+--brand:      #0E7BC4;   /* koptekstbalk, merk */
+--brand-soft: #EAF4FC;   /* lichtblauwe vlakken, hero */
+--link:       #0A6199;   /* klikbare tekst */
+--cta:        #C25208;   /* bestelknoppen */
+--green:      #157347;   /* voorraad, bezorging, gratis */
+--amber:      #E8A33D;   /* sterren, kroon in het logo */
+--band:       #F3F7FB;   /* lichte secties */
 ```
 
-Het logo staat op de blauwe balk, dus het merkteken is wit. Vervangt u `--brand` door een
-lichte kleur, geef het logo dan ook een donkere variant.
+Het logo heeft twee uitvoeringen: `WK.logo(size)` is wit voor de blauwe koptekstbalk,
+`WK.logo(size, 'donker')` is blauw voor lichte achtergronden zoals de voettekst.
 
 De donkere variant staat eronder in `@media (prefers-color-scheme: dark)` en
 `:root[data-theme="dark"]`. Past u een merkkleur aan, pas dan ook daar de tegenhanger aan.

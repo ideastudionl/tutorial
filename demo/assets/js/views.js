@@ -66,7 +66,7 @@ window.WK = window.WK || {};
     const s = WK.SHOP;
     return '<footer class="site-footer"><div class="wrap"><div class="foot-grid">' +
       '<div>' +
-        '<div class="logo">' + WK.logo(34) +
+        '<div class="logo">' + WK.logo(34, 'donker') +
           '<span class="logo-word">Witgoed Koning<span>Deventer, sinds ' + s.since + '</span></span></div>' +
         '<p class="foot-about">Wij geven wasmachines, drogers en vaatwassers van A-merken een tweede leven. ' +
           'Alles wordt in onze eigen werkplaats in Deventer gekeurd, hersteld en getest.</p>' +

@@ -31,7 +31,7 @@
     const s = WK.SHOP;
     return '<section class="hero"><div class="wrap">' +
       '<div>' +
-        '<h1>Tweedehands wasmachines, drogers en vaatwassers van A-merken</h1>' +
+        '<h1>Tweedehands wasmachines, drogers en vaatwassers van <span style="white-space:nowrap">A-merken</span></h1>' +
         '<p class="lead">Miele, Bosch, Siemens en AEG, gekeurd en hersteld in onze eigen werkplaats ' +
           'in Deventer. Een wasmachine vanaf ' + euro(229) + ', bij u thuis aangesloten en draaiend.</p>' +
         '<ul class="hero-points">' + [

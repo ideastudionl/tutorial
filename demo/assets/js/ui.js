@@ -105,14 +105,19 @@ window.WK = window.WK || {};
   /* ----------------------------------------------------------------- logo -- */
   /* Placeholder-merkteken: wasmachinedeur met kroon. Vervang het <svg> hier
      door het officiële logo — de rest van de site raakt het niet aan. */
-  WK.logo = function (size) {
+  /* Twee uitvoeringen: 'licht' voor de blauwe koptekstbalk, 'donker' voor
+     lichte achtergronden zoals de voettekst. */
+  WK.logo = function (size, variant) {
     const s = size || 36;
+    const donker = variant === 'donker';
+    const body = donker ? 'var(--brand)' : '#fff';
+    const ring = donker ? '#fff' : 'var(--brand)';
     return '<svg width="' + s + '" height="' + s + '" viewBox="0 0 40 40" fill="none" role="img" aria-label="Witgoed Koning">' +
-      '<path d="M7 4.5 11 8.6 15.5 1.8 20 8.6 24.5 1.8 29 8.6 33 4.5V11H7z" fill="#E8A33D"/>' +
-      '<rect x="4" y="12" width="32" height="25" rx="4" fill="#fff"/>' +
-      '<circle cx="20" cy="24.5" r="8.4" fill="none" stroke="#123A63" stroke-width="2.4"/>' +
-      '<circle cx="20" cy="24.5" r="3.4" fill="none" stroke="#123A63" stroke-width="1.3" opacity=".45"/>' +
-      '<rect x="7.5" y="15" width="8" height="2.6" rx="1.3" fill="#123A63" opacity=".3"/>' +
+      '<path d="M7 4.5 11 8.6 15.5 1.8 20 8.6 24.5 1.8 29 8.6 33 4.5V11H7z" fill="var(--amber)"/>' +
+      '<rect x="4" y="12" width="32" height="25" rx="5" fill="' + body + '"/>' +
+      '<circle cx="20" cy="24.5" r="8.4" fill="none" stroke="' + ring + '" stroke-width="2.4"/>' +
+      '<circle cx="20" cy="24.5" r="3.4" fill="none" stroke="' + ring + '" stroke-width="1.3" opacity=".45"/>' +
+      '<rect x="7.5" y="15" width="8" height="2.6" rx="1.3" fill="' + ring + '" opacity=".35"/>' +
       '</svg>';
   };
 
@@ -135,6 +140,13 @@ window.WK = window.WK || {};
 
   WK.formatDate = function (d, withYear) {
     return DAYS[d.getDay()] + ' ' + d.getDate() + ' ' + MONTHS[d.getMonth()] + (withYear ? ' ' + d.getFullYear() : '');
+  };
+
+  /* Werkdag terugrekenen: de werkplaats draait niet op zondag. */
+  WK.workdayAgo = function (days) {
+    const d = new Date(Date.now() - days * 864e5);
+    if (d.getDay() === 0) d.setDate(d.getDate() - 1);
+    return d;
   };
 
   const DAYS_S = ['zo', 'ma', 'di', 'wo', 'do', 'vr', 'za'];
