@@ -237,3 +237,30 @@ window.__WOO_BASE__ = 'http://localhost:4173/test/fixtures';
 
 `test/fixtures/products/65` bevat het echte antwoord van de Store API voor
 Soccer Memo, zodat de logica te testen is zonder netwerk.
+
+
+## 12. De afrekenknop gaat nu echt naar de kassa
+
+"Afrekenen" in de winkelwagenlade opent de checkout van de winkel zelf:
+
+```
+https://www.soccer-games.nl/checkout/?add-to-cart=65&quantity=<aantal>
+```
+
+Dat is route 1 uit hoofdstuk 3, in zijn eenvoudigste vorm: een gewone navigatie,
+dus het sessiecookie van WooCommerce werkt gewoon, ook zonder gedeeld
+hoofddomein. Wat er nog niet in de winkel staat, gaat niet mee — en dat zegt de
+lade er eerlijk bij:
+
+- **Bundels.** Twee of drie spellen worden doorgegeven als `quantity=2` of `3`
+  van hetzelfde product. Het bundelvoordeel (€ 4,95 en € 9,90) bestaat nog niet
+  in WooCommerce, dus bij de kassa staat de losse prijs. Op te lossen door de
+  bundels als varianten aan te maken, of door een kortingscode te koppelen.
+- **Cadeauverpakking en poster.** Die producten bestaan niet; ze blijven in de
+  demo-winkelwagen staan met de melding dat ze niet meegaan.
+
+Zodra die drie dingen in WooCommerce staan, hoeft alleen `WOO_IDS` in
+`assets/app.js` uitgebreid te worden met hun product-ID's. Wil je meerdere
+verschillende artikelen in één keer doorgeven, dan is dit het moment om over te
+stappen op de Store API-winkelwagen met de proxy-route uit hoofdstuk 4 — de
+`?add-to-cart=`-truc van WooCommerce doet maar één product per keer.

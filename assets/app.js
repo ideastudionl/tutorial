@@ -22,6 +22,12 @@
   var FREE_SHIPPING = 30;
   var cart = [];
 
+  /* De winkel zelf. Alleen Soccer Memo (ID 65) bestaat daar vandaag; de bundels
+     zijn een prijsvoorstel en de extra's zijn nog niet aangemaakt. */
+  var SHOP = 'https://www.soccer-games.nl';
+  var WOO_IDS = { memo: 65 };
+  var GAMES_PER_LINE = { memo: 1, duo: 2, trio: 3 };
+
   /* ---------- Toast ---------- */
   var toast = $('#toast'), toastMsg = $('#toastMsg'), toastTimer;
   function say(msg) {
@@ -96,6 +102,21 @@
       }).join('');
     }
 
+    var note = $('#handoffNote');
+    if (note) {
+      var lines = [];
+      if (cart.some(function (l) { return l.id === 'duo' || l.id === 'trio'; })) {
+        lines.push('Het bundelvoordeel bestaat nog niet in WooCommerce — bij de kassa reken je de losse spellen af.');
+      }
+      var extras = cart.filter(function (l) { return !GAMES_PER_LINE[l.id]; })
+        .map(function (l) { return CATALOG[l.id].name.toLowerCase(); });
+      if (extras.length) {
+        lines.push(extras.join(' en ') + ' staat nog niet in de winkel en gaat niet mee.');
+      }
+      note.innerHTML = lines.join('<br>');
+      note.hidden = lines.length === 0;
+    }
+
     var total = cartTotal();
     $('#cartTotal').textContent = euro.format(total);
     var left = Math.max(0, FREE_SHIPPING - total);
@@ -141,7 +162,14 @@
     if (e.target.closest('#drawerClose') || e.target === scrim) { closeCart(); return; }
     if (e.target.closest('#checkoutBtn')) {
       if (!cart.length) { say('Leg eerst een spel in je winkelwagen'); return; }
-      say('Prototype — hier opent straks de WooCommerce-checkout');
+
+      var games = cart.reduce(function (n, l) { return n + (GAMES_PER_LINE[l.id] || 0) * l.qty; }, 0);
+      if (!games) { say('Deze artikelen staan nog niet in de winkel'); return; }
+
+      var url = SHOP + '/checkout/?add-to-cart=' + WOO_IDS.memo + '&quantity=' + games;
+      say('Je gaat naar de kassa van soccer-games.nl');
+      var tab = window.open(url, '_blank', 'noopener');
+      if (!tab) { window.location.href = url; }
     }
   });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeCart(); });
