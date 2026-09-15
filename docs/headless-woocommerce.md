@@ -77,11 +77,17 @@ route 2 als de cijfers laten zien dat de checkout het knelpunt is. Eén product 
 
 ## 4. De twee randen waar iedereen op stuit
 
-**CORS.** De Store API stuurt geen CORS-headers, dus rechtstreekse `fetch`-calls
-vanuit de browser naar `shop.soccer-games.nl` worden geblokkeerd. Los dit niet op
-met een wildcard in WordPress — zet de cart-calls door een eigen route in Next.js.
-Dan is het same-origin, blijft het token `httpOnly` en staat er geen enkele
-sleutel in de browser:
+**CORS.** Eerder stond hier dat de Store API helemaal geen CORS-headers stuurt.
+Dat klopt niet: WordPress stuurt voor REST-verzoeken een
+`Access-Control-Allow-Origin` terug die de `Origin` van het verzoek spiegelt,
+dus **publieke GET-calls op producten werken gewoon vanuit de browser** — het
+prototype op Vercel haalt de productdata van soccer-games.nl op die manier op.
+
+Waar het wél knelt, is de winkelwagen. Daar moet de browser de `Cart-Token`- en
+`Nonce`-responseheaders kunnen lezen (die moeten dan expliciet via
+`Access-Control-Expose-Headers` vrijgegeven zijn) en wil je het token sowieso
+niet in de browser hebben. Zet cart- en checkout-calls daarom door een eigen
+route in Next.js: same-origin, token `httpOnly`, geen sleutels in de browser:
 
 ```ts
 // app/api/cart/[...path]/route.ts
@@ -202,3 +208,32 @@ minder volwassen dan de Store API, en betaalintegraties lopen alsnog via Woo. Vo
    checkout.
 
 Reken op ongeveer twee weken voor een werkende winkel, los van foto's en teksten.
+
+
+## 11. Wat het prototype al live ophaalt
+
+`assets/app.js` bevat onderaan een stukje dat de echte winkel aanspreekt:
+
+```js
+var WOO = { base: 'https://www.soccer-games.nl/wp-json/wc/store/v1', productId: 65 };
+fetch(WOO.base + '/products/' + WOO.productId).then(...).then(applyProduct);
+```
+
+Lukt de call, dan vervangt `applyProduct()` prijs, streepprijs, voorraad, titel,
+omschrijving en de fotogalerij door wat er in WooCommerce staat, en verandert het
+label in de header in "Live uit WooCommerce". Lukt de call niet, dan blijft de
+ingebouwde voorbeelddata staan en ziet de bezoeker een volledige pagina — geen
+lege plekken, geen foutmelding.
+
+De bundelprijzen rekenen mee met de echte prijs (2 × prijs − € 4,95 en
+3 × prijs − € 9,90), maar bestaan nog niet in WooCommerce. Zodra de varianten er
+zijn, komen ook die uit `variations[]` in plaats van uit de rekenregel.
+
+Testen zonder de live winkel kan met een fixture:
+
+```js
+window.__WOO_BASE__ = 'http://localhost:4173/test/fixtures';
+```
+
+`test/fixtures/products/65` bevat het echte antwoord van de Store API voor
+Soccer Memo, zodat de logica te testen is zonder netwerk.

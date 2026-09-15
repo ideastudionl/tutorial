@@ -228,7 +228,7 @@
       <a href="#faq" data-link>Vragen</a>
     </nav>
     <div class="header__actions">
-      <span class="demo-chip" title="Prototype met voorbeelddata">Demo</span>
+      <span class="demo-chip" id="dataChip" title="Prototype met voorbeelddata">Demo-data</span>
       <button class="icon-btn" id="cartBtn" aria-haspopup="dialog">
         <svg><use href="#ic-cart"></use></svg>
         <span class="sr-only">Winkelwagen openen</span>
@@ -277,10 +277,10 @@
           <span><b class="count" data-count="9.4" data-dec="1">9,4</b> gemiddeld · <span class="count" data-count="212">212</span> beoordelingen</span>
         </div>
         <div class="hero__buy">
-          <button class="btn btn--primary" data-add="memo"><svg class="btn__ball" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-ball"></use></svg> In de winkelwagen <span class="btn__price">€ 14,95</span></button>
+          <button class="btn btn--primary" data-add="memo"><svg class="btn__ball" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-ball"></use></svg> In de winkelwagen <span class="btn__price" id="heroPrice">€ 14,95</span></button>
           <a class="btn btn--ghost" href="#/product" data-link>Bekijk het spel <svg width="18" height="18"><use href="#ic-arrow"></use></svg></a>
         </div>
-        <p class="eyebrow">Nog 23 stuks op voorraad · vandaag verzonden</p>
+        <p class="eyebrow" id="heroStock">Nog 39 stuks op voorraad · vandaag verzonden</p>
       </div>
 
       <div class="board-panel" id="speel-mee">
@@ -358,7 +358,7 @@
             <h3>Soccer MeMo</h3>
             <p class="pcard__meta">48 kaarten · 24 paren · 4+</p>
             <div class="pcard__foot">
-              <span class="pcard__price">€ 14,95</span>
+              <span class="pcard__price" id="cardPrice">€ 14,95</span>
               <button class="btn btn--sm btn--primary" data-add="memo">In mandje</button>
             </div>
           </div>
@@ -450,7 +450,7 @@
           <h2>Het beste cadeau voor de kleedkamer</h2>
           <p class="lead">Einde seizoen, verjaardag of gewoon omdat ze kampioen zijn geworden: Soccer MeMo past in elke sporttas. Wij pakken het voor je in met oranje lint en schrijven je kaartje mee.</p>
           <div class="hero__buy">
-            <button class="btn btn--primary" data-add="memo">Bestel met cadeauverpakking <span class="btn__price">€ 17,90</span></button>
+            <button class="btn btn--primary" data-add="memo">Bestel met cadeauverpakking <span class="btn__price" id="giftPrice">€ 17,90</span></button>
           </div>
           <p class="eyebrow" style="color:#A9CDB2">Team of vereniging? Vanaf 10 stuks krijg je staffelkorting — mail teams@soccer-games.nl</p>
         </div>
@@ -464,7 +464,7 @@
     <div class="wrap">
       <div class="section__head">
         <div class="stack">
-          <p class="eyebrow">Beoordelingen</p>
+          <p class="eyebrow" id="reviewNoteHome">Beoordelingen</p>
           <h2>Wat ouders en kinderen zeggen</h2>
         </div>
       </div>
@@ -547,7 +547,7 @@
     <div class="pdp">
       <!-- Galerij -->
       <div class="gallery">
-        <div class="gallery__main"><svg id="galMain" viewBox="0 0 400 400" role="img" aria-label="Soccer MeMo doos, vooraanzicht"><use href="#art-box"></use></svg></div>
+        <div class="gallery__main" id="galMainWrap"><svg id="galMain" viewBox="0 0 400 400" role="img" aria-label="Soccer MeMo doos, vooraanzicht"><use href="#art-box"></use></svg></div>
         <div class="thumbs" id="thumbs">
           <button class="thumb" data-art="art-box" aria-current="true" aria-label="Doos vooraanzicht"><svg viewBox="0 0 400 400"><use href="#art-box"></use></svg></button>
           <button class="thumb" data-art="art-fan" aria-label="Kaarten in waaier"><svg viewBox="0 0 400 400"><use href="#art-fan"></use></svg></button>
@@ -559,11 +559,11 @@
       <!-- Koopblok -->
       <div class="buybox">
         <div class="stack" style="gap:10px">
-          <p class="eyebrow">Voetbal-memory · SKU SM-48</p>
-          <h1>Soccer MeMo</h1>
+          <p class="eyebrow" id="pdpEyebrow">Voetbal-memory · 48 kaarten</p>
+          <h1 id="pdpTitle">Soccer MeMo</h1>
           <div class="rating">
             <span class="stars" aria-hidden="true"><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg></span>
-            <a href="#reviews-pdp" data-link><b>9,4</b> · 212 beoordelingen</a>
+            <a href="#reviews-pdp" data-link id="pdpRating"><b>9,4</b> · 212 beoordelingen</a>
           </div>
           <p class="lead">48 kaarten met 24 voetbalillustraties. Zoek de paren, train het geheugen en speel met z'n tweeën tot z'n vieren een potje van tien minuten.</p>
         </div>
@@ -574,19 +574,19 @@
             <input type="radio" name="bundle" value="memo" checked>
             <span class="bundle__dot" aria-hidden="true"></span>
             <span class="bundle__label"><b>1 spel</b><span>Voor thuis aan tafel</span></span>
-            <span class="bundle__price">€ 14,95</span>
+            <span class="bundle__price" id="bundlePrice1">€ 14,95</span>
           </label>
           <label class="bundle" data-bundle="duo" data-price="24.95">
             <input type="radio" name="bundle" value="duo">
             <span class="bundle__dot" aria-hidden="true"></span>
             <span class="bundle__label"><b>2 spellen <span class="bundle__tag">Populair</span></b><span>Eentje houden, eentje cadeau</span></span>
-            <span class="bundle__price">€ 24,95<s>€ 29,90</s></span>
+            <span class="bundle__price" id="bundlePrice2">€ 24,95<s>€ 29,90</s></span>
           </label>
           <label class="bundle" data-bundle="trio" data-price="34.95">
             <input type="radio" name="bundle" value="trio">
             <span class="bundle__dot" aria-hidden="true"></span>
             <span class="bundle__label"><b>3 spellen <span class="bundle__tag" style="background:var(--flame)">Beste deal</span></b><span>Voor het hele team</span></span>
-            <span class="bundle__price">€ 34,95<s>€ 44,85</s></span>
+            <span class="bundle__price" id="bundlePrice3">€ 34,95<s>€ 44,85</s></span>
           </label>
         </fieldset>
 
@@ -600,7 +600,7 @@
           </div>
           <button class="btn btn--primary" id="pdpAdd"><svg class="btn__ball" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-ball"></use></svg> In de winkelwagen <span class="btn__price" id="pdpPrice">€ 14,95</span></button>
         </div>
-        <p class="stock"><span class="dot-live" aria-hidden="true"></span> Op voorraad — nog 23 stuks in ons magazijn in Zwolle</p>
+        <p class="stock" id="stockLine"><span class="dot-live" aria-hidden="true"></span> Op voorraad — nog 39 stuks</p>
 
         <div class="delivery">
           <div class="delivery__row"><svg><use href="#ic-truck"></use></svg><p>Bestel binnen <span class="countdown" id="cutoff">—</span> en we versturen je pakket <b>vandaag nog</b> met PostNL.</p></div>
@@ -609,7 +609,7 @@
         </div>
 
         <div class="tabsish">
-          <details class="acc" open><summary>Omschrijving</summary><div class="acc__body">
+          <details class="acc" open><summary>Omschrijving</summary><div class="acc__body" id="pdpDesc">
             <p>Soccer MeMo brengt de zaterdagochtend naar de keukentafel. Op de 48 kaarten staan 24 illustraties die elke jonge voetballer herkent: de bal, de scheenbeschermer, het fluitje van de scheids, de cornervlag, de beker. Kaarten omdraaien, paren zoeken, onthouden waar die ene bal ook alweer lag.</p>
             <p>Terwijl je kind speelt, oefent het werkgeheugen en volgehouden aandacht — dezelfde concentratie die op het veld het verschil maakt. Zonder scherm, in tien minuten, met jou erbij.</p>
           </div></details>
@@ -638,7 +638,7 @@
     <!-- Reviews PDP -->
     <section class="section" id="reviews-pdp">
       <div class="section__head">
-        <div class="stack"><p class="eyebrow">212 beoordelingen</p><h2>Gemiddeld een 9,4</h2></div>
+        <div class="stack"><p class="eyebrow" id="reviewNotePdp">212 beoordelingen</p><h2>Gemiddeld een 9,4</h2></div>
         <p class="lead" style="max-width:32ch">Alle beoordelingen komen van klanten die Soccer MeMo bij ons bestelden.</p>
       </div>
       <div class="cols cols--3">

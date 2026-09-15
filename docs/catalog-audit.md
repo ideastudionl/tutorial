@@ -23,9 +23,30 @@ headless front-end er iets moois van kan maken.
 | 578 | WK 2026 Beker | simpel | € 125,27 | 3 |
 | 577 | WK 2026 Gouden handschoen | simpel | € 16,68 | 3 |
 
-**Soccer MeMo staat er niet bij.** Dit is pagina 1 van de standaardsortering; het
-spel kan verderop staan. Te controleren met
-`…/products?search=memo` en `…/products?per_page=100`.
+**Soccer Memo staat er niet bij** — hij bleek als elfde product in de catalogus te
+staan (ID 65, slug `soccer-memo`). Zie hieronder.
+
+## Soccer Memo (ID 65) — het eigen product
+
+| Veld | Waarde |
+|---|---|
+| Prijs | € 14,95, afgeprijsd van € 19,95 (`on_sale: true`) |
+| Voorraad | 39 stuks, maximaal 39 per bestelling |
+| Type | simpel product, geen varianten |
+| Foto's | 7 stuks, **op het eigen domein** (`/wp-content/uploads/2022/07/…`) |
+| Tekst | nette Nederlandse copy, geschreven voor de winkel |
+| SKU | leeg |
+| Gewicht en afmetingen | leeg |
+| Categorie | geen |
+| Reviews | 0 |
+
+Dit product is in orde: goede foto's, goede tekst, kloppende prijs. Wat mist:
+een SKU, gewicht en afmetingen (nodig zodra de verzendkosten op gewicht worden
+berekend), een categorie, en reviews.
+
+De hele catalogus telt **elf producten**: Soccer Memo plus tien ingekochte
+artikelen. Dat maakt route A (merkwinkel met Soccer Memo centraal) goed
+haalbaar — het is geen catalogus van honderden artikelen die om filters vraagt.
 
 ## Wat een headless front-end hier tegenhoudt
 

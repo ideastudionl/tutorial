@@ -233,13 +233,19 @@
   newGame();
 
   /* ---------- Productpagina: galerij ---------- */
-  var galMain = $('#galMain');
+  var galWrap = $('#galMainWrap');
   $('#thumbs').addEventListener('click', function (e) {
     var t = e.target.closest('.thumb');
     if (!t) return;
     $$('.thumb').forEach(function (b) { b.setAttribute('aria-current', String(b === t)); });
-    galMain.innerHTML = '<use href="#' + t.getAttribute('data-art') + '"></use>';
-    galMain.setAttribute('aria-label', t.getAttribute('aria-label'));
+
+    var src = t.getAttribute('data-src');
+    if (src) {
+      galWrap.innerHTML = '<img src="' + src + '" alt="' + (t.getAttribute('aria-label') || '') + '">';
+      return;
+    }
+    galWrap.innerHTML = '<svg id="galMain" viewBox="0 0 400 400" role="img" aria-label="' +
+      t.getAttribute('aria-label') + '"><use href="#' + t.getAttribute('data-art') + '"></use></svg>';
   });
 
   /* ---------- Productpagina: bundels, aantal, prijs ---------- */
@@ -351,6 +357,134 @@
     }, { threshold: 0.9 });
     $$('.count').forEach(function (el) { nums.observe(el); });
   }
+
+  /* =============================================================
+     Live data uit WooCommerce (Store API)
+     De pagina staat volledig gevuld in de HTML; lukt de call, dan
+     worden prijs, voorraad, tekst en foto's vervangen door de echte.
+     ============================================================= */
+  var WOO = {
+    base: window.__WOO_BASE__ || 'https://www.soccer-games.nl/wp-json/wc/store/v1',
+    productId: 65
+  };
+
+  function fromMinor(value, unit) {
+    return parseInt(value, 10) / Math.pow(10, unit == null ? 2 : unit);
+  }
+
+  function setBundlePrice(el, now, was) {
+    if (!el) return;
+    el.textContent = euro.format(now);
+    if (was > now) { el.insertAdjacentHTML('beforeend', '<s>' + euro.format(was) + '</s>'); }
+  }
+
+  function cleanDescription(html) {
+    var box = document.createElement('div');
+    box.innerHTML = html;
+    var parts = [];
+    $$('h1, h2, h3, p, li', box).forEach(function (node) {
+      var text = (node.textContent || '').trim();
+      if (!text) return;
+      var tag = node.tagName.toLowerCase();
+      parts.push(tag === 'p' || tag === 'li' ? '<p></p>' : '<h3></h3>');
+      parts[parts.length - 1] = parts[parts.length - 1].replace('><', '>' + text + '<');
+    });
+    return parts.join('');
+  }
+
+  function applyProduct(p) {
+    var unit = p.prices && p.prices.currency_minor_unit;
+    var now = fromMinor(p.prices.price, unit);
+    var was = fromMinor(p.prices.regular_price, unit);
+
+    /* Bundelkortingen blijven het voorstel; ze rekenen mee met de echte prijs. */
+    CATALOG.memo.price = now;
+    CATALOG.duo.price = Math.round((now * 2 - 4.95) * 100) / 100;
+    CATALOG.trio.price = Math.round((now * 3 - 9.9) * 100) / 100;
+
+    if ($('#heroPrice')) $('#heroPrice').textContent = euro.format(now);
+    if ($('#cardPrice')) $('#cardPrice').textContent = euro.format(now);
+    if ($('#giftPrice')) $('#giftPrice').textContent = euro.format(now + CATALOG.gift.price);
+    setBundlePrice($('#bundlePrice1'), now, was);
+    setBundlePrice($('#bundlePrice2'), CATALOG.duo.price, now * 2);
+    setBundlePrice($('#bundlePrice3'), CATALOG.trio.price, now * 3);
+    $$('.bundle').forEach(function (b) {
+      var id = b.getAttribute('data-bundle');
+      if (CATALOG[id]) b.setAttribute('data-price', CATALOG[id].price.toFixed(2));
+    });
+
+    if (p.name && $('#pdpTitle')) $('#pdpTitle').textContent = p.name;
+
+    var stock = p.stock_availability && p.stock_availability.text;
+    var amount = stock && (stock.match(/\d+/) || [])[0];
+    if (stock) {
+      if ($('#stockLine')) {
+        $('#stockLine').innerHTML = '<span class="dot-live" aria-hidden="true"></span> ' +
+          (!p.is_in_stock ? 'Tijdelijk uitverkocht'
+            : amount ? 'Op voorraad — nog ' + amount + ' stuks' : 'Op voorraad');
+      }
+      if ($('#heroStock')) {
+        $('#heroStock').textContent = (amount ? 'Nog ' + amount + ' stuks op voorraad' : stock) +
+          ' · vandaag verzonden';
+      }
+    }
+
+    if (p.description && $('#pdpDesc')) {
+      var body = cleanDescription(p.description);
+      if (body) $('#pdpDesc').innerHTML = body;
+    }
+
+    if (p.images && p.images.length) {
+      var thumbs = $('#thumbs');
+      thumbs.innerHTML = p.images.slice(0, 6).map(function (img, i) {
+        var label = img.alt || img.name || ('Foto ' + (i + 1));
+        return '<button class="thumb" data-src="' + img.src + '" aria-label="' + label + '"' +
+          (i === 0 ? ' aria-current="true"' : '') + '><img src="' + (img.thumbnail || img.src) +
+          '" alt="" loading="lazy"></button>';
+      }).join('');
+      galWrap.innerHTML = '<img src="' + p.images[0].src + '" alt="' +
+        (p.images[0].alt || p.images[0].name || p.name) + '">';
+    }
+
+    if (p.sku && $('#pdpEyebrow')) {
+      $('#pdpEyebrow').textContent = 'Voetbal-memory · SKU ' + p.sku;
+    }
+
+    if (p.review_count > 0) {
+      $$('.count[data-count="212"]').forEach(function (el) {
+        el.setAttribute('data-count', String(p.review_count));
+        el.textContent = String(p.review_count);
+      });
+      if ($('#pdpRating')) {
+        $('#pdpRating').innerHTML = '<b>' + String(p.average_rating).replace('.', ',') + '</b> · ' +
+          p.review_count + ' beoordelingen';
+      }
+    } else {
+      if ($('#pdpRating')) $('#pdpRating').textContent = 'Nog geen beoordelingen';
+      $$('#reviewNoteHome, #reviewNotePdp').forEach(function (el) {
+        el.textContent = 'Voorbeeldbeoordelingen — WooCommerce heeft er nog geen';
+      });
+    }
+
+    var chip = $('#dataChip');
+    if (chip) {
+      chip.textContent = 'Live uit WooCommerce';
+      chip.title = 'Prijs, voorraad, tekst en foto\'s komen rechtstreeks uit de winkel';
+      chip.style.borderStyle = 'solid';
+      chip.style.borderColor = 'var(--brand)';
+      chip.style.color = 'var(--pitch)';
+    }
+
+    renderCart();
+    paint();
+  }
+
+  fetch(WOO.base + '/products/' + WOO.productId, { cache: 'no-store' })
+    .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+    .then(applyProduct)
+    .catch(function (err) {
+      console.info('Geen live winkeldata (' + err.message + '); de pagina toont de ingebouwde voorbeelddata.');
+    });
 
   renderCart();
 })();
