@@ -592,7 +592,7 @@ window.addEventListener('hashchange', () => {
   router();
 });
 
-document.addEventListener('DOMContentLoaded', () => {
+function start() {
   /* plaatsenlijst voor de autocomplete-velden */
   const datalist = $('#plaatsen');
   if (datalist) {
@@ -601,4 +601,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   $('#jaar').textContent = new Date().getFullYear();
   router();
-});
+}
+
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
+else start();

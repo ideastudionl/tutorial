@@ -2,6 +2,8 @@
    Clover Uitzendbureau — Basis & layout
    ========================================================= */
 
+:root { color-scheme: light; }
+
 *, *::before, *::after { box-sizing: border-box; }
 
 * { margin: 0; }
@@ -299,7 +301,7 @@ p { text-wrap: pretty; }
    ========================================================= */
 
 .site-header {
-  position: sticky; top: 0; z-index: 90;
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 90;
   background: rgba(250, 248, 242, .82);
   backdrop-filter: blur(14px) saturate(1.4);
   -webkit-backdrop-filter: blur(14px) saturate(1.4);
