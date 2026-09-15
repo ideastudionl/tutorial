@@ -58,30 +58,8 @@
   --chromeInk: #dbe5df;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    color-scheme: dark;
-    --paper:  #0d1411;
-    --white:  #121b17;
-    --chalk:  #161f1a;
-    --sage:   #14201a;
-    --sand:   #1b1a15;
-    --deep:   #080e0b;
-    --ink:    #e9efeb;
-    --slate:  #9fada6;
-    --faint:  #78857e;
-    --line:   #253029;
-    --hair:   #1c2621;
-    --green:  #4fb187;
-    --green-hi:#68c39a;
-    --green-ink:#05130d;
-    --clay:   #e08a72;
-    --amber:  #d9a94e;
-    --ok:     #56b98c;
-    --chrome: #060d09;
-  }
-}
-
+/* Light is the standard. The page opens light regardless of the device's
+   colour-scheme setting; dark is opt-in only, via data-theme="dark". */
 :root[data-theme="dark"] {
   color-scheme: dark;
   --paper:  #0d1411;
@@ -954,9 +932,8 @@ body.frame-mobile .stage .collh1 { font-size: 1.9rem; }
     });
   }
   function isDark() {
-    var a = document.documentElement.getAttribute('data-theme');
-    if (a) return a === 'dark';
-    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    // Light is the standard, so only an explicit choice turns artwork dark.
+    return document.documentElement.getAttribute('data-theme') === 'dark';
   }
 
   /* =========================================================================

@@ -49,8 +49,11 @@ Two rules do most of the work:
 Contrast: every text/background pairing meets WCAG AA. `--c-accent` is never used for body text
 on white — only for icons and large marks, where 3:1 applies.
 
-Dark mode is fully specified in the prototype and inverts the grounds without inverting the
-hierarchy; the brand green lightens to `#4fb187` so it keeps contrast on a dark ground.
+**Light is the standard.** The storefront opens light for everyone, including visitors whose
+device is set to dark mode — the page does not follow `prefers-color-scheme`. The Shopify theme is
+light-only by design (all colour comes from theme settings; there is no dark-mode stylesheet). The
+prototype keeps a dark palette behind an explicit opt-in toggle so the tokens can be checked, but
+nothing reaches it automatically.
 
 ## 3. Typography
 
