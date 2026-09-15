@@ -35,6 +35,7 @@ function ifs_enqueue_assets() {
 				'ajaxUrl' => admin_url( 'admin-ajax.php' ),
 				'nonce'   => wp_create_nonce( 'ifs_quote' ),
 				'action'  => 'ifs_submit_quote',
+				'pricing' => ifs_quote_pricing(),
 				'i18n'    => array(
 					'required'    => __( 'Maak eerst een keuze om verder te gaan.', 'interflexstuc' ),
 					'fillFields'  => __( 'Vul de verplichte velden in.', 'interflexstuc' ),
@@ -43,6 +44,10 @@ function ifs_enqueue_assets() {
 					'consent'     => __( 'Ga akkoord met de privacyverklaring om te versturen.', 'interflexstuc' ),
 					'genericErr'  => __( 'Er ging iets mis. Bel ons gerust even, dan regelen we het direct.', 'interflexstuc' ),
 					'stepOf'      => __( 'Stap %1$d van %2$d', 'interflexstuc' ),
+					'priceFrom'   => __( 'vanaf', 'interflexstuc' ),
+					'perM2'       => __( 'per m²', 'interflexstuc' ),
+					'priceUnit'   => __( 'op basis van ± %s m²', 'interflexstuc' ),
+					'priceNoArea' => __( 'zodra je de oppervlakte kiest, rekenen we een totaalprijs uit', 'interflexstuc' ),
 				),
 			)
 		);

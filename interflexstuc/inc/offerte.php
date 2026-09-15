@@ -22,13 +22,13 @@ function ifs_quote_steps() {
 			'hint'    => 'Meerdere antwoorden mogelijk — we stemmen de offerte daarop af.',
 			'type'    => 'multi',
 			'options' => array(
-				'wanden'      => array( 'Wanden stucen', 'Glad pleisterwerk, schuurwerk of behangklaar', 'wall' ),
-				'plafonds'    => array( 'Plafonds stucen', 'Strak wit plafond zonder naden', 'ceiling' ),
-				'sierpleister'=> array( 'Sierpleister / spachtelputz', 'Structuurpleister binnen of buiten', 'sparkles' ),
-				'buitengevel' => array( 'Buitengevel stucen', 'Gevelpleister, eventueel met isolatie', 'building' ),
-				'betonlook'   => array( 'Betonlook / betonstuc', 'Naadloze betonciré-afwerking', 'layers' ),
-				'schilderwerk'=> array( 'Schilderwerk', 'Kozijnen, deuren, trappen, wanden', 'brush' ),
-				'anders'      => array( 'Iets anders', 'Vertel het ons bij de opmerkingen', 'clipboard' ),
+				'wanden'       => array( 'label' => 'Wanden stucen', 'desc' => 'Glad pleisterwerk, behangklaar', 'icon' => 'wall', 'rate' => 15.00, 'headline' => true ),
+				'plafonds'     => array( 'label' => 'Plafonds stucen', 'desc' => 'Strak wit plafond zonder naden', 'icon' => 'ceiling', 'rate' => 17.50 ),
+				'sierpleister' => array( 'label' => 'Sierpleister / spachtelputz', 'desc' => 'Structuurpleister binnen of buiten', 'icon' => 'sparkles', 'rate' => 21.00 ),
+				'buitengevel'  => array( 'label' => 'Buitengevel stucen', 'desc' => 'Gevelpleister, eventueel met isolatie', 'icon' => 'building', 'rate' => 45.00 ),
+				'betonlook'    => array( 'label' => 'Betonlook / betonstuc', 'desc' => 'Naadloze betonciré-afwerking', 'icon' => 'layers', 'rate' => 89.00 ),
+				'schilderwerk' => array( 'label' => 'Schilderwerk', 'desc' => 'Kozijnen, deuren, trappen, wanden', 'icon' => 'brush', 'rate' => 11.50 ),
+				'anders'       => array( 'label' => 'Iets anders', 'desc' => 'Vertel het ons bij de opmerkingen', 'icon' => 'clipboard' ),
 			),
 		),
 		array(
@@ -37,24 +37,24 @@ function ifs_quote_steps() {
 			'hint'    => 'Dit bepaalt hoeveel voorbereidend werk er nodig is.',
 			'type'    => 'choice',
 			'options' => array(
-				'nieuwbouw'   => array( 'Nieuwbouw / kale muren', 'Nog nooit afgewerkt', 'home' ),
-				'glad'        => array( 'Bestaand en redelijk glad', 'Alleen bijwerken en afwerken', 'ruler' ),
-				'beschadigd'  => array( 'Bestaand en beschadigd', 'Scheuren, gaten of loszittend stuc', 'layers' ),
-				'behang'      => array( 'Er zit nog behang op', 'Behang moet er eerst af', 'file-text' ),
-				'onbekend'    => array( 'Weet ik niet precies', 'Wij bekijken het tijdens de opname', 'clipboard' ),
+				'nieuwbouw'  => array( 'label' => 'Nieuwbouw / kale muren', 'desc' => 'Nog nooit afgewerkt', 'icon' => 'home', 'factor' => 1.00 ),
+				'glad'       => array( 'label' => 'Bestaand en redelijk glad', 'desc' => 'Alleen bijwerken en afwerken', 'icon' => 'ruler', 'factor' => 1.00 ),
+				'beschadigd' => array( 'label' => 'Bestaand en beschadigd', 'desc' => 'Scheuren, gaten of loszittend stuc', 'icon' => 'layers', 'factor' => 1.25 ),
+				'behang'     => array( 'label' => 'Er zit nog behang op', 'desc' => 'Behang moet er eerst af', 'icon' => 'file-text', 'factor' => 1.15 ),
+				'onbekend'   => array( 'label' => 'Weet ik niet precies', 'desc' => 'Wij bekijken het tijdens de opname', 'icon' => 'clipboard', 'factor' => 1.10 ),
 			),
 		),
 		array(
 			'key'     => 'oppervlakte',
 			'title'   => 'Om hoeveel vierkante meter gaat het ongeveer?',
-			'hint'    => 'Een ruwe schatting is genoeg. Twijfel je? Kies "weet ik niet".',
+			'hint'    => 'Een ruwe schatting is genoeg — je zit er niet aan vast.',
 			'type'    => 'choice',
 			'options' => array(
-				'tot-25'   => array( 'Tot 25 m²', 'Bijvoorbeeld één kamer', 'ruler' ),
-				'25-60'    => array( '25 – 60 m²', 'Enkele kamers', 'ruler' ),
-				'60-120'   => array( '60 – 120 m²', 'Een hele verdieping', 'ruler' ),
-				'120-plus' => array( 'Meer dan 120 m²', 'Hele woning of bedrijfspand', 'ruler' ),
-				'onbekend' => array( 'Weet ik niet', 'We meten het samen op', 'clipboard' ),
+				'tot-25'   => array( 'label' => 'Tot 25 m²', 'desc' => 'Bijvoorbeeld één kamer', 'icon' => 'ruler', 'm2' => 20 ),
+				'25-60'    => array( 'label' => '25 – 60 m²', 'desc' => 'Enkele kamers', 'icon' => 'ruler', 'm2' => 42 ),
+				'60-120'   => array( 'label' => '60 – 120 m²', 'desc' => 'Een hele verdieping', 'icon' => 'ruler', 'm2' => 90 ),
+				'120-plus' => array( 'label' => 'Meer dan 120 m²', 'desc' => 'Hele woning of bedrijfspand', 'icon' => 'ruler', 'm2' => 160 ),
+				'onbekend' => array( 'label' => 'Weet ik niet', 'desc' => 'We meten het samen op', 'icon' => 'clipboard' ),
 			),
 		),
 		array(
@@ -63,11 +63,11 @@ function ifs_quote_steps() {
 			'hint'    => '',
 			'type'    => 'choice',
 			'options' => array(
-				'appartement' => array( 'Appartement', '', 'building' ),
-				'tussenwoning'=> array( 'Tussen- of hoekwoning', '', 'home' ),
-				'vrijstaand'  => array( 'Twee-onder-een-kap of vrijstaand', '', 'home' ),
-				'nieuwbouw'   => array( 'Nieuwbouwproject', '', 'layers' ),
-				'zakelijk'    => array( 'Bedrijfspand of VvE', '', 'building' ),
+				'appartement'  => array( 'label' => 'Appartement', 'icon' => 'building' ),
+				'tussenwoning' => array( 'label' => 'Tussen- of hoekwoning', 'icon' => 'home' ),
+				'vrijstaand'   => array( 'label' => 'Twee-onder-een-kap of vrijstaand', 'icon' => 'home' ),
+				'nieuwbouw'    => array( 'label' => 'Nieuwbouwproject', 'icon' => 'layers' ),
+				'zakelijk'     => array( 'label' => 'Bedrijfspand of VvE', 'icon' => 'building' ),
 			),
 		),
 		array(
@@ -76,11 +76,11 @@ function ifs_quote_steps() {
 			'hint'    => 'Zo kunnen we meteen realistisch inplannen.',
 			'type'    => 'choice',
 			'options' => array(
-				'asap'      => array( 'Zo snel mogelijk', 'Spoedklus', 'zap' ),
-				'maand'     => array( 'Binnen een maand', '', 'calendar' ),
-				'kwartaal'  => array( 'Over 1 tot 3 maanden', '', 'calendar' ),
-				'later'     => array( 'Later dit jaar', '', 'calendar' ),
-				'orienteren'=> array( 'Ik oriënteer me nog', 'Alleen een prijsindicatie', 'euro' ),
+				'asap'       => array( 'label' => 'Zo snel mogelijk', 'desc' => 'Spoedklus', 'icon' => 'zap' ),
+				'maand'      => array( 'label' => 'Binnen een maand', 'icon' => 'calendar' ),
+				'kwartaal'   => array( 'label' => 'Over 1 tot 3 maanden', 'icon' => 'calendar' ),
+				'later'      => array( 'label' => 'Later dit jaar', 'icon' => 'calendar' ),
+				'orienteren' => array( 'label' => 'Ik oriënteer me nog', 'desc' => 'Alleen een prijsindicatie', 'icon' => 'euro' ),
 			),
 		),
 		array(
@@ -101,11 +101,114 @@ function ifs_quote_steps() {
 	);
 
 	/**
-	 * Maakt het mogelijk stappen aan te passen zonder het thema te wijzigen.
+	 * Maakt het mogelijk stappen en tarieven aan te passen zonder het thema te wijzigen.
 	 *
 	 * @param array $steps Stapdefinitie.
 	 */
 	return apply_filters( 'ifs_quote_steps', $steps );
+}
+
+/**
+ * Verzamelt de rekenwaarden uit de stapdefinitie voor de prijsindicatie.
+ *
+ * De indicatie is nadrukkelijk een richtprijs: hij vermenigvuldigt het tarief
+ * van de gekozen werksoort met de geschatte oppervlakte en een toeslag voor de
+ * staat van de ondergrond. Bij meerdere werksoorten rekenen we met het hoogste
+ * tarief, zodat de indicatie eerder te hoog dan te laag uitvalt.
+ *
+ * @return array
+ */
+function ifs_quote_pricing() {
+	$rates    = array();
+	$factors  = array();
+	$areas    = array();
+	$headline = 0;
+
+	foreach ( ifs_quote_steps() as $step ) {
+		if ( empty( $step['options'] ) ) {
+			continue;
+		}
+		foreach ( $step['options'] as $value => $option ) {
+			if ( isset( $option['rate'] ) ) {
+				$rates[ $value ] = (float) $option['rate'];
+				if ( ! empty( $option['headline'] ) ) {
+					$headline = (float) $option['rate'];
+				}
+			}
+			if ( isset( $option['factor'] ) ) {
+				$factors[ $value ] = (float) $option['factor'];
+			}
+			if ( isset( $option['m2'] ) ) {
+				$areas[ $value ] = (int) $option['m2'];
+			}
+		}
+	}
+
+	return array(
+		'rates'   => $rates,
+		'factors' => $factors,
+		'areas'   => $areas,
+		'from'    => $headline ? $headline : ( $rates ? min( $rates ) : 0 ),
+	);
+}
+
+/**
+ * Het tarief dat als "vanaf"-prijs naar buiten gaat.
+ *
+ * Dit is bewust het tarief dat in de stapdefinitie met 'headline' is
+ * gemarkeerd (glad stucwerk), niet simpelweg het laagste tarief: schilderwerk
+ * is goedkoper per m², maar is niet waar we op adverteren.
+ *
+ * @return string Bijvoorbeeld "15,00".
+ */
+function ifs_price_from() {
+	$pricing = ifs_quote_pricing();
+	return number_format_i18n( $pricing['from'], 2 );
+}
+
+/**
+ * Haalt recent binnengekomen aanvragen op voor de activiteitsmelding.
+ *
+ * Toont uitsluitend plaats en hoe lang geleden — nooit persoonsgegevens — en
+ * alleen wanneer de aanvraag recent genoeg is om nog iets te zeggen.
+ *
+ * @param int $count    Aantal aanvragen.
+ * @param int $max_days Hoe oud een aanvraag maximaal mag zijn.
+ * @return array Lijst van array( 'city' => string, 'ago' => string ).
+ */
+function ifs_recent_quotes( $count = 1, $max_days = 14 ) {
+	$posts = get_posts(
+		array(
+			'post_type'        => 'ifs_aanvraag',
+			'post_status'      => 'private',
+			'posts_per_page'   => (int) $count,
+			'orderby'          => 'date',
+			'order'            => 'DESC',
+			'suppress_filters' => false,
+		)
+	);
+
+	$now = current_time( 'timestamp', true );
+	$out = array();
+
+	foreach ( $posts as $post ) {
+		$city = get_post_meta( $post->ID, 'ifs_plaats', true );
+		if ( ! $city ) {
+			continue;
+		}
+
+		$time = get_post_time( 'U', true, $post );
+		if ( ! $time || ( $now - $time ) > $max_days * DAY_IN_SECONDS ) {
+			continue;
+		}
+
+		$out[] = array(
+			'city' => $city,
+			'ago'  => human_time_diff( $time, $now ),
+		);
+	}
+
+	return $out;
 }
 
 /**
@@ -120,7 +223,7 @@ function ifs_quote_label( $step_key, $value ) {
 		if ( $step['key'] !== $step_key || empty( $step['options'] ) ) {
 			continue;
 		}
-		return isset( $step['options'][ $value ] ) ? $step['options'][ $value ][0] : $value;
+		return isset( $step['options'][ $value ]['label'] ) ? $step['options'][ $value ]['label'] : $value;
 	}
 	return $value;
 }

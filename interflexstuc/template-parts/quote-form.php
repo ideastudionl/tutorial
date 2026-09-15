@@ -18,6 +18,21 @@ $ifs_uid    = wp_unique_id( 'ifs-wizard-' );
 ?>
 <div class="ifs-wizard" id="<?php echo esc_attr( $ifs_uid ); ?>" data-wizard data-total="<?php echo esc_attr( $ifs_total ); ?>">
 
+	<?php $ifs_recent = ifs_recent_quotes( 1 ); ?>
+	<?php if ( $ifs_recent ) : ?>
+		<p class="ifs-activity">
+			<span class="ifs-activity__dot" aria-hidden="true"></span>
+			<?php
+			printf(
+				/* translators: 1: tijdsduur zoals "3 uur", 2: plaatsnaam. */
+				esc_html__( '%1$s geleden een offerte aangevraagd uit %2$s', 'interflexstuc' ),
+				esc_html( $ifs_recent[0]['ago'] ),
+				esc_html( $ifs_recent[0]['city'] )
+			);
+			?>
+		</p>
+	<?php endif; ?>
+
 	<div class="ifs-wizard__head">
 		<div class="ifs-wizard__progress">
 			<span class="ifs-wizard__count" data-counter>Stap <b>1</b> van <?php echo esc_html( $ifs_total ); ?></span>
@@ -25,6 +40,18 @@ $ifs_uid    = wp_unique_id( 'ifs-wizard-' );
 		</div>
 		<div class="ifs-wizard__bar" role="progressbar" aria-valuemin="1" aria-valuemax="<?php echo esc_attr( $ifs_total ); ?>" aria-valuenow="1" aria-label="Voortgang offerteaanvraag">
 			<i data-bar style="width:<?php echo esc_attr( round( 100 / $ifs_total ) ); ?>%"></i>
+		</div>
+
+		<div class="ifs-price-panel" data-price hidden>
+			<div class="ifs-price-panel__figure">
+				<span class="ifs-price-panel__label">Richtprijs voor jouw klus</span>
+				<strong data-price-value aria-live="polite"></strong>
+				<span class="ifs-price-panel__unit" data-price-unit></span>
+			</div>
+			<p class="ifs-price-panel__note">
+				<?php ifs_the_icon( 'clipboard', 15 ); ?>
+				Indicatie op basis van je antwoorden, inclusief materiaal en btw. Na een gratis opname leggen we de prijs vast.
+			</p>
 		</div>
 	</div>
 
@@ -80,6 +107,11 @@ $ifs_uid    = wp_unique_id( 'ifs-wizard-' );
 						<?php endforeach; ?>
 					</div>
 
+					<p class="ifs-reassure">
+						<?php ifs_the_icon( 'shield', 17 ); ?>
+						We gebruiken je gegevens alleen voor deze aanvraag. Geen nieuwsbrief, geen doorverkoop, geen telefoontjes van andere bedrijven.
+					</p>
+
 					<div class="ifs-hp" aria-hidden="true">
 						<label for="<?php echo esc_attr( $ifs_uid ); ?>-website">Laat dit veld leeg</label>
 						<input type="text" id="<?php echo esc_attr( $ifs_uid ); ?>-website" name="ifs_website" tabindex="-1" autocomplete="off">
@@ -96,7 +128,11 @@ $ifs_uid    = wp_unique_id( 'ifs-wizard-' );
 						<legend class="screen-reader-text"><?php echo esc_html( $ifs_step['title'] ); ?></legend>
 						<div class="ifs-options">
 							<?php foreach ( $ifs_step['options'] as $ifs_value => $ifs_option_data ) : ?>
-								<?php list( $ifs_label, $ifs_desc, $ifs_icon_name ) = $ifs_option_data; ?>
+								<?php
+								$ifs_label     = $ifs_option_data['label'];
+								$ifs_desc      = isset( $ifs_option_data['desc'] ) ? $ifs_option_data['desc'] : '';
+								$ifs_icon_name = isset( $ifs_option_data['icon'] ) ? $ifs_option_data['icon'] : 'clipboard';
+								?>
 								<label class="ifs-option">
 									<input type="<?php echo esc_attr( $ifs_input ); ?>"
 										name="<?php echo esc_attr( $ifs_name ); ?>"
@@ -152,10 +188,21 @@ $ifs_uid    = wp_unique_id( 'ifs-wizard-' );
 		</button>
 	</div>
 
+	<ul class="ifs-wizard__trust">
+		<li><?php ifs_the_icon( 'check-circle', 16 ); ?> Gratis en vrijblijvend</li>
+		<li><?php ifs_the_icon( 'check-circle', 16 ); ?> Geen aanbetaling</li>
+		<li><?php ifs_the_icon( 'check-circle', 16 ); ?> <?php echo esc_html( ifs_option( 'warranty_years' ) ); ?> jaar garantie op de uitvoering</li>
+	</ul>
+
 	<div class="ifs-wizard__done" data-done role="status" aria-live="polite">
 		<div class="ifs-wizard__done-icon"><?php ifs_the_icon( 'check-circle', 36 ); ?></div>
 		<h2>Je aanvraag is verstuurd</h2>
 		<p data-done-message>We nemen <?php echo esc_html( ifs_option( 'quote_response' ) ); ?> contact met je op.</p>
+		<ul class="ifs-wizard__next">
+			<li><span>1</span> Je krijgt direct een bevestiging per e-mail</li>
+			<li><span>2</span> We bellen je om de klus door te nemen</li>
+			<li><span>3</span> Je ontvangt een offerte met een vaste prijs per m²</li>
+		</ul>
 		<p style="margin-top:1.5rem">
 			<a class="ifs-btn ifs-btn--ghost" href="<?php echo esc_url( ifs_phone_href() ); ?>">
 				<?php ifs_the_icon( 'phone', 18 ); ?> Liever direct bellen? <?php echo esc_html( ifs_option( 'phone' ) ); ?>

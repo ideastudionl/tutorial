@@ -37,6 +37,12 @@ $ifs_areas    = ifs_get_items( 'ifs_werkgebied', 24 );
 				</a>
 			</div>
 
+			<p style="margin:1.1rem 0 0">
+				<span class="ifs-price-tag">
+					<strong>&euro;&nbsp;<?php echo esc_html( ifs_price_from() ); ?></strong> per m&sup2; &mdash; glad stucwerk, inclusief materiaal en btw
+				</span>
+			</p>
+
 			<div class="ifs-hero__quickstart">
 				<span class="ifs-hero__quickstart-label">Waar gaat het om?</span>
 				<div class="ifs-places">
@@ -139,7 +145,7 @@ $ifs_areas    = ifs_get_items( 'ifs_werkgebied', 24 );
 		<div class="ifs-section-head ifs-section-head--center">
 			<span class="ifs-eyebrow ifs-eyebrow--center">Offerte aanvragen</span>
 			<h2>Weet binnen 3 minuten wat je klus kost</h2>
-			<p class="ifs-lead">Beantwoord vijf korte vragen. Je krijgt <?php echo esc_html( ifs_option( 'quote_response' ) ); ?> een vrijblijvende prijsopgave die past bij jouw situatie — geen algemene richtprijs.</p>
+			<p class="ifs-lead">Beantwoord vijf korte vragen en zie meteen een richtprijs — vanaf &euro;&nbsp;<?php echo esc_html( ifs_price_from() ); ?> per m&sup2;. Daarna volgt <?php echo esc_html( ifs_option( 'quote_response' ) ); ?> een vrijblijvende opgave die past bij jouw situatie.</p>
 		</div>
 
 		<div class="ifs-quote__layout">

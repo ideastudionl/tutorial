@@ -26,6 +26,11 @@
 		var submitBtn = root.querySelector( '[data-submit]' );
 		var errorBox = root.querySelector( '[data-form-error]' );
 		var summary = root.querySelector( '[data-summary]' );
+		var priceBox = root.querySelector( '[data-price]' );
+		var priceValue = root.querySelector( '[data-price-value]' );
+		var priceUnit = root.querySelector( '[data-price-unit]' );
+		var pricing = config.pricing || { rates: {}, factors: {}, areas: {}, from: 0 };
+		var euro = new Intl.NumberFormat( 'nl-NL', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 } );
 		var current = 1;
 
 		if ( ! form || ! panels.length ) {
@@ -69,6 +74,7 @@
 			}
 
 			hideError();
+			updatePrice();
 
 			if ( current === total ) {
 				buildSummary();
@@ -201,6 +207,60 @@
 			return valid;
 		}
 
+		/**
+		 * Leest de gekozen waarde(n) van een stap uit het formulier.
+		 *
+		 * @param {string} key Sleutel van de stap.
+		 * @return {string[]} Gekozen waarden.
+		 */
+		function answers( key ) {
+			var sel = 'input[name="ifs_' + key + '"]:checked, input[name="ifs_' + key + '[]"]:checked';
+			return Array.prototype.map.call( form.querySelectorAll( sel ), function ( input ) {
+				return input.value;
+			} );
+		}
+
+		/**
+		 * Werkt de richtprijs bij op basis van de tot nu toe gegeven antwoorden.
+		 *
+		 * Bij meerdere werksoorten rekenen we met het hoogste tarief, zodat de
+		 * indicatie eerder te hoog dan te laag uitvalt.
+		 */
+		function updatePrice() {
+			if ( ! priceBox || ! priceValue ) {
+				return;
+			}
+
+			var rates = answers( 'werk' )
+				.map( function ( v ) { return pricing.rates[ v ]; } )
+				.filter( function ( r ) { return typeof r === 'number'; } );
+
+			if ( ! rates.length ) {
+				priceBox.hidden = true;
+				return;
+			}
+
+			var rate = Math.max.apply( null, rates );
+			var factor = pricing.factors[ answers( 'situatie' )[ 0 ] ] || 1;
+			var m2 = pricing.areas[ answers( 'oppervlakte' )[ 0 ] ];
+
+			priceBox.hidden = false;
+
+			if ( ! m2 ) {
+				// Zonder oppervlakte alleen een tarief per m² tonen.
+				priceValue.textContent = i18n.priceFrom + ' ' + euro.format( rate );
+				priceUnit.textContent = i18n.perM2 + ' — ' + i18n.priceNoArea;
+				return;
+			}
+
+			var mid = rate * factor * m2;
+			var low = Math.round( mid * 0.9 / 10 ) * 10;
+			var high = Math.round( mid * 1.2 / 10 ) * 10;
+
+			priceValue.textContent = euro.format( low ) + ' – ' + euro.format( high );
+			priceUnit.textContent = i18n.priceUnit.replace( '%s', m2 );
+		}
+
 		/** Vult de samenvatting met de gegeven antwoorden. */
 		function buildSummary() {
 			if ( ! summary ) {
@@ -329,6 +389,8 @@
 
 		// Radiokeuze springt automatisch door naar de volgende stap.
 		form.addEventListener( 'change', function ( event ) {
+			updatePrice();
+
 			if ( event.target.type === 'radio' && current < total ) {
 				window.setTimeout( function () {
 					show( current + 1, true );

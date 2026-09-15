@@ -107,7 +107,7 @@ function ifs_seed_services() {
 			'title'   => 'Glad stucwerk (wanden)',
 			'slug'    => 'glad-stucwerk',
 			'icon'    => 'wall',
-			'price'   => '€ 18,50 per m²',
+			'price'   => '€ 15,00 per m²',
 			'excerpt' => 'Strak, vlak en behangklaar pleisterwerk voor binnenmuren — de basis van elk mooi afgewerkt interieur.',
 			'usps'    => "Vlak en naadloos resultaat\nDirect over te schilderen of te behangen\nGeschikt voor nieuwbouw en renovatie",
 			'content' => "<p>Glad stucwerk is de meest gevraagde afwerking voor binnenmuren. Wij brengen een dunne, egale laag pleister aan die de ondergrond volledig vlak maakt. Het resultaat is een strakke wand zonder zichtbare naden, klaar om te sausen of te behangen.</p>
@@ -127,7 +127,7 @@ function ifs_seed_services() {
 			'title'   => 'Plafonds stucen',
 			'slug'    => 'plafond-stucen',
 			'icon'    => 'ceiling',
-			'price'   => '€ 21,00 per m²',
+			'price'   => '€ 17,50 per m²',
 			'excerpt' => 'Van gipsplaten of oude schrootjes naar een naadloos, spierwit plafond zonder zichtbare overgangen.',
 			'usps'    => "Naden en schroefgaten volledig weggewerkt\nOok over bestaande systeemplafonds\nStof- en spatvrij werken",
 			'content' => "<p>Een plafond valt pas op als het níét strak is. Wij werken plafonds van gipsplaten, beton of oude schrootjes af tot een egaal en naadloos vlak. Schroefgaten, naden en oneffenheden verdwijnen volledig.</p>
@@ -140,7 +140,7 @@ function ifs_seed_services() {
 			'title'   => 'Sierpleister & spachtelputz',
 			'slug'    => 'sierpleister-spachtelputz',
 			'icon'    => 'sparkles',
-			'price'   => '€ 24,00 per m²',
+			'price'   => '€ 21,00 per m²',
 			'excerpt' => 'Structuurpleister van kunsthars en steenkorrels: sterk, slijtvast en beschikbaar in fijne tot grove korrels.',
 			'usps'    => "Zeer slijtvast en stootvast\nKorrelgrootte naar keuze\nGeschikt voor binnen en buiten",
 			'content' => "<p>Spachtelputz is een sierpleister van kunsthars met steenkorrels. De korrelgrootte bepaalt hoe fijn of grof het oppervlak wordt — van een subtiele structuur tot een uitgesproken korrel. Het materiaal hardt zeer sterk uit en is daardoor lastig te beschadigen.</p>
@@ -170,7 +170,7 @@ function ifs_seed_services() {
 			'title'   => 'Betonlook & betonstuc',
 			'slug'    => 'betonlook-betonstuc',
 			'icon'    => 'layers',
-			'price'   => '€ 95,00 per m²',
+			'price'   => '€ 89,00 per m²',
 			'excerpt' => 'Naadloze betonciré met levendige wolking — voor wanden, badkamers en vloeren zonder kieren of voegen.',
 			'usps'    => "Volledig naadloos, ook in natte ruimtes\nSlechts enkele millimeters dik\nElk werk is uniek van tekening",
 			'content' => "<p>Betonstuc — ook wel betonciré of betonlook genoemd — geeft een wand of vloer de rauwe uitstraling van beton, maar dan in een laag van slechts enkele millimeters. Doordat het naadloos wordt aangebracht ontstaat een rustig, doorlopend vlak zonder voegen.</p>
@@ -280,7 +280,7 @@ function ifs_seed_areas() {
  */
 function ifs_seed_faq() {
 	$faq = array(
-		'Wat kost stucwerk per m²?'                       => '<p>Glad stucwerk op wanden begint bij ongeveer € 18,50 per m², plafonds bij € 21,00 per m². De uiteindelijke prijs hangt af van de staat van de ondergrond, de hoogte van de ruimte en het gewenste afwerkingsniveau. Via de offerteaanvraag krijg je binnen 24 uur een prijs die past bij jouw situatie.</p>',
+		'Wat kost stucwerk per m²?'                       => '<p>Glad stucwerk op wanden begint bij € 15,00 per m², plafonds bij € 17,50 per m². De uiteindelijke prijs hangt af van de staat van de ondergrond, de hoogte van de ruimte en het gewenste afwerkingsniveau. Via de offerteaanvraag krijg je binnen 24 uur een prijs die past bij jouw situatie.</p>',
 		'Hoe lang duurt het voordat stucwerk droog is?'    => '<p>Reken op ongeveer één dag droogtijd per millimeter laagdikte. Glad stucwerk is meestal na twee tot vier dagen droog genoeg om te schilderen, maar in een koude of slecht geventileerde ruimte kan dat langer duren. We adviseren je bij oplevering wanneer je veilig kunt sausen.</p>',
 		'Kan ik in huis blijven wonen tijdens het werk?'   => '<p>Ja, dat is bij de meeste klussen prima. We werken per ruimte, schermen alles zorgvuldig af en ruimen dagelijks op. Bij een volledige woning stemmen we samen een planning af, zodat je altijd een leefbare ruimte houdt.</p>',
 		'Moet ik het behang er eerst zelf afhalen?'        => '<p>Dat hoeft niet — wij kunnen het behang verwijderen en de wand voorbereiden. Doe je het zelf, dan scheelt dat in de prijs. Geef bij de offerteaanvraag aan wat je kiest, dan verwerken we dat in de opgave.</p>',
@@ -395,15 +395,15 @@ function ifs_seed_pages() {
 <table>
 <thead><tr><th>Werkzaamheid</th><th>Toelichting</th><th>Vanafprijs</th></tr></thead>
 <tbody>
-<tr><td>Glad stucwerk wanden</td><td>Behangklaar, bestaande ondergrond</td><td>€ 18,50 / m²</td></tr>
-<tr><td>Glad stucwerk wanden</td><td>Sausklaar, extra afwerkgang</td><td>€ 22,50 / m²</td></tr>
-<tr><td>Plafond stucen</td><td>Inclusief wegwerken naden</td><td>€ 21,00 / m²</td></tr>
-<tr><td>Sierpleister / spachtelputz</td><td>Binnen, korrel naar keuze</td><td>€ 24,00 / m²</td></tr>
-<tr><td>Betonstuc / betonlook</td><td>Inclusief proefvlak en afdichting</td><td>€ 95,00 / m²</td></tr>
+<tr><td>Glad stucwerk wanden</td><td>Behangklaar, bestaande ondergrond</td><td>€ 15,00 / m²</td></tr>
+<tr><td>Glad stucwerk wanden</td><td>Sausklaar, extra afwerkgang</td><td>€ 19,50 / m²</td></tr>
+<tr><td>Plafond stucen</td><td>Inclusief wegwerken naden</td><td>€ 17,50 / m²</td></tr>
+<tr><td>Sierpleister / spachtelputz</td><td>Binnen, korrel naar keuze</td><td>€ 21,00 / m²</td></tr>
+<tr><td>Betonstuc / betonlook</td><td>Inclusief proefvlak en afdichting</td><td>€ 89,00 / m²</td></tr>
 <tr><td>Buitengevel stucen</td><td>Afhankelijk van gevelhoogte en steiger</td><td>op aanvraag</td></tr>
 <tr><td>Gevelisolatie met sierpleister</td><td>Inclusief isolatieplaten en wapening</td><td>op aanvraag</td></tr>
 <tr><td>Behang verwijderen</td><td>Per m² wandoppervlak</td><td>€ 4,50 / m²</td></tr>
-<tr><td>Schilderwerk binnen</td><td>Wanden en plafonds, twee lagen</td><td>€ 9,50 / m²</td></tr>
+<tr><td>Schilderwerk binnen</td><td>Wanden en plafonds, twee lagen</td><td>€ 11,50 / m²</td></tr>
 </tbody>
 </table>
 <h2>Waar hangt de prijs vanaf?</h2>
