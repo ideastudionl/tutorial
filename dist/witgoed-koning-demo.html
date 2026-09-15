@@ -11,21 +11,21 @@
 :root {
   --brand:      #0E7BC4;   /* koptekstbalk, merk — helder en vriendelijk */
   --brand-dark: #0A6199;
-  --brand-soft: #EAF4FC;   /* lichtblauwe vlakken */
+  --brand-soft: #F2F8FD;   /* zeer licht blauw vlak */
   --link:       #0A6199;   /* klikbare tekst */
   --cta:        #C25208;   /* bestelknoppen */
   --cta-hover:  #D96010;
-  --cta-soft:   #FDF2E8;
+  --cta-soft:   #FEF6EF;
   --green:      #157347;   /* voorraad, bezorging, gratis */
-  --green-soft: #EDF7F1;
+  --green-soft: #F1FAF5;
   --red:        #B42318;   /* outlet, laatste exemplaar */
   --amber:      #E8A33D;   /* sterren */
 
   --bg:      #FFFFFF;
-  --band:    #F3F7FB;      /* lichte secties, blauw getint */
-  --band-2:  #FAFCFE;
-  --line:    #DCE4EC;
-  --line-2:  #EAF0F5;
+  --band:    #F7FAFC;      /* lichte secties */
+  --band-2:  #FCFDFE;
+  --line:    #DEE5EC;
+  --line-2:  #EDF1F5;
   --text:    #1B2733;
   --muted:   #55636F;
   --muted-2: #7A8896;
@@ -150,7 +150,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 
 /* --------------------------------------------------------- kop van de site */
 
-.topstrip { background: var(--band); border-bottom: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+.topstrip { background: var(--bg); border-top: 3px solid var(--brand); border-bottom: 1px solid var(--line-2); font-size: 13px; color: var(--muted); }
 .topstrip .wrap { display: flex; align-items: center; justify-content: space-between; gap: 14px; height: 34px; }
 .topstrip ul { display: flex; gap: 20px; }
 .topstrip li { display: flex; align-items: center; gap: 6px; white-space: nowrap; }
@@ -159,25 +159,25 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .topstrip a:hover { color: var(--link); }
 @media (max-width: 860px) { .topstrip li:nth-child(n+2), .topstrip .right a:first-child { display: none; } }
 
-.site-header { background: var(--brand); }
+.site-header { background: var(--bg); border-bottom: 1px solid var(--line-2); }
 .site-header .wrap {
   display: grid; grid-template-columns: auto 1fr auto;
   align-items: center; gap: 26px; height: 68px;
 }
 .logo { display: flex; align-items: center; gap: 10px; }
 .logo svg { flex: none; }
-.logo-word { color: #fff; font-weight: 700; font-size: 19px; line-height: 1.1; letter-spacing: -.01em; }
-.logo-word span { display: block; font-size: 11px; font-weight: 400; color: #A9C4DE; letter-spacing: 0; }
+.logo-word { color: var(--text); font-weight: 700; font-size: 19px; line-height: 1.1; letter-spacing: -.01em; }
+.logo-word span { display: block; font-size: 11px; font-weight: 400; color: var(--muted); letter-spacing: 0; }
 
 .search { position: relative; max-width: 560px; width: 100%; }
 .search input {
   width: 100%; font-family: var(--font); font-size: 15px;
-  padding: 10px 44px 10px 13px; border: 1px solid var(--brand-dark);
-  border-radius: var(--r); background: #fff; color: #1A1F26;
+  padding: 10px 44px 10px 13px; border: 2px solid var(--brand);
+  border-radius: var(--r); background: var(--bg); color: var(--text);
 }
 .search input::placeholder { color: #8A949F; }
 .search button {
-  position: absolute; right: 3px; top: 3px; bottom: 3px; width: 38px;
+  position: absolute; right: 2px; top: 2px; bottom: 2px; width: 40px;
   background: var(--cta); border: 0; border-radius: 2px; color: #fff; cursor: pointer;
   display: grid; place-items: center;
 }
@@ -185,12 +185,12 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 
 .header-actions { display: flex; align-items: center; gap: 4px; }
 .hbtn {
-  display: flex; align-items: center; gap: 8px; color: #fff;
+  display: flex; align-items: center; gap: 8px; color: var(--text);
   padding: 8px 10px; border-radius: var(--r); font-size: 14px; font-weight: 600;
   background: none; border: 0; cursor: pointer; font-family: var(--font);
 }
-.hbtn:hover { background: rgba(255,255,255,.11); }
-.hbtn small { display: block; font-weight: 400; font-size: 11px; color: #A9C4DE; }
+.hbtn:hover { background: var(--band); color: var(--link); }
+.hbtn small { display: block; font-weight: 400; font-size: 11px; color: var(--muted); }
 .cart-btn { position: relative; }
 .cart-count {
   position: absolute; top: 3px; left: 21px; background: var(--cta); color: #fff;
@@ -198,7 +198,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   display: grid; place-items: center; padding: 0 4px;
 }
 
-.nav { background: var(--bg); border-bottom: 1px solid var(--line); }
+.nav { background: var(--bg); border-bottom: 1px solid var(--line); box-shadow: 0 1px 2px rgba(27,39,51,.04); }
 .nav .wrap { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; }
 .nav .wrap::-webkit-scrollbar { display: none; }
 .nav a {
@@ -586,7 +586,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 
 /* --------------------------------------------------------------- footer -- */
 
-.site-footer { background: var(--band); color: var(--muted); border-top: 3px solid var(--brand); padding: 30px 0 18px; margin-top: 28px; }
+.site-footer { background: var(--bg); color: var(--muted); border-top: 3px solid var(--brand); padding: 30px 0 18px; margin-top: 28px; }
 .foot-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 28px; }
 @media (max-width: 880px) { .foot-grid { grid-template-columns: 1fr 1fr; gap: 22px; } }
 @media (max-width: 480px) { .foot-grid { grid-template-columns: 1fr; } }
@@ -1566,7 +1566,7 @@ window.WK = window.WK || {};
 
   P.header = function () {
     return '<header class="site-header"><div class="wrap">' +
-      '<a class="logo" href="#/" aria-label="Witgoed Koning, naar de homepage">' + WK.logo(36) +
+      '<a class="logo" href="#/" aria-label="Witgoed Koning, naar de homepage">' + WK.logo(38, 'donker') +
         '<span class="logo-word">Witgoed Koning<span>Deventer, sinds ' + WK.SHOP.since + '</span></span></a>' +
       '<form class="search" role="search" data-search>' +
         '<input type="search" name="q" placeholder="Zoek op merk, model of artikelnummer" aria-label="Zoeken">' +

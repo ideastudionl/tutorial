@@ -149,14 +149,14 @@ Daarom volgt het ontwerp de Nederlandse retail-conventies, niet een eigen vormta
 
 | Element | Keuze | Waarom |
 |---|---|---|
-| Koptekstbalk | Vlakke, heldere blauwe balk met logo, brede zoekbalk en winkelwagen rechts | Het patroon dat elke Nederlandse webshop gebruikt; helder blauw leest vriendelijker dan marineblauw |
+| Koptekstbalk | Wit, met logo links, een blauw omrand zoekveld in het midden en de winkelwagen rechts | De indeling die elke Nederlandse webshop gebruikt, maar zonder gekleurd blok — dat houdt de pagina licht |
 | Bestelknoppen | Oranje, altijd op dezelfde plek | Oranje is in NL de conventie voor "bestellen"; blauw leest als een link, groen als een bevestiging |
 | Categoriepagina | **Lijstweergave**, niet een tegelraster | Coolblue's opzet: foto links, opsommingstekens in het midden, prijs en knop rechts. Meer informatie per apparaat zichtbaar zonder door te klikken — juist bij tweedehands, waar elk exemplaar anders is |
 | Bezorgbelofte | Groene regel met datum bij elk apparaat | Standaard in NL e-commerce; concrete datum wint van "1–5 werkdagen" |
 | Sterren | Bij elk apparaat, met het aantal beoordelingen | 82% van de shoppers leest reviews vóór aankoop |
 | Typografie | Eén schreefloze letter (Source Sans 3), verschil door grootte en gewicht | Twee opvallende letters maken van een winkel een portfoliostuk |
-| Kleurgebruik | Helder blauw voor het merk, oranje voor actie, groen voor zekerheid, verder wit en lichtblauw | Kleur betekent iets; decoratieve accenten leiden af van de knop |
-| Grondtoon | Wit met lichtblauwe vlakken, lichte voettekst | Grote donkere vlakken maken een winkel zwaar; Bol en Coolblue houden de pagina licht |
+| Kleurgebruik | Oranje voor bestellen, groen voor bezorging en voorraad, blauw voor links en merk, verder wit | Kleur betekent iets. Waar alles kleur heeft, valt de bestelknop niet meer op |
+| Grondtoon | Wit, met bijna-witte vlakken om secties te scheiden en een dunne blauwe lijn boven- en onderaan | Grote gekleurde vlakken maken een winkel zwaar; de aandacht hoort naar de apparaten te gaan |
 
 Wat er bewust **niet** in zit: paginavullende sfeerbeelden, uitvergrote koppen, siercijfers bij
 processtappen, en decoratieve accentkleuren. Dat zijn kenmerken van een portfoliosite, niet van

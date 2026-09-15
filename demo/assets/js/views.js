@@ -29,7 +29,7 @@ window.WK = window.WK || {};
 
   P.header = function () {
     return '<header class="site-header"><div class="wrap">' +
-      '<a class="logo" href="#/" aria-label="Witgoed Koning, naar de homepage">' + WK.logo(36) +
+      '<a class="logo" href="#/" aria-label="Witgoed Koning, naar de homepage">' + WK.logo(38, 'donker') +
         '<span class="logo-word">Witgoed Koning<span>Deventer, sinds ' + WK.SHOP.since + '</span></span></a>' +
       '<form class="search" role="search" data-search>' +
         '<input type="search" name="q" placeholder="Zoek op merk, model of artikelnummer" aria-label="Zoeken">' +
