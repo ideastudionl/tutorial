@@ -1103,132 +1103,88 @@ html{scroll-behavior:smooth}
 
     <div class="kaart formkaart" id="formhuis">
       <form id="aanvraag" novalidate>
-        <div class="stapbalk" aria-hidden="true">
-          <div class="stapbalk__vul"><i id="stapvul" style="width:33.33%"></i></div>
-          <ol class="stapbalk__labels">
-            <li data-stap="1" class="nu">Opvang</li>
-            <li data-stap="2">Uw gegevens</li>
-            <li data-stap="3">Rondleiding</li>
-          </ol>
+        <div class="stapbalk">
+          <div class="stapbalk__vul" aria-hidden="true"><i id="stapvul" style="width:50%"></i></div>
+          <p class="stapbalk__tel" id="staptel">Stap 1 van 2 — over uw kind</p>
         </div>
 
-        <!-- stap 1 -->
         <fieldset class="stap" data-stap="1">
-          <legend class="stap__titel">Waar en wanneer zoekt u opvang?</legend>
-          <p class="stap__uitleg">Met deze vier antwoorden kunnen wij meteen zien of er plaats is.</p>
+          <legend class="stap__titel">Over uw kind</legend>
 
           <div class="veldblok">
-            <span class="vraag" id="lbl-locatie">Voorkeurslocatie <span class="grijs">— meerdere mogelijk</span></span>
+            <span class="vraag" id="lbl-locatie">Welke locatie?</span>
             <div class="chips" role="group" aria-labelledby="lbl-locatie" id="chips-locatie">
               <button type="button" class="chip" data-waarde="baarsjes" aria-pressed="false">Baarsjes</button>
               <button type="button" class="chip" data-waarde="geuzenveld" aria-pressed="false">Geuzenveld</button>
               <button type="button" class="chip" data-waarde="zeilstraat" aria-pressed="false">Zeilstraat</button>
-              <button type="button" class="chip" data-waarde="geen" aria-pressed="false">Nog geen voorkeur</button>
+              <button type="button" class="chip" data-waarde="geen" aria-pressed="false">Maakt niet uit</button>
             </div>
-          </div>
-
-          <div class="veldblok">
-            <label class="vraag" for="a-geboorte" id="lbl-geboorte">Geboortedatum van uw kind</label>
-            <input type="date" id="a-geboorte">
-            <label class="keuzeregel" for="a-ongeboren"><input type="checkbox" id="a-ongeboren"> Mijn kind is nog niet geboren — dit is de uitgerekende datum</label>
           </div>
 
           <div class="tweeluik">
             <div class="veldblok">
-              <label class="vraag" for="a-start">Gewenste startdatum opvang</label>
-              <input type="month" id="a-start" value="2027-01">
+              <label class="vraag" for="a-geboorte">Geboortedatum <span class="grijs">of verwacht</span></label>
+              <input type="date" id="a-geboorte">
             </div>
             <div class="veldblok">
-              <span class="vraag" id="lbl-dagen">Welke dagen?</span>
-              <div class="chips chips--dag" role="group" aria-labelledby="lbl-dagen" id="chips-dagen">
-                <button type="button" class="chip" data-waarde="ma" aria-pressed="false">ma</button>
-                <button type="button" class="chip" data-waarde="di" aria-pressed="false">di</button>
-                <button type="button" class="chip" data-waarde="wo" aria-pressed="false">wo</button>
-                <button type="button" class="chip" data-waarde="do" aria-pressed="false">do</button>
-                <button type="button" class="chip" data-waarde="vr" aria-pressed="false">vr</button>
-              </div>
-              <p class="hint" id="dagental">Nog geen dagen gekozen</p>
+              <label class="vraag" for="a-start">Opvang vanaf</label>
+              <input type="month" id="a-start" value="2027-01">
             </div>
           </div>
 
-          <label class="keuzeregel" for="a-flexibel"><input type="checkbox" id="a-flexibel"> Ik ben flexibel in welke dagen het worden</label>
-          <label class="keuzeregel" for="a-weekend"><input type="checkbox" id="a-weekend"> Ik heb ook opvang nodig op zaterdag of zondag <span class="grijs">— bij Roosje in overleg mogelijk</span></label>
+          <div class="veldblok">
+            <span class="vraag" id="lbl-dagen">Welke dagen? <span class="grijs">optioneel</span></span>
+            <div class="chips chips--dag" role="group" aria-labelledby="lbl-dagen" id="chips-dagen">
+              <button type="button" class="chip" data-waarde="ma" aria-pressed="false">ma</button>
+              <button type="button" class="chip" data-waarde="di" aria-pressed="false">di</button>
+              <button type="button" class="chip" data-waarde="wo" aria-pressed="false">wo</button>
+              <button type="button" class="chip" data-waarde="do" aria-pressed="false">do</button>
+              <button type="button" class="chip" data-waarde="vr" aria-pressed="false">vr</button>
+            </div>
+            <p class="hint" id="dagental">Weet u het nog niet? Sla dit gerust over.</p>
+          </div>
 
           <p class="fout" id="fout-1" role="alert" hidden></p>
         </fieldset>
 
-        <!-- stap 2 -->
         <fieldset class="stap" data-stap="2" hidden>
-          <legend class="stap__titel">Hoe kunnen wij u bereiken?</legend>
-          <p class="stap__uitleg">Wij nemen binnen één werkdag contact met u op. Uw gegevens worden niet gedeeld met derden.</p>
+          <legend class="stap__titel">Uw gegevens</legend>
 
           <div class="veldblok">
-            <label class="vraag" for="a-naam">Naam ouder(s)</label>
+            <label class="vraag" for="a-naam">Uw naam</label>
             <input type="text" id="a-naam" autocomplete="name" placeholder="Fatima de Vries">
           </div>
           <div class="tweeluik">
             <div class="veldblok">
-              <label class="vraag" for="a-tel">Telefoonnummer</label>
-              <input type="tel" id="a-tel" autocomplete="tel" placeholder="06 12 34 56 78">
-            </div>
-            <div class="veldblok">
               <label class="vraag" for="a-mail">E-mailadres</label>
               <input type="email" id="a-mail" autocomplete="email" placeholder="fatima@voorbeeld.nl">
             </div>
-          </div>
-          <div class="tweeluik tweeluik--breed">
             <div class="veldblok">
-              <label class="vraag" for="a-adres">Straat en huisnummer</label>
-              <input type="text" id="a-adres" autocomplete="street-address" placeholder="Baarsjesweg 296">
-            </div>
-            <div class="veldblok">
-              <label class="vraag" for="a-postcode">Postcode</label>
-              <input type="text" id="a-postcode" autocomplete="postal-code" placeholder="1058 AG" inputmode="text">
+              <label class="vraag" for="a-tel">Telefoon <span class="grijs">optioneel</span></label>
+              <input type="tel" id="a-tel" autocomplete="tel" placeholder="06 12 34 56 78">
             </div>
           </div>
 
+          <div class="veldblok">
+            <span class="vraag" id="lbl-moment">Wanneer komt u langs?</span>
+            <div class="chips" role="group" aria-labelledby="lbl-moment" id="chips-moment">
+              <button type="button" class="chip" data-waarde="dinsdag" aria-pressed="false">Dinsdagochtend</button>
+              <button type="button" class="chip" data-waarde="donderdag" aria-pressed="false">Donderdagochtend</button>
+              <button type="button" class="chip" data-waarde="bel" aria-pressed="true">Bel mij voor een afspraak</button>
+            </div>
+            <p class="hint">Wij leiden rond tussen 09:30 en 11:00, op een gewone opvangdag.</p>
+          </div>
+
+          <div class="veldblok">
+            <button type="button" class="tekstknop" id="toonopmerking">Een opmerking toevoegen</button>
+            <div id="opmerkingvak" hidden>
+              <label class="vraag" for="a-vraag">Uw opmerking</label>
+              <textarea id="a-vraag" placeholder="Bijvoorbeeld een allergie, een tweeling, of een broertje of zusje dat al bij Roosje zit."></textarea>
+            </div>
+          </div>
+
+          <label class="keuzeregel" for="a-akkoord"><input type="checkbox" id="a-akkoord"> Roosje mag mij bellen of mailen over deze aanvraag.</label>
           <p class="fout" id="fout-2" role="alert" hidden></p>
-        </fieldset>
-
-        <!-- stap 3 -->
-        <fieldset class="stap" data-stap="3" hidden>
-          <legend class="stap__titel">Wanneer komt u langs?</legend>
-          <p class="stap__uitleg">Wij leiden rond op dinsdag- en donderdagochtend tussen 09:30 en 11:00, op een gewone opvangdag.</p>
-
-          <div class="veldblok">
-            <label class="vraag" for="a-rondleiding">Voorkeursdag rondleiding</label>
-            <input type="date" id="a-rondleiding">
-            <p class="hint" id="dag-hint">Dinsdag of donderdag. Kiest u een andere dag, dan zoeken wij samen een alternatief.</p>
-          </div>
-
-          <div class="veldblok">
-            <span class="vraag" id="lbl-broer">Komt er al een broertje of zusje bij Roosje?</span>
-            <div class="chips" role="group" aria-labelledby="lbl-broer" id="chips-broer">
-              <button type="button" class="chip" data-waarde="ja" aria-pressed="false">Ja</button>
-              <button type="button" class="chip" data-waarde="nee" aria-pressed="true">Nee</button>
-            </div>
-            <p class="hint">Broertjes en zusjes van huidige kinderen krijgen voorrang op de wachtlijst.</p>
-          </div>
-
-          <div class="veldblok">
-            <label class="vraag" for="a-vraag">Vragen of opmerkingen <span class="grijs">(optioneel)</span></label>
-            <textarea id="a-vraag" placeholder="Bijvoorbeeld: een allergie, een tweeling, of iets waar wij rekening mee moeten houden."></textarea>
-          </div>
-
-          <div class="veldblok">
-            <label class="vraag" for="a-bron">Hoe heeft u ons gevonden? <span class="grijs">(optioneel)</span></label>
-            <select id="a-bron">
-              <option value="">Maak een keuze</option>
-              <option>Via Google</option>
-              <option>Van andere ouders gehoord</option>
-              <option>Langsgelopen in de buurt</option>
-              <option>Via school of consultatiebureau</option>
-              <option>Anders</option>
-            </select>
-          </div>
-
-          <label class="keuzeregel" for="a-akkoord"><input type="checkbox" id="a-akkoord"> Ja, Roosje mag mij bellen of mailen over deze aanvraag.</label>
-          <p class="fout" id="fout-3" role="alert" hidden></p>
         </fieldset>
 
         <div class="stapknoppen">
@@ -1236,7 +1192,7 @@ html{scroll-behavior:smooth}
           <button class="btn" type="button" id="volgende">Volgende <svg aria-hidden="true"><use href="#i-pijl"/></svg></button>
           <button class="btn" type="submit" id="versturen" hidden>Plan mijn rondleiding <svg aria-hidden="true"><use href="#i-pijl"/></svg></button>
         </div>
-        <p class="voetnoot" style="margin-top:.9rem">Dit is een ontwerpdemo — er wordt niets verstuurd of opgeslagen.</p>
+        <p class="voetnoot" style="margin-top:.9rem">Ontwerpdemo — er wordt niets verstuurd of opgeslagen.</p>
       </form>
 
       <div class="bevestiging" id="bevestiging" hidden>
@@ -1249,6 +1205,8 @@ html{scroll-behavior:smooth}
         </div>
       </div>
     </div>
+  </div>
+</section>
 </main>
 
 <footer class="voet">
@@ -1301,35 +1259,24 @@ html{scroll-behavior:smooth}
 <style>
 /* ---------------- formulier in stappen ---------------- */
 .stapbalk{
-  margin-bottom:1.4rem;position:sticky;top:0;z-index:5;
-  background:var(--wit);padding-block:.7rem .5rem;
+  position:sticky;top:0;z-index:5;background:var(--wit);
+  padding-block:.8rem .9rem;margin-bottom:1.3rem;
 }
-.stapbalk__vul{height:5px;border-radius:99px;background:var(--roos-zacht);overflow:hidden}
+.stapbalk__vul{height:4px;border-radius:99px;background:var(--roos-zacht);overflow:hidden}
 .stapbalk__vul i{display:block;height:100%;background:var(--roos);border-radius:99px;transition:width .35s cubic-bezier(.4,0,.2,1)}
-.stapbalk__labels{
-  list-style:none;margin:.6rem 0 0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);
-  gap:.5rem;font-size:.78rem;font-weight:700;color:var(--grijs);counter-reset:s;
-}
-.stapbalk__labels li{display:flex;align-items:center;gap:.4rem;min-width:0}
-.stapbalk__labels li::before{
-  counter-increment:s;content:counter(s);flex:0 0 19px;width:19px;height:19px;border-radius:50%;
-  display:grid;place-items:center;font-size:.68rem;background:var(--roos-zacht);color:var(--roos);
-}
-.stapbalk__labels li.nu{color:var(--roos)}
-.stapbalk__labels li.nu::before{background:var(--roos);color:#fff}
-.stapbalk__labels li.af{color:var(--blad)}
-.stapbalk__labels li.af::before{background:var(--blad);color:#fff;content:"\2713"}
-.stapbalk__labels li:last-child{justify-content:flex-end;text-align:right}
-.stapbalk__labels li:nth-child(2){justify-content:center}
-@media (max-width:460px){.stapbalk__labels{font-size:.72rem}}
-
-.stap{border:0;margin:0;padding:0;min-width:0;display:grid;gap:1.05rem}
+.stapbalk__tel{margin-top:.55rem;font-size:.8rem;font-weight:600;color:var(--grijs)}
+.stap{border:0;margin:0;padding:0;min-width:0;display:grid;gap:1.3rem}
 .stap__titel{
   font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.22rem;
   letter-spacing:-.02em;padding:0;margin:0;
 }
 .stap__titel:focus{outline:none}
-.stap__uitleg{font-size:.92rem;color:var(--inkt-70);margin-top:-.7rem}
+.tekstknop{
+  all:unset;cursor:pointer;font-size:.9rem;font-weight:600;color:var(--roos);
+  text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:3px;
+}
+.tekstknop:hover{text-decoration-thickness:3px}
+.tekstknop:focus-visible{outline:2.5px solid var(--roos);outline-offset:3px;border-radius:4px}
 .veldblok{display:grid;gap:.4rem;min-width:0}
 .vraag{font-size:.9rem;font-weight:700;color:var(--inkt)}
 .tweeluik{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
@@ -1583,13 +1530,14 @@ html{scroll-behavior:smooth}
   var plek = document.getElementById("vensterplek");
   var kaartje = document.getElementById("bevestiging");
   var rust = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var stap = 1, LAATSTE = 3;
+  var stap = 1, LAATSTE = 2;
 
-  var LOCNAAM = {baarsjes:"Baarsjes", geuzenveld:"Geuzenveld", zeilstraat:"Zeilstraat", geen:"nog geen voorkeur"};
+  var LOCNAAM = {baarsjes:"Baarsjes", geuzenveld:"Geuzenveld", zeilstraat:"Zeilstraat", geen:"maakt niet uit"};
   var DAGNAAM = {ma:"maandag", di:"dinsdag", wo:"woensdag", do:"donderdag", vr:"vrijdag"};
+  var MOMENT = {dinsdag:"dinsdagochtend", donderdag:"donderdagochtend", bel:"u wordt gebeld voor een afspraak"};
+  var TITEL = {1:"over uw kind", 2:"uw gegevens"};
   var MAAND = ["januari","februari","maart","april","mei","juni","juli","augustus","september","oktober","november","december"];
 
-  /* ---------- keuzeknoppen ---------- */
   function gekozen(groep){
     return Array.prototype.slice.call(document.querySelectorAll("#" + groep + " .chip[aria-pressed=true]"))
       .map(function(k){ return k.getAttribute("data-waarde"); });
@@ -1601,59 +1549,31 @@ html{scroll-behavior:smooth}
       var knop = e.target.closest(".chip");
       if (!knop) return;
       var aan = knop.getAttribute("aria-pressed") === "true";
-      if (enkel){
-        vak.querySelectorAll(".chip").forEach(function(k){ k.setAttribute("aria-pressed","false"); });
-        knop.setAttribute("aria-pressed", aan ? "false" : "true");
-      } else {
-        knop.setAttribute("aria-pressed", aan ? "false" : "true");
-        if (groep === "chips-locatie"){
-          /* "nog geen voorkeur" sluit de andere keuzes uit, en omgekeerd */
-          var isGeen = knop.getAttribute("data-waarde") === "geen";
-          vak.querySelectorAll(".chip").forEach(function(k){
-            var anderGeen = k.getAttribute("data-waarde") === "geen";
-            if (k !== knop && (isGeen || anderGeen)) k.setAttribute("aria-pressed","false");
-          });
-        }
-      }
+      if (enkel) vak.querySelectorAll(".chip").forEach(function(k){ k.setAttribute("aria-pressed","false"); });
+      knop.setAttribute("aria-pressed", enkel ? "true" : (aan ? "false" : "true"));
       if (groep === "chips-dagen") telDagen();
     });
   }
-  zetChips("chips-locatie", false);
+  zetChips("chips-locatie", true);
+  zetChips("chips-moment", true);
   zetChips("chips-dagen", false);
-  zetChips("chips-broer", true);
 
   var dagental = document.getElementById("dagental");
   function telDagen(){
     var n = gekozen("chips-dagen").length;
-    dagental.textContent = n === 0 ? "Nog geen dagen gekozen"
+    dagental.textContent = n === 0 ? "Weet u het nog niet? Sla dit gerust over."
       : n === 1 ? "1 dag per week" : n + " dagen per week";
   }
 
-  /* ---------- geboortedatum of uitgerekende datum ---------- */
-  var ongeboren = document.getElementById("a-ongeboren");
-  ongeboren.addEventListener("change", function(){
-    document.getElementById("lbl-geboorte").childNodes[0].nodeValue =
-      ongeboren.checked ? "Uitgerekende datum" : "Geboortedatum van uw kind";
+  var toonKnop = document.getElementById("toonopmerking");
+  toonKnop.addEventListener("click", function(){
+    document.getElementById("opmerkingvak").hidden = false;
+    toonKnop.hidden = true;
+    document.getElementById("a-vraag").focus();
   });
 
-  /* ---------- rondleiding: dinsdag of donderdag ---------- */
-  var rondleiding = document.getElementById("a-rondleiding");
-  var dagHint = document.getElementById("dag-hint");
-  rondleiding.addEventListener("change", function(){
-    if (!rondleiding.value){ dagHint.className = "hint"; dagHint.textContent = "Dinsdag of donderdag. Kiest u een andere dag, dan zoeken wij samen een alternatief."; return; }
-    var d = new Date(rondleiding.value + "T12:00:00").getDay();
-    if (d === 2 || d === 4){
-      dagHint.className = "hint hint--ok";
-      dagHint.textContent = "Prima — op die ochtend leiden wij rond.";
-    } else {
-      dagHint.className = "hint hint--let";
-      dagHint.textContent = "Op die dag leiden wij normaal niet rond. Wij nemen contact op om samen een dinsdag of donderdag te zoeken.";
-    }
-  });
-
-  /* ---------- stappen ---------- */
   var vulling = document.getElementById("stapvul");
-  var labels = document.querySelectorAll(".stapbalk__labels li");
+  var teller = document.getElementById("staptel");
   var knopVorige = document.getElementById("vorige");
   var knopVolgende = document.getElementById("volgende");
   var knopVersturen = document.getElementById("versturen");
@@ -1663,18 +1583,13 @@ html{scroll-behavior:smooth}
     form.querySelectorAll(".stap").forEach(function(f){
       f.hidden = parseInt(f.getAttribute("data-stap"),10) !== n;
     });
-    labels.forEach(function(li){
-      var i = parseInt(li.getAttribute("data-stap"),10);
-      li.className = i === n ? "nu" : (i < n ? "af" : "");
-    });
     vulling.style.width = (n / LAATSTE * 100) + "%";
+    teller.textContent = "Stap " + n + " van " + LAATSTE + " — " + TITEL[n];
     knopVorige.hidden = n === 1;
     knopVolgende.hidden = n === LAATSTE;
     knopVersturen.hidden = n !== LAATSTE;
-    var actief = form.querySelector('.stap[data-stap="' + n + '"]');
-    var titel = actief.querySelector(".stap__titel");
+    var titel = form.querySelector('.stap[data-stap="' + n + '"] .stap__titel');
     if (titel){ titel.setAttribute("tabindex","-1"); titel.focus({preventScroll:true}); }
-    /* alleen verschuiven als de bezoeker zelf een stap wisselt, nooit bij het laden */
     if (verschuif){
       if (venster && venster.open) plek.scrollTo({top:0, behavior: rust ? "auto" : "smooth"});
       else form.scrollIntoView({block:"start", behavior: rust ? "auto" : "smooth"});
@@ -1691,32 +1606,28 @@ html{scroll-behavior:smooth}
   function klopt(n){
     wis(n);
     if (n === 1){
-      if (gekozen("chips-locatie").length === 0) return meld(1,"Kies eerst een locatie. Weet u het nog niet? Kies dan \u201cNog geen voorkeur\u201d.");
-      if (!document.getElementById("a-geboorte").value) return meld(1, ongeboren.checked ? "Vul de uitgerekende datum in." : "Vul de geboortedatum van uw kind in.");
-      if (!document.getElementById("a-start").value) return meld(1,"Vul in vanaf welke maand u opvang zoekt.");
-      if (gekozen("chips-dagen").length === 0 && !document.getElementById("a-flexibel").checked)
-        return meld(1,"Kies de dagen die u zoekt, of vink aan dat u daarin flexibel bent.");
+      if (gekozen("chips-locatie").length === 0) return meld(1,"Kies een locatie. Weet u het nog niet? Kies dan \u201cMaakt niet uit\u201d.");
+      if (!document.getElementById("a-geboorte").value) return meld(1,"Vul de geboortedatum in, of de datum waarop uw kind wordt verwacht.");
       return true;
     }
     if (n === 2){
       if (!document.getElementById("a-naam").value.trim()) return meld(2,"Vul uw naam in, zodat wij u kunnen aanspreken.");
       var mail = document.getElementById("a-mail").value.trim();
-      var tel = document.getElementById("a-tel").value.trim();
-      if (!mail && !tel) return meld(2,"Laat een e-mailadres of een telefoonnummer achter, anders kunnen wij u niet bereiken.");
-      if (mail && (mail.indexOf("@") < 1 || mail.indexOf(".") < 0)) return meld(2,"Dit e-mailadres lijkt niet compleet. Controleer het even.");
-      return true;
-    }
-    if (n === 3){
-      if (!document.getElementById("a-akkoord").checked) return meld(3,"Wij mogen u alleen benaderen als u daar toestemming voor geeft.");
+      if (!mail) return meld(2,"Vul uw e-mailadres in, anders kunnen wij u niet bereiken.");
+      if (mail.indexOf("@") < 1 || mail.indexOf(".") < 0) return meld(2,"Dit e-mailadres lijkt niet compleet. Controleer het even.");
+      if (!document.getElementById("a-akkoord").checked) return meld(2,"Wij mogen u alleen benaderen als u daar toestemming voor geeft.");
       return true;
     }
     return true;
   }
 
+  /* de melding verdwijnt zodra de bezoeker iets aanpast */
+  form.addEventListener("input", function(){ wis(stap); });
+  form.addEventListener("click", function(e){ if (e.target.closest(".chip")) wis(stap); });
+
   knopVolgende.addEventListener("click", function(){ if (klopt(stap)) toon(stap + 1, true); });
   knopVorige.addEventListener("click", function(){ wis(stap); toon(stap - 1, true); });
 
-  /* ---------- versturen ---------- */
   function maandLabel(v){
     if (!v) return "";
     var d = v.split("-");
@@ -1725,7 +1636,7 @@ html{scroll-behavior:smooth}
   function datumLabel(v){
     if (!v) return "";
     var d = v.split("-");
-    return d[2] + " " + MAAND[parseInt(d[1],10)-1] + " " + d[0];
+    return parseInt(d[2],10) + " " + MAAND[parseInt(d[1],10)-1] + " " + d[0];
   }
   function regel(dl, naam, waarde){
     if (!waarde) return;
@@ -1736,24 +1647,18 @@ html{scroll-behavior:smooth}
 
   form.addEventListener("submit", function(e){
     e.preventDefault();
-    if (!klopt(3)) return;
-    var locs = gekozen("chips-locatie").map(function(w){ return LOCNAAM[w]; });
+    if (!klopt(2)) return;
     var dagen = gekozen("chips-dagen").map(function(w){ return DAGNAAM[w]; });
     var naam = document.getElementById("a-naam").value.trim().split(" ")[0];
-
     document.getElementById("bevestiging-tekst").textContent =
-      "Dank u wel, " + naam + ". In werkelijkheid zou u binnen één werkdag een voorstel ontvangen voor een rondleiding. Dit is wat u heeft doorgegeven:";
-
+      "Dank u wel, " + naam + ". In werkelijkheid zou u binnen één werkdag van ons horen. Dit is wat u heeft doorgegeven:";
     var dl = document.getElementById("samenvatting");
     dl.innerHTML = "";
-    regel(dl, "Locatie", locs.join(", "));
-    regel(dl, ongeboren.checked ? "Uitgerekende datum" : "Geboortedatum", datumLabel(document.getElementById("a-geboorte").value));
-    regel(dl, "Start opvang", maandLabel(document.getElementById("a-start").value));
-    regel(dl, "Dagen", document.getElementById("a-flexibel").checked && dagen.length === 0 ? "flexibel" : dagen.join(", ") + (document.getElementById("a-flexibel").checked ? " (flexibel)" : ""));
-    if (document.getElementById("a-weekend").checked) regel(dl, "Weekend", "ook opvang in het weekend gewenst");
-    regel(dl, "Rondleiding", datumLabel(rondleiding.value) || "in overleg");
-    if (gekozen("chips-broer")[0] === "ja") regel(dl, "Broertje of zusje", "al bij Roosje — voorrang op de wachtlijst");
-
+    regel(dl, "Locatie", LOCNAAM[gekozen("chips-locatie")[0]]);
+    regel(dl, "Geboortedatum", datumLabel(document.getElementById("a-geboorte").value));
+    regel(dl, "Opvang vanaf", maandLabel(document.getElementById("a-start").value));
+    regel(dl, "Dagen", dagen.length ? dagen.join(", ") : "nog niet bepaald");
+    regel(dl, "Rondleiding", MOMENT[gekozen("chips-moment")[0]] || "in overleg");
     form.hidden = true; kaartje.hidden = false;
     kaartje.scrollIntoView({block:"nearest", behavior: rust ? "auto" : "smooth"});
   });
@@ -1762,36 +1667,30 @@ html{scroll-behavior:smooth}
     kaartje.hidden = true; form.hidden = false; toon(1);
   });
 
-  /* ---------- het venster: hetzelfde formulier, tijdelijk verhuisd ---------- */
+  /* het venster toont hetzelfde formulier, tijdelijk verhuisd */
   if (venster && typeof venster.showModal === "function"){
-    function openVenster(vanaf){
-      var loc = vanaf && vanaf.getAttribute("data-loc");
-      if (loc){
-        var w = loc === "baarsjesweg" ? "baarsjes" : loc;
-        document.querySelectorAll("#chips-locatie .chip").forEach(function(k){
-          k.setAttribute("aria-pressed", k.getAttribute("data-waarde") === w ? "true" : "false");
-        });
-      }
-      var plekStart = document.getElementById("p-start");
-      if (plekStart && plekStart.value) document.getElementById("a-start").value = plekStart.value;
-
-      plek.appendChild(form);
-      plek.appendChild(kaartje);
-      venster.showModal();
-      if (!form.hidden) toon(stap);
-    }
-    function sluitVenster(){
-      huis.appendChild(form);
-      huis.appendChild(kaartje);
-    }
     document.querySelectorAll("[data-venster]").forEach(function(knop){
-      knop.addEventListener("click", function(e){ e.preventDefault(); openVenster(knop); });
+      knop.addEventListener("click", function(e){
+        e.preventDefault();
+        var loc = knop.getAttribute("data-loc");
+        if (loc){
+          var w = loc === "baarsjesweg" ? "baarsjes" : loc;
+          document.querySelectorAll("#chips-locatie .chip").forEach(function(k){
+            k.setAttribute("aria-pressed", k.getAttribute("data-waarde") === w ? "true" : "false");
+          });
+        }
+        var plekStart = document.getElementById("p-start");
+        if (plekStart && plekStart.value) document.getElementById("a-start").value = plekStart.value;
+        plek.appendChild(form); plek.appendChild(kaartje);
+        venster.showModal();
+        if (!form.hidden) toon(stap);
+      });
     });
     venster.querySelectorAll("[data-sluit]").forEach(function(knop){
       knop.addEventListener("click", function(){ venster.close(); });
     });
     venster.addEventListener("click", function(e){ if (e.target === venster) venster.close(); });
-    venster.addEventListener("close", sluitVenster);
+    venster.addEventListener("close", function(){ huis.appendChild(form); huis.appendChild(kaartje); });
   }
 
   telDagen();
