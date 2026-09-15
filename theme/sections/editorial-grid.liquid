@@ -1,0 +1,63 @@
+{%- assign blog = blogs[section.settings.blog] -%}
+<section class="section{% if section.settings.background == 'sand' %} section--sand{% endif %}">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-head__text">
+        {%- if section.settings.eyebrow != blank -%}<span class="eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+        <h2>{{ section.settings.heading }}</h2>
+        {%- if section.settings.text != blank -%}<p>{{ section.settings.text }}</p>{%- endif -%}
+      </div>
+      {%- if blog != blank -%}
+        <a href="{{ blog.url }}" class="link">
+          {{ 'sections.blog.all_articles' | t }}{% render 'icon', name: 'arrow-right', size: 15 %}
+        </a>
+      {%- endif -%}
+    </div>
+
+    <div class="grid grid--3">
+      {%- for article in blog.articles limit: section.settings.limit -%}
+        <a href="{{ article.url }}" class="editorial-card">
+          <div class="media media--wide">
+            {%- if article.image -%}
+              {{ article.image | image_url: width: 800 | image_tag: loading: 'lazy',
+                   widths: '300,500,800', sizes: '(min-width: 750px) 33vw, 90vw',
+                   alt: article.image.alt | default: article.title | escape }}
+            {%- else -%}
+              {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+            {%- endif -%}
+          </div>
+          <div class="editorial-card__body">
+            <h3>{{ article.title }}</h3>
+            <p class="text-sm text-soft">{{ article.excerpt_or_content | strip_html | truncate: 110 }}</p>
+            <span class="text-xs text-soft">
+              {{ 'sections.blog.read_time' | t: minutes: article.content | strip_html | size | divided_by: 1000 | at_least: 1 }}
+            </span>
+          </div>
+        </a>
+      {%- else -%}
+        <div class="note">
+          <p><strong>Nog geen artikelen.</strong></p>
+          <p>Kies een blog in de sectie-instellingen, of publiceer je eerste artikel.
+             Uitleg over C9, aloë vera en het gebruik van de producten neemt twijfel weg
+             vóór de bestelling en levert organisch verkeer op.</p>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Artikelen",
+  "settings": [
+    { "type": "blog", "id": "blog", "label": "Blog" },
+    { "type": "text", "id": "eyebrow", "label": "Bovenkop", "default": "Uitleg" },
+    { "type": "text", "id": "heading", "label": "Kop", "default": "Meer weten voor je begint" },
+    { "type": "text", "id": "text", "label": "Tekst" },
+    { "type": "range", "id": "limit", "label": "Aantal artikelen", "min": 2, "max": 6, "step": 1, "default": 3 },
+    { "type": "select", "id": "background", "label": "Achtergrond", "default": "sand",
+      "options": [ { "value": "white", "label": "Wit" }, { "value": "sand", "label": "Zacht" } ] }
+  ],
+  "presets": [ { "name": "Artikelen" } ]
+}
+{% endschema %}

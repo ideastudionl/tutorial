@@ -658,6 +658,49 @@
     });
   }());
 
+  /* --- Quantity break tiers -------------------------------------------------
+     The tiers only choose a quantity; the discount itself is an automatic
+     discount in the admin. Keeping one quantity input as the source of truth
+     means the sticky bar and the form can never disagree. */
+
+  (function quantityBreaks() {
+    on(document, 'change', function (e) {
+      var tier = e.target.closest('[data-qbreak]');
+      if (!tier) return;
+      var form = $('[data-product-form]');
+      if (!form) return;
+      var qty = form.querySelector('input[name="quantity"]');
+      if (!qty) return;
+      qty.value = tier.value;
+      qty.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+  }());
+
+  /* --- Product recommendations ---------------------------------------------
+     Fetched after render so Shopify's recommendation engine never delays the
+     product page itself. */
+
+  (function recommendations() {
+    var host = $('[data-product-recommendations]');
+    if (!host) return;
+    var url = host.getAttribute('data-url');
+    if (!url) return;
+
+    fetch(url)
+      .then(function (r) { return r.text(); })
+      .then(function (html) {
+        var doc = new DOMParser().parseFromString(html, 'text/html');
+        var fresh = doc.querySelector('[data-product-recommendations]');
+        if (fresh && fresh.innerHTML.trim()) {
+          host.innerHTML = fresh.innerHTML;
+        } else {
+          var section = doc.querySelector('section');
+          if (section) host.replaceWith(section);
+        }
+      })
+      .catch(function () { /* non-essential */ });
+  }());
+
   /* --- Product gallery ----------------------------------------------------- */
 
   (function gallery() {

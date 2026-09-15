@@ -117,6 +117,45 @@
               {% endform %}
             </div>
 
+          {%- when 'quantity_breaks' -%}
+            {% render 'quantity-breaks', block: block, product: product %}
+
+          {%- when 'complementary' -%}
+            {%- comment -%}
+              Complementary products come from Shopify's Search & Discovery app,
+              so the pairing is the merchant's, not a guess from the collection.
+            {%- endcomment -%}
+            {%- assign complementary = product.metafields.shopify--discovery--product_recommendation.complementary_products.value -%}
+            {%- if complementary != blank and complementary.size > 0 -%}
+              <div class="xsell" {{ block.shopify_attributes }}>
+                <h2 class="xsell__title">{{ block.settings.heading }}</h2>
+                {%- for item in complementary limit: block.settings.limit -%}
+                  {%- if item.available -%}
+                    <div class="xsell__row">
+                      <a href="{{ item.url }}" class="media media--square" style="width:60px;flex:none">
+                        {%- if item.featured_media -%}
+                          {{ item.featured_media | image_url: width: 160 | image_tag:
+                               loading: 'lazy', widths: '80,160', sizes: '60px',
+                               alt: item.featured_media.alt | default: item.title | escape }}
+                        {%- endif -%}
+                      </a>
+                      <div>
+                        <a href="{{ item.url }}" class="xsell__name">{{ item.title }}</a>
+                        {% render 'price', product: item, class: 'text-sm' %}
+                      </div>
+                      <form method="post" action="{{ routes.cart_add_url }}" data-product-form>
+                        <input type="hidden" name="id" value="{{ item.selected_or_first_available_variant.id }}">
+                        <input type="hidden" name="quantity" value="1">
+                        <button type="submit" class="btn btn--ghost btn--sm">
+                          <span data-add-label>{{ block.settings.button_label }}</span>
+                        </button>
+                      </form>
+                    </div>
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+
           {%- when 'trust' -%}
             <div class="buy__trust" {{ block.shopify_attributes }}>
               {%- if block.settings.shipping != blank -%}
@@ -193,6 +232,25 @@
     { "type": "stock", "name": "Voorraadstatus", "limit": 1 },
     { "type": "form", "name": "Varianten en bestelknop", "limit": 1 },
     {
+      "type": "quantity_breaks", "name": "Staffelkorting", "limit": 1,
+      "settings": [
+        { "type": "paragraph", "content": "Belangrijk: dit blok TOONT de staffel alleen. Maak in Kortingen een automatische korting aan die exact overeenkomt, anders klopt de prijs bij het afrekenen niet en verlies je de bestelling op het laatste scherm." },
+        { "type": "text", "id": "heading", "label": "Kop", "default": "Meer voordeel bij meerdere" },
+        { "type": "text", "id": "tiers", "label": "Staffels", "default": "1:0, 2:5, 3:10",
+          "info": "Formaat: aantal:kortingspercentage, gescheiden door komma's. Bijvoorbeeld 1:0, 2:5, 3:10" },
+        { "type": "text", "id": "note", "label": "Toelichting", "default": "De korting wordt automatisch verrekend bij het afrekenen." }
+      ]
+    },
+    {
+      "type": "complementary", "name": "Past goed bij", "limit": 1,
+      "settings": [
+        { "type": "paragraph", "content": "Gebruikt de gekoppelde producten uit de app Search & Discovery. Zonder die koppeling blijft dit blok leeg." },
+        { "type": "text", "id": "heading", "label": "Kop", "default": "Past goed bij" },
+        { "type": "text", "id": "button_label", "label": "Knop", "default": "Toevoegen" },
+        { "type": "range", "id": "limit", "label": "Maximaal aantal", "min": 1, "max": 4, "step": 1, "default": 2 }
+      ]
+    },
+    {
       "type": "trust", "name": "Vertrouwensregels", "limit": 1,
       "settings": [
         { "type": "text", "id": "shipping", "label": "Verzending", "default": "Gratis verzending in Nederland. België €5,95." },
@@ -214,7 +272,9 @@
   "default": {
     "blocks": [
       { "type": "rating" }, { "type": "title" }, { "type": "benefit" },
-      { "type": "price" }, { "type": "stock" }, { "type": "form" }, { "type": "trust" },
+      { "type": "price" }, { "type": "stock" },
+      { "type": "quantity_breaks" }, { "type": "form" },
+      { "type": "trust" }, { "type": "complementary" },
       { "type": "accordion", "settings": { "heading": "Wat zit erin?", "metafield": "custom.contents" } },
       { "type": "accordion", "settings": { "heading": "Hoe gebruik je het?", "metafield": "custom.usage" } },
       { "type": "accordion", "settings": { "heading": "Voor wie?", "metafield": "custom.suitable_for" } },

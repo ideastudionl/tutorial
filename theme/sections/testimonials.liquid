@@ -1,0 +1,92 @@
+{%- comment -%}
+  Reviews section. Blocks are filled by the merchant from real, verified
+  reviews — there is no sample content, and the empty state says so rather
+  than shipping invented testimonials. See docs/01-audit.md: this shop has a
+  reputation problem to fix, and fabricated reviews make that measurably worse
+  the moment someone compares them with the public profile.
+{%- endcomment -%}
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-head__text">
+        {%- if section.settings.eyebrow != blank -%}<span class="eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+        <h2>{{ section.settings.heading }}</h2>
+      </div>
+      {%- if settings.review_platform_url != blank and settings.review_platform_name != blank -%}
+        <a href="{{ settings.review_platform_url }}" class="link" rel="nofollow noopener" target="_blank">
+          {{ settings.review_platform_name }}
+          {%- if settings.review_platform_score != blank %} — {{ settings.review_platform_score }}{% endif -%}
+          {% render 'icon', name: 'arrow-right', size: 15 %}
+        </a>
+      {%- endif -%}
+    </div>
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="grid grid--3">
+        {%- for block in section.blocks -%}
+          <figure class="testimonial" {{ block.shopify_attributes }}>
+            {%- if block.settings.rating > 0 -%}
+              <span class="rating__stars" aria-hidden="true">
+                {%- for i in (1..5) -%}
+                  {%- if block.settings.rating >= i -%}
+                    {% render 'icon', name: 'star', size: 15 %}
+                  {%- else -%}
+                    {% render 'icon', name: 'star-empty', size: 15 %}
+                  {%- endif -%}
+                {%- endfor -%}
+              </span>
+              <span class="visually-hidden">
+                {{ 'accessibility.star_rating' | t: rating: block.settings.rating, max: 5 }}
+              </span>
+            {%- endif -%}
+            <blockquote class="testimonial__quote">{{ block.settings.quote }}</blockquote>
+            <figcaption class="testimonial__foot">
+              <span>{{ block.settings.name }}</span>
+              {%- if block.settings.verified -%}
+                <span class="testimonial__verified">
+                  {% render 'icon', name: 'check-circle', size: 13 %}{{ section.settings.verified_label }}
+                </span>
+              {%- endif -%}
+              {%- if block.settings.date != blank -%}
+                <span>{{ block.settings.date }}</span>
+              {%- endif -%}
+            </figcaption>
+          </figure>
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <div class="note measure">
+        <p><strong>Nog geen reviews gekoppeld.</strong></p>
+        <p>Vul deze sectie met reviews die uit een geverifieerd platform komen en aan een
+           echte bestelling gekoppeld zijn. Zet het label “geverifieerde aankoop” alleen aan
+           wanneer dat klopt. Laat de sectie liever leeg dan gevuld met verzonnen citaten:
+           die zijn controleerbaar en kosten meer vertrouwen dan ze opleveren.</p>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Reviews",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Bovenkop", "default": "Wat klanten zeggen" },
+    { "type": "text", "id": "heading", "label": "Kop", "default": "Reviews van echte bestellingen" },
+    { "type": "text", "id": "verified_label", "label": "Label geverifieerd", "default": "Geverifieerde aankoop" },
+    { "type": "paragraph", "content": "Neem hier alleen reviews over die daadwerkelijk zijn geplaatst. Het label 'geverifieerde aankoop' mag alleen aan als er een echte order achter zit." }
+  ],
+  "blocks": [
+    {
+      "type": "review", "name": "Review", "limit": 9,
+      "settings": [
+        { "type": "textarea", "id": "quote", "label": "Review" },
+        { "type": "text", "id": "name", "label": "Naam" },
+        { "type": "text", "id": "date", "label": "Datum" },
+        { "type": "range", "id": "rating", "label": "Sterren", "min": 0, "max": 5, "step": 1, "default": 5 },
+        { "type": "checkbox", "id": "verified", "label": "Geverifieerde aankoop", "default": false }
+      ]
+    }
+  ],
+  "presets": [ { "name": "Reviews" } ]
+}
+{% endschema %}

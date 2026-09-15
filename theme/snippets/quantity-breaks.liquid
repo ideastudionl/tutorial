@@ -1,0 +1,54 @@
+{%- comment -%}
+  Volume tiers. The theme only DISPLAYS these and puts the matching quantity in
+  the cart — the discount itself must exist as an automatic discount under
+  Discounts, or the customer reaches checkout and the promised price is not
+  there. The section schema says so; a tier without a matching discount is a
+  bug, not a copy choice.
+  Accepts: block (required), product (required).
+{%- endcomment -%}
+{%- assign tiers = block.settings.tiers | split: ',' -%}
+{%- if tiers.size > 0 and product.available -%}
+  <div class="qbreaks" {{ block.shopify_attributes }}>
+    {%- if block.settings.heading != blank -%}
+      <p class="qbreaks__title">{{ block.settings.heading }}</p>
+    {%- endif -%}
+
+    {%- for tier in tiers -%}
+      {%- liquid
+        assign parts = tier | strip | split: ':'
+        assign qty = parts[0] | strip | plus: 0
+        assign pct = parts[1] | strip | plus: 0
+        assign factor = 100 | minus: pct
+        assign unit_price = product.price | times: factor | divided_by: 100
+        assign total = unit_price | times: qty
+        assign full = product.price | times: qty
+        assign saved = full | minus: total
+        assign input_id = 'QBreak-' | append: block.id | append: '-' | append: forloop.index
+      -%}
+      {%- if qty > 0 -%}
+        <div class="qbreaks__option">
+          <input type="radio" id="{{ input_id }}" name="qbreak-{{ block.id }}" value="{{ qty }}"
+            data-qbreak {% if forloop.first %}checked{% endif %}>
+          <label for="{{ input_id }}">
+            <span class="qbreaks__dot"></span>
+            <span class="qbreaks__text">
+              <strong>
+                {{ qty }} {% if qty == 1 %}stuk{% else %}stuks{% endif %}
+                {%- if pct > 0 %} — {{ pct }}% korting{% endif -%}
+              </strong>
+              <small>{{ unit_price | money }} per stuk</small>
+            </span>
+            <span class="qbreaks__price">
+              <b>{{ total | money }}</b>
+              {%- if saved > 0 -%}<em>&minus;{{ saved | money }}</em>{%- endif -%}
+            </span>
+          </label>
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+
+    {%- if block.settings.note != blank -%}
+      <p class="qbreaks__note">{{ block.settings.note }}</p>
+    {%- endif -%}
+  </div>
+{%- endif -%}
