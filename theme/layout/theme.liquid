@@ -39,19 +39,33 @@
     {%- assign body_font_bold = body_font | font_modify: 'weight', 'bold' -%}
     {%- assign body_font_italic = body_font | font_modify: 'style', 'italic' -%}
 
-    {{ heading_font | font_face: font_display: 'swap' }}
-    {{ body_font | font_face: font_display: 'swap' }}
-    {{ body_font_bold | font_face: font_display: 'swap' }}
-    {{ body_font_italic | font_face: font_display: 'swap' }}
+    {%- comment -%}
+      font_face raises "can only be used with a font drop" when the setting
+      holds a handle the store's font library does not offer, which takes the
+      whole page down. A font drop always exposes .family, a bare string never
+      does — so that is the guard.
+    {%- endcomment -%}
+    {%- if heading_font.family != blank -%}
+      {{ heading_font | font_face: font_display: 'swap' }}
+    {%- endif -%}
+    {%- if body_font.family != blank -%}
+      {{ body_font | font_face: font_display: 'swap' }}
+    {%- endif -%}
+    {%- if body_font_bold.family != blank -%}
+      {{ body_font_bold | font_face: font_display: 'swap' }}
+    {%- endif -%}
+    {%- if body_font_italic.family != blank -%}
+      {{ body_font_italic | font_face: font_display: 'swap' }}
+    {%- endif -%}
 
     <style>
       :root {
-        --font-heading: {{ heading_font.family }}, {{ heading_font.fallback_families }};
-        --font-heading-weight: {{ heading_font.weight }};
-        --font-heading-style: {{ heading_font.style }};
-        --font-body: {{ body_font.family }}, {{ body_font.fallback_families }};
-        --font-body-weight: {{ body_font.weight }};
-        --font-body-style: {{ body_font.style }};
+        --font-heading: {{ heading_font.family | default: 'ui-sans-serif' }}, {{ heading_font.fallback_families | default: 'system-ui, -apple-system, sans-serif' }};
+        --font-heading-weight: {{ heading_font.weight | default: 700 }};
+        --font-heading-style: {{ heading_font.style | default: 'normal' }};
+        --font-body: {{ body_font.family | default: 'ui-sans-serif' }}, {{ body_font.fallback_families | default: 'system-ui, -apple-system, sans-serif' }};
+        --font-body-weight: {{ body_font.weight | default: 400 }};
+        --font-body-style: {{ body_font.style | default: 'normal' }};
         --font-body-scale: {{ settings.font_body_scale | divided_by: 100.0 }};
         --font-heading-scale: {{ settings.font_heading_scale | divided_by: 100.0 }};
         --heading-transform: {{ settings.heading_transform }};
@@ -121,6 +135,13 @@
     <a class="skip-link" href="#MainContent">{{ 'accessibility.skip_to_content' | t }}</a>
 
     {% sections 'header-group' %}
+
+    {%- comment -%}
+      The search panel lives here rather than inside header.liquid: a section
+      cannot render another section, and it still needs to be a section so the
+      runtime can fetch it with ?section_id=predictive-search.
+    {%- endcomment -%}
+    {% section 'predictive-search' %}
 
     <main id="MainContent" role="main" tabindex="-1">
       {{ content_for_layout }}
