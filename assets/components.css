@@ -1111,3 +1111,128 @@
   background: var(--c-surface); font-size: var(--fs-sm); color: var(--c-ink-soft);
 }
 .note strong { color: var(--c-ink); }
+
+/* ==========================================================================
+   Spotlight, editorial, testimonials, quantity breaks, cross-sell, contact
+   ========================================================================== */
+
+/* --- Product spotlight ---------------------------------------------------- */
+.spotlight { display: grid; gap: var(--sp-8); align-items: center; }
+@media (min-width: 990px) {
+  .spotlight { grid-template-columns: .9fr 1.1fr; gap: var(--sp-12); }
+}
+.spotlight__benefits { list-style: none; margin: var(--sp-5) 0 0; padding: 0; display: grid; gap: .55rem; }
+.spotlight__benefits li { display: flex; gap: .6rem; align-items: start; font-size: var(--fs-sm); }
+.spotlight__benefits svg { color: var(--c-success); flex: none; margin-top: 3px; }
+.spotlight__foot {
+  display: flex; align-items: center; gap: var(--sp-5);
+  flex-wrap: wrap; margin-top: var(--sp-6);
+}
+
+/* Steps — numbered because the content is a real sequence. */
+.steps { list-style: none; margin: var(--sp-6) 0 0; padding: 0; border-top: 1px solid var(--c-line); }
+.steps li {
+  display: grid; grid-template-columns: 5.25rem 1fr; gap: var(--sp-4);
+  padding: var(--sp-4) 0; border-bottom: 1px solid var(--c-line); align-items: start;
+}
+.steps b {
+  font-size: var(--fs-2xs); font-weight: 700; letter-spacing: var(--tracking-wide);
+  color: var(--c-brand); padding-top: 3px; white-space: nowrap;
+}
+.steps p { margin: 0; font-size: var(--fs-sm); font-weight: 600; }
+.steps small { display: block; color: var(--c-ink-soft); font-size: var(--fs-xs); margin-top: 2px; }
+
+/* --- Editorial card ------------------------------------------------------- */
+.editorial-card {
+  display: flex; flex-direction: column;
+  text-decoration: none; color: inherit;
+  border: 1px solid var(--c-line); background: var(--c-surface);
+  transition: border-color var(--dur-fast) var(--ease);
+}
+.editorial-card:hover { border-color: var(--c-ink); }
+.editorial-card .media { border-radius: 0; }
+.editorial-card__body { padding: var(--sp-4); display: grid; gap: .35rem; }
+.editorial-card__body h3 { font-size: 1.0625rem; margin: 0; }
+
+/* --- Quantity breaks ------------------------------------------------------ */
+.qbreaks { display: grid; gap: .4rem; margin-bottom: var(--sp-5); }
+.qbreaks__title {
+  font-size: var(--fs-2xs); font-weight: 700; letter-spacing: var(--tracking-wide);
+  text-transform: uppercase; color: var(--c-ink-soft); margin: 0 0 .2rem;
+}
+.qbreaks__option { position: relative; }
+.qbreaks__option input { position: absolute; opacity: 0; pointer-events: none; }
+.qbreaks__option label {
+  display: flex; align-items: center; gap: var(--sp-3);
+  border: 1.5px solid var(--c-line); border-radius: var(--r-button, 2px);
+  padding: .75rem .9rem; cursor: pointer; background: var(--c-surface);
+  transition: border-color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
+}
+.qbreaks__option label:hover { border-color: var(--c-ink); }
+.qbreaks__option input:checked + label {
+  border-color: var(--c-brand);
+  background: color-mix(in srgb, var(--c-brand) 6%, var(--c-surface));
+}
+.qbreaks__option input:focus-visible + label { outline: 2px solid var(--c-brand); outline-offset: 2px; }
+.qbreaks__dot {
+  width: 17px; height: 17px; border: 2px solid var(--c-line); border-radius: 50%;
+  flex: none; display: grid; place-items: center;
+}
+.qbreaks__option input:checked + label .qbreaks__dot { border-color: var(--c-brand); }
+.qbreaks__option input:checked + label .qbreaks__dot::after {
+  content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--c-brand);
+}
+.qbreaks__text { flex: 1; }
+.qbreaks__text strong { display: block; font-size: var(--fs-sm); }
+.qbreaks__text small { color: var(--c-ink-soft); font-size: var(--fs-xs); font-variant-numeric: tabular-nums; }
+.qbreaks__price { text-align: right; font-variant-numeric: tabular-nums; }
+.qbreaks__price b { display: block; font-size: var(--fs-sm); }
+.qbreaks__price em { font-style: normal; font-size: var(--fs-2xs); font-weight: 700; color: var(--c-sale); }
+.qbreaks__note { font-size: var(--fs-xs); color: var(--c-ink-soft); margin: .3rem 0 0; }
+
+/* --- Cross-sell ----------------------------------------------------------- */
+.xsell {
+  border: 1px solid var(--c-line); background: var(--c-surface);
+  padding: var(--sp-4); display: grid; gap: var(--sp-3); margin-top: var(--sp-6);
+}
+.xsell__title {
+  font-size: var(--fs-2xs); font-weight: 700; letter-spacing: var(--tracking-wide);
+  text-transform: uppercase; color: var(--c-ink-soft); margin: 0;
+}
+.xsell__row { display: flex; align-items: center; gap: var(--sp-3); }
+.xsell__row > div { flex: 1; min-width: 0; }
+.xsell__name { display: block; font-size: var(--fs-sm); font-weight: 600; text-decoration: none; }
+.xsell__name:hover { color: var(--c-brand); }
+.xsell__row form { flex: none; }
+
+/* --- Testimonials --------------------------------------------------------- */
+.testimonial {
+  display: flex; flex-direction: column; gap: var(--sp-3); height: 100%;
+  padding: var(--sp-5); margin: 0;
+  background: var(--c-surface); border: 1px solid var(--c-line);
+}
+.testimonial__quote { margin: 0; font-size: var(--fs-sm); line-height: 1.55; }
+.testimonial__foot {
+  margin-top: auto; display: flex; align-items: center; gap: .6rem;
+  flex-wrap: wrap; font-size: var(--fs-xs); color: var(--c-ink-soft);
+}
+.testimonial__verified {
+  display: inline-flex; align-items: center; gap: 4px;
+  color: var(--c-success); font-weight: 600;
+}
+
+/* --- Contact -------------------------------------------------------------- */
+.contact { display: grid; gap: var(--sp-8); }
+@media (min-width: 990px) { .contact { grid-template-columns: .85fr 1.15fr; gap: var(--sp-12); align-items: start; } }
+.contact__details { display: grid; gap: var(--sp-4); margin: var(--sp-6) 0 0; }
+.contact__details div { display: grid; gap: .2rem; }
+.contact__details dt {
+  display: flex; align-items: center; gap: .5rem;
+  font-size: var(--fs-2xs); font-weight: 700; letter-spacing: var(--tracking-wide);
+  text-transform: uppercase; color: var(--c-ink-soft);
+}
+.contact__details dt svg { color: var(--c-brand); }
+.contact__details dd { margin: 0; font-size: var(--fs-sm); }
+.contact__form {
+  border: 1px solid var(--c-line); background: var(--c-surface); padding: var(--sp-6);
+}

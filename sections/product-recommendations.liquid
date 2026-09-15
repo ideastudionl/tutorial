@@ -1,0 +1,35 @@
+{%- comment -%}
+  Shopify's own recommendation engine, which learns from real order and
+  browsing data instead of guessing from the collection. Fetched by the
+  Section Rendering API so it never blocks the product page render.
+{%- endcomment -%}
+{%- if recommendations.performed and recommendations.products_count > 0 -%}
+  <section class="section section--tight">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-head__text"><h2>{{ section.settings.heading }}</h2></div>
+      </div>
+      <div class="grid grid--4">
+        {%- for product in recommendations.products -%}
+          {% render 'product-card', product: product, lazy: true %}
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+{%- elsif recommendations.performed == false -%}
+  <div
+    data-product-recommendations
+    data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{ section.settings.limit }}"
+  ></div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Aanbevolen producten",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Kop", "default": "Anderen bekeken ook" },
+    { "type": "range", "id": "limit", "label": "Aantal", "min": 2, "max": 8, "step": 1, "default": 4 }
+  ],
+  "presets": [ { "name": "Aanbevolen producten" } ]
+}
+{% endschema %}
