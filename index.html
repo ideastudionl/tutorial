@@ -1,1091 +1,1146 @@
-<title>Roosje &amp; Vriendjes</title>
+<title>Kinderdagverblijf Roosje</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400;12..96,75..100,600;12..96,75..100,800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Karla:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
 <style>
-/* ============ tokens ============ */
+/* =======================================================================
+   HUISSTIJL — pas hier het merk aan
+   Vervang de twee merkkleuren hieronder door de officiële hexcodes van
+   KDV Roosje. Alles op de pagina volgt automatisch mee.
+   Het logo staat verderop in de HTML, gemarkeerd met  <!-- LOGO -->.
+   ======================================================================= */
 :root{
-  --ink:#171A1F;
-  --ink-soft:#5C5350;
-  --paper:#FFF6F0;
-  --surface:#FFFFFF;
-  --surface-2:#FDEDE4;
-  --line:#171A1F;
-  --hair:#E7D6CD;
+  --roos:#B23A5F;          /* merkkleur 1 — roos */
+  --blad:#3F6B52;          /* merkkleur 2 — blad */
 
-  --roos:#E8456B;
-  --roos-tint:#FFD9E2;
-  --zon:#FFC531;
-  --zon-tint:#FFEFC2;
-  --lucht:#1E6FD9;
-  --lucht-tint:#D2E4FB;
-  --gras:#2FA36B;
-  --gras-tint:#CDEDDD;
+  --roos-zacht:#F4E2E8;
+  --roos-lijn:#E7C7D2;
+  --blad-zacht:#E2EBE5;
 
-  --on-roos:#FFFFFF;
-  --on-zon:#171A1F;
-  --on-lucht:#FFFFFF;
-  --on-gras:#FFFFFF;
+  --inkt:#241D22;
+  --inkt-70:#574A51;
+  --grijs:#7A6D74;
+  --papier:#FCFAF9;
+  --vlak:#F6F0EC;
+  --lijn:#E4DAD4;
+  --wit:#FFFFFF;
 
-  --skin:#FFDCC4;
-  --cloud:#FFFFFF;
+  --ok:#3F6B52;
+  --let:#A8681E;
 
-  --shadow:4px 4px 0 var(--ink);
-  --shadow-lg:7px 7px 0 var(--ink);
-  --bw:3px;
-
-  --fs-display:clamp(2.55rem,7.2vw,5.1rem);
-  --fs-h2:clamp(1.85rem,4.2vw,3rem);
-  --fs-h3:clamp(1.2rem,2.1vw,1.55rem);
-  --fs-body:clamp(1rem,1.1vw,1.08rem);
-  --gut:clamp(1rem,4vw,2rem);
-  --rad:26px;
-  --maxw:1120px;
+  --fs-hero:clamp(2.3rem,4.6vw,3.7rem);
+  --fs-h2:clamp(1.65rem,3vw,2.35rem);
+  --fs-h3:clamp(1.08rem,1.6vw,1.28rem);
+  --fs-body:clamp(1rem,.42vw + .92rem,1.1rem);
+  --gut:clamp(1.15rem,4vw,2.5rem);
+  --maxw:1180px;
+  --rad:12px;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --ink:#F6EEE8;
-    --ink-soft:#BCA9A1;
-    --paper:#191419;
-    --surface:#231C23;
-    --surface-2:#2E2430;
-    --line:#F6EEE8;
-    --hair:#3E323E;
-
-    --roos:#FF6E8D;
-    --roos-tint:#4A2130;
-    --zon:#FFD35E;
-    --zon-tint:#493A18;
-    --lucht:#5B9DF5;
-    --lucht-tint:#1D2E4C;
-    --gras:#4FC08C;
-    --gras-tint:#173A2C;
-
-    --on-roos:#2A0E17;
-    --on-zon:#2B2005;
-    --on-lucht:#07172E;
-    --on-gras:#042315;
-
-    --skin:#E8B592;
-    --cloud:#F2E7DF;
-    --shadow:4px 4px 0 #0C080C;
-    --shadow-lg:7px 7px 0 #0C080C;
+    --roos:#E8899F;
+    --blad:#7FBF9B;
+    --roos-zacht:#33212A;
+    --roos-lijn:#4C3039;
+    --blad-zacht:#1D2E26;
+    --inkt:#F3EAEC;
+    --inkt-70:#C4B4BA;
+    --grijs:#9C8D94;
+    --papier:#171316;
+    --vlak:#1F1A1F;
+    --lijn:#352C33;
+    --wit:#1F1A1F;
+    --ok:#7FBF9B;
+    --let:#E0A85C;
   }
 }
 :root[data-theme="dark"]{
-  --ink:#F6EEE8; --ink-soft:#BCA9A1; --paper:#191419; --surface:#231C23; --surface-2:#2E2430;
-  --line:#F6EEE8; --hair:#3E323E;
-  --roos:#FF6E8D; --roos-tint:#4A2130; --zon:#FFD35E; --zon-tint:#493A18;
-  --lucht:#5B9DF5; --lucht-tint:#1D2E4C; --gras:#4FC08C; --gras-tint:#173A2C;
-  --on-roos:#2A0E17; --on-zon:#2B2005; --on-lucht:#07172E; --on-gras:#042315;
-  --skin:#E8B592; --cloud:#F2E7DF;
-  --shadow:4px 4px 0 #0C080C; --shadow-lg:7px 7px 0 #0C080C;
+  --roos:#E8899F; --blad:#7FBF9B;
+  --roos-zacht:#33212A; --roos-lijn:#4C3039; --blad-zacht:#1D2E26;
+  --inkt:#F3EAEC; --inkt-70:#C4B4BA; --grijs:#9C8D94;
+  --papier:#171316; --vlak:#1F1A1F; --lijn:#352C33; --wit:#1F1A1F;
+  --ok:#7FBF9B; --let:#E0A85C;
 }
 
-/* ============ base ============ */
 *,*::before,*::after{box-sizing:border-box}
 body{
-  margin:0;
-  background:var(--paper);
-  color:var(--ink);
-  font-family:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
-  font-size:var(--fs-body);
-  line-height:1.62;
-  -webkit-font-smoothing:antialiased;
-  overflow-x:hidden;
+  margin:0;background:var(--papier);color:var(--inkt);
+  font-family:"Karla",system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:var(--fs-body);line-height:1.68;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
 }
-h1,h2,h3,h4,.display{
-  font-family:"Bricolage Grotesque","Bricolage Grotesque Fallback",system-ui,sans-serif;
-  font-weight:800;
-  line-height:1.03;
-  letter-spacing:-0.025em;
-  text-wrap:balance;
-  margin:0;
+h1,h2,h3,h4{
+  font-family:"Newsreader",Georgia,"Times New Roman",serif;
+  font-weight:500;line-height:1.16;letter-spacing:-.012em;text-wrap:balance;margin:0;
+  font-optical-sizing:auto;
 }
-h1{font-size:var(--fs-display)}
+h1{font-size:var(--fs-hero);line-height:1.08;letter-spacing:-.02em}
 h2{font-size:var(--fs-h2)}
-h3{font-size:var(--fs-h3);letter-spacing:-0.015em}
+h3{font-size:var(--fs-h3);line-height:1.3}
+h4{font-size:1rem;font-family:"Karla",sans-serif;font-weight:700;letter-spacing:0}
 p{margin:0}
-a{color:inherit}
 svg{display:block}
-:focus-visible{outline:3px solid var(--lucht);outline-offset:3px;border-radius:6px}
-::selection{background:var(--zon);color:#171A1F}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--roos);outline-offset:3px;border-radius:3px}
+::selection{background:var(--roos-zacht);color:var(--inkt)}
 
 .wrap{width:100%;max-width:var(--maxw);margin-inline:auto;padding-inline:var(--gut)}
-.band{position:relative;padding-block:clamp(3.5rem,8vw,6.5rem)}
-.eyebrow{
-  font-family:"Bricolage Grotesque",system-ui,sans-serif;
-  font-weight:800;font-size:.76rem;text-transform:uppercase;letter-spacing:.16em;
-  display:inline-flex;align-items:center;gap:.5rem;
-}
-.lede{font-size:clamp(1.05rem,1.6vw,1.24rem);color:var(--ink-soft);max-width:60ch}
-.measure{max-width:62ch}
+.narrow{max-width:900px}
+.sec{padding-block:clamp(3rem,6.5vw,5.5rem)}
+.sec--vlak{background:var(--vlak);border-block:1px solid var(--lijn)}
+.measure{max-width:64ch}
+.lede{font-size:clamp(1.08rem,1.5vw,1.24rem);line-height:1.6;color:var(--inkt-70)}
+.small{font-size:.92rem}
+.grijs{color:var(--grijs)}
 
-/* ============ buttons ============ */
+.kop{
+  font-family:"Karla",sans-serif;font-size:.74rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.17em;color:var(--roos);
+  display:flex;align-items:center;gap:.6rem;
+}
+.kop::before{content:"";width:22px;height:1px;background:var(--roos);flex:0 0 22px}
+.sec-head{display:grid;gap:.9rem;margin-bottom:clamp(1.8rem,3.5vw,2.8rem);max-width:70ch}
+
+/* tekstlinks */
+.tlink{
+  color:var(--roos);text-decoration:underline;text-decoration-thickness:1px;
+  text-underline-offset:3px;font-weight:500;
+}
+.tlink:hover{text-decoration-thickness:2px}
+
+/* knoppen */
 .btn{
-  --bg:var(--roos); --fg:var(--on-roos);
   display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
-  font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:1rem;
-  letter-spacing:-.01em;
-  background:var(--bg);color:var(--fg);
-  border:var(--bw) solid var(--line);border-radius:999px;
-  padding:.72rem 1.35rem;text-decoration:none;cursor:pointer;
-  box-shadow:var(--shadow);
-  transition:transform .16s cubic-bezier(.3,1.4,.5,1),box-shadow .16s ease,background .16s ease;
+  font-family:"Karla",sans-serif;font-weight:700;font-size:.97rem;line-height:1.2;
+  background:var(--roos);color:var(--papier);
+  border:1px solid var(--roos);border-radius:999px;
+  padding:.78rem 1.5rem;text-decoration:none;cursor:pointer;
+  transition:background .18s ease,color .18s ease,transform .18s ease;
 }
-.btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--line)}
-.btn:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--line)}
-.btn--ghost{--bg:var(--surface);--fg:var(--ink)}
-.btn--zon{--bg:var(--zon);--fg:var(--on-zon)}
-.btn--lucht{--bg:var(--lucht);--fg:var(--on-lucht)}
-.btn--gras{--bg:var(--gras);--fg:var(--on-gras)}
-.btn--sm{padding:.5rem 1rem;font-size:.9rem;box-shadow:3px 3px 0 var(--line)}
-.btn--block{width:100%}
+.btn:hover{background:var(--inkt);border-color:var(--inkt);color:var(--papier)}
+.btn--lijn{background:transparent;color:var(--inkt);border-color:var(--lijn)}
+.btn--lijn:hover{background:var(--inkt);border-color:var(--inkt);color:var(--papier)}
+.btn--blad{background:var(--blad);border-color:var(--blad);color:var(--papier)}
+.btn--sm{padding:.55rem 1.1rem;font-size:.88rem}
+.btn--blok{width:100%}
+.btn svg{flex:0 0 17px;width:17px;height:17px}
 
-/* ============ header ============ */
-.topbar{
+/* ======================= kop van de site ======================= */
+.utility{background:var(--inkt);color:var(--papier);font-size:.82rem}
+.utility__in{display:flex;flex-wrap:wrap;gap:.3rem 1.6rem;align-items:center;min-height:38px;padding-block:.35rem}
+.utility a{text-decoration:none}
+.utility a:hover{text-decoration:underline;text-underline-offset:3px}
+.utility li{display:flex;align-items:center;gap:.45rem}
+.utility ul{display:flex;flex-wrap:wrap;gap:.3rem 1.6rem;list-style:none;margin:0;padding:0}
+.utility .rechts{margin-left:auto;display:flex;gap:1.3rem}
+.utility svg{width:15px;height:15px;opacity:.75}
+@media (max-width:760px){.utility .verberg-s{display:none}}
+
+.masthead{
   position:sticky;top:env(safe-area-inset-top,0px);z-index:60;
-  background:var(--paper);
-  border-bottom:var(--bw) solid var(--line);
+  background:var(--papier);border-bottom:1px solid var(--lijn);
 }
-.topbar__in{display:flex;align-items:center;gap:1rem;min-height:70px;padding-block:.55rem}
-.brand{display:flex;align-items:center;gap:.6rem;text-decoration:none;margin-right:auto}
-.brand__mark{width:46px;height:46px;flex:0 0 46px}
-.brand__name{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:1.3rem;letter-spacing:-.03em;line-height:1}
-.brand__sub{display:block;font-family:"Instrument Sans",sans-serif;font-weight:500;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-top:.18rem}
-.nav{display:flex;align-items:center;gap:.25rem}
-.nav a{
-  text-decoration:none;font-weight:600;font-size:.94rem;padding:.45rem .62rem;border-radius:999px;
-  white-space:nowrap;transition:background .15s ease,color .15s ease;
+.masthead__in{display:flex;align-items:center;gap:1.2rem;min-height:76px;padding-block:.6rem}
+.merk{display:flex;align-items:center;gap:.7rem;text-decoration:none;margin-right:auto}
+.merk__mark{width:46px;height:52px;flex:0 0 46px;color:var(--roos)}
+.merk__naam{
+  font-family:"Newsreader",serif;font-weight:500;font-size:1.55rem;line-height:1;
+  letter-spacing:-.02em;display:block;
 }
-.nav a:hover{background:var(--zon-tint)}
-.topbar__cta{display:flex;align-items:center;gap:.6rem}
-.tel{display:inline-flex;align-items:center;gap:.4rem;text-decoration:none;font-weight:700;font-size:.95rem;white-space:nowrap}
-.tel:hover{color:var(--roos)}
-@media (max-width:1040px){.nav{display:none}}
-@media (max-width:1180px){.tel span{display:none}}
-@media (max-width:620px){.brand__sub{display:none}}
+.merk__sub{
+  display:block;font-family:"Karla",sans-serif;font-size:.63rem;font-weight:600;
+  letter-spacing:.19em;text-transform:uppercase;color:var(--grijs);margin-top:.28rem;
+}
+.hoofdnav{display:flex;align-items:center;gap:.15rem}
+.hoofdnav a{
+  text-decoration:none;font-weight:600;font-size:.94rem;padding:.5rem .7rem;white-space:nowrap;
+  position:relative;color:var(--inkt);
+}
+.hoofdnav a::after{
+  content:"";position:absolute;left:.7rem;right:.7rem;bottom:.24rem;height:1.5px;
+  background:var(--roos);transform:scaleX(0);transform-origin:left;transition:transform .22s ease;
+}
+.hoofdnav a:hover::after,.hoofdnav a[aria-current="page"]::after{transform:scaleX(1)}
+@media (max-width:1060px){.hoofdnav{display:none}.masthead__in>.btn{display:none}.masthead__in{min-height:64px}}
 
-/* ============ hero ============ */
-.hero{
-  position:relative;
-  background:var(--lucht-tint);
-  border-bottom:var(--bw) solid var(--line);
-  padding-block:clamp(2.2rem,5vw,4rem) clamp(9rem,16vw,13rem);
-  overflow:hidden;
+/* ======================= hero ======================= */
+.hero{border-bottom:1px solid var(--lijn);overflow:hidden}
+.hero__grid{
+  display:grid;grid-template-columns:minmax(0,1.04fr) minmax(0,.96fr);
+  gap:clamp(1.8rem,4vw,3.5rem);align-items:center;
+  padding-block:clamp(2.6rem,5.5vw,4.6rem);
 }
-.hero__grid{display:grid;grid-template-columns:1.06fr .94fr;gap:clamp(1.5rem,4vw,3rem);align-items:center;position:relative;z-index:3}
-@media (max-width:900px){.hero__grid{grid-template-columns:1fr;text-align:left}}
-.hero h1 em{font-style:normal;color:var(--roos);position:relative;white-space:nowrap}
-.hero h1 em::after{
-  content:"";position:absolute;left:0;right:0;bottom:.02em;height:.16em;border-radius:99px;
-  background:var(--zon);z-index:-1;
+@media (max-width:920px){.hero__grid{grid-template-columns:1fr;padding-block:2.2rem 2.6rem}}
+.hero__copy>*+*{margin-top:1.3rem}
+.hero h1 em{font-style:italic;color:var(--roos)}
+.hero__acties{display:flex;flex-wrap:wrap;gap:.7rem .8rem;align-items:center}
+
+.beeld{
+  position:relative;border:1px solid var(--lijn);border-radius:var(--rad);
+  background:linear-gradient(170deg,var(--roos-zacht) 0%,var(--vlak) 62%,var(--blad-zacht) 100%);
+  aspect-ratio:5/4;max-width:100%;overflow:hidden;
 }
-.hero__copy>*+*{margin-top:1.15rem}
-.hero__actions{display:flex;flex-wrap:wrap;gap:.7rem;align-items:center}
-.pill-live{
-  display:inline-flex;align-items:center;gap:.5rem;background:var(--surface);
-  border:var(--bw) solid var(--line);border-radius:999px;padding:.35rem .85rem .35rem .55rem;
-  font-weight:700;font-size:.87rem;box-shadow:3px 3px 0 var(--line);
+.beeld__roos{position:absolute;right:6%;top:7%;width:40%;height:auto;color:var(--roos);opacity:.9}
+.beeld__grond{position:absolute;left:0;right:0;bottom:0;height:30%;background:var(--wit);opacity:.55;border-top:1px solid var(--roos-lijn)}
+.beeld__kind{position:absolute;bottom:14%;color:var(--inkt)}
+.beeld__kind--a{left:7%;width:24%}
+.beeld__kind--b{left:31%;width:18%;opacity:.5}
+.beeld__kind--c{left:49%;width:27%;color:var(--blad)}
+.beeld__bijschrift{
+  position:absolute;left:0;bottom:0;padding:.55rem .9rem;background:var(--papier);
+  border-top:1px solid var(--lijn);border-right:1px solid var(--lijn);border-top-right-radius:var(--rad);
+  font-size:.79rem;color:var(--grijs);max-width:80%;
 }
-.dot{width:10px;height:10px;border-radius:50%;background:var(--gras);position:relative;flex:0 0 10px}
-.dot::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:2px solid var(--gras);opacity:.5;animation:ping 2.2s ease-out infinite}
-@keyframes ping{0%{transform:scale(.6);opacity:.7}100%{transform:scale(1.5);opacity:0}}
 
-.trustrow{display:flex;flex-wrap:wrap;gap:.45rem 1.3rem;padding-top:.4rem}
-.trustrow li{display:flex;align-items:center;gap:.45rem;font-size:.88rem;font-weight:600;color:var(--ink-soft)}
-.trustrow{list-style:none;margin:0;padding-left:0}
-.tick{flex:0 0 18px;width:18px;height:18px}
-
-.hero__stage{position:relative;min-height:320px;display:flex;align-items:flex-end;justify-content:center}
-.hero__hill{position:absolute;left:-12%;right:-12%;bottom:-8%;height:58%;background:var(--gras);border:var(--bw) solid var(--line);border-radius:50% 50% 0 0;z-index:1}
-.roosje{position:relative;z-index:2;width:min(330px,80%);height:auto}
-.floaty{position:absolute;z-index:3}
-.floaty--pip{width:78px;top:6%;left:2%}
-.floaty--zoem{width:64px;top:22%;right:3%}
-.floaty--fladder{width:74px;bottom:26%;right:10%}
-.cloud{position:absolute;z-index:0;opacity:.95}
-.cloud--a{width:150px;top:8%;left:-4%}
-.cloud--b{width:105px;top:34%;right:-2%}
-.cloud--c{width:125px;top:2%;left:52%}
-@media (max-width:900px){.hero__stage{min-height:300px;margin-top:1.5rem}.cloud--c{display:none}}
-
-/* scallop divider */
-.scallop{
-  position:absolute;left:0;right:0;height:26px;pointer-events:none;
-  background-image:radial-gradient(circle at 13px 13px, var(--scal-fill) 12px, transparent 13px);
-  background-size:26px 26px;background-repeat:repeat-x;
+/* feitenstrook */
+.feiten{border-top:1px solid var(--lijn);background:var(--vlak)}
+.feiten__in{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+@media (max-width:820px){.feiten__in{grid-template-columns:1fr 1fr}}
+.feit{padding:1.15rem 0;display:flex;gap:.8rem;align-items:flex-start}
+.feit+.feit{border-left:1px solid var(--lijn);padding-left:clamp(1rem,2.2vw,1.8rem)}
+@media (max-width:820px){
+  .feit{padding-inline:0}
+  .feit:nth-child(odd){border-left:0;padding-left:0}
+  .feit:nth-child(n+3){border-top:1px solid var(--lijn)}
+  .feit:nth-child(even){padding-left:clamp(1rem,4vw,1.6rem)}
 }
-.scallop--bottom{bottom:-1px;transform:translateY(50%)}
+.feit svg{flex:0 0 22px;width:22px;height:22px;color:var(--roos);margin-top:.28rem}
+.feit b{display:block;font-size:.98rem;font-weight:700}
+.feit span{display:block;font-size:.86rem;color:var(--grijs);line-height:1.45}
 
-/* ============ checker card ============ */
+/* ======================= plekchecker ======================= */
 .checker{
-  position:relative;z-index:20;margin-top:clamp(-8rem,-11vw,-6.5rem);
+  border:1px solid var(--lijn);border-radius:var(--rad);background:var(--wit);
+  display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);
 }
-.card{
-  background:var(--surface);border:var(--bw) solid var(--line);border-radius:var(--rad);
-  box-shadow:var(--shadow-lg);
-}
-.checker__card{padding:clamp(1.2rem,3vw,2rem)}
-.checker__head{display:flex;flex-wrap:wrap;align-items:baseline;gap:.4rem 1rem;margin-bottom:1.1rem}
-.checker__form{display:grid;grid-template-columns:repeat(4,1fr);gap:.85rem;align-items:end}
-@media (max-width:860px){.checker__form{grid-template-columns:1fr 1fr}}
-@media (max-width:520px){.checker__form{grid-template-columns:1fr}}
-.field{display:flex;flex-direction:column;gap:.35rem;min-width:0}
-.field label{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--ink-soft)}
-.field select,.field input{
-  font:inherit;font-weight:600;color:var(--ink);background:var(--surface-2);
-  border:2px solid var(--line);border-radius:14px;padding:.62rem .8rem;width:100%;
+@media (max-width:880px){.checker{grid-template-columns:1fr}}
+.checker__uitleg{padding:clamp(1.3rem,2.6vw,2rem);border-right:1px solid var(--lijn);display:grid;gap:.8rem;align-content:start}
+@media (max-width:880px){.checker__uitleg{border-right:0;border-bottom:1px solid var(--lijn)}}
+.checker__form{padding:clamp(1.3rem,2.6vw,2rem);display:grid;gap:1rem}
+.velden{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
+@media (max-width:560px){.velden{grid-template-columns:1fr}}
+.veld{display:grid;gap:.35rem;min-width:0}
+.veld label,.veld>span.lbl{font-size:.8rem;font-weight:700;color:var(--inkt-70)}
+.veld select,.veld input{
+  font:inherit;font-size:.97rem;color:var(--inkt);background:var(--papier);
+  border:1px solid var(--lijn);border-radius:8px;padding:.62rem .75rem;width:100%;
   appearance:none;-webkit-appearance:none;
 }
-.field select{
+.veld select{
   background-image:linear-gradient(45deg,transparent 50%,currentColor 50%),linear-gradient(135deg,currentColor 50%,transparent 50%);
-  background-position:calc(100% - 18px) 55%,calc(100% - 12px) 55%;
-  background-size:6px 6px,6px 6px;background-repeat:no-repeat;padding-right:2.2rem;
+  background-position:calc(100% - 17px) 54%,calc(100% - 12px) 54%;
+  background-size:5px 5px,5px 5px;background-repeat:no-repeat;padding-right:2.1rem;
 }
-.field input[type="date"]{min-height:calc(1.62em + 1.24rem + 4px)}
-.result{
-  margin-top:1.1rem;border:var(--bw) solid var(--line);border-radius:20px;padding:1rem 1.15rem;
-  display:flex;flex-wrap:wrap;gap:.9rem 1.2rem;align-items:center;justify-content:space-between;
-  background:var(--gras-tint);
-  animation:pop .3s cubic-bezier(.2,1.5,.4,1);
+.veld input:focus,.veld select:focus{border-color:var(--roos)}
+.uitslag{
+  border:1px solid var(--lijn);border-left:3px solid var(--ok);border-radius:8px;
+  padding:.95rem 1.1rem;background:var(--blad-zacht);
+  display:flex;flex-wrap:wrap;gap:.8rem 1.2rem;align-items:center;justify-content:space-between;
 }
-.result--wacht{background:var(--zon-tint)}
-.result--vol{background:var(--roos-tint)}
-@keyframes pop{from{transform:scale(.97);opacity:0}to{transform:none;opacity:1}}
-.result__txt{display:flex;gap:.8rem;align-items:flex-start;min-width:0}
-.result__icon{flex:0 0 40px;width:40px;height:40px}
-.result__title{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.12rem;line-height:1.2}
-.result__sub{font-size:.92rem;color:var(--ink-soft);margin-top:.15rem}
+.uitslag--wacht{background:var(--roos-zacht);border-left-color:var(--let)}
+.uitslag b{display:block;font-size:1rem}
+.uitslag p{font-size:.9rem;color:var(--inkt-70);margin-top:.15rem;max-width:52ch}
+
+/* ======================= pijlers ======================= */
+.pijlers{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(1.4rem,3vw,2.6rem)}
+@media (max-width:760px){.pijlers{grid-template-columns:1fr}}
+.pijler{display:grid;gap:.6rem;padding-top:1.3rem;border-top:1px solid var(--lijn)}
+.pijler__nr{font-size:.76rem;font-weight:700;letter-spacing:.14em;color:var(--roos)}
+.pijler p{color:var(--inkt-70);font-size:.99rem}
+
+/* ======================= locaties ======================= */
+.loc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1rem,2.2vw,1.6rem)}
+@media (max-width:940px){.loc-grid{grid-template-columns:1fr}}
+.loc{
+  border:1px solid var(--lijn);border-radius:var(--rad);background:var(--wit);
+  display:flex;flex-direction:column;overflow:hidden;transition:border-color .2s ease;
+}
+.loc:hover{border-color:var(--roos-lijn)}
+.loc__beeld{
+  height:132px;position:relative;overflow:hidden;border-bottom:1px solid var(--lijn);
+  background:var(--roos-zacht);
+}
+.loc--b .loc__beeld{background:var(--blad-zacht)}
+.loc--c .loc__beeld{background:var(--vlak)}
+.loc__beeld svg.rk{position:absolute;right:-6px;top:-14px;width:118px;color:var(--roos);opacity:.42}
+.loc--b .loc__beeld svg.rk{color:var(--blad)}
+.loc__beeld svg.kd{position:absolute;left:20px;bottom:0;width:58px;color:var(--inkt);opacity:.75}
+.loc__beeld svg.kd2{position:absolute;left:78px;bottom:0;width:42px;color:var(--inkt);opacity:.35}
+.loc__body{padding:1.15rem 1.3rem 1.35rem;display:flex;flex-direction:column;gap:.75rem;flex:1}
+.loc__wijk{font-size:.75rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--grijs)}
+.loc dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:.35rem .8rem;font-size:.93rem}
+.loc dt{color:var(--grijs)}
+.loc dd{margin:0}
+.merkje{
+  display:inline-flex;align-items:center;gap:.4rem;align-self:flex-start;
+  font-size:.79rem;font-weight:700;border-radius:999px;padding:.2rem .68rem;
+  background:var(--blad-zacht);color:var(--blad);border:1px solid currentColor;
+}
+.merkje--wacht{background:var(--roos-zacht);color:var(--let)}
+.loc__voet{margin-top:auto;padding-top:.4rem;display:flex;gap:.6rem;flex-wrap:wrap}
+
+/* tabel */
+.tabelwrap{overflow-x:auto;border:1px solid var(--lijn);border-radius:var(--rad);background:var(--wit)}
+table{border-collapse:collapse;width:100%;min-width:620px;font-size:.95rem}
+caption{text-align:left;padding:1rem 1.2rem .1rem;font-size:.86rem;color:var(--grijs)}
+th,td{text-align:left;padding:.8rem 1.2rem;border-bottom:1px solid var(--lijn);vertical-align:top}
+thead th{
+  font-family:"Karla",sans-serif;font-size:.76rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:.11em;color:var(--grijs);background:var(--vlak);
+}
+tbody tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+tbody th{font-weight:700}
+
+/* ======================= dagritme ======================= */
+.dag{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.82fr);gap:clamp(1.6rem,3.5vw,3rem);align-items:start}
+@media (max-width:880px){.dag{grid-template-columns:1fr}}
+.ritme{list-style:none;margin:0;padding:0;border-top:1px solid var(--lijn)}
+.ritme li{border-bottom:1px solid var(--lijn)}
+.ritme button{
+  all:unset;display:grid;grid-template-columns:4.6rem 1fr auto;gap:.9rem;align-items:baseline;
+  width:100%;padding:.85rem .3rem;cursor:pointer;box-sizing:border-box;
+}
+.ritme button:hover{background:var(--vlak)}
+.ritme button:focus-visible{outline:2px solid var(--roos);outline-offset:-2px}
+.ritme time{font-variant-numeric:tabular-nums;font-weight:700;font-size:.92rem;color:var(--roos)}
+.ritme .wat{font-family:"Newsreader",serif;font-size:1.1rem;font-weight:500}
+.ritme .pijl{width:16px;height:16px;color:var(--grijs);opacity:0;transition:opacity .18s ease,transform .18s ease}
+.ritme li[aria-current="true"]{background:var(--vlak)}
+.ritme li[aria-current="true"] .pijl{opacity:1;transform:translateX(3px)}
+.dag__paneel{border:1px solid var(--lijn);border-radius:var(--rad);overflow:hidden;background:var(--wit);position:sticky;top:104px}
+@media (max-width:880px){.dag__paneel{position:static}}
+.dag__scene{height:170px;position:relative;background:var(--roos-zacht);border-bottom:1px solid var(--lijn);overflow:hidden}
+.dag__scene .rk{position:absolute;right:8px;top:-10px;width:120px;color:var(--roos);opacity:.45}
+.dag__scene .kd{position:absolute;left:26px;bottom:0;width:76px;color:var(--inkt);opacity:.8}
+.dag__tekst{padding:1.2rem 1.3rem 1.4rem;display:grid;gap:.55rem}
+.dag__tekst p{color:var(--inkt-70);font-size:.98rem}
 </style>
 <style>
-/* ============ marquee ============ */
-.marquee{
-  background:var(--zon);color:#171A1F;border-block:var(--bw) solid var(--line);
-  overflow:hidden;padding-block:.6rem;
-}
-.marquee__track{display:flex;width:max-content;gap:2.2rem;animation:slide 26s linear infinite}
-.marquee span{
-  font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.05rem;
-  text-transform:lowercase;letter-spacing:-.01em;display:flex;align-items:center;gap:2.2rem;white-space:nowrap;
-}
-.marquee span::after{content:"";width:9px;height:9px;border-radius:50%;background:#171A1F;display:inline-block}
-@keyframes slide{to{transform:translateX(-50%)}}
-
-/* ============ usp ============ */
-.usp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(1rem,2.4vw,1.8rem)}
-@media (max-width:880px){.usp-grid{grid-template-columns:1fr 1fr}}
-@media (max-width:480px){.usp-grid{grid-template-columns:1fr}}
-.usp{display:flex;flex-direction:column;gap:.55rem}
-.usp__ico{width:58px;height:58px;border:var(--bw) solid var(--line);border-radius:18px;display:grid;place-items:center;background:var(--surface);box-shadow:3px 3px 0 var(--line)}
-.usp__ico svg{width:32px;height:32px}
-.usp h3{margin-top:.25rem}
-.usp p{font-size:.95rem;color:var(--ink-soft)}
-
-/* ============ locaties ============ */
-.band--loc{background:var(--surface-2);border-block:var(--bw) solid var(--line)}
-.sechead{display:flex;flex-wrap:wrap;gap:1rem 2rem;align-items:flex-end;justify-content:space-between;margin-bottom:clamp(1.6rem,3.5vw,2.6rem)}
-.sechead__txt>*+*{margin-top:.7rem}
-.loc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1rem,2.2vw,1.5rem)}
-@media (max-width:900px){.loc-grid{grid-template-columns:1fr}}
-.loc{
-  --accent:var(--roos); --accent-tint:var(--roos-tint);
-  display:flex;flex-direction:column;overflow:hidden;
-  transition:transform .2s cubic-bezier(.3,1.3,.5,1),box-shadow .2s ease;
-}
-.loc:hover{transform:translate(-3px,-3px);box-shadow:10px 10px 0 var(--line)}
-.loc--zon{--accent:var(--zon);--accent-tint:var(--zon-tint)}
-.loc--lucht{--accent:var(--lucht);--accent-tint:var(--lucht-tint)}
-.loc__top{background:var(--accent-tint);border-bottom:var(--bw) solid var(--line);padding:1.1rem 1.25rem;display:flex;align-items:center;gap:.9rem}
-.loc__char{width:62px;height:62px;flex:0 0 62px}
-.loc__place{font-size:.74rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-soft)}
-.loc__body{padding:1.15rem 1.25rem 1.35rem;display:flex;flex-direction:column;gap:.85rem;flex:1}
-.loc__meta{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.5rem;font-size:.93rem}
-.loc__meta li{display:flex;gap:.6rem;align-items:flex-start}
-.loc__meta svg{flex:0 0 18px;width:18px;height:18px;margin-top:.22rem}
-.status{
-  display:inline-flex;align-items:center;gap:.45rem;align-self:flex-start;
-  border:2px solid var(--line);border-radius:999px;padding:.24rem .7rem;
-  font-size:.79rem;font-weight:700;background:var(--gras-tint);
-}
-.status--wacht{background:var(--zon-tint)}
-.groep-chips{display:flex;flex-wrap:wrap;gap:.38rem}
-.chip{
-  border:2px solid var(--line);border-radius:999px;padding:.18rem .62rem;
-  font-size:.78rem;font-weight:700;background:var(--surface);
-}
-.loc__foot{margin-top:auto;display:flex;gap:.55rem;flex-wrap:wrap;padding-top:.3rem}
-
-/* ============ dagritme ============ */
-.rhythm{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.86fr);gap:clamp(1.2rem,3vw,2.4rem);align-items:start}
-@media (max-width:860px){.rhythm{grid-template-columns:1fr}}
-.timeline{list-style:none;margin:0;padding:0;position:relative}
-.timeline::before{content:"";position:absolute;left:19px;top:14px;bottom:14px;width:3px;background:var(--hair);border-radius:99px}
-.tl-item{position:relative;padding-left:3.35rem;padding-block:.42rem}
-.tl-btn{
-  all:unset;cursor:pointer;display:flex;gap:.8rem;align-items:baseline;width:100%;
-  border-radius:12px;padding:.32rem .5rem;transition:background .15s ease;
-}
-.tl-btn:hover{background:var(--surface-2)}
-.tl-btn:focus-visible{outline:3px solid var(--lucht);outline-offset:2px}
-.tl-time{font-variant-numeric:tabular-nums;font-weight:700;font-size:.95rem;min-width:3.4rem}
-.tl-label{font-family:"Bricolage Grotesque",sans-serif;font-weight:600;font-size:1.02rem}
-.tl-dot{
-  position:absolute;left:11px;top:.95rem;width:19px;height:19px;border-radius:50%;
-  background:var(--surface);border:var(--bw) solid var(--line);transition:background .2s ease,transform .2s ease;
-}
-.tl-item[aria-current="true"] .tl-dot{background:var(--roos);transform:scale(1.28)}
-.tl-item[aria-current="true"] .tl-label{color:var(--roos)}
-.rhythm__panel{padding:clamp(1.1rem,2.6vw,1.7rem);position:sticky;top:calc(92px + env(safe-area-inset-top,0px))}
-@media (max-width:860px){.rhythm__panel{position:static}}
-.rhythm__panel h3{margin-bottom:.5rem}
-.rhythm__scene{
-  border:var(--bw) solid var(--line);border-radius:18px;background:var(--lucht-tint);
-  aspect-ratio:16/10;max-width:100%;display:grid;place-items:center;overflow:hidden;margin-bottom:1rem;
-}
-.rhythm__scene svg{width:58%;height:auto;max-width:100%}
-.rhythm__time{font-variant-numeric:tabular-nums;font-weight:800;font-family:"Bricolage Grotesque",sans-serif;color:var(--roos);font-size:1rem;letter-spacing:.02em}
-
-/* ============ calculator ============ */
-.band--calc{background:var(--gras-tint);border-block:var(--bw) solid var(--line)}
-.calc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.92fr);gap:clamp(1.1rem,2.6vw,1.8rem)}
-@media (max-width:860px){.calc{grid-template-columns:1fr}}
-.calc__panel{padding:clamp(1.2rem,3vw,1.9rem);display:flex;flex-direction:column;gap:1.05rem}
-.range-row{display:flex;align-items:center;gap:1rem}
-input[type=range]{
-  -webkit-appearance:none;appearance:none;background:transparent;flex:1;height:26px;margin:0;
-}
-input[type=range]::-webkit-slider-runnable-track{height:10px;border-radius:99px;background:var(--surface-2);border:2px solid var(--line)}
-input[type=range]::-moz-range-track{height:10px;border-radius:99px;background:var(--surface-2);border:2px solid var(--line)}
+/* ======================= tarieven ======================= */
+.tarief{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);gap:clamp(1.4rem,3vw,2.4rem);align-items:start}
+@media (max-width:900px){.tarief{grid-template-columns:1fr}}
+.rekenaar{border:1px solid var(--lijn);border-radius:var(--rad);background:var(--wit);overflow:hidden}
+.rekenaar__in{padding:clamp(1.2rem,2.6vw,1.8rem);display:grid;gap:1.05rem}
+.schuif{display:flex;align-items:center;gap:1rem}
+input[type=range]{-webkit-appearance:none;appearance:none;background:transparent;flex:1;height:22px;margin:0}
+input[type=range]::-webkit-slider-runnable-track{height:3px;border-radius:99px;background:var(--lijn)}
+input[type=range]::-moz-range-track{height:3px;border-radius:99px;background:var(--lijn)}
 input[type=range]::-webkit-slider-thumb{
-  -webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--roos);
-  border:var(--bw) solid var(--line);margin-top:-11px;cursor:pointer;
+  -webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--roos);
+  border:3px solid var(--papier);box-shadow:0 0 0 1px var(--roos);margin-top:-8.5px;cursor:pointer;
 }
-input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--roos);border:var(--bw) solid var(--line);cursor:pointer}
-.range-val{
-  font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.05rem;
-  border:2px solid var(--line);border-radius:12px;padding:.2rem .7rem;background:var(--zon);color:#171A1F;
-  white-space:nowrap;
+input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--roos);border:3px solid var(--papier);box-shadow:0 0 0 1px var(--roos);cursor:pointer}
+.schuif output{
+  font-variant-numeric:tabular-nums;font-weight:700;font-size:.95rem;white-space:nowrap;
+  min-width:5.6rem;text-align:right;
 }
-.calc__out{padding:clamp(1.2rem,3vw,1.9rem);display:flex;flex-direction:column;gap:1rem;background:var(--ink);color:var(--paper);border-color:var(--line)}
-.calc__out .muted{color:var(--paper);opacity:.7}
-.bignum{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:clamp(2.6rem,6vw,3.6rem);line-height:.95;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
-.bignum small{font-size:.28em;font-weight:600;letter-spacing:0;opacity:.75;display:block;margin-top:.5rem;font-family:"Instrument Sans",sans-serif}
-.breakdown{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.45rem;font-size:.95rem}
-.breakdown li{display:flex;justify-content:space-between;gap:1rem;padding-bottom:.45rem;border-bottom:1px solid rgba(255,255,255,.18)}
-.breakdown li:last-child{border-bottom:0}
-.breakdown b{font-variant-numeric:tabular-nums}
-.stackbar{display:flex;height:22px;border:2px solid var(--paper);border-radius:99px;overflow:hidden}
-.stackbar i{display:block;transition:flex-grow .45s cubic-bezier(.4,0,.2,1)}
-.stackbar .seg-toeslag{background:var(--zon)}
-.stackbar .seg-eigen{background:var(--roos)}
-.legend{display:flex;gap:1rem;flex-wrap:wrap;font-size:.83rem}
-.legend span{display:inline-flex;align-items:center;gap:.4rem}
-.swatch{width:12px;height:12px;border-radius:3px;border:1px solid var(--paper)}
-.fineprint{font-size:.8rem;color:var(--ink-soft);line-height:1.5}
-
-/* ============ social proof ============ */
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:clamp(1.8rem,4vw,2.8rem)}
-@media (max-width:760px){.stats{grid-template-columns:1fr 1fr}}
-.stat{border-left:var(--bw) solid var(--roos);padding-left:.95rem}
-.stat b{display:block;font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:clamp(1.9rem,4.4vw,2.7rem);line-height:1;font-variant-numeric:tabular-nums}
-.stat span{font-size:.87rem;color:var(--ink-soft);display:block;margin-top:.3rem}
-.quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1rem,2.2vw,1.5rem)}
-@media (max-width:900px){.quotes{grid-template-columns:1fr}}
-.quote{padding:1.3rem 1.35rem;display:flex;flex-direction:column;gap:.85rem;background:var(--surface)}
-.quote:nth-child(2){background:var(--zon-tint)}
-.quote:nth-child(3){background:var(--lucht-tint)}
-.quote blockquote{margin:0;font-size:1.02rem;line-height:1.55}
-.quote figcaption{display:flex;align-items:center;gap:.65rem;margin-top:auto}
-.avatar{
-  width:42px;height:42px;flex:0 0 42px;border-radius:50%;border:var(--bw) solid var(--line);
-  display:grid;place-items:center;font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:.95rem;
-  background:var(--roos);color:var(--on-roos);
+.rekenaar__uit{background:var(--vlak);border-top:1px solid var(--lijn);padding:clamp(1.2rem,2.6vw,1.8rem);display:grid;gap:.9rem}
+.bedrag{
+  font-family:"Newsreader",serif;font-weight:500;font-size:clamp(2.4rem,5.5vw,3.2rem);
+  line-height:1;letter-spacing:-.025em;font-variant-numeric:tabular-nums;color:var(--roos);
 }
-.quote figcaption b{display:block;font-size:.93rem}
-.quote figcaption span{font-size:.8rem;color:var(--ink-soft)}
-.stars{display:flex;gap:.15rem}
-.stars svg{width:17px;height:17px}
+.bedrag-sub{font-size:.88rem;color:var(--grijs);margin-top:.35rem}
+.verdeling{display:flex;height:8px;border-radius:99px;overflow:hidden;background:var(--lijn)}
+.verdeling i{display:block;transition:flex-grow .4s cubic-bezier(.4,0,.2,1)}
+.verdeling .s-toeslag{background:var(--blad)}
+.verdeling .s-eigen{background:var(--roos)}
+.legenda{display:flex;flex-wrap:wrap;gap:.4rem 1.2rem;font-size:.84rem;color:var(--inkt-70)}
+.legenda span{display:inline-flex;align-items:center;gap:.4rem}
+.stip{width:9px;height:9px;border-radius:50%;flex:0 0 9px}
+.specificatie{list-style:none;margin:0;padding:0;display:grid;gap:.5rem;font-size:.93rem}
+.specificatie li{display:flex;justify-content:space-between;gap:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--lijn)}
+.specificatie li:last-child{border-bottom:0}
+.specificatie b{font-variant-numeric:tabular-nums;font-weight:700}
+.voetnoot{font-size:.82rem;color:var(--grijs);line-height:1.55}
 
-/* ============ stappen ============ */
-.band--steps{background:var(--roos-tint);border-block:var(--bw) solid var(--line)}
-.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(1rem,2.4vw,1.8rem)}
-@media (max-width:1000px){.steps{grid-template-columns:1fr 1fr}}
-@media (max-width:560px){.steps{grid-template-columns:1fr}}
-.step{position:relative;padding-top:1.1rem}
-.step__n{
-  width:54px;height:54px;border-radius:50%;border:var(--bw) solid var(--line);background:var(--surface);
-  display:grid;place-items:center;font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.4rem;
-  box-shadow:3px 3px 0 var(--line);margin-bottom:.85rem;
+/* ======================= praktisch / accordeon ======================= */
+.prak{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(1.6rem,3.5vw,3rem);align-items:start}
+@media (max-width:880px){.prak{grid-template-columns:1fr}}
+.acc{border-top:1px solid var(--lijn)}
+.acc details{border-bottom:1px solid var(--lijn)}
+.acc summary{
+  list-style:none;cursor:pointer;padding:1rem .2rem;display:flex;gap:1rem;align-items:center;
+  font-family:"Newsreader",serif;font-size:1.1rem;font-weight:500;
 }
-.step h3{margin-bottom:.4rem}
-.step p{font-size:.95rem;color:var(--ink-soft)}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary:hover{color:var(--roos)}
+.acc .teken{margin-left:auto;flex:0 0 18px;width:18px;height:18px;color:var(--roos);transition:transform .25s ease}
+.acc details[open] .teken{transform:rotate(45deg)}
+.acc .antwoord{padding:0 .2rem 1.15rem;color:var(--inkt-70);max-width:66ch;display:grid;gap:.7rem}
+.acc details[open] .antwoord{animation:zak .28s ease}
+@keyframes zak{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.acc .antwoord ul{margin:0;padding-left:1.1rem;display:grid;gap:.3rem}
 
-/* ============ faq ============ */
-.faq{display:flex;flex-direction:column;gap:.7rem;max-width:820px}
-.qa{border:var(--bw) solid var(--line);border-radius:18px;background:var(--surface);overflow:hidden}
-.qa summary{
-  list-style:none;cursor:pointer;padding:1rem 1.15rem;display:flex;gap:1rem;align-items:center;
-  font-family:"Bricolage Grotesque",sans-serif;font-weight:600;font-size:1.04rem;
+/* documenten */
+.docs{list-style:none;margin:0;padding:0;display:grid;gap:0;border-top:1px solid var(--lijn)}
+.docs li{border-bottom:1px solid var(--lijn)}
+.docs a{
+  display:flex;gap:.9rem;align-items:center;padding:.9rem .2rem;text-decoration:none;
+  transition:color .18s ease;
 }
-.qa summary::-webkit-details-marker{display:none}
-.qa summary:hover{background:var(--surface-2)}
-.qa__plus{margin-left:auto;flex:0 0 26px;width:26px;height:26px;transition:transform .25s ease}
-.qa[open] .qa__plus{transform:rotate(45deg)}
-.qa__a{padding:0 1.15rem 1.15rem;color:var(--ink-soft);max-width:65ch}
-.qa[open] .qa__a{animation:fadein .25s ease}
-@keyframes fadein{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.docs a:hover{color:var(--roos)}
+.docs svg{flex:0 0 18px;width:18px;height:18px;color:var(--roos)}
+.docs .meta{margin-left:auto;font-size:.82rem;color:var(--grijs);white-space:nowrap}
 
-/* ============ form ============ */
-.band--form{background:var(--lucht);border-block:var(--bw) solid var(--line);color:var(--on-lucht)}
-.band--form .lede{color:var(--on-lucht);opacity:.84}
-.formgrid{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1fr);gap:clamp(1.4rem,3.5vw,3rem);align-items:start}
-@media (max-width:860px){.formgrid{grid-template-columns:1fr}}
-.form-card{padding:clamp(1.2rem,3vw,2rem);color:var(--ink);background:var(--surface)}
-.form-rows{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
-@media (max-width:520px){.form-rows{grid-template-columns:1fr}}
-.field--full{grid-column:1/-1}
-.consent{display:flex;gap:.6rem;align-items:flex-start;font-size:.85rem;color:var(--ink-soft);grid-column:1/-1}
-.consent input{width:20px;height:20px;flex:0 0 20px;accent-color:var(--roos);margin-top:.18rem}
-.form-ok{display:flex;gap:.9rem;align-items:flex-start;background:var(--gras-tint);border:var(--bw) solid var(--line);border-radius:20px;padding:1.1rem 1.2rem;color:var(--ink)}
-.form-ok svg{flex:0 0 40px;width:40px;height:40px}
-.perks{list-style:none;margin:1.4rem 0 0;padding:0;display:flex;flex-direction:column;gap:.7rem}
-.perks li{display:flex;gap:.65rem;align-items:flex-start;font-weight:600}
-.perks svg{flex:0 0 22px;width:22px;height:22px;margin-top:.1rem}
+/* ======================= ouders ======================= */
+.citaten{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1.2rem,2.6vw,2.2rem)}
+@media (max-width:880px){.citaten{grid-template-columns:1fr}}
+.citaat{display:grid;gap:.9rem;align-content:start;padding-top:1.3rem;border-top:1px solid var(--lijn)}
+.citaat blockquote{
+  margin:0;font-family:"Newsreader",serif;font-size:1.16rem;line-height:1.45;font-weight:400;
+}
+.citaat figcaption{font-size:.87rem;color:var(--grijs)}
+.citaat figcaption b{display:block;color:var(--inkt);font-size:.92rem}
+.cijfers{display:grid;grid-template-columns:repeat(4,1fr);gap:1.4rem;margin-bottom:clamp(2rem,4vw,3rem)}
+@media (max-width:760px){.cijfers{grid-template-columns:1fr 1fr}}
+.cijfer b{
+  display:block;font-family:"Newsreader",serif;font-weight:500;font-size:clamp(2rem,4.4vw,2.7rem);
+  line-height:1;font-variant-numeric:tabular-nums;color:var(--roos);
+}
+.cijfer span{display:block;font-size:.88rem;color:var(--inkt-70);margin-top:.45rem;max-width:22ch}
 
-/* ============ footer ============ */
-.foot{position:relative;background:var(--ink);color:var(--paper);padding-block:clamp(2.6rem,6vw,4rem) 6.5rem}
-.foot a{color:inherit;text-decoration:none}
-.foot a:hover{text-decoration:underline;text-underline-offset:3px}
-.foot__grid{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:clamp(1.4rem,3vw,2.5rem)}
-@media (max-width:860px){.foot__grid{grid-template-columns:1fr 1fr}}
-@media (max-width:520px){.foot__grid{grid-template-columns:1fr}}
-.foot h4{font-size:.78rem;text-transform:uppercase;letter-spacing:.14em;margin-bottom:.8rem;opacity:.65;font-weight:800}
-.foot ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.45rem;font-size:.93rem}
-.foot .lrk{font-size:.78rem;opacity:.6;font-variant-numeric:tabular-nums}
-.foot__bottom{margin-top:2.4rem;padding-top:1.3rem;border-top:1px solid rgba(255,255,255,.16);display:flex;flex-wrap:wrap;gap:.6rem 1.5rem;justify-content:space-between;font-size:.8rem;opacity:.72}
-.foot .brand__name{color:var(--paper)}
+/* ======================= stappen ======================= */
+.stappen{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(1.2rem,2.6vw,2rem);counter-reset:st}
+@media (max-width:980px){.stappen{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.stappen{grid-template-columns:1fr}}
+.stap{display:grid;gap:.5rem;align-content:start;position:relative;padding-top:1.4rem;border-top:2px solid var(--roos)}
+.stap__n{font-size:.76rem;font-weight:700;letter-spacing:.14em;color:var(--roos)}
+.stap p{font-size:.95rem;color:var(--inkt-70)}
 
-/* ============ mobile action bar ============ */
-.mobar{
+/* ======================= contact ======================= */
+.contact{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(1.6rem,3.5vw,3rem);align-items:start}
+@media (max-width:880px){.contact{grid-template-columns:1fr}}
+.formkaart{border:1px solid var(--lijn);border-radius:var(--rad);background:var(--wit);padding:clamp(1.3rem,2.8vw,2rem)}
+.formvelden{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+@media (max-width:560px){.formvelden{grid-template-columns:1fr}}
+.vol{grid-column:1/-1}
+.akkoord{display:flex;gap:.65rem;align-items:flex-start;font-size:.87rem;color:var(--inkt-70);grid-column:1/-1}
+.akkoord input{width:18px;height:18px;flex:0 0 18px;accent-color:var(--roos);margin-top:.22rem}
+textarea{
+  font:inherit;font-size:.97rem;color:var(--inkt);background:var(--papier);
+  border:1px solid var(--lijn);border-radius:8px;padding:.62rem .75rem;width:100%;resize:vertical;min-height:88px;
+}
+textarea:focus{border-color:var(--roos)}
+.bevestiging{display:flex;gap:.9rem;align-items:flex-start;border:1px solid var(--lijn);border-left:3px solid var(--ok);border-radius:8px;padding:1.1rem 1.2rem;background:var(--blad-zacht)}
+.bevestiging svg{flex:0 0 22px;width:22px;height:22px;color:var(--ok);margin-top:.2rem}
+.contactlijst{list-style:none;margin:1.4rem 0 0;padding:0;display:grid;gap:1rem}
+.contactlijst li{display:flex;gap:.8rem;align-items:flex-start}
+.contactlijst svg{flex:0 0 19px;width:19px;height:19px;color:var(--roos);margin-top:.28rem}
+.contactlijst b{display:block;font-size:.95rem}
+.contactlijst span{font-size:.9rem;color:var(--inkt-70)}
+
+/* ======================= voet ======================= */
+.voet{background:var(--inkt);color:var(--papier);padding-block:clamp(2.6rem,5vw,4rem) 2rem;margin-top:0}
+.voet a{text-decoration:none}
+.voet a:hover{text-decoration:underline;text-underline-offset:3px}
+.voet__grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:clamp(1.6rem,3vw,2.6rem)}
+@media (max-width:880px){.voet__grid{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.voet__grid{grid-template-columns:1fr}}
+.voet h4{font-size:.73rem;text-transform:uppercase;letter-spacing:.15em;opacity:.6;margin-bottom:.9rem}
+.voet ul{list-style:none;margin:0;padding:0;display:grid;gap:.55rem;font-size:.92rem}
+.voet .lrk{font-size:.79rem;opacity:.55;font-variant-numeric:tabular-nums;display:block}
+.voet .merk__naam{color:var(--papier)}
+.voet .merk__mark{color:var(--papier)}
+.voet__onder{
+  margin-top:2.6rem;padding-top:1.3rem;border-top:1px solid rgba(255,255,255,.16);
+  display:flex;flex-wrap:wrap;gap:.6rem 1.6rem;justify-content:space-between;font-size:.8rem;opacity:.68;
+}
+:root[data-theme="dark"] .voet__onder,
+:root:not([data-theme="light"]) .voet__onder{border-top-color:color-mix(in srgb, currentColor 22%, transparent)}
+
+/* mobiele balk */
+.mobalk{
   position:fixed;left:0;right:0;bottom:0;z-index:70;display:none;gap:.6rem;
-  background:var(--paper);border-top:var(--bw) solid var(--line);
-  padding:.7rem var(--gut);padding-bottom:calc(.7rem + env(safe-area-inset-bottom,0px));
+  background:var(--papier);border-top:1px solid var(--lijn);
+  padding:.65rem var(--gut);padding-bottom:calc(.65rem + env(safe-area-inset-bottom,0px));
 }
-@media (max-width:1040px){.mobar{display:flex}}
-.mobar .btn{flex:1}
+@media (max-width:1060px){.mobalk{display:flex}.voet{padding-bottom:6rem}}
+.mobalk .btn{flex:1}
 
-/* ============ motion ============ */
-.reveal{opacity:0;transform:translateY(22px)}
-.reveal.in{opacity:1;transform:none;transition:opacity .6s ease,transform .6s cubic-bezier(.2,.8,.3,1)}
-.bob{animation:bob 4.2s ease-in-out infinite}
-.bob--b{animation-duration:5.4s;animation-delay:-1.2s}
-.bob--c{animation-duration:6.1s;animation-delay:-2.4s}
-@keyframes bob{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-14px) rotate(2deg)}}
-.drift{animation:drift 34s linear infinite}
-.drift--b{animation-duration:46s;animation-delay:-14s}
-.drift--c{animation-duration:58s;animation-delay:-28s}
-@keyframes drift{from{transform:translateX(-14vw)}to{transform:translateX(112vw)}}
-.blink{transform-box:fill-box;transform-origin:center;animation:blink 5.5s infinite}
-@keyframes blink{0%,94%,100%{transform:scaleY(1)}96%,98%{transform:scaleY(.08)}}
-.wave{transform-box:fill-box;transform-origin:22% 88%;animation:wave 2.6s ease-in-out infinite}
-@keyframes wave{0%,60%,100%{transform:rotate(0)}70%{transform:rotate(-20deg)}80%{transform:rotate(8deg)}90%{transform:rotate(-14deg)}}
-.spin-slow{transform-box:fill-box;transform-origin:center;animation:spin 46s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.petal{position:fixed;top:-24px;z-index:80;pointer-events:none;animation:fall linear forwards}
-@keyframes fall{to{transform:translateY(105vh) rotate(540deg);opacity:0}}
-
+/* ======================= beweging ======================= */
+.op{opacity:0;transform:translateY(14px)}
+.op.aan{opacity:1;transform:none;transition:opacity .7s ease,transform .7s cubic-bezier(.22,.8,.3,1)}
+.teken-lijn{stroke-dasharray:var(--len,900);stroke-dashoffset:var(--len,900);animation:teken 2.4s cubic-bezier(.4,0,.25,1) .25s forwards}
+@keyframes teken{to{stroke-dashoffset:0}}
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
-  .reveal{opacity:1;transform:none}
-  .marquee__track{animation:none}
-  .petal{display:none}
+  .op{opacity:1;transform:none}
+  .teken-lijn{stroke-dashoffset:0;animation:none}
 }
+html{scroll-behavior:smooth}
+[id]{scroll-margin-top:100px}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+.specificatie li{border-bottom-color:var(--lijn)}
 </style>
-<style>.scallop--top{top:-1px;transform:translateY(-50%)}</style>
 
 <svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
   <defs>
-    <symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M7.5 12.4l3 3 6-6.6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21.5s7-6.3 7-11.4A7 7 0 0 0 5 10.1c0 5.1 7 11.4 7 11.4z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.6" fill="currentColor"/></symbol>
-    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M12 7v5.3l3.4 2" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
-    <symbol id="i-group" viewBox="0 0 24 24"><circle cx="9" cy="8.5" r="3.4" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="17" cy="9.5" r="2.6" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M3.2 19.2c.5-3.2 3-5.1 5.8-5.1s5.3 1.9 5.8 5.1M16 14.3c2.4.1 4.3 1.8 4.8 4.4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
-    <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2.8l2.8 5.9 6.3.9-4.6 4.5 1.1 6.4-5.6-3.1-5.6 3.1 1.1-6.4-4.6-4.5 6.3-.9z" fill="currentColor"/></symbol>
-    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/></symbol>
-    <symbol id="i-heart" viewBox="0 0 32 32"><path d="M16 27.5S3.5 19.8 3.5 12.2A6.7 6.7 0 0 1 16 8.6a6.7 6.7 0 0 1 12.5 3.6C28.5 19.8 16 27.5 16 27.5z" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/></symbol>
-    <symbol id="i-leaf" viewBox="0 0 32 32"><path d="M26 5C12 5 5 11 5 20c0 3.4 1.6 6 1.6 6S9 17 26 5z" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/><path d="M6.6 26C11 21.6 16 14 26 5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></symbol>
-    <symbol id="i-apple" viewBox="0 0 32 32"><path d="M16 10c-6-4-12 0-12 8 0 6 4 11 7 11 1.6 0 2.9-1 5-1s3.4 1 5 1c3 0 7-5 7-11 0-8-6-12-12-8z" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/><path d="M16 10V5c0-1.6 1.4-3 3.4-3" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></symbol>
-    <symbol id="i-face" viewBox="0 0 32 32"><circle cx="16" cy="16" r="12.5" fill="none" stroke="currentColor" stroke-width="2.6"/><circle cx="11.5" cy="13.5" r="1.9" fill="currentColor"/><circle cx="20.5" cy="13.5" r="1.9" fill="currentColor"/><path d="M10.5 19.5c1.6 2.6 3.4 3.8 5.5 3.8s3.9-1.2 5.5-3.8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></symbol>
-    <symbol id="i-ok" viewBox="0 0 40 40"><circle cx="20" cy="20" r="17" fill="none" stroke="currentColor" stroke-width="3"/><path d="M12.5 20.8l5 5 10.5-11.5" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-    <symbol id="i-hour" viewBox="0 0 40 40"><circle cx="20" cy="20" r="17" fill="none" stroke="currentColor" stroke-width="3"/><path d="M20 10v10.6l6.4 3.8" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/></symbol>
-    <symbol id="i-phone" viewBox="0 0 24 24"><path d="M6.4 3.5h3l1.6 4-2 1.5a12 12 0 0 0 6 6l1.5-2 4 1.6v3c0 1.1-.9 2-2 2A16.5 16.5 0 0 1 4.4 5.5c0-1.1.9-2 2-2z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/></symbol>
-    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15m-5.5-6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <g id="ln" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></g>
+    <symbol id="i-klok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5.2l3.3 2"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21.4s6.8-6.2 6.8-11.2A6.8 6.8 0 0 0 5.2 10.2c0 5 6.8 11.2 6.8 11.2z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+    <symbol id="i-tel" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6.3 3.5h3l1.6 4-2 1.5a12 12 0 0 0 6 6l1.5-2 4 1.6v3a2 2 0 0 1-2 2A16.4 16.4 0 0 1 4.3 5.5a2 2 0 0 1 2-2z"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5.2" width="18" height="13.6" rx="2"/><path d="M3.6 6.4l8.4 6 8.4-6"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.6l4.6 4.6L19.5 6.8"/></symbol>
+    <symbol id="i-checkrond" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M7.8 12.3l2.9 2.9 5.6-6.1"/></symbol>
+    <symbol id="i-doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8.5z"/><path d="M13.5 3v5.5H19M8.6 13h6.8M8.6 16.6h4.6"/></symbol>
+    <symbol id="i-groep" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8.3" r="3.3"/><circle cx="17" cy="9.4" r="2.5"/><path d="M3.3 19c.5-3.1 2.9-5 5.7-5s5.2 1.9 5.7 5M16 14.2c2.3.1 4.2 1.7 4.7 4.3"/></symbol>
+    <symbol id="i-kal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.4" y="5" width="17.2" height="15.6" rx="2"/><path d="M3.4 9.6h17.2M8 3v4M16 3v4"/></symbol>
+    <symbol id="i-pijl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12h14.2m-5.4-5.6L18.9 12l-5.6 5.6"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M12 5.4v13.2M5.4 12h13.2"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.4"/><circle cx="12" cy="7.9" r="1" fill="currentColor" stroke="none"/></symbol>
 
-    <!-- Pip de vogel -->
-    <symbol id="c-pip" viewBox="0 0 100 100">
-      <path d="M50 88v8M62 88v8" stroke="#171A1F" stroke-width="5" stroke-linecap="round"/>
-      <ellipse cx="54" cy="56" rx="31" ry="30" fill="#1E6FD9" stroke="#171A1F" stroke-width="5"/>
-      <path d="M40 52c8-6 18-5 24 2 5 6 3 14-4 17-8 3-17-2-20-9" fill="#D2E4FB" stroke="#171A1F" stroke-width="4.4" stroke-linejoin="round"/>
-      <path d="M25 50l-16 5 16 7z" fill="#FFC531" stroke="#171A1F" stroke-width="4.4" stroke-linejoin="round"/>
-      <circle cx="38" cy="41" r="4.6" fill="#171A1F"/>
-      <path d="M62 22c2-9 9-13 15-11-3 5-3 9-1 13" fill="#FFC531" stroke="#171A1F" stroke-width="4.4" stroke-linejoin="round"/>
+    <!-- Roos, botanische lijntekening -->
+    <symbol id="roos-groot" viewBox="0 0 200 270" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M100 150c-25 0-45-19-45-43 0-27 20-48 45-48s45 21 45 48c0 24-20 43-45 43z"/>
+      <path d="M57 108c-9-7-11-22-4-33 7-11 21-15 30-8M143 108c9-7 11-22 4-33-7-11-21-15-30-8"/>
+      <path d="M62 112c9-24 26-37 38-37s29 13 38 37"/>
+      <path d="M74 110c5-17 15-26 26-26s21 9 26 26"/>
+      <path d="M85 110c3-11 8-17 15-17s12 6 15 17"/>
+      <path d="M94 113c1-6 3-10 6-10s5 4 6 10"/>
+      <path d="M100 150v108"/>
+      <path d="M100 192c-24 3-37-11-39-30 22-5 37 9 39 30z"/>
+      <path d="M100 222c24 3 37-11 39-30-22-5-37 9-39 30z"/>
+      <path d="M78 176l22 14M122 206l-22 12"/>
     </symbol>
 
-    <!-- Zoem de bij -->
-    <symbol id="c-zoem" viewBox="0 0 100 100">
-      <path d="M36 26c-6-10-16-13-22-9M64 26c6-10 16-13 22-9" stroke="#171A1F" stroke-width="4.4" fill="none" stroke-linecap="round"/>
-      <ellipse cx="28" cy="40" rx="15" ry="11" transform="rotate(-24 28 40)" fill="#FFFFFF" fill-opacity=".92" stroke="#171A1F" stroke-width="4.2"/>
-      <ellipse cx="72" cy="40" rx="15" ry="11" transform="rotate(24 72 40)" fill="#FFFFFF" fill-opacity=".92" stroke="#171A1F" stroke-width="4.2"/>
-      <ellipse cx="50" cy="60" rx="27" ry="24" fill="#FFC531" stroke="#171A1F" stroke-width="5"/>
-      <path d="M40 40.5c6 12 6 25 2 37M58 39c-5 13-5 26-1 38" stroke="#171A1F" stroke-width="5.4" fill="none" stroke-linecap="round"/>
-      <circle cx="42" cy="53" r="3.6" fill="#171A1F"/><circle cx="58" cy="53" r="3.6" fill="#171A1F"/>
-      <path d="M44 66c3.5 4 8.5 4 12 0" stroke="#171A1F" stroke-width="4.2" fill="none" stroke-linecap="round"/>
+    <!-- Roos, alleen de bloem -->
+    <symbol id="roos-klein" viewBox="0 0 140 140" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M70 124c-25 0-45-19-45-43 0-28 20-49 45-49s45 21 45 49c0 24-20 43-45 43z"/>
+      <path d="M32 84c9-25 26-38 38-38s29 13 38 38"/>
+      <path d="M44 82c5-17 15-27 26-27s21 10 26 27"/>
+      <path d="M55 82c3-11 8-17 15-17s12 6 15 17"/>
+      <path d="M64 85c1-6 3-10 6-10s5 4 6 10"/>
     </symbol>
 
-    <!-- Fladder de vlinder -->
-    <symbol id="c-fladder" viewBox="0 0 100 100">
-      <path d="M44 16c-6-8-14-10-19-5M56 16c6-8 14-10 19-5" stroke="#171A1F" stroke-width="4.4" fill="none" stroke-linecap="round"/>
-      <path d="M46 44C36 26 20 24 13 33c-7 9 1 22 15 24 5 .8 12 .4 18-2z" fill="#E8456B" stroke="#171A1F" stroke-width="4.6" stroke-linejoin="round"/>
-      <path d="M54 44c10-18 26-20 33-11 7 9-1 22-15 24-5 .8-12 .4-18-2z" fill="#E8456B" stroke="#171A1F" stroke-width="4.6" stroke-linejoin="round"/>
-      <path d="M46 56c-9 12-22 14-28 7-6-7 1-16 12-18 5-1 11-.4 16 2z" fill="#FFC531" stroke="#171A1F" stroke-width="4.6" stroke-linejoin="round"/>
-      <path d="M54 56c9 12 22 14 28 7 6-7-1-16-12-18-5-1-11-.4-16 2z" fill="#FFC531" stroke="#171A1F" stroke-width="4.6" stroke-linejoin="round"/>
-      <rect x="43" y="24" width="14" height="52" rx="7" fill="#171A1F"/>
-      <circle cx="47.2" cy="35" r="2.4" fill="#FFF6F0"/><circle cx="53.2" cy="35" r="2.4" fill="#FFF6F0"/>
+    <!-- Kinderen, pictogram -->
+    <symbol id="kind-zwaai" viewBox="0 0 80 130">
+      <circle cx="40" cy="21" r="16" fill="currentColor"/>
+      <g fill="none" stroke="currentColor" stroke-width="14" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M40 44v40"/><path d="M40 55L20 44M40 55l21-19"/><path d="M40 84l-12 38M40 84l13 38"/>
+      </g>
     </symbol>
-
-    <!-- Roosje merkteken -->
-    <symbol id="c-mark" viewBox="0 0 100 100">
-      <circle cx="50" cy="50" r="46" fill="#E8456B" stroke="#171A1F" stroke-width="5"/>
-      <circle cx="50" cy="56" r="25" fill="#FFDCC4" stroke="#171A1F" stroke-width="4.6"/>
-      <circle cx="34" cy="34" r="15" fill="#FFC531" stroke="#171A1F" stroke-width="4.6"/>
-      <circle cx="66" cy="34" r="15" fill="#FFC531" stroke="#171A1F" stroke-width="4.6"/>
-      <circle cx="50" cy="26" r="15" fill="#FFC531" stroke="#171A1F" stroke-width="4.6"/>
-      <circle cx="43" cy="53" r="3.6" fill="#171A1F"/><circle cx="57" cy="53" r="3.6" fill="#171A1F"/>
-      <path d="M44 63c3.6 4.2 8.4 4.2 12 0" stroke="#171A1F" stroke-width="4.4" fill="none" stroke-linecap="round"/>
+    <symbol id="kind-loop" viewBox="0 0 80 130">
+      <circle cx="42" cy="21" r="16" fill="currentColor"/>
+      <g fill="none" stroke="currentColor" stroke-width="14" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M42 44l-2 40"/><path d="M40 56L23 66M40 56l19 6"/><path d="M40 84l-16 36M40 84l16 36"/>
+      </g>
+    </symbol>
+    <symbol id="kind-hurk" viewBox="0 0 80 130">
+      <circle cx="44" cy="43" r="15" fill="currentColor"/>
+      <g fill="none" stroke="currentColor" stroke-width="13" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M44 64l-3 26"/><path d="M42 74l-16 12M42 72l16 16"/><path d="M41 90l-16 4M41 90l14 6"/>
+      </g>
+    </symbol>
+    <symbol id="volwassen-kind" viewBox="0 0 110 150">
+      <circle cx="38" cy="20" r="15" fill="currentColor"/>
+      <g fill="none" stroke="currentColor" stroke-width="14" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M38 40v52"/><path d="M38 56l26 8"/><path d="M38 92l-11 50M38 92l12 50"/>
+      </g>
+      <circle cx="80" cy="52" r="11" fill="currentColor"/>
+      <g fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M80 66v18"/><path d="M80 84l-8 14M80 84l9 14"/>
+      </g>
     </symbol>
   </defs>
 </svg>
 
-<header class="topbar">
-  <div class="wrap topbar__in">
-    <a class="brand" href="#top" aria-label="KDV Roosje, naar boven">
-      <svg class="brand__mark" viewBox="0 0 100 100" aria-hidden="true"><use href="#c-mark"/></svg>
+<div class="utility">
+  <div class="wrap utility__in">
+    <ul>
+      <li><svg aria-hidden="true"><use href="#i-klok"/></svg> Maandag t/m vrijdag · 07:30 – 18:30</li>
+      <li class="verberg-s"><svg aria-hidden="true"><use href="#i-checkrond"/></svg> Geregistreerd in het Landelijk Register Kinderopvang</li>
+    </ul>
+    <div class="rechts">
+      <a href="tel:+31201234567"><svg aria-hidden="true" style="display:inline-block;vertical-align:-3px;margin-right:.35rem"><use href="#i-tel"/></svg>020 – 123 45 67</a>
+      <a class="verberg-s" href="mailto:info@kdvroosje.nl">info@kdvroosje.nl</a>
+    </div>
+  </div>
+</div>
+
+<header class="masthead">
+  <div class="wrap masthead__in">
+    <a class="merk" href="#top" aria-label="Kinderdagverblijf Roosje, naar boven">
+      <!-- LOGO — vervang deze tekening door het originele logo van KDV Roosje -->
+      <svg class="merk__mark" viewBox="0 0 140 160" aria-hidden="true">
+        <g fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M70 96c-22 0-39-17-39-38 0-24 17-42 39-42s39 18 39 42c0 21-17 38-39 38z"/>
+          <path d="M40 62c8-21 22-32 30-32s22 11 30 32"/>
+          <path d="M52 61c4-14 11-22 18-22s14 8 18 22"/>
+          <path d="M70 96v52"/>
+          <path d="M70 124c-18 2-28-9-29-23 16-4 27 7 29 23z"/>
+        </g>
+      </svg>
       <span>
-        <span class="brand__name">Roosje</span>
-        <span class="brand__sub">Kinderdagverblijf&nbsp;·&nbsp;Amsterdam</span>
+        <span class="merk__naam">Roosje</span>
+        <span class="merk__sub">Kinderdagverblijf&nbsp;·&nbsp;Amsterdam</span>
       </span>
     </a>
-    <nav class="nav" aria-label="Hoofdmenu">
+    <nav class="hoofdnav" aria-label="Hoofdmenu">
+      <a href="#opvang">Ons kinderdagverblijf</a>
       <a href="#locaties">Locaties</a>
-      <a href="#dagritme">Dagritme</a>
-      <a href="#kosten">Kosten</a>
-      <a href="#ouders">Ouders</a>
-      <a href="#vragen">Vragen</a>
+      <a href="#dagindeling">Dagindeling</a>
+      <a href="#tarieven">Tarieven</a>
+      <a href="#praktisch">Praktisch</a>
+      <a href="#contact">Contact</a>
     </nav>
-    <div class="topbar__cta">
-      <a class="tel" href="tel:+31201234567"><svg width="18" height="18" aria-hidden="true"><use href="#i-phone"/></svg><span>020 – 123 45 67</span></a>
-      <a class="btn btn--sm" href="#rondleiding">Plan een rondleiding</a>
-    </div>
+    <a class="btn btn--sm" href="#contact">Rondleiding aanvragen</a>
   </div>
 </header>
 
 <main id="top">
 <section class="hero">
-  <svg class="cloud cloud--a drift" viewBox="0 0 160 70" aria-hidden="true"><path d="M30 60h104c14 0 22-9 22-19s-9-18-20-18c-2-13-13-21-25-21-10 0-19 5-23 14-3-2-7-3-11-3-11 0-20 8-21 19-9 1-16 8-16 15 0 8 7 14 17 14z" fill="var(--cloud)" stroke="#171A1F" stroke-width="3.4" stroke-linejoin="round"/></svg>
-  <svg class="cloud cloud--b drift drift--b" viewBox="0 0 160 70" aria-hidden="true"><path d="M30 60h104c14 0 22-9 22-19s-9-18-20-18c-2-13-13-21-25-21-10 0-19 5-23 14-3-2-7-3-11-3-11 0-20 8-21 19-9 1-16 8-16 15 0 8 7 14 17 14z" fill="var(--cloud)" stroke="#171A1F" stroke-width="3.4" stroke-linejoin="round"/></svg>
-  <svg class="cloud cloud--c drift drift--c" viewBox="0 0 160 70" aria-hidden="true"><path d="M30 60h104c14 0 22-9 22-19s-9-18-20-18c-2-13-13-21-25-21-10 0-19 5-23 14-3-2-7-3-11-3-11 0-20 8-21 19-9 1-16 8-16 15 0 8 7 14 17 14z" fill="var(--cloud)" stroke="#171A1F" stroke-width="3.4" stroke-linejoin="round"/></svg>
-
   <div class="wrap hero__grid">
     <div class="hero__copy">
-      <span class="pill-live"><span class="dot"></span> Nog 4 plekken vrij vóór de zomer van 2027</span>
-      <h1>Elke dag een <em>zachte landing</em> voor uw kind.</h1>
-      <p class="lede">Kleine groepen, vaste gezichten en veel buitenlucht. KDV Roosje is een kinderdagverblijf voor kinderen van 0 tot 4 jaar, met drie eigen huizen in Amsterdam-West en Zuid.</p>
-      <div class="hero__actions">
-        <a class="btn" href="#rondleiding">Plan een rondleiding <svg width="18" height="18" aria-hidden="true"><use href="#i-arrow"/></svg></a>
-        <a class="btn btn--ghost" href="#beschikbaarheid">Check beschikbaarheid</a>
+      <span class="kop">Kinderopvang 0 – 4 jaar in Amsterdam</span>
+      <h1>Een plek waar uw kind <em>gezien</em> wordt, elke dag opnieuw.</h1>
+      <p class="lede measure">KDV Roosje is een kleinschalig kinderdagverblijf met drie locaties in Amsterdam-West en Amsterdam-Zuid. Wij werken met vaste verticale groepen, een eigen mentor per kind en een dagritme waar ouders op kunnen bouwen.</p>
+      <div class="hero__acties">
+        <a class="btn" href="#contact">Rondleiding aanvragen</a>
+        <a class="btn btn--lijn" href="#plek">Beschikbaarheid bekijken</a>
       </div>
-      <ul class="trustrow">
-        <li><svg class="tick" style="color:var(--gras)" aria-hidden="true"><use href="#i-check"/></svg> GGD-goedgekeurd</li>
-        <li><svg class="tick" style="color:var(--gras)" aria-hidden="true"><use href="#i-check"/></svg> Geregistreerd in het LRK</li>
-        <li><svg class="tick" style="color:var(--gras)" aria-hidden="true"><use href="#i-check"/></svg> Recht op kinderopvangtoeslag</li>
-        <li><svg class="tick" style="color:var(--gras)" aria-hidden="true"><use href="#i-check"/></svg> Open van 07:30 tot 18:30</li>
-      </ul>
+      <p class="small grijs">Of bel ons op <a class="tlink" href="tel:+31201234567">020 – 123 45 67</a>. Wij nemen binnen één werkdag contact met u op.</p>
     </div>
 
-    <div class="hero__stage">
-      <div class="hero__hill" aria-hidden="true"></div>
-      <svg class="floaty floaty--pip bob" viewBox="0 0 100 100" aria-hidden="true"><use href="#c-pip"/></svg>
-      <svg class="floaty floaty--zoem bob bob--b" viewBox="0 0 100 100" aria-hidden="true"><use href="#c-zoem"/></svg>
-      <svg class="floaty floaty--fladder bob bob--c" viewBox="0 0 100 100" aria-hidden="true"><use href="#c-fladder"/></svg>
+    <figure class="beeld" style="margin:0">
+      <svg class="beeld__roos teken-lijn" style="--len:1200" viewBox="0 0 200 270" aria-hidden="true"><use href="#roos-groot"/></svg>
+      <div class="beeld__grond" aria-hidden="true"></div>
+      <svg class="beeld__kind beeld__kind--a" viewBox="0 0 80 130" aria-hidden="true"><use href="#kind-zwaai"/></svg>
+      <svg class="beeld__kind beeld__kind--b" viewBox="0 0 80 130" aria-hidden="true"><use href="#kind-loop"/></svg>
+      <svg class="beeld__kind beeld__kind--c" viewBox="0 0 110 150" aria-hidden="true"><use href="#volwassen-kind"/></svg>
+      <figcaption class="beeld__bijschrift">De rozentuin bij de Baarsjesweg, waar de peuters elk voorjaar zelf planten.</figcaption>
+    </figure>
+  </div>
 
-      <svg class="roosje" viewBox="0 0 260 320" role="img" aria-label="Roosje, de mascotte van het kinderdagverblijf, zwaait">
-        <g stroke="#171A1F" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M104 272v26M156 272v26" fill="none"/>
-          <rect x="84" y="292" width="42" height="18" rx="9" fill="#1E6FD9"/>
-          <rect x="136" y="292" width="42" height="18" rx="9" fill="#1E6FD9"/>
-          <g style="transform-box:fill-box;transform-origin:88% 76%" class="wave">
-            <path d="M92 214L44 176" fill="none" stroke-width="16"/>
-            <circle cx="38" cy="170" r="16" fill="#FFDCC4"/>
-          </g>
-          <path d="M168 214l44 18" fill="none" stroke-width="16"/>
-          <circle cx="218" cy="236" r="16" fill="#FFDCC4"/>
-          <rect x="82" y="186" width="98" height="96" rx="34" fill="#E8456B"/>
-          <path d="M84 224h94" fill="none" stroke-width="14" stroke="#FFF6F0"/>
-          <path d="M84 224h94" fill="none" stroke-width="5"/>
-          <circle cx="66" cy="126" r="14" fill="#FFDCC4"/>
-          <circle cx="194" cy="126" r="14" fill="#FFDCC4"/>
-          <circle cx="130" cy="128" r="62" fill="#FFDCC4"/>
-          <circle cx="94" cy="72" r="30" fill="#E8456B"/>
-          <circle cx="166" cy="72" r="30" fill="#E8456B"/>
-          <circle cx="130" cy="54" r="33" fill="#E8456B"/>
-          <path d="M130 44a14 14 0 1 1-13 20" fill="none" stroke-width="5"/>
-        </g>
-        <ellipse class="blink" cx="110" cy="132" rx="6.5" ry="8.5" fill="#171A1F"/>
-        <ellipse class="blink" cx="150" cy="132" rx="6.5" ry="8.5" fill="#171A1F"/>
-        <circle cx="94" cy="152" r="10" fill="#E8456B" opacity=".42"/>
-        <circle cx="166" cy="152" r="10" fill="#E8456B" opacity=".42"/>
-        <path d="M118 154c4.6 5.6 19.4 5.6 24 0" fill="none" stroke="#171A1F" stroke-width="6" stroke-linecap="round"/>
-      </svg>
+  <div class="feiten">
+    <div class="wrap feiten__in">
+      <div class="feit"><svg aria-hidden="true"><use href="#i-groep"/></svg><div><b>0 tot 4 jaar</b><span>Verticale groepen van maximaal 12 kinderen</span></div></div>
+      <div class="feit"><svg aria-hidden="true"><use href="#i-klok"/></svg><div><b>07:30 – 18:30</b><span>Maandag tot en met vrijdag, 52 weken per jaar</span></div></div>
+      <div class="feit"><svg aria-hidden="true"><use href="#i-pin"/></svg><div><b>Drie locaties</b><span>De Baarsjes, Zuid en Nieuw-West</span></div></div>
+      <div class="feit"><svg aria-hidden="true"><use href="#i-checkrond"/></svg><div><b>GGD-geïnspecteerd</b><span>Rapporten en beleidsplannen openbaar</span></div></div>
     </div>
   </div>
 </section>
 
-<section class="wrap checker" id="beschikbaarheid" aria-labelledby="beschikbaarheid-title">
-  <div class="card checker__card">
-    <div class="checker__head">
-      <h2 id="beschikbaarheid-title" style="font-size:clamp(1.4rem,2.6vw,1.9rem)">Is er plek voor uw kindje?</h2>
-      <p style="color:var(--ink-soft);font-size:.95rem">Antwoord in één klik — geen formulier nodig.</p>
-    </div>
-    <form class="checker__form" id="checkform" novalidate>
-      <div class="field">
-        <label for="chk-loc">Locatie</label>
-        <select id="chk-loc" name="locatie">
-          <option value="baarsjesweg">Baarsjesweg — De Baarsjes</option>
-          <option value="zeilstraat">Zeilstraat — Amsterdam-Zuid</option>
-          <option value="geuzenveld">Geuzenveld — Nieuw-West</option>
-        </select>
-      </div>
-      <div class="field">
-        <label for="chk-age">Leeftijd bij start</label>
-        <select id="chk-age" name="leeftijd">
-          <option value="baby">Baby · 0–1 jaar</option>
-          <option value="dreumes">Dreumes · 1–2 jaar</option>
-          <option value="peuter">Peuter · 2–4 jaar</option>
-        </select>
-      </div>
-      <div class="field">
-        <label for="chk-start">Gewenste startmaand</label>
-        <input type="month" id="chk-start" name="start" value="2027-01">
-      </div>
-      <div class="field">
-        <button class="btn btn--lucht btn--block" type="submit">Bekijk de plekken</button>
-      </div>
-    </form>
-    <div id="checkresult" class="result" role="status">
-      <div class="result__txt">
-        <svg class="result__icon" style="color:var(--gras)" aria-hidden="true"><use href="#i-ok"/></svg>
-        <div>
-          <p class="result__title">Ja — 2 plekken vrij op de Baarsjesweg</p>
-          <p class="result__sub">Voorbeeldantwoord. Kies hierboven uw locatie, leeftijd en startmaand voor uw eigen situatie.</p>
-        </div>
-      </div>
-      <a class="btn btn--sm" href="#rondleiding" id="checkcta">Reserveer deze plek</a>
-    </div>
-  </div>
-</section>
-
-<div class="marquee" aria-hidden="true">
-  <div class="marquee__track">
-    <span>spelen</span><span>ontdekken</span><span>buiten zijn</span><span>samen eten</span><span>vieze handen</span><span>uitrusten</span><span>groeien</span>
-    <span>spelen</span><span>ontdekken</span><span>buiten zijn</span><span>samen eten</span><span>vieze handen</span><span>uitrusten</span><span>groeien</span>
-  </div>
-</div>
-
-<section class="band">
+<section class="sec sec--vlak" id="plek">
   <div class="wrap">
-    <div class="sechead">
-      <div class="sechead__txt">
-        <span class="eyebrow" style="color:var(--roos)">Waarom Roosje</span>
-        <h2>Klein genoeg om elk kind bij naam te kennen.</h2>
+    <div class="checker">
+      <div class="checker__uitleg">
+        <span class="kop">Beschikbaarheid</span>
+        <h2 style="font-size:clamp(1.35rem,2.2vw,1.7rem)">Kijk direct of er plek is</h2>
+        <p class="small" style="color:var(--inkt-70)">Onze wachtlijsten verschillen sterk per locatie en per leeftijd. Kies hiernaast uw situatie en u ziet meteen waar u aan toe bent — zonder eerst een formulier in te vullen.</p>
+        <p class="small grijs">Peildatum: 1 september 2026. De stand wordt wekelijks bijgewerkt.</p>
       </div>
-      <p class="lede" style="max-width:34ch">Geen grote opvangfabriek. Drie kleine huizen, elk met een eigen team dat blijft.</p>
-    </div>
-    <div class="usp-grid reveal">
-      <article class="usp">
-        <div class="usp__ico" style="color:var(--roos)"><svg aria-hidden="true"><use href="#i-heart"/></svg></div>
-        <h3>Vaste gezichten</h3>
-        <p>Uw kind ziet elke dag dezelfde pedagogisch medewerkers. Wij werken met vaste koppels per groep, ook op drukke dagen.</p>
-      </article>
-      <article class="usp">
-        <div class="usp__ico" style="color:var(--gras)"><svg aria-hidden="true"><use href="#i-leaf"/></svg></div>
-        <h3>Elke dag naar buiten</h3>
-        <p>Eigen omheinde tuin bij alle drie de locaties. Regen of zon: laarzen aan en erop uit, richting het park of de moestuinbak.</p>
-      </article>
-      <article class="usp">
-        <div class="usp__ico" style="color:var(--zon);filter:contrast(1.2)"><svg aria-hidden="true"><use href="#i-apple"/></svg></div>
-        <h3>Vers gekookt, halal &amp; bio</h3>
-        <p>Warme lunch uit eigen keuken, groente uit de buurt. Allergieën en dieetwensen leggen we per kind vast in het intakegesprek.</p>
-      </article>
-      <article class="usp">
-        <div class="usp__ico" style="color:var(--lucht)"><svg aria-hidden="true"><use href="#i-group"/></svg></div>
-        <h3>Verticale groepen</h3>
-        <p>Baby's, dreumesen en peuters samen in één groep — broertjes en zusjes blijven bij elkaar en de kleinsten leren van de grootsten.</p>
-      </article>
-    </div>
-  </div>
-</section>
-
-<section class="band band--loc" id="locaties">
-  <div class="wrap">
-    <div class="sechead">
-      <div class="sechead__txt">
-        <span class="eyebrow" style="color:var(--lucht)">Drie huizen</span>
-        <h2>Kies het huis dat bij uw route past.</h2>
-        <p class="lede">Elke locatie heeft een eigen sfeer, een eigen tuin en een eigen vriendje dat de deur opent.</p>
-      </div>
-    </div>
-    <div class="loc-grid">
-      <article class="card loc reveal">
-        <div class="loc__top">
-          <svg class="loc__char" viewBox="0 0 100 100" aria-hidden="true"><use href="#c-fladder"/></svg>
-          <div>
-            <span class="loc__place">De Baarsjes · West</span>
-            <h3>Baarsjesweg</h3>
+      <form class="checker__form" id="plekform" novalidate>
+        <div class="velden">
+          <div class="veld">
+            <label for="p-loc">Locatie</label>
+            <select id="p-loc">
+              <option value="baarsjesweg">Baarsjesweg — De Baarsjes</option>
+              <option value="zeilstraat">Zeilstraat — Amsterdam-Zuid</option>
+              <option value="geuzenveld">Geuzenveld — Nieuw-West</option>
+            </select>
           </div>
+          <div class="veld">
+            <label for="p-leeftijd">Leeftijd bij start</label>
+            <select id="p-leeftijd">
+              <option value="baby">Baby · 0 tot 1 jaar</option>
+              <option value="dreumes">Dreumes · 1 tot 2 jaar</option>
+              <option value="peuter">Peuter · 2 tot 4 jaar</option>
+            </select>
+          </div>
+          <div class="veld">
+            <label for="p-start">Gewenste startmaand</label>
+            <input type="month" id="p-start" value="2027-01">
+          </div>
+          <div class="veld">
+            <span class="lbl">&nbsp;</span>
+            <button class="btn btn--blok" type="submit">Bekijk beschikbaarheid</button>
+          </div>
+        </div>
+        <div class="uitslag" id="plekuitslag" role="status">
+          <div>
+            <b id="plek-kop">Twee plaatsen beschikbaar op de Baarsjesweg</b>
+            <p id="plek-tekst">Voorbeeld. Kies hierboven uw locatie, de leeftijd van uw kind en de gewenste startmaand.</p>
+          </div>
+          <a class="btn btn--sm" href="#contact" id="plek-cta">Plaats aanvragen</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="opvang">
+  <div class="wrap">
+    <div class="sec-head op">
+      <span class="kop">Ons kinderdagverblijf</span>
+      <h2>Kleinschalig, met een vast gezicht voor elk kind</h2>
+      <p class="lede">Roosje bestaat sinds 2008. Wij zijn bewust klein gebleven: drie huizen met in totaal zes groepen. Hieronder leest u hoe wij werken en waar dat is vastgelegd.</p>
+    </div>
+
+    <div class="pijlers op">
+      <article class="pijler">
+        <span class="pijler__nr">01 — Mentorschap</span>
+        <h3>Eén mentor die uw kind volgt</h3>
+        <p>Elk kind krijgt bij plaatsing een mentor: de pedagogisch medewerker die het kind het beste kent. De mentor volgt de ontwikkeling, voert twee keer per jaar een oudergesprek en is uw vaste aanspreekpunt. Bij de overgang naar de basisschool draagt de mentor — met uw toestemming — de observaties over aan de leerkracht.</p>
+      </article>
+      <article class="pijler">
+        <span class="pijler__nr">02 — Groepen</span>
+        <h3>Verticale groepen van maximaal twaalf</h3>
+        <p>In een verticale groep zitten kinderen van 0 tot 4 jaar bij elkaar. Broertjes en zusjes blijven samen en jonge kinderen leren van de oudere. Wij houden ons aan de wettelijke beroepskracht-kindratio en zetten tijdens breng- en haalmomenten waar mogelijk een extra medewerker in.</p>
+      </article>
+      <article class="pijler">
+        <span class="pijler__nr">03 — Wennen</span>
+        <h3>Twee wenochtenden, kosteloos</h3>
+        <p>Voor de startdatum komt uw kind twee ochtenden wennen. U blijft de eerste keer in de buurt en bepaalt zelf het tempo. Tijdens de intake neemt de mentor de gewoontes van thuis met u door: slaapritme, voeding, troosten en wat uw kind spannend vindt.</p>
+      </article>
+      <article class="pijler">
+        <span class="pijler__nr">04 — Veiligheid</span>
+        <h3>Beleid dat u kunt nalezen</h3>
+        <p>Ons pedagogisch beleidsplan en het beleid Veiligheid en Gezondheid worden jaarlijks herzien en met de oudercommissie besproken. De GGD inspecteert elke locatie; de rapporten staan integraal op deze site. Alle medewerkers zijn aangesloten op het Personenregister Kinderopvang.</p>
+      </article>
+    </div>
+
+    <p style="margin-top:2.2rem" class="small">
+      <a class="tlink" href="#documenten">Lees het pedagogisch beleidsplan en de GGD-rapporten</a>
+    </p>
+  </div>
+</section>
+
+<section class="sec sec--vlak" id="locaties">
+  <div class="wrap">
+    <div class="sec-head op">
+      <span class="kop">Locaties</span>
+      <h2>Drie huizen, elk met een eigen karakter</h2>
+      <p class="lede">Alle locaties werken met hetzelfde pedagogisch beleid en hetzelfde dagritme. Ze verschillen in grootte, in de tuin en in de buurt.</p>
+    </div>
+
+    <div class="loc-grid op">
+      <article class="loc">
+        <div class="loc__beeld">
+          <svg class="rk" viewBox="0 0 140 140" aria-hidden="true"><use href="#roos-klein"/></svg>
+          <svg class="kd" viewBox="0 0 80 130" aria-hidden="true"><use href="#kind-zwaai"/></svg>
+          <svg class="kd2" viewBox="0 0 80 130" aria-hidden="true"><use href="#kind-loop"/></svg>
         </div>
         <div class="loc__body">
-          <span class="status"><svg width="14" height="14" aria-hidden="true"><use href="#i-check"/></svg> 2 plekken vrij</span>
-          <ul class="loc__meta">
-            <li><svg aria-hidden="true"><use href="#i-pin"/></svg><span>Baarsjesweg 296-H, 1058 AG Amsterdam</span></li>
-            <li><svg aria-hidden="true"><use href="#i-clock"/></svg><span>Ma t/m vr · 07:30 – 18:30</span></li>
-            <li><svg aria-hidden="true"><use href="#i-group"/></svg><span>39 kindplaatsen · 3 verticale groepen</span></li>
-          </ul>
-          <div class="groep-chips"><span class="chip">Vogels</span><span class="chip">Bijtjes</span><span class="chip">Vlinders</span></div>
-          <p style="font-size:.93rem;color:var(--ink-soft)">Ons grootste huis, met een diepe tuin achter en het Rembrandtpark op vijf minuten lopen.</p>
-          <div class="loc__foot">
-            <a class="btn btn--sm" href="#rondleiding" data-loc="baarsjesweg">Rondleiding</a>
-            <a class="btn btn--sm btn--ghost" href="#dagritme">Bekijk de dag</a>
+          <div>
+            <span class="loc__wijk">De Baarsjes · West</span>
+            <h3 style="margin-top:.25rem">Baarsjesweg</h3>
+          </div>
+          <span class="merkje">2 plaatsen beschikbaar</span>
+          <dl>
+            <dt>Adres</dt><dd>Baarsjesweg 296-H<br>1058 AG Amsterdam</dd>
+            <dt>Groepen</dt><dd>Vogels, Bijtjes, Vlinders</dd>
+            <dt>Plaatsen</dt><dd>39 kindplaatsen</dd>
+            <dt>Tuin</dt><dd>Diepe achtertuin met moestuinbak</dd>
+          </dl>
+          <p class="small" style="color:var(--inkt-70)">Ons grootste huis. Het Rembrandtpark ligt op vijf minuten lopen; de peuters gaan er twee keer per week met de bolderkar naartoe.</p>
+          <div class="loc__voet">
+            <a class="btn btn--sm" href="#contact" data-loc="baarsjesweg">Rondleiding</a>
+            <a class="btn btn--sm btn--lijn" href="#dagindeling">Dagindeling</a>
           </div>
         </div>
       </article>
 
-      <article class="card loc loc--zon reveal">
-        <div class="loc__top">
-          <svg class="loc__char" viewBox="0 0 100 100" aria-hidden="true"><use href="#c-zoem"/></svg>
-          <div>
-            <span class="loc__place">Hoofddorppleinbuurt · Zuid</span>
-            <h3>Zeilstraat</h3>
-          </div>
+      <article class="loc loc--b">
+        <div class="loc__beeld">
+          <svg class="rk" viewBox="0 0 140 140" aria-hidden="true"><use href="#roos-klein"/></svg>
+          <svg class="kd" viewBox="0 0 110 150" aria-hidden="true"><use href="#volwassen-kind"/></svg>
         </div>
         <div class="loc__body">
-          <span class="status status--wacht"><svg width="14" height="14" aria-hidden="true"><use href="#i-clock"/></svg> Wachtlijst ± 4 maanden</span>
-          <ul class="loc__meta">
-            <li><svg aria-hidden="true"><use href="#i-pin"/></svg><span>Zeilstraat 17-H, 1075 SB Amsterdam</span></li>
-            <li><svg aria-hidden="true"><use href="#i-clock"/></svg><span>Ma t/m vr · 07:30 – 18:30</span></li>
-            <li><svg aria-hidden="true"><use href="#i-group"/></svg><span>16 kindplaatsen · 1 verticale groep</span></li>
-          </ul>
-          <div class="groep-chips"><span class="chip">Zonnebloemen</span></div>
-          <p style="font-size:.93rem;color:var(--ink-soft)">Klein en huiselijk: één groep, twee vaste medewerkers, en het Vondelpark om de hoek.</p>
-          <div class="loc__foot">
-            <a class="btn btn--sm btn--zon" href="#rondleiding" data-loc="zeilstraat">Zet mij op de lijst</a>
-            <a class="btn btn--sm btn--ghost" href="#dagritme">Bekijk de dag</a>
+          <div>
+            <span class="loc__wijk">Hoofddorppleinbuurt · Zuid</span>
+            <h3 style="margin-top:.25rem">Zeilstraat</h3>
+          </div>
+          <span class="merkje merkje--wacht">Wachtlijst ± 4 maanden</span>
+          <dl>
+            <dt>Adres</dt><dd>Zeilstraat 17-H<br>1075 SB Amsterdam</dd>
+            <dt>Groepen</dt><dd>Zonnebloemen</dd>
+            <dt>Plaatsen</dt><dd>16 kindplaatsen</dd>
+            <dt>Tuin</dt><dd>Binnentuin op het zuiden</dd>
+          </dl>
+          <p class="small" style="color:var(--inkt-70)">Eén groep, twee vaste medewerkers, veel rust. Geschikt voor kinderen die moeite hebben met drukte. Het Vondelpark ligt om de hoek.</p>
+          <div class="loc__voet">
+            <a class="btn btn--sm" href="#contact" data-loc="zeilstraat">Op de wachtlijst</a>
+            <a class="btn btn--sm btn--lijn" href="#dagindeling">Dagindeling</a>
           </div>
         </div>
       </article>
 
-      <article class="card loc loc--lucht reveal">
-        <div class="loc__top">
-          <svg class="loc__char" viewBox="0 0 100 100" aria-hidden="true"><use href="#c-pip"/></svg>
-          <div>
-            <span class="loc__place">Geuzenveld · Nieuw-West</span>
-            <h3>Geuzenveld</h3>
-          </div>
+      <article class="loc loc--c">
+        <div class="loc__beeld">
+          <svg class="rk" viewBox="0 0 140 140" aria-hidden="true"><use href="#roos-klein"/></svg>
+          <svg class="kd" viewBox="0 0 80 130" aria-hidden="true"><use href="#kind-hurk"/></svg>
+          <svg class="kd2" viewBox="0 0 80 130" aria-hidden="true"><use href="#kind-zwaai"/></svg>
         </div>
         <div class="loc__body">
-          <span class="status"><svg width="14" height="14" aria-hidden="true"><use href="#i-check"/></svg> 2 plekken vrij</span>
-          <ul class="loc__meta">
-            <li><svg aria-hidden="true"><use href="#i-pin"/></svg><span>Amsterdam Nieuw-West · adres op aanvraag</span></li>
-            <li><svg aria-hidden="true"><use href="#i-clock"/></svg><span>Ma t/m vr · 07:30 – 18:30</span></li>
-            <li><svg aria-hidden="true"><use href="#i-group"/></svg><span>2 verticale groepen · VVE-aanbod</span></li>
-          </ul>
-          <div class="groep-chips"><span class="chip">Mussen</span><span class="chip">Merels</span></div>
-          <p style="font-size:.93rem;color:var(--ink-soft)">Tweetalig opgroeien mag hier: onze medewerkers spreken Nederlands, Engels, Arabisch en Turks.</p>
-          <div class="loc__foot">
-            <a class="btn btn--sm btn--lucht" href="#rondleiding" data-loc="geuzenveld">Rondleiding</a>
-            <a class="btn btn--sm btn--ghost" href="#dagritme">Bekijk de dag</a>
+          <div>
+            <span class="loc__wijk">Geuzenveld · Nieuw-West</span>
+            <h3 style="margin-top:.25rem">Geuzenveld</h3>
+          </div>
+          <span class="merkje">2 plaatsen beschikbaar</span>
+          <dl>
+            <dt>Adres</dt><dd>Adresgegevens op aanvraag<br>Amsterdam Nieuw-West</dd>
+            <dt>Groepen</dt><dd>Mussen, Merels</dd>
+            <dt>Plaatsen</dt><dd>24 kindplaatsen</dd>
+            <dt>Tuin</dt><dd>Omheind speelplein met zandbak</dd>
+          </dl>
+          <p class="small" style="color:var(--inkt-70)">Hier bieden wij voorschoolse educatie (VVE) aan. Onze medewerkers spreken naast Nederlands ook Engels, Arabisch en Turks.</p>
+          <div class="loc__voet">
+            <a class="btn btn--sm" href="#contact" data-loc="geuzenveld">Rondleiding</a>
+            <a class="btn btn--sm btn--lijn" href="#dagindeling">Dagindeling</a>
           </div>
         </div>
       </article>
+    </div>
+
+    <div class="tabelwrap op" style="margin-top:clamp(1.8rem,3.5vw,2.6rem)">
+      <table>
+        <caption>De drie locaties naast elkaar — stand per 1 september 2026</caption>
+        <thead>
+          <tr><th scope="col">Locatie</th><th scope="col">Stadsdeel</th><th scope="col">Groepen</th><th scope="col" class="num">Kindplaatsen</th><th scope="col">Openingstijden</th><th scope="col">Beschikbaarheid</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">Baarsjesweg</th><td>West</td><td>3 verticaal</td><td class="num">39</td><td>07:30 – 18:30</td><td style="color:var(--ok);font-weight:600">2 plaatsen</td></tr>
+          <tr><th scope="row">Zeilstraat</th><td>Zuid</td><td>1 verticaal</td><td class="num">16</td><td>07:30 – 18:30</td><td style="color:var(--let);font-weight:600">Wachtlijst ± 4 mnd</td></tr>
+          <tr><th scope="row">Geuzenveld</th><td>Nieuw-West</td><td>2 verticaal + VVE</td><td class="num">24</td><td>07:30 – 18:30</td><td style="color:var(--ok);font-weight:600">2 plaatsen</td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </section>
 
-<section class="band" id="dagritme">
+<section class="sec" id="dagindeling">
   <div class="wrap">
-    <div class="sechead">
-      <div class="sechead__txt">
-        <span class="eyebrow" style="color:var(--gras)">Het dagritme</span>
-        <h2>Een dag bij Roosje, van 07:30 tot 18:30.</h2>
-        <p class="lede">Kinderen worden rustig van herhaling. Ons ritme ligt vast — wat we erin doen, bedenken we samen met de kinderen.</p>
-      </div>
+    <div class="sec-head op">
+      <span class="kop">Dagindeling</span>
+      <h2>Zo verloopt een dag bij Roosje</h2>
+      <p class="lede">Kinderen worden rustig van herhaling. Het ritme ligt vast; wat we erin doen, bepalen we samen met de kinderen. Klik op een moment voor de toelichting.</p>
     </div>
-    <div class="rhythm">
-      <ol class="timeline" id="timeline">
-        <li class="tl-item" aria-current="true"><span class="tl-dot"></span><button class="tl-btn" type="button" data-i="0"><span class="tl-time">07:30</span><span class="tl-label">De deur gaat open</span></button></li>
-        <li class="tl-item"><span class="tl-dot"></span><button class="tl-btn" type="button" data-i="1"><span class="tl-time">09:00</span><span class="tl-label">Fruit eten in de kring</span></button></li>
-        <li class="tl-item"><span class="tl-dot"></span><button class="tl-btn" type="button" data-i="2"><span class="tl-time">09:45</span><span class="tl-label">Naar buiten of naar het park</span></button></li>
-        <li class="tl-item"><span class="tl-dot"></span><button class="tl-btn" type="button" data-i="3"><span class="tl-time">11:30</span><span class="tl-label">Warme lunch aan tafel</span></button></li>
-        <li class="tl-item"><span class="tl-dot"></span><button class="tl-btn" type="button" data-i="4"><span class="tl-time">12:30</span><span class="tl-label">Slaapjes en boekjes</span></button></li>
-        <li class="tl-item"><span class="tl-dot"></span><button class="tl-btn" type="button" data-i="5"><span class="tl-time">14:30</span><span class="tl-label">Verven, bouwen, muziek</span></button></li>
-        <li class="tl-item"><span class="tl-dot"></span><button class="tl-btn" type="button" data-i="6"><span class="tl-time">16:00</span><span class="tl-label">Cracker en thee</span></button></li>
-        <li class="tl-item"><span class="tl-dot"></span><button class="tl-btn" type="button" data-i="7"><span class="tl-time">18:30</span><span class="tl-label">Papa en mama halen op</span></button></li>
+    <div class="dag">
+      <ol class="ritme" id="ritme">
+        <li aria-current="true"><button type="button"><time datetime="07:30">07:30</time><span class="wat">Brengen en overdracht</span><svg class="pijl" aria-hidden="true"><use href="#i-pijl"/></svg></button></li>
+        <li><button type="button"><time datetime="09:00">09:00</time><span class="wat">Fruit eten in de kring</span><svg class="pijl" aria-hidden="true"><use href="#i-pijl"/></svg></button></li>
+        <li><button type="button"><time datetime="09:45">09:45</time><span class="wat">Naar buiten</span><svg class="pijl" aria-hidden="true"><use href="#i-pijl"/></svg></button></li>
+        <li><button type="button"><time datetime="11:30">11:30</time><span class="wat">Warme lunch</span><svg class="pijl" aria-hidden="true"><use href="#i-pijl"/></svg></button></li>
+        <li><button type="button"><time datetime="12:30">12:30</time><span class="wat">Slapen en rusten</span><svg class="pijl" aria-hidden="true"><use href="#i-pijl"/></svg></button></li>
+        <li><button type="button"><time datetime="14:30">14:30</time><span class="wat">Activiteit en vrij spel</span><svg class="pijl" aria-hidden="true"><use href="#i-pijl"/></svg></button></li>
+        <li><button type="button"><time datetime="16:00">16:00</time><span class="wat">Tussendoortje</span><svg class="pijl" aria-hidden="true"><use href="#i-pijl"/></svg></button></li>
+        <li><button type="button"><time datetime="17:00">17:00</time><span class="wat">Ophalen en dagbericht</span><svg class="pijl" aria-hidden="true"><use href="#i-pijl"/></svg></button></li>
       </ol>
-      <aside class="card rhythm__panel" aria-live="polite">
-        <div class="rhythm__scene" id="scene">
-          <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#c-pip"/></svg>
+      <aside class="dag__paneel" aria-live="polite">
+        <div class="dag__scene" id="dagscene">
+          <svg class="rk" viewBox="0 0 140 140" aria-hidden="true"><use href="#roos-klein"/></svg>
+          <svg class="kd" viewBox="0 0 110 150" aria-hidden="true"><use href="#volwassen-kind"/></svg>
         </div>
-        <p class="rhythm__time" id="r-time">07:30 – 09:00</p>
-        <h3 id="r-title">De deur gaat open</h3>
-        <p id="r-text" style="color:var(--ink-soft);margin-top:.5rem">U brengt uw kind tussen 07:30 en 09:00. We nemen even de tijd voor de overdracht: hoe was de nacht, wanneer is er gegeten, waar moeten we vandaag op letten. Daarna gaat de jas aan de haak en begint het vrij spel.</p>
+        <div class="dag__tekst">
+          <span class="kop" id="dag-tijd">07:30 – 09:00</span>
+          <h3 id="dag-kop">Brengen en overdracht</h3>
+          <p id="dag-tekst">U brengt uw kind tussen 07:30 en 09:00. Wij nemen de tijd voor de overdracht: hoe was de nacht, wanneer is er voor het laatst gegeten, waar moeten wij vandaag rekening mee houden. Daarna gaat de jas aan de haak en begint het vrij spel.</p>
+        </div>
       </aside>
     </div>
   </div>
 </section>
 
-<section class="band band--calc" id="kosten">
+<section class="sec sec--vlak" id="tarieven">
   <div class="wrap">
-    <div class="sechead">
-      <div class="sechead__txt">
-        <span class="eyebrow" style="color:var(--roos)">Wat kost het echt</span>
-        <h2>Reken uw netto maandbedrag uit.</h2>
-        <p class="lede">De meeste ouders krijgen het grootste deel terug via de kinderopvangtoeslag. Schuif hieronder en zie direct wat ú overhoudt te betalen.</p>
-      </div>
+    <div class="sec-head op">
+      <span class="kop">Tarieven 2027</span>
+      <h2>Wat de opvang kost — en wat u er zelf van betaalt</h2>
+      <p class="lede">Ons uurtarief is voor alle locaties gelijk. De meeste ouders krijgen een groot deel terug via de kinderopvangtoeslag van de Belastingdienst.</p>
     </div>
-    <div class="calc">
-      <div class="card calc__panel">
-        <div class="field">
-          <label for="c-dagen">Dagen per week</label>
-          <div class="range-row">
-            <input type="range" id="c-dagen" min="1" max="5" step="1" value="3">
-            <output class="range-val" id="c-dagen-out" for="c-dagen">3 dagen</output>
-          </div>
-        </div>
-        <div class="field">
-          <label for="c-uren">Uren per dag</label>
-          <div class="range-row">
-            <input type="range" id="c-uren" min="7" max="11" step="0.5" value="10.5">
-            <output class="range-val" id="c-uren-out" for="c-uren">10,5 uur</output>
-          </div>
-        </div>
-        <div class="field">
-          <label for="c-inkomen">Gezamenlijk bruto jaarinkomen</label>
-          <select id="c-inkomen">
-            <option value="0.96">tot € 30.000</option>
-            <option value="0.92">€ 30.000 – € 50.000</option>
-            <option value="0.85" selected>€ 50.000 – € 75.000</option>
-            <option value="0.70">€ 75.000 – € 100.000</option>
-            <option value="0.51">€ 100.000 – € 150.000</option>
-            <option value="0.34">boven € 150.000</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="c-kind">Aantal kinderen op de opvang</label>
-          <select id="c-kind">
-            <option value="1" selected>1 kind</option>
-            <option value="2">2 kinderen</option>
-          </select>
-        </div>
-        <p class="fineprint">Rekenvoorbeeld op basis van een uurtarief van € 10,95 en een vergoeding tot het maximum uurtarief van € 10,71. Dit is een indicatie, geen toezegging — uw definitieve toeslag berekent u bij de Belastingdienst.</p>
-      </div>
-      <div class="card calc__out">
-        <div>
-          <p class="muted" style="font-size:.86rem;text-transform:uppercase;letter-spacing:.12em;font-weight:700">Uw eigen bijdrage</p>
-          <p class="bignum" id="c-netto">€ 214<small>per maand, na kinderopvangtoeslag</small></p>
-        </div>
-        <div class="stackbar" aria-hidden="true">
-          <i class="seg-toeslag" id="seg-toeslag" style="flex-grow:85"></i>
-          <i class="seg-eigen" id="seg-eigen" style="flex-grow:15"></i>
-        </div>
-        <div class="legend">
-          <span><i class="swatch" style="background:var(--zon)"></i> Kinderopvangtoeslag</span>
-          <span><i class="swatch" style="background:var(--roos)"></i> Eigen bijdrage</span>
-        </div>
-        <ul class="breakdown">
-          <li><span>Opvanguren per maand</span><b id="c-uren-maand">136,5</b></li>
-          <li><span>Factuur van Roosje</span><b id="c-bruto">€ 1.495</b></li>
-          <li><span>Kinderopvangtoeslag</span><b id="c-toeslag">− € 1.281</b></li>
-          <li><span>Per dag dat uw kind komt</span><b id="c-perdag">€ 16,46</b></li>
+
+    <div class="tabelwrap op">
+      <table>
+        <caption>Uurtarieven per 1 januari 2027. Luiers, fruit, warme lunch en tussendoortjes zijn inbegrepen.</caption>
+        <thead>
+          <tr><th scope="col">Pakket</th><th scope="col">Opvang</th><th scope="col" class="num">Uren per week</th><th scope="col" class="num">Uurtarief</th><th scope="col">Voor wie</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">52 weken</th><td>Het hele jaar, ook in schoolvakanties</td><td class="num">10,5 per dag</td><td class="num">€ 10,95</td><td>Ouders die het hele jaar door werken</td></tr>
+          <tr><th scope="row">48 weken</th><td>Vier weken sluiting in overleg</td><td class="num">10,5 per dag</td><td class="num">€ 11,20</td><td>Ouders met vaste vakantieweken</td></tr>
+          <tr><th scope="row">Halve dagen</th><td>07:30 – 13:00 of 13:00 – 18:30</td><td class="num">5,5 per dagdeel</td><td class="num">€ 11,45</td><td>Alleen op de Zeilstraat mogelijk</td></tr>
+          <tr><th scope="row">Extra dag</th><td>Incidenteel, bij voldoende bezetting</td><td class="num">10,5</td><td class="num">€ 11,45</td><td>Aan te vragen via de ouderapp</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tarief op" style="margin-top:clamp(1.8rem,3.5vw,2.8rem)">
+      <div>
+        <h3 style="font-size:1.35rem">Kinderopvangtoeslag berekenen</h3>
+        <p style="margin-top:.7rem;color:var(--inkt-70)">De Belastingdienst vergoedt een percentage van de opvangkosten, tot een maximum uurtarief. Hoe hoger uw gezamenlijke inkomen, hoe lager dat percentage. Vul hieronder uw situatie in voor een indicatie van uw eigen bijdrage.</p>
+        <ul class="contactlijst" style="margin-top:1.3rem">
+          <li><svg aria-hidden="true"><use href="#i-info"/></svg><div><b>Wat u zelf moet doen</b><span>U vraagt de toeslag aan bij de Belastingdienst, binnen drie maanden na de maand waarin de opvang begint.</span></div></li>
+          <li><svg aria-hidden="true"><use href="#i-doc"/></svg><div><b>Wat wij aanleveren</b><span>Het LRK-nummer van de locatie, het uurtarief en het aantal opvanguren per jaar. U vindt deze gegevens ook op elke factuur.</span></div></li>
         </ul>
-        <a class="btn btn--zon" href="#rondleiding">Deze plek reserveren <svg width="18" height="18" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      </div>
+
+      <div class="rekenaar">
+        <div class="rekenaar__in">
+          <div class="veld">
+            <label for="r-dagen">Dagen per week</label>
+            <div class="schuif"><input type="range" id="r-dagen" min="1" max="5" step="1" value="3"><output id="r-dagen-uit" for="r-dagen">3 dagen</output></div>
+          </div>
+          <div class="veld">
+            <label for="r-uren">Uren per opvangdag</label>
+            <div class="schuif"><input type="range" id="r-uren" min="5.5" max="11" step="0.5" value="10.5"><output id="r-uren-uit" for="r-uren">10,5 uur</output></div>
+          </div>
+          <div class="velden">
+            <div class="veld">
+              <label for="r-inkomen">Gezamenlijk bruto jaarinkomen</label>
+              <select id="r-inkomen">
+                <option value="0.96">tot € 30.000</option>
+                <option value="0.92">€ 30.000 – € 50.000</option>
+                <option value="0.85" selected>€ 50.000 – € 75.000</option>
+                <option value="0.70">€ 75.000 – € 100.000</option>
+                <option value="0.51">€ 100.000 – € 150.000</option>
+                <option value="0.34">meer dan € 150.000</option>
+              </select>
+            </div>
+            <div class="veld">
+              <label for="r-pakket">Pakket</label>
+              <select id="r-pakket">
+                <option value="10.95" selected>52 weken — € 10,95</option>
+                <option value="11.20">48 weken — € 11,20</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="rekenaar__uit">
+          <div>
+            <p class="bedrag" id="r-netto">€ 252</p>
+            <p class="bedrag-sub">eigen bijdrage per maand, na kinderopvangtoeslag</p>
+          </div>
+          <div class="verdeling" aria-hidden="true"><i class="s-toeslag" id="s-toeslag" style="flex-grow:85"></i><i class="s-eigen" id="s-eigen" style="flex-grow:15"></i></div>
+          <div class="legenda">
+            <span><i class="stip" style="background:var(--blad)"></i> Kinderopvangtoeslag</span>
+            <span><i class="stip" style="background:var(--roos)"></i> Eigen bijdrage</span>
+          </div>
+          <ul class="specificatie">
+            <li><span>Opvanguren per maand</span><b id="r-urenmaand">136,5</b></li>
+            <li><span>Factuur van Roosje</span><b id="r-bruto">€ 1.495</b></li>
+            <li><span>Kinderopvangtoeslag</span><b id="r-toeslag">− € 1.243</b></li>
+            <li><span>Eigen bijdrage per opvangdag</span><b id="r-perdag">€ 19,38</b></li>
+          </ul>
+          <p class="voetnoot">Indicatie op basis van de toeslagtabel voor het eerste kind en een maximum uurtarief van € 10,71. Aan deze berekening kunnen geen rechten worden ontleend; uw definitieve toeslag stelt de Belastingdienst vast.</p>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="band" id="ouders">
+<section class="sec" id="praktisch">
   <div class="wrap">
-    <div class="sechead">
-      <div class="sechead__txt">
-        <span class="eyebrow" style="color:var(--lucht)">Ouders vertellen</span>
-        <h2>Wat ouders merken na de eerste maand.</h2>
-      </div>
-      <div class="stars" aria-label="Gemiddeld 4,8 van de 5 sterren">
-        <svg style="color:var(--zon)" aria-hidden="true"><use href="#i-star"/></svg>
-        <svg style="color:var(--zon)" aria-hidden="true"><use href="#i-star"/></svg>
-        <svg style="color:var(--zon)" aria-hidden="true"><use href="#i-star"/></svg>
-        <svg style="color:var(--zon)" aria-hidden="true"><use href="#i-star"/></svg>
-        <svg style="color:var(--zon)" aria-hidden="true"><use href="#i-star"/></svg>
-        <span style="font-weight:700;margin-left:.4rem">4,8 · 96 ouders</span>
-      </div>
+    <div class="sec-head op">
+      <span class="kop">Praktische informatie</span>
+      <h2>De afspraken op een rij</h2>
+      <p class="lede">Alles wat ouders ons in de eerste weken vragen, staat hieronder. Staat uw vraag er niet bij, belt u ons dan gerust.</p>
     </div>
 
-    <div class="stats reveal">
-      <div class="stat"><b data-count="4.8" data-dec="1">4,8</b><span>Gemiddelde ouderbeoordeling</span></div>
-      <div class="stat" style="border-color:var(--zon)"><b data-count="18">18</b><span>Jaar Roosje in Amsterdam</span></div>
-      <div class="stat" style="border-color:var(--lucht)"><b data-count="3">3</b><span>Locaties in West en Zuid</span></div>
-      <div class="stat" style="border-color:var(--gras)"><b data-count="94">94</b><span>Procent vaste medewerkers na 3 jaar</span></div>
-    </div>
+    <div class="prak">
+      <div>
+        <h3 style="font-size:1.15rem">Documenten en inspectie</h3>
+        <p class="small" style="color:var(--inkt-70);margin-top:.5rem">Wij publiceren onze beleidsstukken en de rapporten van de GGD volledig. In deze demo zijn het voorbeeldbestanden.</p>
+        <ul class="docs" id="documenten" style="margin-top:1.1rem">
+          <li><a href="#documenten"><svg aria-hidden="true"><use href="#i-doc"/></svg> Pedagogisch beleidsplan Baarsjesweg<span class="meta">PDF · feb 2026</span></a></li>
+          <li><a href="#documenten"><svg aria-hidden="true"><use href="#i-doc"/></svg> Beleid Veiligheid en Gezondheid<span class="meta">PDF · feb 2026</span></a></li>
+          <li><a href="#documenten"><svg aria-hidden="true"><use href="#i-doc"/></svg> GGD-inspectierapport Baarsjesweg<span class="meta">PDF · 2026</span></a></li>
+          <li><a href="#documenten"><svg aria-hidden="true"><use href="#i-doc"/></svg> GGD-inspectierapport Zeilstraat<span class="meta">PDF · 2026</span></a></li>
+          <li><a href="#documenten"><svg aria-hidden="true"><use href="#i-doc"/></svg> Huisreglement en klachtenregeling<span class="meta">PDF · 2026</span></a></li>
+          <li><a href="#documenten"><svg aria-hidden="true"><use href="#i-doc"/></svg> Jaarverslag oudercommissie<span class="meta">PDF · 2025</span></a></li>
+        </ul>
+      </div>
 
-    <div class="quotes">
-      <figure class="card quote reveal">
-        <div class="stars" aria-hidden="true"><svg style="color:var(--zon)"><use href="#i-star"/></svg><svg style="color:var(--zon)"><use href="#i-star"/></svg><svg style="color:var(--zon)"><use href="#i-star"/></svg><svg style="color:var(--zon)"><use href="#i-star"/></svg><svg style="color:var(--zon)"><use href="#i-star"/></svg></div>
+      <div class="acc">
+        <details open>
+          <summary>Brengen en halen<svg class="teken" aria-hidden="true"><use href="#i-plus"/></svg></summary>
+          <div class="antwoord">
+            <p>Brengen kan tussen 07:30 en 09:00, zodat de groep om 09:00 samen aan de kring kan beginnen. Halen kan vanaf 16:00 tot uiterlijk 18:30. Komt u een keer later, belt u ons dan even — dan blijft er iemand bij uw kind.</p>
+            <p>Wordt uw kind door iemand anders opgehaald? Geef dit door via de ouderapp of telefonisch. Wij geven een kind alleen mee aan personen die vooraf bij ons bekend zijn.</p>
+          </div>
+        </details>
+        <details>
+          <summary>Voeding en allergieën<svg class="teken" aria-hidden="true"><use href="#i-plus"/></svg></summary>
+          <div class="antwoord">
+            <p>Wij verzorgen fruit, de warme lunch en de tussendoortjes. Er wordt vers gekookt in onze eigen keuken; het vlees is halal en er is altijd een vegetarisch alternatief.</p>
+            <ul>
+              <li>Flesvoeding en afgekolfde moedermelk neemt u zelf mee, voorzien van naam en datum.</li>
+              <li>Allergieën en dieetwensen leggen wij bij de intake schriftelijk vast en hangen wij zichtbaar in de keuken.</li>
+              <li>Traktaties mogen; wij vragen om een kleine, suikerarme traktatie.</li>
+            </ul>
+          </div>
+        </details>
+        <details>
+          <summary>Ziekte en medicijnen<svg class="teken" aria-hidden="true"><use href="#i-plus"/></svg></summary>
+          <div class="antwoord">
+            <p>Verkouden kinderen zijn welkom. Wij bellen u als uw kind koorts heeft boven 38,5 °C, als het te ziek is om aan de dag mee te doen, of bij een besmettelijke aandoening. Wij volgen daarbij de richtlijnen van de GGD.</p>
+            <p>Medicijnen dienen wij alleen toe met een door u ondertekende verklaring, in de originele verpakking en op recept van de arts. Paracetamol geven wij niet.</p>
+          </div>
+        </details>
+        <details>
+          <summary>Slapen<svg class="teken" aria-hidden="true"><use href="#i-plus"/></svg></summary>
+          <div class="antwoord">
+            <p>Baby's slapen op hun eigen ritme, in een eigen bedje met babyfoon; wij hanteren het protocol veilig slapen. Kinderen vanaf ongeveer anderhalf jaar slapen tussen 12:30 en 14:30. Wij wekken een kind niet, tenzij u daar uitdrukkelijk om vraagt.</p>
+            <p>Slaapt uw kind thuis niet meer overdag? Dan bieden wij een rustmoment met een boek op de bank.</p>
+          </div>
+        </details>
+        <details>
+          <summary>Ruilen, extra dagen en opzeggen<svg class="teken" aria-hidden="true"><use href="#i-plus"/></svg></summary>
+          <div class="antwoord">
+            <ul>
+              <li><b>Ruilen</b> — binnen vier weken vóór of na de gemiste dag, mits de bezetting van de groep het toelaat. Feestdagen en ziektedagen zijn niet ruilbaar.</li>
+              <li><b>Extra dag</b> — aan te vragen via de ouderapp; u hoort binnen 24 uur of het lukt.</li>
+              <li><b>Opzeggen of wijzigen</b> — één kalendermaand opzegtermijn, per de eerste of de zestiende van de maand.</li>
+            </ul>
+          </div>
+        </details>
+        <details>
+          <summary>Oudercommissie en klachten<svg class="teken" aria-hidden="true"><use href="#i-plus"/></svg></summary>
+          <div class="antwoord">
+            <p>Elke locatie heeft een oudercommissie met adviesrecht op onder meer het pedagogisch beleid, de openingstijden en de tarieven. De commissie vergadert vier keer per jaar; nieuwe leden zijn altijd welkom.</p>
+            <p>Bent u ergens niet tevreden over? Bespreek het eerst met de mentor of de locatiemanager. Komen wij er samen niet uit, dan kunt u terecht bij de Geschillencommissie Kinderopvang, waarbij wij zijn aangesloten.</p>
+          </div>
+        </details>
+        <details>
+          <summary>De ouderapp<svg class="teken" aria-hidden="true"><use href="#i-plus"/></svg></summary>
+          <div class="antwoord">
+            <p>In de ouderapp ziet u het dagbericht met eet-, slaap- en verschoonmomenten, en de foto's van die dag. U meldt er ziekte en vakantie, vraagt ruildagen aan en leest de nieuwsbrief. Foto's worden alleen gedeeld met de ouders van de kinderen die erop staan.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec--vlak" id="ouders">
+  <div class="wrap">
+    <div class="sec-head op">
+      <span class="kop">Ouders over Roosje</span>
+      <h2>Wat ouders na het eerste jaar terugkijkend zeggen</h2>
+    </div>
+    <div class="cijfers op">
+      <div class="cijfer"><b data-tel="4.8" data-dec="1">4,8</b><span>Gemiddelde beoordeling door ouders</span></div>
+      <div class="cijfer"><b data-tel="18">18</b><span>Jaar kinderopvang in Amsterdam</span></div>
+      <div class="cijfer"><b data-tel="94">94</b><span>Procent van de medewerkers blijft langer dan drie jaar</span></div>
+      <div class="cijfer"><b data-tel="6">6</b><span>Groepen, verdeeld over drie locaties</span></div>
+    </div>
+    <div class="citaten op">
+      <figure class="citaat">
         <blockquote>„Sem huilde de eerste week bij het afscheid. Nu rent hij naar binnen en zwaait hij mij weg. Dat zegt genoeg.”</blockquote>
-        <figcaption><span class="avatar">MB</span><span><b>Marieke B.</b><span>Moeder van Sem (2) · Baarsjesweg</span></span></figcaption>
+        <figcaption><b>Marieke B.</b>Moeder van Sem (2) — Baarsjesweg</figcaption>
       </figure>
-      <figure class="card quote reveal">
-        <div class="stars" aria-hidden="true"><svg style="color:var(--roos)"><use href="#i-star"/></svg><svg style="color:var(--roos)"><use href="#i-star"/></svg><svg style="color:var(--roos)"><use href="#i-star"/></svg><svg style="color:var(--roos)"><use href="#i-star"/></svg><svg style="color:var(--roos)"><use href="#i-star"/></svg></div>
+      <figure class="citaat">
         <blockquote>„Wat mij verraste: ze kennen niet alleen mijn dochter, ze kennen ons gezin. De overdracht is nooit een afvinklijstje.”</blockquote>
-        <figcaption><span class="avatar" style="background:var(--lucht);color:var(--on-lucht)">YE</span><span><b>Yusuf E.</b><span>Vader van Lina (1) · Geuzenveld</span></span></figcaption>
+        <figcaption><b>Yusuf E.</b>Vader van Lina (1) — Geuzenveld</figcaption>
       </figure>
-      <figure class="card quote reveal">
-        <div class="stars" aria-hidden="true"><svg style="color:var(--roos)"><use href="#i-star"/></svg><svg style="color:var(--roos)"><use href="#i-star"/></svg><svg style="color:var(--roos)"><use href="#i-star"/></svg><svg style="color:var(--roos)"><use href="#i-star"/></svg><svg style="color:var(--roos)"><use href="#i-star"/></svg></div>
-        <blockquote>„Eén groep, twee juffen, achttien maanden lang dezelfde. Voor een kind dat moeilijk went was dat precies wat we zochten.”</blockquote>
-        <figcaption><span class="avatar" style="background:var(--gras);color:var(--on-gras)">AK</span><span><b>Anne K.</b><span>Moeder van Bo (3) · Zeilstraat</span></span></figcaption>
+      <figure class="citaat">
+        <blockquote>„Eén groep, dezelfde twee medewerkers, achttien maanden lang. Voor een kind dat moeilijk went was dat precies wat wij zochten.”</blockquote>
+        <figcaption><b>Anne K.</b>Moeder van Bo (3) — Zeilstraat</figcaption>
       </figure>
     </div>
   </div>
 </section>
 
-<section class="band band--steps">
+<section class="sec" id="aanmelden">
   <div class="wrap">
-    <div class="sechead">
-      <div class="sechead__txt">
-        <span class="eyebrow">Van aanmelding tot eerste dag</span>
-        <h2>In vier stappen geregeld.</h2>
-      </div>
+    <div class="sec-head op">
+      <span class="kop">Aanmelden</span>
+      <h2>Van eerste bezoek tot eerste dag</h2>
+      <p class="lede">Gemiddeld zit er zes tot acht weken tussen uw rondleiding en de eerste opvangdag.</p>
     </div>
-    <div class="steps">
-      <article class="step reveal"><div class="step__n" style="background:var(--roos);color:var(--on-roos)">1</div><h3>Rondleiding</h3><p>U loopt binnen op een gewone dag, ziet de groep in bedrijf en stelt al uw vragen. Duurt ongeveer drie kwartier.</p></article>
-      <article class="step reveal"><div class="step__n" style="background:var(--zon);color:var(--on-zon)">2</div><h3>Plaatsingsvoorstel</h3><p>Binnen vijf werkdagen hoort u welke dagen en welke groep we kunnen bieden, met het contract erbij.</p></article>
-      <article class="step reveal"><div class="step__n" style="background:var(--lucht);color:var(--on-lucht)">3</div><h3>Intake &amp; wenmomenten</h3><p>Twee wenochtenden vóór de startdatum, kosteloos. De mentor van uw kind neemt de gewoontes thuis met u door.</p></article>
-      <article class="step reveal"><div class="step__n" style="background:var(--gras);color:var(--on-gras)">4</div><h3>De eerste dag</h3><p>U krijgt foto's en een dagbericht in de ouderapp. Bellen mag altijd — ook drie keer op één dag.</p></article>
+    <div class="stappen op">
+      <article class="stap"><span class="stap__n">Stap 01</span><h3>Rondleiding</h3><p>U komt langs op een gewone dinsdag- of donderdagochtend en ziet de groep in bedrijf. Duurt ongeveer drie kwartier.</p></article>
+      <article class="stap"><span class="stap__n">Stap 02</span><h3>Plaatsingsvoorstel</h3><p>Binnen vijf werkdagen ontvangt u een voorstel met de dagen, de groep en het contract. Uw plaats blijft veertien dagen gereserveerd.</p></article>
+      <article class="stap"><span class="stap__n">Stap 03</span><h3>Intake en wennen</h3><p>De mentor neemt de gewoontes van thuis met u door. Daarna twee wenochtenden, kosteloos, vóór de startdatum.</p></article>
+      <article class="stap"><span class="stap__n">Stap 04</span><h3>De eerste dag</h3><p>U ontvangt het dagbericht en foto's in de ouderapp. Tussendoor bellen mag altijd, ook drie keer op één dag.</p></article>
     </div>
   </div>
 </section>
 
-<section class="band" id="vragen">
-  <div class="wrap">
-    <div class="sechead">
-      <div class="sechead__txt">
-        <span class="eyebrow" style="color:var(--gras)">Veelgestelde vragen</span>
-        <h2>Dat wat ouders ons het vaakst vragen.</h2>
-      </div>
-    </div>
-    <div class="faq">
-      <details class="qa" open>
-        <summary>Vanaf welke leeftijd kan mijn kind komen?<svg class="qa__plus" aria-hidden="true"><use href="#i-plus"/></svg></summary>
-        <p class="qa__a">Vanaf acht weken oud tot de dag dat uw kind vier wordt en naar de basisschool gaat. Bij de overstap naar school dragen we, met uw toestemming, de observaties over aan de leerkracht.</p>
-      </details>
-      <details class="qa">
-        <summary>Moet ik luiers en voeding meegeven?<svg class="qa__plus" aria-hidden="true"><use href="#i-plus"/></svg></summary>
-        <p class="qa__a">Nee. Luiers, billendoekjes, fruit, warme lunch en tussendoortjes zitten bij de prijs. Flesvoeding en afgekolfde melk neemt u zelf mee, net als een setje reservekleding.</p>
-      </details>
-      <details class="qa">
-        <summary>Kan ik dagen ruilen of een extra dag afnemen?<svg class="qa__plus" aria-hidden="true"><use href="#i-plus"/></svg></summary>
-        <p class="qa__a">Ruilen mag binnen vier weken vóór of na de gemiste dag, mits de bezetting van de groep het toelaat. Een extra dag vraagt u aan in de ouderapp; u hoort binnen 24 uur of het lukt.</p>
-      </details>
-      <details class="qa">
-        <summary>Hoeveel kinderen zitten er in een groep?<svg class="qa__plus" aria-hidden="true"><use href="#i-plus"/></svg></summary>
-        <p class="qa__a">Onze verticale groepen tellen maximaal twaalf kinderen van 0 tot 4 jaar. We houden ons aan de wettelijke beroepskracht-kindratio en werken waar mogelijk met één medewerker extra tijdens breng- en haalmomenten.</p>
-      </details>
-      <details class="qa">
-        <summary>Hoe zit het met de kinderopvangtoeslag?<svg class="qa__plus" aria-hidden="true"><use href="#i-plus"/></svg></summary>
-        <p class="qa__a">KDV Roosje staat geregistreerd in het Landelijk Register Kinderopvang, dus u heeft recht op toeslag. U vraagt die zelf aan bij de Belastingdienst; wij leveren het LRK-nummer, het uurtarief en het aantal uren aan. In de calculator hierboven ziet u alvast een indicatie.</p>
-      </details>
-      <details class="qa">
-        <summary>Wat gebeurt er als mijn kind ziek is?<svg class="qa__plus" aria-hidden="true"><use href="#i-plus"/></svg></summary>
-        <p class="qa__a">Verkouden kinderen zijn welkom. Bij koorts boven 38,5 °C, een besmettelijke aandoening of als uw kind te ziek is om mee te doen, bellen we u. We volgen daarbij de richtlijnen van de GGD.</p>
-      </details>
-    </div>
-  </div>
-</section>
-
-<section class="band band--form" id="rondleiding">
-  <div class="wrap formgrid">
+<section class="sec sec--vlak" id="contact">
+  <div class="wrap contact">
     <div>
-      <span class="eyebrow">Kom langs</span>
-      <h2 style="margin-top:.7rem">Plan een rondleiding op een gewone dinsdag.</h2>
-      <p class="lede" style="margin-top:.9rem">Geen opgepoetste open dag: u ziet de groep zoals die is. We plannen rondleidingen op dinsdag- en donderdagochtend tussen 09:30 en 11:00.</p>
-      <ul class="perks">
-        <li><svg aria-hidden="true"><use href="#i-check"/></svg> Binnen één werkdag een reactie</li>
-        <li><svg aria-hidden="true"><use href="#i-check"/></svg> Vrijblijvend — u zit nergens aan vast</li>
-        <li><svg aria-hidden="true"><use href="#i-check"/></svg> Uw plek blijft 14 dagen gereserveerd</li>
+      <span class="kop">Contact</span>
+      <h2 style="margin-top:.8rem">Plan een rondleiding</h2>
+      <p class="lede" style="margin-top:.8rem">Wij leiden rond op dinsdag- en donderdagochtend tussen 09:30 en 11:00, op een gewone opvangdag. Geen opgepoetste open dag: u ziet de groep zoals die is.</p>
+      <ul class="contactlijst">
+        <li><svg aria-hidden="true"><use href="#i-tel"/></svg><div><b>020 – 123 45 67</b><span>Maandag t/m vrijdag, 08:00 – 17:00</span></div></li>
+        <li><svg aria-hidden="true"><use href="#i-mail"/></svg><div><b>info@kdvroosje.nl</b><span>Reactie binnen één werkdag</span></div></li>
+        <li><svg aria-hidden="true"><use href="#i-pin"/></svg><div><b>Postadres</b><span>Baarsjesweg 296-H, 1058 AG Amsterdam</span></div></li>
+        <li><svg aria-hidden="true"><use href="#i-kal"/></svg><div><b>Rondleidingen</b><span>Dinsdag en donderdag, 09:30 – 11:00</span></div></li>
       </ul>
     </div>
 
-    <div class="card form-card">
-      <form id="tourform" novalidate>
-        <div class="form-rows">
-          <div class="field"><label for="f-naam">Uw naam</label><input id="f-naam" name="naam" type="text" autocomplete="name" placeholder="Fatima de Vries" required></div>
-          <div class="field"><label for="f-tel">Telefoon</label><input id="f-tel" name="tel" type="tel" autocomplete="tel" placeholder="06 12 34 56 78" required></div>
-          <div class="field field--full"><label for="f-mail">E-mailadres</label><input id="f-mail" name="mail" type="email" autocomplete="email" placeholder="fatima@voorbeeld.nl" required></div>
-          <div class="field"><label for="f-loc">Locatie</label>
-            <select id="f-loc" name="locatie">
+    <div class="formkaart">
+      <form id="rondleidingform" novalidate>
+        <div class="formvelden">
+          <div class="veld"><label for="f-naam">Uw naam</label><input id="f-naam" type="text" autocomplete="name" placeholder="Fatima de Vries"></div>
+          <div class="veld"><label for="f-tel">Telefoonnummer</label><input id="f-tel" type="tel" autocomplete="tel" placeholder="06 12 34 56 78"></div>
+          <div class="veld vol"><label for="f-mail">E-mailadres</label><input id="f-mail" type="email" autocomplete="email" placeholder="fatima@voorbeeld.nl"></div>
+          <div class="veld"><label for="f-loc">Locatie van voorkeur</label>
+            <select id="f-loc">
               <option value="baarsjesweg">Baarsjesweg</option>
               <option value="zeilstraat">Zeilstraat</option>
               <option value="geuzenveld">Geuzenveld</option>
-              <option value="geenvoorkeur">Nog geen voorkeur</option>
+              <option value="geen">Nog geen voorkeur</option>
             </select>
           </div>
-          <div class="field"><label for="f-start">Gewenste startmaand</label><input id="f-start" name="start" type="month" value="2027-01"></div>
-          <div class="field field--full"><label for="f-vraag">Iets wat we moeten weten? (optioneel)</label><input id="f-vraag" name="vraag" type="text" placeholder="Bijvoorbeeld: allergie, tweeling, vaste dagen"></div>
-          <label class="consent" for="f-akkoord"><input type="checkbox" id="f-akkoord" name="akkoord"> Ja, Roosje mag mij bellen of mailen over deze aanvraag.</label>
-          <div class="field--full"><button class="btn btn--block" type="submit">Rondleiding aanvragen <svg width="18" height="18" aria-hidden="true"><use href="#i-arrow"/></svg></button></div>
+          <div class="veld"><label for="f-start">Gewenste startmaand</label><input id="f-start" type="month" value="2027-01"></div>
+          <div class="veld vol"><label for="f-bericht">Uw vraag of opmerking <span class="grijs" style="font-weight:400">(optioneel)</span></label><textarea id="f-bericht" placeholder="Bijvoorbeeld: een allergie, een tweeling, of de dagen die u zoekt."></textarea></div>
+          <label class="akkoord" for="f-akkoord"><input type="checkbox" id="f-akkoord"> Ja, Roosje mag mij bellen of mailen over deze aanvraag. Uw gegevens worden niet gedeeld met derden.</label>
+          <div class="vol"><button class="btn btn--blok" type="submit">Rondleiding aanvragen <svg aria-hidden="true"><use href="#i-pijl"/></svg></button></div>
         </div>
-        <p class="fineprint" style="margin-top:.9rem">Dit is een ontwerpdemo — er wordt niets verstuurd of opgeslagen.</p>
+        <p class="voetnoot" style="margin-top:1rem">Dit is een ontwerpdemo — er wordt niets verstuurd of opgeslagen.</p>
       </form>
-      <div class="form-ok" id="tourok" hidden>
-        <svg style="color:var(--gras)" aria-hidden="true"><use href="#i-ok"/></svg>
+      <div class="bevestiging" id="bevestiging" hidden>
+        <svg aria-hidden="true"><use href="#i-checkrond"/></svg>
         <div>
-          <p style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.1rem">Aanvraag ontvangen — in de demo dan</p>
-          <p id="tourok-text" style="color:var(--ink-soft);font-size:.94rem;margin-top:.3rem"></p>
-          <button class="btn btn--sm btn--ghost" type="button" id="tourreset" style="margin-top:.9rem">Nog een aanvraag doen</button>
+          <b>Aanvraag ontvangen</b>
+          <p class="small" style="color:var(--inkt-70);margin-top:.3rem" id="bevestiging-tekst"></p>
+          <button class="btn btn--sm btn--lijn" type="button" id="opnieuw" style="margin-top:1rem">Nog een aanvraag doen</button>
         </div>
       </div>
     </div>
   </div>
 </section>
-
 </main>
 
-<footer class="foot">
-  <div class="scallop scallop--top" style="--scal-fill:var(--ink)" aria-hidden="true"></div>
+<footer class="voet">
   <div class="wrap">
-    <div class="foot__grid">
+    <div class="voet__grid">
       <div>
-        <div class="brand" style="margin-bottom:.9rem">
-          <svg class="brand__mark" viewBox="0 0 100 100" aria-hidden="true"><use href="#c-mark"/></svg>
-          <span><span class="brand__name">Roosje</span></span>
+        <div class="merk" style="margin-bottom:1rem">
+          <svg class="merk__mark" viewBox="0 0 140 160" aria-hidden="true">
+            <g fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M70 96c-22 0-39-17-39-38 0-24 17-42 39-42s39 18 39 42c0 21-17 38-39 38z"/>
+              <path d="M40 62c8-21 22-32 30-32s22 11 30 32"/>
+              <path d="M52 61c4-14 11-22 18-22s14 8 18 22"/>
+              <path d="M70 96v52"/>
+              <path d="M70 124c-18 2-28-9-29-23 16-4 27 7 29 23z"/>
+            </g>
+          </svg>
+          <span><span class="merk__naam">Roosje</span></span>
         </div>
-        <p style="font-size:.93rem;opacity:.8;max-width:34ch">Kinderdagverblijf voor 0 tot 4 jaar. Drie kleine huizen in Amsterdam-West en Zuid, sinds 2008.</p>
-        <a class="btn btn--sm btn--zon" href="#rondleiding" style="margin-top:1.1rem">Plan een rondleiding</a>
+        <p class="small" style="opacity:.8;max-width:36ch">Kinderdagverblijf voor kinderen van 0 tot 4 jaar. Drie kleinschalige locaties in Amsterdam-West en Amsterdam-Zuid, sinds 2008.</p>
       </div>
       <div>
         <h4>Locaties</h4>
         <ul>
-          <li>Baarsjesweg 296-H<br><span class="lrk">1058 AG Amsterdam</span></li>
-          <li>Zeilstraat 17-H<br><span class="lrk">1075 SB Amsterdam</span></li>
-          <li>Geuzenveld<br><span class="lrk">Amsterdam Nieuw-West</span></li>
+          <li>Baarsjesweg 296-H<span class="lrk">1058 AG Amsterdam · LRK 000000001</span></li>
+          <li>Zeilstraat 17-H<span class="lrk">1075 SB Amsterdam · LRK 000000002</span></li>
+          <li>Geuzenveld<span class="lrk">Amsterdam Nieuw-West · LRK 000000003</span></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Informatie</h4>
+        <ul>
+          <li><a href="#opvang">Ons kinderdagverblijf</a></li>
+          <li><a href="#dagindeling">Dagindeling</a></li>
+          <li><a href="#tarieven">Tarieven 2027</a></li>
+          <li><a href="#praktisch">Praktische informatie</a></li>
+          <li><a href="#documenten">Beleid en inspectierapporten</a></li>
+          <li><a href="#aanmelden">Aanmelden</a></li>
         </ul>
       </div>
       <div>
@@ -1094,265 +1149,227 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
           <li><a href="tel:+31201234567">020 – 123 45 67</a></li>
           <li><a href="mailto:info@kdvroosje.nl">info@kdvroosje.nl</a></li>
           <li>Ma t/m vr · 07:30 – 18:30</li>
-          <li><a href="#rondleiding">Rondleiding aanvragen</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Goed geregeld</h4>
-        <ul>
-          <li><a href="#vragen">Pedagogisch beleidsplan</a></li>
-          <li><a href="#vragen">Beleid veiligheid &amp; gezondheid</a></li>
-          <li><a href="#vragen">GGD-inspectierapporten</a></li>
-          <li><a href="#vragen">Oudercommissie</a></li>
-          <li><a href="#kosten">Tarieven 2027</a></li>
+          <li><a href="#contact">Rondleiding aanvragen</a></li>
         </ul>
       </div>
     </div>
-    <div class="foot__bottom">
+    <div class="voet__onder">
       <span>© 2026 Stichting Kinderopvang Roosje · KvK 98814710</span>
-      <span>Ontwerpdemo. Tarieven, telefoonnummer, reviews en enkele adresgegevens zijn ter illustratie ingevuld.</span>
+      <span>Ontwerpdemo. Tarieven, telefoonnummer, LRK-nummers, citaten en enkele adresgegevens zijn ter illustratie ingevuld.</span>
     </div>
   </div>
 </footer>
 
-<div class="mobar">
-  <a class="btn btn--ghost btn--sm" href="tel:+31201234567"><svg width="18" height="18" aria-hidden="true"><use href="#i-phone"/></svg> Bellen</a>
-  <a class="btn btn--sm" href="#rondleiding">Plan een rondleiding</a>
+<div class="mobalk">
+  <a class="btn btn--lijn btn--sm" href="tel:+31201234567">Bellen</a>
+  <a class="btn btn--sm" href="#contact">Rondleiding aanvragen</a>
 </div>
-
-<style>
-  html{scroll-behavior:smooth}
-  [id]{scroll-margin-top:calc(94px + env(safe-area-inset-top,0px))}
-  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
-  .breakdown li{border-bottom-color:color-mix(in srgb, currentColor 22%, transparent)}
-  .foot__bottom{border-top-color:color-mix(in srgb, currentColor 22%, transparent)}
-</style>
 
 <script>
 (function(){
   "use strict";
-  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var rust = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var eur0 = new Intl.NumberFormat("nl-NL",{style:"currency",currency:"EUR",maximumFractionDigits:0});
   var eur2 = new Intl.NumberFormat("nl-NL",{style:"currency",currency:"EUR",minimumFractionDigits:2,maximumFractionDigits:2});
-  var num1 = new Intl.NumberFormat("nl-NL",{minimumFractionDigits:1,maximumFractionDigits:1});
-
-  /* ---------- scroll reveal ---------- */
-  var reveals = document.querySelectorAll(".reveal");
-  if (reduce || !("IntersectionObserver" in window)) {
-    reveals.forEach(function(el){ el.classList.add("in"); });
-  } else {
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(e){
-        if (e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); }
-      });
-    }, {rootMargin:"0px 0px -8% 0px", threshold:0.08});
-    reveals.forEach(function(el){ io.observe(el); });
-    setTimeout(function(){ reveals.forEach(function(el){ el.classList.add("in"); }); }, 2500);
-  }
-
-  /* ---------- beschikbaarheid ---------- */
-  var PLEKKEN = {
-    baarsjesweg:{ baby:{vrij:2}, dreumes:{wacht:3}, peuter:{vrij:1} },
-    zeilstraat:{ baby:{wacht:4}, dreumes:{wacht:4}, peuter:{vrij:1} },
-    geuzenveld:{ baby:{vrij:2}, dreumes:{vrij:1}, peuter:{wacht:2} }
-  };
-  var LOCNAAM = {baarsjesweg:"de Baarsjesweg", zeilstraat:"de Zeilstraat", geuzenveld:"Geuzenveld"};
-  var LEEFTIJD = {baby:"baby's", dreumes:"dreumesen", peuter:"peuters"};
+  var n1 = new Intl.NumberFormat("nl-NL",{minimumFractionDigits:1,maximumFractionDigits:1});
   var MAAND = ["januari","februari","maart","april","mei","juni","juli","augustus","september","oktober","november","december"];
 
-  var form = document.getElementById("checkform");
-  var box = document.getElementById("checkresult");
-  var cta = document.getElementById("checkcta");
-
-  function monthsAway(val){
-    if(!val) return 4;
-    var p = val.split("-");
-    var now = new Date();
-    return (parseInt(p[0],10)-now.getFullYear())*12 + (parseInt(p[1],10)-1-now.getMonth());
-  }
-  function startLabel(val){
-    if(!val) return "die maand";
-    var p = val.split("-");
-    return MAAND[parseInt(p[1],10)-1] + " " + p[0];
+  /* ---- rustig binnenkomen ---- */
+  var blokken = document.querySelectorAll(".op");
+  if (rust || !("IntersectionObserver" in window)) {
+    blokken.forEach(function(el){ el.classList.add("aan"); });
+  } else {
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("aan"); io.unobserve(e.target); } });
+    },{rootMargin:"0px 0px -6% 0px",threshold:.05});
+    blokken.forEach(function(el){ io.observe(el); });
+    setTimeout(function(){ blokken.forEach(function(el){ el.classList.add("aan"); }); },2500);
   }
 
-  function check(){
-    var loc = document.getElementById("chk-loc").value;
-    var age = document.getElementById("chk-age").value;
-    var start = document.getElementById("chk-start").value;
-    var data = PLEKKEN[loc][age];
-    var away = monthsAway(start);
-    var vrij = ("vrij" in data) || away >= 6;
-    var title, sub, ctaText, cls, icon;
+  /* ---- beschikbaarheid ---- */
+  var PLEK = {
+    baarsjesweg:{baby:{vrij:2},dreumes:{wacht:3},peuter:{vrij:1}},
+    zeilstraat:{baby:{wacht:4},dreumes:{wacht:4},peuter:{vrij:1}},
+    geuzenveld:{baby:{vrij:2},dreumes:{vrij:1},peuter:{wacht:2}}
+  };
+  var LOCNAAM = {baarsjesweg:"de Baarsjesweg",zeilstraat:"de Zeilstraat",geuzenveld:"Geuzenveld"};
+  var LEEFTIJD = {baby:"baby's",dreumes:"dreumesen",peuter:"peuters"};
+
+  function maandenVerder(v){
+    if(!v) return 4;
+    var d = v.split("-"), nu = new Date();
+    return (parseInt(d[0],10)-nu.getFullYear())*12 + (parseInt(d[1],10)-1-nu.getMonth());
+  }
+  function maandLabel(v){
+    if(!v) return "die maand";
+    var d = v.split("-");
+    return MAAND[parseInt(d[1],10)-1] + " " + d[0];
+  }
+
+  var vak = document.getElementById("plekuitslag");
+  function kijk(){
+    var loc = document.getElementById("p-loc").value;
+    var lft = document.getElementById("p-leeftijd").value;
+    var start = document.getElementById("p-start").value;
+    var d = PLEK[loc][lft], ver = maandenVerder(start);
+    var vrij = ("vrij" in d) || ver >= 6;
+    var kop, tekst, cta;
 
     if (vrij) {
-      var n = data.vrij || 2;
-      cls = "";
-      icon = "#i-ok";
-      title = "Ja — plek voor " + LEEFTIJD[age] + " op " + LOCNAAM[loc];
-      sub = away >= 6
-        ? "U bent ruim op tijd voor " + startLabel(start) + ". We reserveren uw plek 14 dagen na de rondleiding."
-        : "Er " + (n === 1 ? "is nog 1 plek" : "zijn nog " + n + " plekken") + " vrij per " + startLabel(start) + ". Dit gaat snel — vorige maand waren het er nog vier.";
-      ctaText = "Reserveer deze plek";
+      var n = d.vrij || 2;
+      kop = (n === 1 ? "Eén plaats" : n + " plaatsen") + " beschikbaar op " + LOCNAAM[loc];
+      tekst = ver >= 6
+        ? "Voor " + maandLabel(start) + " bent u ruim op tijd. Na de rondleiding houden wij de plaats veertien dagen voor u vrij."
+        : "Voor " + LEEFTIJD[lft] + " is er per " + maandLabel(start) + " plaats. Na de rondleiding houden wij de plaats veertien dagen voor u vrij.";
+      cta = "Plaats aanvragen";
     } else {
-      cls = "result--wacht";
-      icon = "#i-hour";
-      title = "Wachtlijst van ongeveer " + data.wacht + " maanden";
-      sub = "Voor " + LEEFTIJD[age] + " op " + LOCNAAM[loc] + " zit de groep vol rond " + startLabel(start) + ". Op de wachtlijst staan kost niets, en bij onze andere locaties is vaak eerder plek.";
-      ctaText = "Zet mij op de wachtlijst";
+      kop = "Wachtlijst van ongeveer " + d.wacht + " maanden";
+      tekst = "Voor " + LEEFTIJD[lft] + " op " + LOCNAAM[loc] + " is de groep rond " + maandLabel(start) + " vol. Inschrijven op de wachtlijst is kosteloos en vrijblijvend; op onze andere locaties is vaak eerder plaats.";
+      cta = "Op de wachtlijst";
     }
-
-    box.className = "result " + cls;
-    box.querySelector(".result__icon").style.color = vrij ? "var(--gras)" : "var(--zon)";
-    box.querySelector(".result__icon use").setAttribute("href", icon);
-    box.querySelector(".result__title").textContent = title;
-    box.querySelector(".result__sub").textContent = sub;
-    cta.textContent = ctaText;
-    cta.className = "btn btn--sm" + (vrij ? "" : " btn--zon");
-    var sel = document.getElementById("f-loc"); if (sel) sel.value = loc;
-    var fs = document.getElementById("f-start"); if (fs && start) fs.value = start;
+    vak.className = "uitslag" + (vrij ? "" : " uitslag--wacht");
+    document.getElementById("plek-kop").textContent = kop;
+    document.getElementById("plek-tekst").textContent = tekst;
+    document.getElementById("plek-cta").textContent = cta;
+    var fl = document.getElementById("f-loc"); if(fl) fl.value = loc;
+    var fs = document.getElementById("f-start"); if(fs && start) fs.value = start;
   }
-  form.addEventListener("submit", function(e){ e.preventDefault(); check(); });
-  ["chk-loc","chk-age","chk-start"].forEach(function(id){
-    document.getElementById(id).addEventListener("change", check);
+  document.getElementById("plekform").addEventListener("submit",function(e){e.preventDefault();kijk();});
+  ["p-loc","p-leeftijd","p-start"].forEach(function(id){
+    document.getElementById(id).addEventListener("change", kijk);
   });
 
-  /* ---------- locatiekaart -> formulier ---------- */
   document.querySelectorAll("[data-loc]").forEach(function(a){
-    a.addEventListener("click", function(){
-      var sel = document.getElementById("f-loc");
-      if (sel) sel.value = a.getAttribute("data-loc");
+    a.addEventListener("click",function(){
+      var s = document.getElementById("f-loc"); if(s) s.value = a.getAttribute("data-loc");
     });
   });
 
-  /* ---------- dagritme ---------- */
+  /* ---- dagindeling ---- */
   var DAG = [
-    {t:"07:30 – 09:00", h:"De deur gaat open", c:"#c-pip", bg:"var(--lucht-tint)",
-     p:"U brengt uw kind tussen 07:30 en 09:00. We nemen even de tijd voor de overdracht: hoe was de nacht, wanneer is er gegeten, waar moeten we vandaag op letten. Daarna gaat de jas aan de haak en begint het vrij spel."},
-    {t:"09:00 – 09:45", h:"Fruit eten in de kring", c:"#c-mark", bg:"var(--roos-tint)",
-     p:"Iedereen aan tafel. We zingen goedemorgen, noemen elk kind bij naam en delen appel, banaan en peer. Wie al kan, schilt zelf mee — met een botte kindermesje en veel geduld."},
-    {t:"09:45 – 11:30", h:"Naar buiten of naar het park", c:"#c-fladder", bg:"var(--gras-tint)",
-     p:"Laarzen aan, ook als het motregent. In de eigen tuin staan de zandbak en de moestuinbak; twee keer per week lopen de peuters met de bolderkar naar het park. Baby's slapen ondertussen buiten in de wandelwagen."},
-    {t:"11:30 – 12:30", h:"Warme lunch aan tafel", c:"#c-zoem", bg:"var(--zon-tint)",
-     p:"Vers gekookt in onze eigen keuken: groente, aardappel of rijst en een stukje vlees of vis — halal, en altijd een vegetarisch alternatief. Dieetwensen leggen we per kind vast bij de intake."},
-    {t:"12:30 – 14:30", h:"Slaapjes en boekjes", c:"#c-pip", bg:"var(--lucht-tint)",
-     p:"De slaapkamers gaan dicht, de babyfoon aan. Kinderen die niet meer slapen kiezen een boek of een rustig spel op de bank. We wekken nooit — behalve als u dat uitdrukkelijk vraagt."},
-    {t:"14:30 – 16:00", h:"Verven, bouwen, muziek", c:"#c-fladder", bg:"var(--roos-tint)",
-     p:"Het activiteitenblok. Elke week één thema uit ons VVE-aanbod: taal, beweging, muziek of natuur. De peuters kiezen zelf in welke hoek ze meedoen — meedoen hoeft niet, meekijken mag ook."},
-    {t:"16:00 – 17:00", h:"Cracker en thee", c:"#c-zoem", bg:"var(--zon-tint)",
-     p:"Laatste tussendoortje van de dag: cracker, komkommer en lauwe thee. Ondertussen schrijven we het dagbericht en zetten we de foto's in de ouderapp, zodat u onderweg naar huis al weet hoe de dag was."},
-    {t:"17:00 – 18:30", h:"Papa en mama halen op", c:"#c-mark", bg:"var(--gras-tint)",
-     p:"Vrij spel tot de laatste ouder binnen is. U krijgt altijd een persoonlijke overdracht van de mentor of van de medewerker die uw kind die dag het meest gezien heeft. Om 18:30 gaat de deur op slot."}
+    {t:"07:30 – 09:00",h:"Brengen en overdracht",k:"#volwassen-kind",vb:"0 0 110 150",bg:"var(--roos-zacht)",
+     p:"U brengt uw kind tussen 07:30 en 09:00. Wij nemen de tijd voor de overdracht: hoe was de nacht, wanneer is er voor het laatst gegeten, waar moeten wij vandaag rekening mee houden. Daarna gaat de jas aan de haak en begint het vrij spel."},
+    {t:"09:00 – 09:45",h:"Fruit eten in de kring",k:"#kind-zwaai",vb:"0 0 80 130",bg:"var(--vlak)",
+     p:"De hele groep schuift aan. Wij zingen goedemorgen en noemen elk kind bij naam, zodat ook de jongsten merken dat de dag begint. Daarna delen wij appel, peer en banaan; peuters die dat willen, snijden mee met een kindermesje."},
+    {t:"09:45 – 11:30",h:"Naar buiten",k:"#kind-hurk",vb:"0 0 80 130",bg:"var(--blad-zacht)",
+     p:"Wij gaan elke dag naar buiten, ook bij motregen. In de eigen tuin staan de zandbak en de moestuinbak; twee keer per week lopen de peuters met de bolderkar naar het park. Baby's slapen ondertussen buiten in de wandelwagen."},
+    {t:"11:30 – 12:30",h:"Warme lunch",k:"#kind-loop",vb:"0 0 80 130",bg:"var(--roos-zacht)",
+     p:"Vers gekookt in onze eigen keuken: groente, aardappel of rijst en vlees of vis. Het vlees is halal en er is altijd een vegetarisch alternatief. Wij eten samen aan tafel; kinderen proberen zoveel mogelijk zelf te eten en op te ruimen."},
+    {t:"12:30 – 14:30",h:"Slapen en rusten",k:"#volwassen-kind",vb:"0 0 110 150",bg:"var(--vlak)",
+     p:"De slaapkamers gaan dicht, de babyfoon aan. Baby's volgen hun eigen ritme; oudere kinderen slapen in dit blok. Wie niet meer slaapt, kiest een boek of een rustig spel op de bank. Wij wekken een kind niet, tenzij u daarom vraagt."},
+    {t:"14:30 – 16:00",h:"Activiteit en vrij spel",k:"#kind-zwaai",vb:"0 0 80 130",bg:"var(--blad-zacht)",
+     p:"Elke week werken wij aan één thema: taal, beweging, muziek of natuur. De kinderen kiezen zelf in welke hoek zij meedoen. Meedoen hoeft niet — meekijken vanaf de zijkant is ook een manier om te leren."},
+    {t:"16:00 – 17:00",h:"Tussendoortje",k:"#kind-hurk",vb:"0 0 80 130",bg:"var(--roos-zacht)",
+     p:"Cracker, komkommer en lauwe thee. Ondertussen schrijven wij het dagbericht en zetten wij de foto's in de ouderapp, zodat u onderweg naar huis al weet hoe de dag is verlopen."},
+    {t:"17:00 – 18:30",h:"Ophalen en dagbericht",k:"#volwassen-kind",vb:"0 0 110 150",bg:"var(--vlak)",
+     p:"Vrij spel tot de laatste ouder binnen is. U krijgt altijd een persoonlijke overdracht van de mentor of van de medewerker die uw kind die dag het meest heeft begeleid. Om 18:30 sluit de deur."}
   ];
-  var items = Array.prototype.slice.call(document.querySelectorAll("#timeline .tl-item"));
-  var scene = document.getElementById("scene");
-  var rTime = document.getElementById("r-time"), rTitle = document.getElementById("r-title"), rText = document.getElementById("r-text");
-
-  function showDay(i){
+  var rij = Array.prototype.slice.call(document.querySelectorAll("#ritme li"));
+  var scene = document.getElementById("dagscene");
+  function toonDag(i){
     var d = DAG[i];
-    items.forEach(function(li,k){ li.setAttribute("aria-current", k===i ? "true" : "false"); });
+    rij.forEach(function(li,k){ li.setAttribute("aria-current", k===i ? "true" : "false"); });
     scene.style.background = d.bg;
-    scene.innerHTML = '<svg viewBox="0 0 100 100" aria-hidden="true" class="' + (reduce ? "" : "bob") + '"><use href="' + d.c + '"/></svg>';
-    rTime.textContent = d.t; rTitle.textContent = d.h; rText.textContent = d.p;
+    scene.innerHTML =
+      '<svg class="rk" viewBox="0 0 140 140" aria-hidden="true"><use href="#roos-klein"/></svg>' +
+      '<svg class="kd" viewBox="' + d.vb + '" aria-hidden="true"><use href="' + d.k + '"/></svg>';
+    document.getElementById("dag-tijd").textContent = d.t;
+    document.getElementById("dag-kop").textContent = d.h;
+    document.getElementById("dag-tekst").textContent = d.p;
   }
-  items.forEach(function(li,i){
-    li.querySelector(".tl-btn").addEventListener("click", function(){ showDay(i); });
-  });
-  showDay(0);
+  rij.forEach(function(li,i){ li.querySelector("button").addEventListener("click",function(){ toonDag(i); }); });
+  toonDag(0);
 
-  /* ---------- kostencalculator ---------- */
-  var TARIEF = 10.95, MAXUUR = 10.71;
-  var dagen = document.getElementById("c-dagen"), uren = document.getElementById("c-uren"),
-      inkomen = document.getElementById("c-inkomen"), kinderen = document.getElementById("c-kind");
+  /* ---- toeslagrekenaar ---- */
+  var MAXUUR = 10.71;
+  var rd = document.getElementById("r-dagen"), ru = document.getElementById("r-uren"),
+      ri = document.getElementById("r-inkomen"), rp = document.getElementById("r-pakket");
 
-  function calc(){
-    var d = parseFloat(dagen.value), u = parseFloat(uren.value),
-        pct = parseFloat(inkomen.value), k = parseInt(kinderen.value,10);
+  function reken(){
+    var d = parseFloat(rd.value), u = parseFloat(ru.value),
+        pct = parseFloat(ri.value), tarief = parseFloat(rp.value);
     var urenMaand = d * u * 52 / 12;
-    var brutoKind = urenMaand * TARIEF;
-    var vergoedbaar = urenMaand * Math.min(TARIEF, MAXUUR);
-    var pct2 = Math.min(0.96, pct + 0.20);
-    var bruto = brutoKind * k;
-    var toeslag = vergoedbaar * pct + (k === 2 ? vergoedbaar * pct2 : 0);
+    var bruto = urenMaand * tarief;
+    var toeslag = urenMaand * Math.min(tarief, MAXUUR) * pct;
     var netto = Math.max(0, bruto - toeslag);
-    var dagenMaand = d * 52 / 12 * k;
+    var dagenMaand = d * 52 / 12;
 
-    dagen.nextElementSibling.textContent = d + (d === 1 ? " dag" : " dagen");
-    uren.nextElementSibling.textContent = num1.format(u) + " uur";
+    document.getElementById("r-dagen-uit").textContent = d + (d === 1 ? " dag" : " dagen");
+    document.getElementById("r-uren-uit").textContent = n1.format(u) + " uur";
+    document.getElementById("r-netto").textContent = eur0.format(netto);
+    document.getElementById("r-urenmaand").textContent = n1.format(urenMaand);
+    document.getElementById("r-bruto").textContent = eur0.format(bruto);
+    document.getElementById("r-toeslag").textContent = "− " + eur0.format(toeslag);
+    document.getElementById("r-perdag").textContent = eur2.format(netto / dagenMaand);
 
-    document.getElementById("c-netto").innerHTML = eur0.format(netto) + '<small>per maand, na kinderopvangtoeslag</small>';
-    document.getElementById("c-uren-maand").textContent = num1.format(urenMaand * k);
-    document.getElementById("c-bruto").textContent = eur0.format(bruto);
-    document.getElementById("c-toeslag").textContent = "− " + eur0.format(toeslag);
-    document.getElementById("c-perdag").textContent = eur2.format(netto / dagenMaand);
-
-    var share = bruto > 0 ? Math.round(toeslag / bruto * 100) : 0;
-    document.getElementById("seg-toeslag").style.flexGrow = share;
-    document.getElementById("seg-eigen").style.flexGrow = Math.max(2, 100 - share);
+    var deel = bruto > 0 ? Math.round(toeslag / bruto * 100) : 0;
+    document.getElementById("s-toeslag").style.flexGrow = deel;
+    document.getElementById("s-eigen").style.flexGrow = Math.max(2, 100 - deel);
   }
-  [dagen, uren, inkomen, kinderen].forEach(function(el){
-    el.addEventListener("input", calc); el.addEventListener("change", calc);
-  });
-  calc();
+  [rd,ru,ri,rp].forEach(function(el){ el.addEventListener("input",reken); el.addEventListener("change",reken); });
+  reken();
 
-  /* ---------- tellers ---------- */
-  var counters = document.querySelectorAll("[data-count]");
-  function runCount(el){
-    var target = parseFloat(el.getAttribute("data-count"));
-    var dec = parseInt(el.getAttribute("data-dec") || "0", 10);
+  /* ---- tellers ---- */
+  function tel(el){
+    var doel = parseFloat(el.getAttribute("data-tel"));
+    var dec = parseInt(el.getAttribute("data-dec") || "0",10);
     var fmt = new Intl.NumberFormat("nl-NL",{minimumFractionDigits:dec,maximumFractionDigits:dec});
-    if (reduce){ el.textContent = fmt.format(target); return; }
-    var t0 = null, dur = 1100;
-    function step(ts){
-      if (t0 === null) t0 = ts;
-      var p = Math.min(1,(ts - t0)/dur);
-      el.textContent = fmt.format(target * (1 - Math.pow(1 - p, 3)));
-      if (p < 1) requestAnimationFrame(step);
+    if (rust){ el.textContent = fmt.format(doel); return; }
+    var t0 = null;
+    function stap(ts){
+      if(t0===null) t0 = ts;
+      var p = Math.min(1,(ts-t0)/900);
+      el.textContent = fmt.format(doel * (1 - Math.pow(1-p,3)));
+      if(p<1) requestAnimationFrame(stap);
     }
-    requestAnimationFrame(step);
+    requestAnimationFrame(stap);
   }
-  if ("IntersectionObserver" in window){
+  var cijfers = document.querySelectorAll("[data-tel]");
+  if("IntersectionObserver" in window){
     var co = new IntersectionObserver(function(es){
-      es.forEach(function(e){ if (e.isIntersecting){ runCount(e.target); co.unobserve(e.target); } });
-    }, {threshold:0.6});
-    counters.forEach(function(el){ co.observe(el); });
-  } else { counters.forEach(runCount); }
+      es.forEach(function(e){ if(e.isIntersecting){ tel(e.target); co.unobserve(e.target); } });
+    },{threshold:.6});
+    cijfers.forEach(function(el){ co.observe(el); });
+  } else { cijfers.forEach(tel); }
 
-  /* ---------- rondleidingformulier ---------- */
-  var tour = document.getElementById("tourform"), ok = document.getElementById("tourok");
-  var LOCLABEL = {baarsjesweg:"Baarsjesweg", zeilstraat:"Zeilstraat", geuzenveld:"Geuzenveld", geenvoorkeur:"nog geen voorkeur"};
-
-  function petals(){
-    if (reduce) return;
-    var colors = ["var(--roos)","var(--zon)","var(--lucht)","var(--gras)"];
-    for (var i=0;i<20;i++){
-      (function(i){
-        var p = document.createElement("span");
-        p.className = "petal";
-        var s = 9 + Math.random()*11;
-        p.style.cssText = "left:"+(Math.random()*100)+"vw;width:"+s+"px;height:"+s+"px;border-radius:"+(Math.random()>.5?"50%":"50% 0 50% 50%")+";background:"+colors[i%4]+";animation-duration:"+(2.4+Math.random()*1.8)+"s;animation-delay:"+(Math.random()*.5)+"s";
-        document.body.appendChild(p);
-        setTimeout(function(){ p.remove(); }, 5000);
-      })(i);
-    }
-  }
-
-  tour.addEventListener("submit", function(e){
+  /* ---- aanvraagformulier ---- */
+  var LOCLABEL = {baarsjesweg:"de Baarsjesweg",zeilstraat:"de Zeilstraat",geuzenveld:"Geuzenveld",geen:"een locatie naar keuze"};
+  var fm = document.getElementById("rondleidingform"), bev = document.getElementById("bevestiging");
+  fm.addEventListener("submit",function(e){
     e.preventDefault();
-    var naam = document.getElementById("f-naam");
-    var mail = document.getElementById("f-mail");
-    if (!naam.value.trim()){ naam.focus(); naam.style.borderColor = "var(--roos)"; return; }
-    if (!mail.value.trim() || mail.value.indexOf("@") < 1){ mail.focus(); mail.style.borderColor = "var(--roos)"; return; }
-    var loc = document.getElementById("f-loc");
-    document.getElementById("tourok-text").textContent =
-      "Dank u, " + naam.value.trim().split(" ")[0] + ". In het echt zou u nu binnen één werkdag een voorstel krijgen voor een rondleiding op " + LOCLABEL[loc.value] + ", op dinsdag- of donderdagochtend.";
-    tour.hidden = true; ok.hidden = false;
-    ok.scrollIntoView({block:"nearest", behavior: reduce ? "auto" : "smooth"});
-    petals();
+    var naam = document.getElementById("f-naam"), mail = document.getElementById("f-mail");
+    if(!naam.value.trim()){ naam.style.borderColor = "var(--roos)"; naam.focus(); return; }
+    if(!mail.value.trim() || mail.value.indexOf("@") < 1){ mail.style.borderColor = "var(--roos)"; mail.focus(); return; }
+    document.getElementById("bevestiging-tekst").textContent =
+      "Dank u wel, " + naam.value.trim().split(" ")[0] + ". In werkelijkheid zou u binnen één werkdag een voorstel ontvangen voor een rondleiding op " + LOCLABEL[document.getElementById("f-loc").value] + ", op dinsdag- of donderdagochtend.";
+    fm.hidden = true; bev.hidden = false;
+    bev.scrollIntoView({block:"nearest",behavior: rust ? "auto" : "smooth"});
   });
-  document.getElementById("tourreset").addEventListener("click", function(){
-    ok.hidden = true; tour.hidden = false;
-    document.getElementById("f-naam").focus();
+  document.getElementById("opnieuw").addEventListener("click",function(){
+    bev.hidden = true; fm.hidden = false; document.getElementById("f-naam").focus();
   });
+
+  /* ---- actief menu-item ---- */
+  var secties = ["opvang","locaties","dagindeling","tarieven","praktisch","contact"];
+  var links = {};
+  secties.forEach(function(id){
+    var a = document.querySelector('.hoofdnav a[href="#' + id + '"]');
+    if(a) links[id] = a;
+  });
+  if("IntersectionObserver" in window){
+    var so = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        var a = links[e.target.id];
+        if(!a) return;
+        if(e.isIntersecting){
+          Object.keys(links).forEach(function(k){ links[k].removeAttribute("aria-current"); });
+          a.setAttribute("aria-current","page");
+        }
+      });
+    },{rootMargin:"-45% 0px -50% 0px"});
+    secties.forEach(function(id){
+      var el = document.getElementById(id); if(el) so.observe(el);
+    });
+  }
 })();
 </script>
