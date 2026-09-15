@@ -37,18 +37,94 @@ Bewaar die (cookie, `httpOnly` via een route handler) en stuur hem bij elke volg
 cart-call mee, plus de `Nonce` header uit hetzelfde antwoord. Zonder token krijgt
 elke request een nieuwe lege winkelwagen.
 
-## 2. Afrekenen: twee routes
+## 2. Domeinen: de beslissing die de rest makkelijk of moeilijk maakt
 
-1. **Store API checkout** (`POST /wc/store/v1/checkout`) — volledig eigen afreken-UI,
-   je krijgt een `payment_result` met een redirect-URL van de payment gateway.
-   Mooiste conversie, meeste werk: adresvalidatie, postcode-API, iDEAL-bankkeuze.
-2. **Redirect naar WooCommerce checkout** — cart-token doorgeven via
-   `?cart_token=` en de Woo-checkout stylen. Snel live, maar een merkbreuk in de flow.
+Zet de Next.js-app op het hoofddomein en WordPress op een subdomein van datzelfde
+domein:
 
-Advies: begin met route 2 zodat de shop binnen een sprint draait, en vervang de
-afrekenstap later door route 1 zodra de rest meet.
+```
+www.soccer-games.nl   → Next.js (Vercel)
+shop.soccer-games.nl  → WordPress + WooCommerce (huidige hosting)
+```
 
-## 3. Veldenkaart (prototype → Woo)
+Waarom dit uitmaakt: een winkelwagen en een afrekensessie leunen op een cookie.
+Staat WordPress op een compleet ander domein, dan is dat een third-party cookie —
+Safari en Firefox gooien die weg en je klant ziet een lege winkelwagen bij het
+afrekenen. Deel je het hoofddomein, dan zet WordPress het cookie op
+`.soccer-games.nl` en werkt de overdracht naar de checkout gewoon. Dit is de
+goedkoopste verzekering in het hele project; regel het vóór je begint te bouwen.
+
+## 3. Afrekenen: drie routes
+
+1. **Doorsturen naar de WooCommerce-checkout** — je bouwt zelf catalogus, PDP en
+   winkelwagen; bij "Afrekenen" ga je naar `shop.soccer-games.nl/checkout`. Werkt
+   meteen met elke betaalplugin die er al staat, inclusief iDEAL via Mollie. Kost
+   je één merkbreuk: de checkout ziet er anders uit (op te lossen met een klein
+   thema in de huisstijl). Vereist wel de domeinopzet hierboven.
+2. **Eigen checkout op de Store API** (`POST /wc/store/v1/checkout`) — je stuurt
+   adres, verzendmethode en betaalmethode mee en krijgt een `payment_result`
+   terug met de redirect naar de bank. Mooiste flow, meeste werk: adres- en
+   postcodevalidatie, verzendkeuze, foutafhandeling per veld. Alleen betaal-
+   methodes met Blocks-ondersteuning doen mee (Mollie heeft die).
+3. **CoCart** (plugin, betaald) — bouwt het cart-gedeelte om tot een echte
+   headless API met tokens en een `load-cart`-endpoint dat de sessie aan de
+   WordPress-kant vult. Neemt precies de randen weg die onder route 1 pijn doen,
+   zeker als je de domeinen tóch niet kunt delen.
+
+Advies voor deze winkel: **route 1 om live te gaan**, daarna meten, en pas naar
+route 2 als de cijfers laten zien dat de checkout het knelpunt is. Eén product van
+€ 14,95 verdient geen checkout van drie weken voordat er iets verkocht is.
+
+## 4. De twee randen waar iedereen op stuit
+
+**CORS.** De Store API stuurt geen CORS-headers, dus rechtstreekse `fetch`-calls
+vanuit de browser naar `shop.soccer-games.nl` worden geblokkeerd. Los dit niet op
+met een wildcard in WordPress — zet de cart-calls door een eigen route in Next.js.
+Dan is het same-origin, blijft het token `httpOnly` en staat er geen enkele
+sleutel in de browser:
+
+```ts
+// app/api/cart/[...path]/route.ts
+import { cookies } from 'next/headers';
+
+const WOO = process.env.WOO_URL!; // https://shop.soccer-games.nl/wp-json/wc/store/v1
+
+async function proxy(req: Request, path: string[]) {
+  const jar = await cookies();
+  const token = jar.get('cart-token')?.value;
+
+  const res = await fetch(`${WOO}/cart/${path.join('/')}`, {
+    method: req.method,
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token ? { 'Cart-Token': token } : {}),
+      ...(req.headers.get('nonce') ? { Nonce: req.headers.get('nonce')! } : {}),
+    },
+    body: req.method === 'GET' ? undefined : await req.text(),
+    cache: 'no-store',
+  });
+
+  const fresh = res.headers.get('Cart-Token');
+  const out = new Response(await res.text(), {
+    status: res.status,
+    headers: { 'Content-Type': 'application/json', Nonce: res.headers.get('Nonce') ?? '' },
+  });
+  if (fresh && fresh !== token) {
+    jar.set('cart-token', fresh, { httpOnly: true, secure: true, sameSite: 'lax', maxAge: 60 * 60 * 24 * 14 });
+  }
+  return out;
+}
+
+export const GET = (req: Request, { params }: { params: { path: string[] } }) => proxy(req, params.path);
+export const POST = GET;
+```
+
+**Nonce.** Elke schrijvende cart-call wil de `Nonce` uit het laatste antwoord.
+Bewaar hem in je cart-store in de browser en stuur hem mee; krijg je een 403 met
+`woocommerce_rest_invalid_nonce`, doe dan één keer `GET /cart` en probeer opnieuw.
+Bouw die herstelpoging meteen in, anders zie je hem pas terug in de conversie.
+
+## 5. Veldenkaart (prototype → Woo)
 
 | UI-element in het prototype | Woo-veld |
 |---|---|
@@ -66,14 +142,14 @@ afrekenstap later door route 1 zodra de rest meet.
 Prijzen komen als string in de kleinste eenheid (`"1995"`) mét `currency_minor_unit: 2`.
 Reken één keer centraal om en formatteer met `Intl.NumberFormat('nl-NL', {style:'currency',currency:'EUR'})`.
 
-## 4. Caching
+## 6. Caching
 
 - Catalogus- en PDP-data: `fetch(..., { next: { revalidate: 300, tags: ['product:soccer-memo'] } })`.
 - Woo-webhook `product.updated` → `/api/revalidate` → `revalidateTag('product:...')`.
 - Alles onder `/wc/store/v1/cart` is per bezoeker: `cache: 'no-store'`, client-side ophalen.
 - Voorraadaantal apart client-side verversen zodat de pagina statisch kan blijven.
 
-## 5. Mappenstructuur
+## 7. Mappenstructuur
 
 ```
 app/
@@ -88,7 +164,7 @@ components/
   MemoryDemo.tsx  BuyBox.tsx  BundlePicker.tsx  CartDrawer.tsx  StickyBuyBar.tsx
 ```
 
-## 6. SEO en techniek
+## 8. SEO en techniek
 
 - `<html lang="nl">`, canonical per product, `hreflang` nl-NL en nl-BE als België meedoet.
 - JSON-LD: `Product` (prijs, `availability`, `aggregateRating`), `FAQPage` bij de
@@ -101,3 +177,28 @@ components/
   `begin_checkout`, `purchase`, plus het eigen event `memo_demo_completed`.
 - Cookies: consent (Cookiebot of eigen banner) vóór analytics, verplicht onder de
   Nederlandse telecomwet.
+
+
+## 9. Alternatief: WPGraphQL in plaats van de Store API
+
+`WPGraphQL` + `WPGraphQL for WooCommerce` geeft je één endpoint waarin je product,
+varianten, reviews en content in één query ophaalt. Prettig als er veel redactionele
+content bij komt. Nadelen: twee plugins extra om te onderhouden, de cart-kant is
+minder volwassen dan de Store API, en betaalintegraties lopen alsnog via Woo. Voor
+één product met een paar bundels is de Store API de rustigere keuze.
+
+## 10. Volgorde van bouwen
+
+1. **Domeinen en SSL regelen** (hoofddomein Next.js, subdomein WordPress). Zonder
+   dit klopt de rest niet. — een dagdeel
+2. **Producten in Woo goed zetten**: Soccer MeMo met de bundels als variaties,
+   cadeauverpakking als apart product, echte foto's, voorraad, verzendklassen,
+   verzendregel "gratis vanaf € 30". — een dag
+3. **Catalogus en PDP statisch uit de Store API** met ISR en revalidate-webhook.
+   Hier zit de winst in snelheid; alles is publiek, dus geen tokens nodig. — 2–3 dagen
+4. **Winkelwagen via de proxy-route** hierboven, inclusief de verzendmeter. — 2 dagen
+5. **Afrekenen route 1**, checkout-thema in de huisstijl, testorder met iDEAL. — 1–2 dagen
+6. **Meten**: GA4-events uit `docs/conversie.md`, dan pas beslissen over een eigen
+   checkout.
+
+Reken op ongeveer twee weken voor een werkende winkel, los van foto's en teksten.
