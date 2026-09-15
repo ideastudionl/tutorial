@@ -178,7 +178,7 @@ function viewHome() {
   const telPerSector = (id) => VACATURES.filter((v) => v.sector === id).length;
 
   return `
-  <section class="hero">
+  <section class="hero hero--donker">
     <div class="wrap">
       <div class="hero-raster">
         <div class="hero-tekst">
@@ -250,14 +250,14 @@ function viewHome() {
 
           <div class="raster raster--2" style="gap:.75rem;margin-top:.75rem">
             <div class="kaart kaart--zacht" style="flex-direction:row;align-items:center;gap:.7rem;padding:.85rem 1rem">
-              <span style="color:var(--clover-600);flex:none">${ICO.klok({ w: 20 })}</span>
+              <span class="icoontje" style="color:var(--clover-600);flex:none">${ICO.klok({ w: 20 })}</span>
               <span>
                 <b style="font-family:var(--font-display);font-size:1rem;display:block;line-height:1.2">48 uur</b>
                 <small style="font-size:var(--t-xs);color:var(--inkt-60)">tot de eerste kandidaat</small>
               </span>
             </div>
             <div class="kaart kaart--zacht" style="flex-direction:row;align-items:center;gap:.7rem;padding:.85rem 1rem">
-              <span style="color:var(--clover-600);flex:none">${ICO.schild({ w: 20 })}</span>
+              <span class="icoontje" style="color:var(--clover-600);flex:none">${ICO.schild({ w: 20 })}</span>
               <span>
                 <b style="font-family:var(--font-display);font-size:1rem;display:block;line-height:1.2">96%</b>
                 <small style="font-size:var(--t-xs);color:var(--inkt-60)">maakt de opdracht af</small>
@@ -272,7 +272,7 @@ function viewHome() {
   ${band(SECTOREN.map((s) => s.naam).concat(['Altijd een vaste contactpersoon', 'Wekelijks uitbetaald']))}
 
   <!-- Twee paden -->
-  <section class="sectie">
+  <section class="sectie sectie--tint">
     <div class="wrap">
       <div class="sectie-kop" data-reveal>
         <span class="oogje">Waar sta jij?</span>
@@ -322,7 +322,7 @@ function viewHome() {
   </section>
 
   <!-- Sectoren -->
-  <section class="sectie">
+  <section class="sectie sectie--zand">
     <div class="wrap">
       <div class="sectie-kop" data-reveal>
         <span class="oogje">Acht sectoren</span>
@@ -388,7 +388,7 @@ function viewHome() {
   </section>
 
   <!-- Google-beoordelingen -->
-  <section class="sectie">
+  <section class="sectie sectie--staal">
     <div class="wrap">
       <div class="sectie-kop sectie-kop--split" data-reveal>
         <div class="stapel">
@@ -409,9 +409,9 @@ function viewHome() {
   </section>
 
   <!-- Keurmerken -->
-  <section class="sectie sectie--strak sectie--grijs-050">
+  <section class="sectie sectie--strak sectie--wit">
     <div class="wrap" data-reveal>
-      <p style="text-align:center;font-weight:700;color:var(--inkt-60);margin-bottom:var(--ruimte-5);font-size:.8125rem;letter-spacing:.14em;text-transform:uppercase">
+      <p style="text-align:center;font-weight:600;color:var(--inkt-60);margin-bottom:var(--ruimte-5);font-size:.75rem;letter-spacing:.16em;text-transform:uppercase">
         Aangesloten &amp; gecertificeerd
       </p>
       ${keurmerkStrip()}
@@ -441,7 +441,7 @@ function viewVacatures() {
     </fieldset>`;
 
   return `
-  <section class="sectie sectie--strak" style="padding-bottom:var(--ruimte-5)">
+  <section class="sectie sectie--strak sectie--tint" style="border-bottom:1px solid var(--lijn)">
     <div class="wrap">
       <div class="sectie-kop" data-reveal style="margin-bottom:var(--ruimte-5)">
         <span class="oogje">Vacaturebank</span>
@@ -567,7 +567,7 @@ function viewVacature(id) {
   const lijst = (items) => `<ul>${items.map((i) => `<li>${esc(i)}</li>`).join('')}</ul>`;
 
   return `
-  <section class="sectie sectie--strak" style="background:${s.zacht};border-bottom:1.5px solid var(--inkt)">
+  <section class="sectie sectie--strak" style="background:${s.zacht};border-bottom:1px solid var(--lijn)">
     <div class="wrap">
       <nav class="kruimels" aria-label="Kruimelpad">
         <a href="#/">Home</a> <span>/</span>
@@ -680,7 +680,7 @@ function viewNietGevonden() {
 
 function viewWerkgevers() {
   return `
-  <section class="hero raster-lijnen" style="background:var(--staal-zacht);border-bottom:1.5px solid var(--inkt)">
+  <section class="hero hero--staal raster-lijnen">
     <div class="wrap">
       <div class="hero-raster">
         <div class="hero-tekst">
@@ -745,10 +745,10 @@ function viewWerkgevers() {
     </div>
   </section>
 
-  ${band(['Uitzenden', 'Detachering', 'Werving & selectie', 'Payroll', 'ZZP-bemiddeling', 'Vaste flexpool', 'Piek & seizoen'], 'band--inkt')}
+  ${band(['Uitzenden', 'Detachering', 'Werving & selectie', 'Payroll', 'ZZP-bemiddeling', 'Vaste flexpool', 'Piek & seizoen'], 'band--groen')}
 
   <!-- Diensten -->
-  <section class="sectie">
+  <section class="sectie sectie--zand">
     <div class="wrap">
       <div class="sectie-kop" data-reveal>
         <span class="oogje">Onze diensten</span>
@@ -786,7 +786,7 @@ function viewWerkgevers() {
   </section>
 
   <!-- Sectoren kort -->
-  <section class="sectie">
+  <section class="sectie sectie--tint">
     <div class="wrap">
       <div class="sectie-kop sectie-kop--split" data-reveal>
         <div class="stapel">
@@ -802,7 +802,7 @@ function viewWerkgevers() {
   </section>
 
   <!-- Reviews werkgevers -->
-  <section class="sectie sectie--papier">
+  <section class="sectie sectie--staal">
     <div class="wrap">
       <div class="sectie-kop sectie-kop--split" data-reveal>
         <div class="stapel">
@@ -902,7 +902,7 @@ function viewWerkgevers() {
   </section>
 
   <!-- FAQ -->
-  <section class="sectie sectie--grijs-050">
+  <section class="sectie sectie--zand">
     <div class="wrap wrap--smal">
       <div class="sectie-kop" data-reveal>
         <span class="oogje">Veelgestelde vragen</span>
@@ -919,7 +919,7 @@ function viewWerkgevers() {
 
 function viewSectoren() {
   return `
-  <section class="sectie sectie--strak" style="border-bottom:1.5px solid var(--lijn)">
+  <section class="sectie sectie--strak sectie--tint" style="border-bottom:1px solid var(--lijn)">
     <div class="wrap">
       <div class="sectie-kop" data-reveal>
         <span class="oogje">Sectoren</span>
@@ -985,7 +985,7 @@ function viewSectoren() {
 
 function viewOver() {
   return `
-  <section class="sectie sectie--strak" style="background:var(--clover-050);border-bottom:1.5px solid var(--inkt)">
+  <section class="sectie sectie--strak sectie--tint" style="border-bottom:1px solid var(--lijn)">
     <div class="wrap">
       <div class="sectie-kop" data-reveal style="max-width:24ch">
         <span class="oogje">Over Clover</span>
@@ -999,7 +999,7 @@ function viewOver() {
     </div>
   </section>
 
-  <section class="sectie">
+  <section class="sectie sectie--wit">
     <div class="wrap">
       <div class="raster raster--3">
         ${[
@@ -1027,7 +1027,7 @@ function viewOver() {
     </div>
   </section>
 
-  <section class="sectie sectie--wit">
+  <section class="sectie sectie--zand">
     <div class="wrap">
       <div class="sectie-kop" data-reveal>
         <span class="oogje">Het team</span>
@@ -1050,7 +1050,7 @@ function viewOver() {
     </div>
   </section>
 
-  <section class="sectie sectie--grijs-050">
+  <section class="sectie sectie--zand">
     <div class="wrap wrap--smal">
       <div class="sectie-kop" data-reveal>
         <span class="oogje">Voor werkzoekenden</span>
@@ -1069,7 +1069,7 @@ function viewOver() {
 
 function viewContact() {
   return `
-  <section class="sectie">
+  <section class="sectie sectie--tint">
     <div class="wrap">
       <div class="raster raster--2" style="gap:var(--ruimte-7);align-items:start">
         <div class="stapel" data-reveal="links">

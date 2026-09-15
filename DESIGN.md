@@ -12,6 +12,29 @@ Daarom staat de splitsing hoog op de homepage ("Ik zoek werk" /
 **je** en clovergroen voor werkzoekenden, **u** en staalblauw voor
 opdrachtgevers.
 
+## Kleurritme
+
+De pagina wisselt bewust van grond, zodat je al scrollend voelt waar een
+onderwerp begint en eindigt — en zodat het geheel niet als één lange witte
+lap leest:
+
+| Vlak | Waar |
+|---|---|
+| Diepgroen met lichtval | Hero van de homepage, cijferblok, CTA, footer |
+| Lichtgroene tint `#EFF6F2` | Keuzepaden, kop van de vacaturebank, contact, sectorenoverzicht |
+| Zand `#F5F2EC` | Sectoren, diensten, het team |
+| Staalblauwe tint `#EEF2F7` | Alles rond opdrachtgevers en de Google-beoordelingen |
+| Wit | Vacatures, werkwijze, keurmerken, formulieren |
+
+De acht sectorkaarten staan elk op hun eigen gedempte tint. Dat maakt van
+het sectoroverzicht een mozaïek dat kleur brengt zonder bont te worden, en
+het is functioneel: dezelfde tint komt terug in de vacaturekaart, het
+sectorfilter en de kop van de vacaturepagina.
+
+De donkere vlakken zijn geen platte kleur maar twee zachte radiale
+verlopen over `#06231A`, met fijne verticale maatlijnen erover. Dat geeft
+diepte zonder dat er een effect op zit.
+
 ## Vormtaal: zakelijk, stevig, modern
 
 De site moet vertrouwen wekken bij een operationeel directeur die een

@@ -41,6 +41,11 @@
   --grijs-200: #E2E5E3;
 
   /* ---- Semantisch --------------------------------------- */
+  /* getinte oppervlakken voor het ritme van de pagina */
+  --tint-groen: #EFF6F2;
+  --tint-staal: #EEF2F7;
+  --tint-zand: #F5F2EC;
+
   --bg: var(--grijs-050);
   --bg-alt: var(--wit);
   --tekst: var(--inkt);

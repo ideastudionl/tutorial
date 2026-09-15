@@ -108,10 +108,28 @@ p { text-wrap: pretty; }
 
 .sectie { padding-block: var(--sectie); position: relative; }
 .sectie--strak { padding-block: calc(var(--sectie) * .6); }
-.sectie--grijs-050 { background: var(--grijs-100); }
-.sectie--wit { background: var(--wit); }
-.sectie--donker { background: var(--clover-950); color: var(--grijs-050); }
+.sectie--wit { background: var(--bg-alt); }
+.sectie--tint { background: var(--tint-groen); }
+.sectie--staal { background: var(--tint-staal); }
+.sectie--zand { background: var(--tint-zand); }
+
+/* donker vlak met een zachte lichtval, zodat het niet vlak oogt */
+.sectie--donker {
+  position: relative;
+  background:
+    radial-gradient(120% 90% at 12% 0%, #0E4633 0%, transparent 62%),
+    radial-gradient(90% 80% at 92% 100%, #12573E 0%, transparent 58%),
+    var(--clover-950);
+  color: var(--grijs-050);
+  overflow: hidden;
+}
 .sectie--donker .lead { color: rgba(247, 248, 247, .72); }
+.sectie--donker .oogje { color: var(--clover-300); }
+.sectie--donker::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background-image: linear-gradient(to right, rgba(190, 220, 208, .07) 1px, transparent 1px);
+  background-size: calc(100% / 8) 100%;
+}
 
 .sectie-kop {
   display: grid;
@@ -281,7 +299,8 @@ p { text-wrap: pretty; }
 .kaart--klik { cursor: pointer; }
 .kaart--klik:hover { transform: translateY(-2px); box-shadow: var(--schaduw-m); border-color: var(--inkt-40); }
 .kaart--vlak { border-radius: var(--radius-m); }
-.kaart--zacht { border: 1.5px solid var(--lijn); box-shadow: none; }
+.kaart--zacht { border: 1px solid var(--lijn); box-shadow: none; }
+.kaart--tint { background: var(--tint-groen); border-color: var(--clover-200); }
 
 /* =========================================================
    Header / navigatie
@@ -399,9 +418,61 @@ p { text-wrap: pretty; }
 .hero {
   position: relative;
   padding-block: clamp(2.5rem, 1rem + 5vw, 4.5rem) clamp(3rem, 1rem + 5vw, 5.5rem);
-  background: var(--wit);
+  background: var(--bg-alt);
   border-bottom: 1px solid var(--lijn);
 }
+
+/* ---- Donkere hero ---------------------------------------- */
+
+.hero--donker {
+  position: relative;
+  border-bottom: 0;
+  color: var(--grijs-050);
+  background:
+    radial-gradient(100% 85% at 8% 0%, #0E4633 0%, transparent 60%),
+    radial-gradient(85% 90% at 96% 92%, #12573E 0%, transparent 55%),
+    var(--clover-950);
+  overflow: hidden;
+}
+.hero--donker::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background-image: linear-gradient(to right, rgba(190, 220, 208, .06) 1px, transparent 1px);
+  background-size: calc(100% / 8) 100%;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 85%);
+  mask-image: linear-gradient(to bottom, #000 0%, transparent 85%);
+}
+.hero--donker > .wrap { position: relative; z-index: 1; }
+.hero--donker .oogje { color: var(--clover-300); }
+.hero--donker .lead { color: rgba(247, 248, 247, .74); }
+.hero--donker .markeer { color: var(--clover-300); }
+.hero--donker .hero-bewijs { color: rgba(247, 248, 247, .62); }
+.hero--donker .hero-bewijs svg { color: var(--clover-300); }
+.hero--donker .kaart--zacht {
+  background: rgba(255, 255, 255, .06);
+  border-color: rgba(190, 220, 208, .22);
+  color: var(--grijs-050);
+}
+.hero--donker .kaart--zacht small { color: rgba(247, 248, 247, .62) !important; }
+.hero--donker .kaart--zacht .icoontje { color: var(--clover-300) !important; }
+
+/* Witte oppervlakken op de donkere grond zetten hun eigen inktkleur
+   terug — anders erven ze de lichte tekstkleur van de hero. */
+.hero--donker .toon-paneel,
+.hero--donker .zoekbalk,
+.hero--donker .google-badge,
+.hero--donker .zweef-kaart,
+.hero--donker .kaart:not(.kaart--zacht) { color: var(--inkt); }
+
+/* ---- Staalblauwe hero (opdrachtgevers) -------------------- */
+
+.hero--staal {
+  background:
+    radial-gradient(90% 80% at 6% 0%, #DCE5EF 0%, transparent 62%),
+    radial-gradient(80% 90% at 98% 100%, #E7ECF3 0%, transparent 58%),
+    var(--tint-staal);
+  border-bottom: 1px solid var(--lijn);
+}
+.hero--staal .oogje { color: var(--staal); }
 .hero-raster {
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
@@ -479,9 +550,9 @@ p { text-wrap: pretty; }
 /* ---- Marquee / lopende band ------------------------------ */
 
 .band {
-  border-block: var(--rand);
-  background: var(--wit);
-  color: var(--inkt-75);
+  border-block: 1px solid var(--clover-200);
+  background: var(--clover-100);
+  color: var(--clover-800);
   overflow: hidden;
   padding-block: .9rem;
 }
@@ -533,7 +604,8 @@ p { text-wrap: pretty; }
 .pad-kaart > * { position: relative; z-index: 1; }
 .pad-kaart:hover { transform: translateY(-2px); box-shadow: var(--schaduw-m); border-color: var(--inkt-40); }
 .pad-kaart:hover::before { transform: none; }
-.pad-kaart--werkgever { --pad-kleur: var(--staal); }
+.pad-kaart { background: var(--tint-groen); }
+.pad-kaart--werkgever { --pad-kleur: var(--staal); background: var(--tint-staal); }
 .pad-kaart ul { display: grid; gap: .5rem; }
 .pad-kaart li { display: flex; gap: .6rem; align-items: start; font-weight: 500; }
 .pad-kaart li svg { flex: none; margin-top: .25rem; }
@@ -779,7 +851,7 @@ input[type="range"]::-moz-range-thumb {
   display: grid; gap: .75rem; align-content: start;
   padding: var(--ruimte-5);
   border: var(--rand); border-radius: var(--radius-l);
-  background: var(--wit);
+  background: var(--sector-zacht, var(--clover-100));
   transition: transform var(--soepel), box-shadow var(--soepel), background var(--soepel);
 }
 .sector-kaart::before {
@@ -797,10 +869,18 @@ input[type="range"]::-moz-range-thumb {
   border-radius: var(--radius-m);
   background: var(--sector-zacht, var(--clover-100));
   color: var(--sector-kleur, var(--clover-700));
-  transition: transform var(--soepel);
+  transition: transform var(--soepel), background var(--vlot);
 }
+/* in een getinte sectorkaart licht het icoonvlak juist op */
+.sector-kaart .sector-icoon { background: rgba(255, 255, 255, .75); }
+.sector-kaart h3 { color: var(--sector-kleur, var(--clover-900)); }
 .sector-kaart:hover .sector-icoon { transform: scale(1.04); }
-.telling-regel { font-size: var(--t-sm); font-weight: 500; color: var(--inkt-60); }
+.telling-regel {
+  display: inline-flex; align-items: center; gap: .4rem;
+  font-size: var(--t-sm); font-weight: 500; color: var(--inkt-60);
+  transition: gap var(--vlot);
+}
+.sector-kaart:hover .telling-regel { gap: .65rem; color: var(--sector-kleur, var(--clover-700)); }
 
 /* =========================================================
    Cijfers / stappen / reviews
