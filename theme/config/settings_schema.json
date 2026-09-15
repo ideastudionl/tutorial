@@ -8,119 +8,119 @@
     "theme_support_url": "https://foreverc9.nl/pages/contact"
   },
   {
-    "name": "t:settings.colors.name",
+    "name": "Kleuren",
     "settings": [
       {
         "type": "header",
-        "content": "t:settings.colors.header_brand"
+        "content": "Merkkleuren"
       },
       {
         "type": "color",
         "id": "color_brand",
-        "label": "t:settings.colors.brand",
+        "label": "Merkkleur",
         "default": "#0f6b46"
       },
       {
         "type": "color",
         "id": "color_brand_hover",
-        "label": "t:settings.colors.brand_hover",
+        "label": "Merkkleur (hover)",
         "default": "#0a5537"
       },
       {
         "type": "color",
         "id": "color_accent",
-        "label": "t:settings.colors.accent",
+        "label": "Accentkleur",
         "default": "#b57b1e",
-        "info": "t:settings.colors.accent_info"
+        "info": "Warm accent voor badges en redactionele elementen. Gebruik dit niet voor bodytekst op wit — de contrastverhouding is te laag."
       },
       {
         "type": "header",
-        "content": "t:settings.colors.header_text"
+        "content": "Tekst"
       },
       {
         "type": "color",
         "id": "color_ink",
-        "label": "t:settings.colors.ink",
+        "label": "Tekstkleur",
         "default": "#111a15"
       },
       {
         "type": "color",
         "id": "color_ink_soft",
-        "label": "t:settings.colors.ink_soft",
+        "label": "Secundaire tekstkleur",
         "default": "#55625b"
       },
       {
         "type": "header",
-        "content": "t:settings.colors.header_surface"
+        "content": "Achtergronden"
       },
       {
         "type": "color",
         "id": "color_surface",
-        "label": "t:settings.colors.surface",
+        "label": "Paginakleur",
         "default": "#ffffff"
       },
       {
         "type": "color",
         "id": "color_sand",
-        "label": "t:settings.colors.sand",
+        "label": "Zachte sectieachtergrond",
         "default": "#f1f2ee"
       },
       {
         "type": "color",
         "id": "color_line",
-        "label": "t:settings.colors.line",
+        "label": "Randen en lijnen",
         "default": "#dfe2db"
       },
       {
         "type": "header",
-        "content": "t:settings.colors.header_state"
+        "content": "Knoppen en statussen"
       },
       {
         "type": "color",
         "id": "color_cta",
-        "label": "t:settings.colors.cta",
+        "label": "Primaire knopkleur",
         "default": "#0f6b46",
-        "info": "t:settings.colors.cta_info"
+        "info": "Gebruik deze kleur nergens anders als vlakvulling. Eén CTA-kleur is wat de knop vindbaar maakt."
       },
       {
         "type": "color",
         "id": "color_cta_text",
-        "label": "t:settings.colors.cta_text",
+        "label": "Tekst op primaire knop",
         "default": "#ffffff"
       },
       {
         "type": "color",
         "id": "color_sale",
-        "label": "t:settings.colors.sale",
+        "label": "Aanbiedingskleur",
         "default": "#b6412a"
       },
       {
         "type": "color",
         "id": "color_success",
-        "label": "t:settings.colors.success",
+        "label": "Bevestigingskleur (op voorraad, voortgang)",
         "default": "#147a52"
       }
     ]
   },
   {
-    "name": "t:settings.typography.name",
+    "name": "Typografie",
     "settings": [
       {
         "type": "font_picker",
         "id": "font_heading",
-        "label": "t:settings.typography.heading",
+        "label": "Koppen",
         "default": "sans_serif_n7"
       },
       {
         "type": "font_picker",
         "id": "font_body",
-        "label": "t:settings.typography.body",
+        "label": "Bodytekst",
         "default": "sans_serif_n4"
       },
       {
         "type": "range",
         "id": "font_body_scale",
-        "label": "t:settings.typography.body_scale",
+        "label": "Schaal bodytekst",
         "min": 90,
         "max": 115,
         "step": 5,
@@ -130,7 +130,7 @@
       {
         "type": "range",
         "id": "font_heading_scale",
-        "label": "t:settings.typography.heading_scale",
+        "label": "Schaal koppen",
         "min": 90,
         "max": 120,
         "step": 5,
@@ -140,22 +140,28 @@
       {
         "type": "select",
         "id": "heading_transform",
-        "label": "t:settings.typography.heading_transform",
+        "label": "Weergave koppen",
         "options": [
-          { "value": "none", "label": "t:settings.typography.transform_none" },
-          { "value": "uppercase", "label": "t:settings.typography.transform_upper" }
+          {
+            "value": "none",
+            "label": "Normaal"
+          },
+          {
+            "value": "uppercase",
+            "label": "Hoofdletters"
+          }
         ],
         "default": "none"
       }
     ]
   },
   {
-    "name": "t:settings.layout.name",
+    "name": "Layout",
     "settings": [
       {
         "type": "range",
         "id": "page_width",
-        "label": "t:settings.layout.page_width",
+        "label": "Paginabreedte",
         "min": 1200,
         "max": 1600,
         "step": 40,
@@ -165,7 +171,7 @@
       {
         "type": "range",
         "id": "radius_card",
-        "label": "t:settings.layout.radius_card",
+        "label": "Afronding kaarten",
         "min": 0,
         "max": 24,
         "step": 2,
@@ -175,7 +181,7 @@
       {
         "type": "range",
         "id": "radius_button",
-        "label": "t:settings.layout.radius_button",
+        "label": "Afronding knoppen",
         "min": 0,
         "max": 32,
         "step": 2,
@@ -185,214 +191,245 @@
       {
         "type": "checkbox",
         "id": "enable_animations",
-        "label": "t:settings.layout.animations",
-        "info": "t:settings.layout.animations_info",
+        "label": "Subtiele animaties inschakelen",
+        "info": "Elementen faden rustig in bij het scrollen. Wordt automatisch uitgeschakeld voor bezoekers die minder beweging hebben ingesteld.",
         "default": true
       }
     ]
   },
   {
-    "name": "t:settings.product_card.name",
+    "name": "Productkaarten",
     "settings": [
       {
         "type": "select",
         "id": "card_image_ratio",
-        "label": "t:settings.product_card.ratio",
+        "label": "Beeldverhouding",
         "options": [
-          { "value": "square", "label": "t:settings.product_card.ratio_square" },
-          { "value": "portrait", "label": "t:settings.product_card.ratio_portrait" },
-          { "value": "natural", "label": "t:settings.product_card.ratio_natural" }
+          {
+            "value": "square",
+            "label": "Vierkant"
+          },
+          {
+            "value": "portrait",
+            "label": "Staand"
+          },
+          {
+            "value": "natural",
+            "label": "Origineel"
+          }
         ],
         "default": "square"
       },
       {
         "type": "checkbox",
         "id": "card_show_rating",
-        "label": "t:settings.product_card.show_rating",
-        "info": "t:settings.product_card.show_rating_info",
+        "label": "Beoordeling tonen",
+        "info": "Toont sterren alleen wanneer het product daadwerkelijk beoordelingen heeft (metafield reviews.rating). Er worden nooit sterren getoond zonder onderliggende reviews.",
         "default": true
       },
       {
         "type": "checkbox",
         "id": "card_show_benefit",
-        "label": "t:settings.product_card.show_benefit",
-        "info": "t:settings.product_card.show_benefit_info",
+        "label": "Korte productbelofte tonen",
+        "info": "Gebruikt het metafield custom.short_benefit.",
         "default": true
       },
       {
         "type": "checkbox",
         "id": "card_show_savings",
-        "label": "t:settings.product_card.show_savings",
+        "label": "Besparing tonen bij aanbiedingen",
         "default": true
       },
       {
         "type": "checkbox",
         "id": "card_quick_add",
-        "label": "t:settings.product_card.quick_add",
+        "label": "Snel toevoegen inschakelen",
         "default": true
       },
       {
         "type": "checkbox",
         "id": "card_second_image",
-        "label": "t:settings.product_card.second_image",
+        "label": "Tweede afbeelding tonen bij hover",
         "default": true
       }
     ]
   },
   {
-    "name": "t:settings.cart.name",
+    "name": "Winkelwagen",
     "settings": [
       {
         "type": "select",
         "id": "cart_type",
-        "label": "t:settings.cart.type",
+        "label": "Type winkelwagen",
         "options": [
-          { "value": "drawer", "label": "t:settings.cart.type_drawer" },
-          { "value": "page", "label": "t:settings.cart.type_page" }
+          {
+            "value": "drawer",
+            "label": "Zijpaneel (aanbevolen)"
+          },
+          {
+            "value": "page",
+            "label": "Aparte pagina"
+          }
         ],
         "default": "drawer"
       },
       {
         "type": "checkbox",
         "id": "free_shipping_enabled",
-        "label": "t:settings.cart.free_shipping_enabled",
-        "info": "t:settings.cart.free_shipping_info",
+        "label": "Voortgangsbalk gratis verzending tonen",
+        "info": "Schakel dit alleen in als er daadwerkelijk een drempelbedrag voor gratis verzending geldt. Zet het uit wanneer verzending altijd gratis is.",
         "default": false
       },
       {
         "type": "text",
         "id": "free_shipping_threshold",
-        "label": "t:settings.cart.free_shipping_threshold",
-        "info": "t:settings.cart.free_shipping_threshold_info"
+        "label": "Drempelbedrag",
+        "info": "Bedrag in hele euro's, bijvoorbeeld 50. Moet exact overeenkomen met je verzendinstellingen in Shopify."
       },
       {
         "type": "checkbox",
         "id": "cart_show_note",
-        "label": "t:settings.cart.show_note",
+        "label": "Veld voor opmerking tonen",
         "default": false
       }
     ]
   },
   {
-    "name": "t:settings.company.name",
+    "name": "Bedrijfsgegevens",
     "settings": [
       {
         "type": "paragraph",
-        "content": "t:settings.company.intro"
+        "content": "Deze gegevens verschijnen in de footer en op de contactpagina. Volledige, controleerbare bedrijfsgegevens zijn wettelijk verplicht voor een Nederlandse webshop en zijn een van de sterkste vertrouwenssignalen die je hebt. Laat geen veld leeg."
       },
       {
         "type": "text",
         "id": "company_legal_name",
-        "label": "t:settings.company.legal_name"
+        "label": "Statutaire bedrijfsnaam"
       },
       {
         "type": "text",
         "id": "company_address",
-        "label": "t:settings.company.address"
+        "label": "Vestigingsadres"
       },
       {
         "type": "text",
         "id": "company_kvk",
-        "label": "t:settings.company.kvk",
-        "info": "t:settings.company.kvk_info"
+        "label": "KvK-nummer",
+        "info": "Verplicht voor Nederlandse ondernemingen."
       },
       {
         "type": "text",
         "id": "company_vat",
-        "label": "t:settings.company.vat"
+        "label": "BTW-identificatienummer"
       },
       {
         "type": "text",
         "id": "company_phone",
-        "label": "t:settings.company.phone",
-        "info": "t:settings.company.phone_info"
+        "label": "Telefoonnummer",
+        "info": "Een zichtbaar telefoonnummer is het verschil tussen een webshop en een risico. Vul dit in zodra de telefonische bereikbaarheid geregeld is."
       },
       {
         "type": "text",
         "id": "company_email",
-        "label": "t:settings.company.email"
+        "label": "E-mailadres klantenservice"
       },
       {
         "type": "text",
         "id": "support_hours",
-        "label": "t:settings.company.support_hours",
-        "info": "t:settings.company.support_hours_info"
+        "label": "Bereikbaarheid",
+        "info": "Bijvoorbeeld: ma t/m vr 9:00–17:00. Beloof alleen tijden die je waarmaakt."
       }
     ]
   },
   {
-    "name": "t:settings.claims.name",
+    "name": "Claims en reviews",
     "settings": [
       {
         "type": "paragraph",
-        "content": "t:settings.claims.warning"
+        "content": "Belangrijk: laat deze velden leeg tenzij je de claim kunt onderbouwen. Een niet-onderbouwde claim over aantallen klanten of levertijd is misleidende handelspraktijk (art. 6:193b BW) en beschadigt je geloofwaardigheid meer dan dat een lege plek dat doet. Alle velden hieronder zijn daarom standaard leeg."
       },
       {
         "type": "text",
         "id": "claim_customer_count",
-        "label": "t:settings.claims.customer_count",
-        "info": "t:settings.claims.customer_count_info"
+        "label": "Klantenaantal",
+        "info": "Bijvoorbeeld: 25.000+ klanten. Vul dit uitsluitend in als je het cijfer met orderdata kunt aantonen."
       },
       {
         "type": "text",
         "id": "claim_delivery",
-        "label": "t:settings.claims.delivery",
-        "info": "t:settings.claims.delivery_info"
+        "label": "Levertijdbelofte",
+        "info": "Bijvoorbeeld: voor 16:00 besteld, morgen in huis. Vul hier de levertijd in die je daadwerkelijk haalt — niet de levertijd die je zou willen halen. Een gemiste belofte kost meer omzet dan een eerlijke, langere levertijd."
       },
       {
         "type": "text",
         "id": "claim_returns",
-        "label": "t:settings.claims.returns",
+        "label": "Retourbelofte",
         "default": "14 dagen bedenktijd"
       },
       {
         "type": "header",
-        "content": "t:settings.claims.header_reviews"
+        "content": "Reviewplatform"
       },
       {
         "type": "text",
         "id": "review_platform_name",
-        "label": "t:settings.claims.review_platform"
+        "label": "Naam van het platform"
       },
       {
         "type": "url",
         "id": "review_platform_url",
-        "label": "t:settings.claims.review_url"
+        "label": "Link naar je reviewprofiel"
       },
       {
         "type": "text",
         "id": "review_platform_score",
-        "label": "t:settings.claims.review_score",
-        "info": "t:settings.claims.review_score_info"
+        "label": "Score",
+        "info": "Vul je werkelijke score in, of laat leeg. De score wordt alleen getoond als je hem hier invult; het thema verzint nooit een cijfer."
       }
     ]
   },
   {
-    "name": "t:settings.social.name",
+    "name": "Social media",
     "settings": [
-      { "type": "text", "id": "social_instagram", "label": "Instagram" },
-      { "type": "text", "id": "social_facebook", "label": "Facebook" },
-      { "type": "text", "id": "social_tiktok", "label": "TikTok" },
-      { "type": "text", "id": "social_youtube", "label": "YouTube" }
+      {
+        "type": "text",
+        "id": "social_instagram",
+        "label": "Instagram"
+      },
+      {
+        "type": "text",
+        "id": "social_facebook",
+        "label": "Facebook"
+      },
+      {
+        "type": "text",
+        "id": "social_tiktok",
+        "label": "TikTok"
+      },
+      {
+        "type": "text",
+        "id": "social_youtube",
+        "label": "YouTube"
+      }
     ]
   },
   {
-    "name": "t:settings.seo.name",
+    "name": "Merk en SEO",
     "settings": [
       {
         "type": "image_picker",
         "id": "share_image",
-        "label": "t:settings.seo.share_image"
+        "label": "Afbeelding voor social sharing"
       },
       {
         "type": "image_picker",
         "id": "logo",
-        "label": "t:settings.seo.logo"
+        "label": "Logo"
       },
       {
         "type": "range",
         "id": "logo_width",
-        "label": "t:settings.seo.logo_width",
+        "label": "Breedte logo",
         "min": 80,
         "max": 260,
         "step": 10,
@@ -402,7 +439,7 @@
       {
         "type": "image_picker",
         "id": "favicon",
-        "label": "t:settings.seo.favicon"
+        "label": "Favicon"
       }
     ]
   }

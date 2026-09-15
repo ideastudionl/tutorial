@@ -5,6 +5,12 @@
 # branch, so the deploy branch holds the contents of theme/ moved up one level
 # and nothing else. Run this after every theme change.
 #
+# The merge uses -s ours deliberately: theme/ on the development branch is the
+# single source of truth for code, and this script overwrites the tree from it
+# anyway. Merchant changes made in the theme editor land in config/settings_data.json
+# on the deploy branch — if you want to keep those, copy them back into
+# theme/config/settings_data.json before running this.
+#
 # Usage: scripts/sync-deploy-branch.sh [commit message]
 
 set -euo pipefail
@@ -30,6 +36,20 @@ cp -r theme/. "$STAGE"/
 git show "${DEPLOY_BRANCH}:README.md" > "$STAGE/README.md" 2>/dev/null || true
 
 git checkout -q "$DEPLOY_BRANCH"
+
+# Shopify writes back to this branch whenever a merchant changes theme
+# settings in the editor, so the remote can be ahead. Take those commits first
+# or the push is rejected.
+git fetch -q origin "$DEPLOY_BRANCH" || true
+if git rev-parse -q --verify "origin/${DEPLOY_BRANCH}" >/dev/null; then
+  git merge -q --no-edit -s ours "origin/${DEPLOY_BRANCH}" \
+    -m "Merge Shopify's write-back before syncing theme/" || {
+      echo "error: could not merge origin/${DEPLOY_BRANCH}" >&2
+      git checkout -q "$DEV_BRANCH"
+      exit 1
+    }
+fi
+
 git rm -rqf .
 cp -r "$STAGE"/. .
 git add -A
