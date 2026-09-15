@@ -210,8 +210,10 @@ body.frame-mobile .stage .hero__in { padding-block: 2.25rem; }
 .vp-desktop .c7 { grid-column: span 7; }
 .vp-desktop .c8 { grid-column: span 8; }
 .vp-desktop .c12 { grid-column: span 12; }
-.vp-desktop .start7 { grid-column-start: 7; }
-.vp-desktop .start9 { grid-column-start: 9; }
+/* Set start and end together: a bare grid-column-start would override the
+   `span N` from .c6/.c4 and collapse the item to one column. */
+.vp-desktop .start7 { grid-column: 7 / -1; }
+.vp-desktop .start9 { grid-column: 9 / -1; }
 .span2 { grid-column: span 2; }
 
 .bandhead { display: flex; align-items: end; justify-content: space-between; gap: var(--s6); flex-wrap: wrap; margin-bottom: var(--s8); }
@@ -482,8 +484,10 @@ body.frame-mobile .satc { left: calc(50% - 195px); right: auto; width: 390px; }
 
 /* ---------- step list (the C9 is genuinely 9 sequential days) ---------- */
 .steps { display: grid; gap: 0; border-top: 1px solid var(--line); }
-.steps li { display: grid; grid-template-columns: 2.4rem 1fr; gap: var(--s4); padding: var(--s4) 0; border-bottom: 1px solid var(--hair); align-items: start; }
-.steps b { font-family: var(--display); font-variation-settings: "wdth" 118; font-weight: 700; font-size: .8125rem; letter-spacing: .04em; color: var(--green); padding-top: 2px; }
+.steps li { display: grid; grid-template-columns: 5.25rem 1fr; gap: var(--s4); padding: var(--s4) 0; border-bottom: 1px solid var(--hair); align-items: start; }
+/* The label column is sized for the longest label so none of them can run
+   into the step text. nowrap keeps each label on one line. */
+.steps b { font-family: var(--display); font-variation-settings: "wdth" 118; font-weight: 700; font-size: .75rem; letter-spacing: .06em; color: var(--green); padding-top: 3px; white-space: nowrap; }
 .steps p { margin: 0; font-size: .9375rem; }
 .steps small { display: block; color: var(--slate); font-size: .8125rem; margin-top: 2px; }
 
