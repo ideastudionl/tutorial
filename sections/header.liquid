@@ -117,7 +117,8 @@
 </div>
 
 {% render 'mobile-nav', menu: menu %}
-{% section 'predictive-search' %}
+{%- comment -%} The search panel is rendered by layout/theme.liquid — a section
+  cannot render another section. {%- endcomment -%}
 
 {% schema %}
 {

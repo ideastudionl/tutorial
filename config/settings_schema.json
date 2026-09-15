@@ -109,13 +109,13 @@
         "type": "font_picker",
         "id": "font_heading",
         "label": "t:settings.typography.heading",
-        "default": "assistant_n7"
+        "default": "sans_serif_n7"
       },
       {
         "type": "font_picker",
         "id": "font_body",
         "label": "t:settings.typography.body",
-        "default": "assistant_n4"
+        "default": "sans_serif_n4"
       },
       {
         "type": "range",
