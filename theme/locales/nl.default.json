@@ -62,7 +62,8 @@
     "continue_shopping": "Verder winkelen",
     "read_more": "Lees meer",
     "view_all": "Bekijk alles",
-    "learn_more": "Meer informatie"
+    "learn_more": "Meer informatie",
+    "breadcrumb_home": "Home"
   },
   "sections": {
     "header": {
@@ -286,5 +287,10 @@
   "onboarding": {
     "product_title": "Voorbeeldproduct",
     "collection_title": "Voorbeeldcategorie"
+  },
+  "gift_cards": {
+    "issued": {
+      "title": "Cadeaukaart"
+    }
   }
 }

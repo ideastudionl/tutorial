@@ -2,7 +2,7 @@
   {% render 'breadcrumbs' %}
 
   <header style="max-width:58ch;margin-bottom:var(--sp-8)">
-    <span class="eyebrow"><b>{{ collection.products_count }}</b> {{ 'sections.collection.products_count' | t: count: collection.products_count | remove_first: collection.products_count | strip }}</span>
+    <span class="eyebrow">{{ 'sections.collection.products_count' | t: count: collection.products_count }}</span>
     <h1>{{ collection.title }}</h1>
     {%- if collection.description != blank -%}
       <div class="rte lede">{{ collection.description }}</div>
