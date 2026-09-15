@@ -46,11 +46,6 @@ $ifs_areas    = ifs_get_items( 'ifs_werkgebied', 24 );
 
 		<div class="ifs-hero__visual">
 			<?php ifs_hero_image(); ?>
-			<div class="ifs-hero__float ifs-hero__float--br">
-				<?php echo ifs_stars( 5 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-				<strong><?php echo esc_html( ifs_option( 'rating_score' ) ); ?></strong>
-				<small><?php echo esc_html( ifs_option( 'rating_count' ) ); ?> beoordelingen</small>
-			</div>
 		</div>
 
 	</div>
@@ -172,7 +167,7 @@ $ifs_areas    = ifs_get_items( 'ifs_werkgebied', 24 );
 <?php endif; ?>
 
 <?php // ---------- Werkwijze ---------- ?>
-<section class="ifs-section ifs-section--ink">
+<section class="ifs-section ifs-section--tint">
 	<div class="ifs-container">
 		<div class="ifs-section-head">
 			<span class="ifs-eyebrow">Zo werkt het</span>
