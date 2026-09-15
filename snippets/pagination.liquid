@@ -2,6 +2,9 @@
   Accepts: paginate (required). Crawlable links; the facet script intercepts
   clicks for an in-place swap but the hrefs stay real for search engines.
 {%- endcomment -%}
+{%- liquid
+  assign current_page_title = paginate.current_page | append: ''
+-%}
 {%- if paginate.pages > 1 -%}
   <nav class="pagination" aria-label="{{ 'general.pagination.label' | t }}" data-pagination>
     {%- if paginate.previous -%}
@@ -13,10 +16,11 @@
     {%- for part in paginate.parts -%}
       {%- if part.is_link -%}
         <a href="{{ part.url }}" aria-label="{{ 'general.pagination.page' | t: number: part.title }}">{{ part.title }}</a>
-      {%- elsif part.title == hellip -%}
-        <span>{{ part.title }}</span>
-      {%- else -%}
+      {%- elsif part.title == current_page_title -%}
         <span aria-current="page">{{ part.title }}</span>
+      {%- else -%}
+        {%- comment -%} The gap marker Shopify emits between page ranges. {%- endcomment -%}
+        <span>{{ part.title }}</span>
       {%- endif -%}
     {%- endfor -%}
 

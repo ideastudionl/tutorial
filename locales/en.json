@@ -62,7 +62,8 @@
     "continue_shopping": "Continue shopping",
     "read_more": "Read more",
     "view_all": "View all",
-    "learn_more": "Learn more"
+    "learn_more": "Learn more",
+    "breadcrumb_home": "Home"
   },
   "sections": {
     "header": {
@@ -286,5 +287,10 @@
   "onboarding": {
     "product_title": "Example product",
     "collection_title": "Example category"
+  },
+  "gift_cards": {
+    "issued": {
+      "title": "Gift card"
+    }
   }
 }
