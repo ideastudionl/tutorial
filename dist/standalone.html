@@ -710,6 +710,7 @@ poster: { name: 'Poster "Elftal" A2',     sub: 'Dik papier',            price:  
 var FREE_SHIPPING = 30;
 var cart = [];
 var SHOP = 'https://www.soccer-games.nl';
+var CHECKOUT_PATH = '/afrekenen/';   
 var WOO_IDS = { memo: 65 };
 var GAMES_PER_LINE = { memo: 1, duo: 2, trio: 3 };
 var toast = $('#toast'), toastMsg = $('#toastMsg'), toastTimer;
@@ -836,7 +837,7 @@ if (e.target.closest('#checkoutBtn')) {
 if (!cart.length) { say('Leg eerst een spel in je winkelwagen'); return; }
 var games = cart.reduce(function (n, l) { return n + (GAMES_PER_LINE[l.id] || 0) * l.qty; }, 0);
 if (!games) { say('Deze artikelen staan nog niet in de winkel'); return; }
-var url = SHOP + '/checkout/?add-to-cart=' + WOO_IDS.memo + '&quantity=' + games;
+var url = SHOP + CHECKOUT_PATH + '?add-to-cart=' + WOO_IDS.memo + '&quantity=' + games;
 say('Je gaat naar de kassa van soccer-games.nl');
 var tab = window.open(url, '_blank', 'noopener');
 if (!tab) { window.location.href = url; }

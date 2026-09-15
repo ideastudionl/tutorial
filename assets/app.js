@@ -25,6 +25,7 @@
   /* De winkel zelf. Alleen Soccer Memo (ID 65) bestaat daar vandaag; de bundels
      zijn een prijsvoorstel en de extra's zijn nog niet aangemaakt. */
   var SHOP = 'https://www.soccer-games.nl';
+  var CHECKOUT_PATH = '/afrekenen/';   /* de winkel draait op Nederlandse slugs */
   var WOO_IDS = { memo: 65 };
   var GAMES_PER_LINE = { memo: 1, duo: 2, trio: 3 };
 
@@ -166,7 +167,7 @@
       var games = cart.reduce(function (n, l) { return n + (GAMES_PER_LINE[l.id] || 0) * l.qty; }, 0);
       if (!games) { say('Deze artikelen staan nog niet in de winkel'); return; }
 
-      var url = SHOP + '/checkout/?add-to-cart=' + WOO_IDS.memo + '&quantity=' + games;
+      var url = SHOP + CHECKOUT_PATH + '?add-to-cart=' + WOO_IDS.memo + '&quantity=' + games;
       say('Je gaat naar de kassa van soccer-games.nl');
       var tab = window.open(url, '_blank', 'noopener');
       if (!tab) { window.location.href = url; }
