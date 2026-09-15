@@ -460,6 +460,42 @@ textarea:focus{border-color:var(--roos)}
 @media (max-width:1060px){.mobalk{display:flex}.voet{padding-bottom:6rem}}
 .mobalk .btn{flex:1}
 
+/* ---------------- venster met het aanvraagformulier ---------------- */
+.venster{
+  width:min(580px,calc(100vw - 2rem));max-width:none;padding:0;border:1.5px solid var(--lijn);
+  border-radius:var(--rad);background:var(--wit);color:var(--inkt);
+  box-shadow:0 24px 60px rgba(65,48,41,.22);overflow:hidden;
+}
+.venster::backdrop{background:rgba(65,48,41,.45)}
+.venster[open]{animation:venster-op .26s cubic-bezier(.2,.9,.3,1)}
+.venster[open]::backdrop{animation:backdrop-op .26s ease}
+@keyframes venster-op{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes backdrop-op{from{opacity:0}to{opacity:1}}
+.venster__kop{
+  display:flex;gap:1rem;align-items:flex-start;padding:1.2rem 1.3rem 1rem;
+  background:var(--roos-zacht);border-bottom:1.5px solid var(--roos-lijn);
+}
+.venster__kop h2{font-size:1.32rem;margin-top:.45rem}
+.venster__roos{width:52px;height:70px;flex:0 0 52px;margin-top:-.2rem}
+.venster__sluit{
+  margin-left:auto;flex:0 0 36px;width:36px;height:36px;border-radius:50%;cursor:pointer;
+  border:1.5px solid var(--lijn);background:var(--wit);color:var(--inkt);
+  display:grid;place-items:center;transition:background .16s ease,color .16s ease;
+}
+.venster__sluit:hover{background:var(--roos);color:#fff;border-color:var(--roos)}
+.venster__sluit svg{width:16px;height:16px}
+.venster__body{padding:1.3rem;max-height:min(70vh,620px);overflow-y:auto}
+.venster__voet{
+  padding:.85rem 1.3rem;background:var(--vlak);border-top:1px solid var(--lijn);
+  display:flex;flex-wrap:wrap;gap:.3rem 1.2rem;font-size:.82rem;color:var(--grijs);
+}
+.venster__voet span{display:inline-flex;align-items:center;gap:.4rem}
+.venster__voet svg{width:14px;height:14px;color:var(--blad)}
+@media (max-width:560px){
+  .venster__body{max-height:min(64vh,560px)}
+  .venster__kop h2{font-size:1.16rem}
+}
+
 /* ---------------- beweging ---------------- */
 .op{opacity:0;transform:translateY(16px)}
 .op.aan{opacity:1;transform:none;transition:opacity .65s ease,transform .65s cubic-bezier(.22,.8,.3,1)}
@@ -588,7 +624,7 @@ html{scroll-behavior:smooth}
       <a href="#praktisch">Praktisch</a>
       <a href="#contact">Contact</a>
     </nav>
-    <a class="btn btn--sm" href="#contact">Rondleiding aanvragen</a>
+    <a class="btn btn--sm" href="#contact" data-venster>Rondleiding aanvragen</a>
   </div>
 </header>
 
@@ -602,7 +638,7 @@ html{scroll-behavior:smooth}
       <h1>Veilige en <em>liefdevolle</em> opvang, met aandacht voor elk kind.</h1>
       <p class="lede">KDV Roosje biedt kinderen van 0 tot 4 jaar een veilige, liefdevolle en leerzame omgeving om in te groeien. Kleine groepen, ervaren leidsters en persoonlijke aandacht — structuur, warmte en plezier voor zowel ouder als kind.</p>
       <div class="hero__acties">
-        <a class="btn" href="#contact">Rondleiding aanvragen <svg aria-hidden="true"><use href="#i-pijl"/></svg></a>
+        <a class="btn" href="#contact" data-venster>Rondleiding aanvragen <svg aria-hidden="true"><use href="#i-pijl"/></svg></a>
         <a class="btn btn--lijn" href="#plek">Beschikbaarheid bekijken</a>
       </div>
       <ul class="vink-rij">
@@ -659,7 +695,7 @@ html{scroll-behavior:smooth}
         <b id="plek-kop">Twee plaatsen beschikbaar op de Baarsjesweg</b>
         <p id="plek-tekst">Voorbeeld. Kies hierboven uw locatie, de leeftijd van uw kind en de gewenste startmaand.</p>
       </div>
-      <a class="btn btn--sm" href="#contact" id="plek-cta">Plaats aanvragen</a>
+      <a class="btn btn--sm" href="#contact" id="plek-cta" data-venster>Plaats aanvragen</a>
     </div>
   </div>
 </section>
@@ -732,7 +768,7 @@ html{scroll-behavior:smooth}
           </dl>
           <p class="small" style="color:var(--inkt-70)">Ons grootste huis, met drie verticale groepen. Het Rembrandtpark ligt op vijf minuten lopen.</p>
           <div class="loc__voet">
-            <a class="btn btn--sm" href="#contact" data-loc="baarsjesweg">Rondleiding</a>
+            <a class="btn btn--sm" href="#contact" data-loc="baarsjesweg" data-venster>Rondleiding</a>
             <a class="btn btn--sm btn--lijn" href="https://kdvroosje.nl/baarsjes/" target="_blank" rel="noopener">Locatiepagina</a>
           </div>
         </div>
@@ -754,7 +790,7 @@ html{scroll-behavior:smooth}
           </dl>
           <p class="small" style="color:var(--inkt-70)">Eén groep, twee vaste medewerkers, veel rust. Het Vondelpark ligt om de hoek.</p>
           <div class="loc__voet">
-            <a class="btn btn--sm" href="#contact" data-loc="zeilstraat">Op de wachtlijst</a>
+            <a class="btn btn--sm" href="#contact" data-loc="zeilstraat" data-venster>Op de wachtlijst</a>
             <a class="btn btn--sm btn--lijn" href="https://kdvroosje.nl/contact/" target="_blank" rel="noopener">Contactpagina</a>
           </div>
         </div>
@@ -777,7 +813,7 @@ html{scroll-behavior:smooth}
           </dl>
           <p class="small" style="color:var(--inkt-70)">Hier bieden wij voorschoolse educatie aan. Onze medewerkers spreken naast Nederlands ook Engels, Arabisch en Turks.</p>
           <div class="loc__voet">
-            <a class="btn btn--sm" href="#contact" data-loc="geuzenveld">Rondleiding</a>
+            <a class="btn btn--sm" href="#contact" data-loc="geuzenveld" data-venster>Rondleiding</a>
             <a class="btn btn--sm btn--lijn" href="https://kdvroosje.nl/geuzenveld/" target="_blank" rel="noopener">Locatiepagina</a>
           </div>
         </div>
@@ -1146,9 +1182,60 @@ html{scroll-behavior:smooth}
   </div>
 </footer>
 
+<dialog class="venster" id="venster" aria-labelledby="venster-titel">
+  <div class="venster__kop">
+    <svg class="venster__roos" viewBox="0 0 200 270" aria-hidden="true"><use href="#roos-groot"/></svg>
+    <div>
+      <span class="kop">Rondleiding aanvragen</span>
+      <h2 id="venster-titel">Kom langs op een gewone opvangdag</h2>
+    </div>
+    <button class="venster__sluit" type="button" data-sluit aria-label="Venster sluiten">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+
+  <div class="venster__body">
+    <p class="small" style="color:var(--inkt-70);margin-bottom:1.1rem">Wij leiden rond op dinsdag- en donderdagochtend tussen 09:30 en 11:00. U ziet de groep zoals die is, en zit nergens aan vast.</p>
+    <form id="vensterform" novalidate>
+      <div class="formvelden">
+        <div class="veld"><label for="v-naam">Uw naam</label><input id="v-naam" type="text" autocomplete="name" placeholder="Fatima de Vries"></div>
+        <div class="veld"><label for="v-tel">Telefoonnummer</label><input id="v-tel" type="tel" autocomplete="tel" placeholder="06 12 34 56 78"></div>
+        <div class="veld vol"><label for="v-mail">E-mailadres</label><input id="v-mail" type="email" autocomplete="email" placeholder="fatima@voorbeeld.nl"></div>
+        <div class="veld"><label for="v-loc">Locatie van voorkeur</label>
+          <select id="v-loc">
+            <option value="baarsjesweg">Baarsjesweg</option>
+            <option value="zeilstraat">Zeilstraat</option>
+            <option value="geuzenveld">Geuzenveld</option>
+            <option value="geen">Nog geen voorkeur</option>
+          </select>
+        </div>
+        <div class="veld"><label for="v-start">Gewenste startmaand</label><input id="v-start" type="month" value="2027-01"></div>
+        <div class="veld vol"><label for="v-bericht">Uw vraag of opmerking <span class="grijs" style="font-weight:400">(optioneel)</span></label><textarea id="v-bericht" placeholder="Bijvoorbeeld: een allergie, een tweeling, of de dagen die u zoekt."></textarea></div>
+        <label class="akkoord" for="v-akkoord"><input type="checkbox" id="v-akkoord"> Ja, Roosje mag mij bellen of mailen over deze aanvraag.</label>
+        <div class="vol"><button class="btn btn--blok" type="submit">Rondleiding aanvragen <svg aria-hidden="true"><use href="#i-pijl"/></svg></button></div>
+      </div>
+      <p class="voetnoot" style="margin-top:.9rem">Dit is een ontwerpdemo — er wordt niets verstuurd of opgeslagen.</p>
+    </form>
+    <div class="bevestiging" id="venster-bevestiging" hidden>
+      <svg aria-hidden="true"><use href="#i-vinkrond"/></svg>
+      <div>
+        <b>Aanvraag ontvangen</b>
+        <p class="small" style="color:var(--inkt-70);margin-top:.3rem" id="venster-bevestiging-tekst"></p>
+        <button class="btn btn--sm btn--lijn" type="button" data-sluit style="margin-top:1rem">Sluiten</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="venster__voet">
+    <span><svg aria-hidden="true"><use href="#i-vink"/></svg> Reactie binnen één werkdag</span>
+    <span><svg aria-hidden="true"><use href="#i-vink"/></svg> Vrijblijvend</span>
+    <span><svg aria-hidden="true"><use href="#i-vink"/></svg> Plaats blijft 14 dagen vrij</span>
+  </div>
+</dialog>
+
 <div class="mobalk">
   <a class="btn btn--lijn btn--sm" href="tel:+31201234567">Bellen</a>
-  <a class="btn btn--sm" href="#contact">Rondleiding aanvragen</a>
+  <a class="btn btn--sm" href="#contact" data-venster>Rondleiding aanvragen</a>
 </div>
 
 <script>
@@ -1339,5 +1426,60 @@ html{scroll-behavior:smooth}
     },{rootMargin:"-45% 0px -50% 0px"});
     secties.forEach(function(id){ var el=document.getElementById(id); if(el) so.observe(el); });
   }
+})();
+</script>
+
+<script>
+(function(){
+  "use strict";
+  var venster = document.getElementById("venster");
+  if (!venster || typeof venster.showModal !== "function") return;  /* zonder ondersteuning blijft de link naar #contact werken */
+
+  var form = document.getElementById("vensterform");
+  var bevestiging = document.getElementById("venster-bevestiging");
+  var LOCLABEL = {baarsjesweg:"de Baarsjesweg", zeilstraat:"de Zeilstraat", geuzenveld:"Geuzenveld", geen:"een locatie naar keuze"};
+  var rust = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function open(vanaf){
+    form.hidden = false; bevestiging.hidden = true;
+    /* neem over wat de bezoeker elders al heeft ingevuld */
+    var loc = vanaf && vanaf.getAttribute("data-loc");
+    if (!loc){
+      var plekloc = document.getElementById("p-loc");
+      if (plekloc) loc = plekloc.value;
+    }
+    if (loc) document.getElementById("v-loc").value = loc;
+    var plekstart = document.getElementById("p-start");
+    if (plekstart && plekstart.value) document.getElementById("v-start").value = plekstart.value;
+
+    venster.showModal();
+    /* de titel krijgt de focus, niet het eerste veld: schermlezers horen dan eerst waar zij zijn */
+    var naam = document.getElementById("v-naam");
+    if (naam && !rust) setTimeout(function(){ naam.focus(); }, 180);
+    else if (naam) naam.focus();
+  }
+
+  document.querySelectorAll("[data-venster]").forEach(function(knop){
+    knop.addEventListener("click", function(e){ e.preventDefault(); open(knop); });
+  });
+  venster.querySelectorAll("[data-sluit]").forEach(function(knop){
+    knop.addEventListener("click", function(){ venster.close(); });
+  });
+  /* klikken naast het venster sluit het ook */
+  venster.addEventListener("click", function(e){
+    if (e.target === venster) venster.close();
+  });
+
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    var naam = document.getElementById("v-naam"), mail = document.getElementById("v-mail");
+    if (!naam.value.trim()){ naam.style.borderColor = "var(--roos)"; naam.focus(); return; }
+    if (!mail.value.trim() || mail.value.indexOf("@") < 1){ mail.style.borderColor = "var(--roos)"; mail.focus(); return; }
+    document.getElementById("venster-bevestiging-tekst").textContent =
+      "Dank u wel, " + naam.value.trim().split(" ")[0] + ". In werkelijkheid zou u binnen één werkdag een voorstel ontvangen voor een rondleiding op " +
+      LOCLABEL[document.getElementById("v-loc").value] + ", op dinsdag- of donderdagochtend.";
+    form.hidden = true; bevestiging.hidden = false;
+    bevestiging.querySelector("[data-sluit]").focus();
+  });
 })();
 </script>
