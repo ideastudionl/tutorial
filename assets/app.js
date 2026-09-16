@@ -520,7 +520,7 @@
      cart-token in een httpOnly-cookie blijft en niet in de browser.
      ============================================================= */
   var STORE = window.__STORE_PROXY__ || '/api/store';
-  var co = { nonce: null, cart: null, rate: null, method: null, busy: false, ready: false };
+  var co = { nonce: null, cart: null, rate: null, method: null, methods: [], busy: false, ready: false };
 
   var PAYMENT_LABELS = {
     ideal: 'iDEAL', mollie_wc_gateway_ideal: 'iDEAL', pay_gateway_ideal: 'iDEAL',
@@ -613,16 +613,25 @@
     }).join('');
   }
 
+  function rememberCart(data) {
+    co.cart = data;
+    if (data && data.payment_methods && data.payment_methods.length) {
+      co.methods = data.payment_methods;
+    }
+    return data;
+  }
+
   function renderPayment() {
     var box = $('#coPayment');
-    if (!box || !co.cart) return;
-    var methods = co.cart.payment_methods || [];
+    if (!box) return;
+    var methods = co.methods.slice();
     if (!methods.length) {
-      box.innerHTML = '<p class="co-hint">Er staat nog geen betaalmethode aan in de winkel.</p>';
+      box.innerHTML = '<p class="co-hint">De winkel geeft voor dit bedrag nog geen betaalmethode terug. ' +
+        'Vul je postcode in; blijft dit staan, dan staat de betaalmethode in WooCommerce uit voor dit land of bedrag.</p>';
       return;
     }
     /* iDEAL hoort in Nederland bovenaan */
-    methods = methods.slice().sort(function (a, b) {
+    methods.sort(function (a, b) {
       var ai = /ideal/i.test(a) ? 0 : 1, bi = /ideal/i.test(b) ? 0 : 1;
       return ai - bi;
     });
@@ -653,7 +662,7 @@
     var a = addressFromForm();
     if (!a.postcode || !a.country) return Promise.resolve();
     return api('/cart/update-customer', 'POST', { billing_address: a, shipping_address: a })
-      .then(function (data) { co.cart = data; co.rate = null; renderShipping(); renderSummary(); })
+      .then(function (data) { rememberCart(data); co.rate = null; renderShipping(); renderPayment(); renderSummary(); })
       .catch(function () { /* stil: de klant is nog aan het typen */ });
   }
 
@@ -671,7 +680,7 @@
         return data;
       })
       .then(function (data) {
-        co.cart = data;
+        rememberCart(data);
         co.ready = true;
         renderSummary(); renderShipping(); renderPayment();
       })
@@ -690,7 +699,7 @@
       co.rate = rate.getAttribute('data-rate');
       $$('[data-rate]').forEach(function (o) { o.setAttribute('data-selected', String(o === rate)); });
       api('/cart/select-shipping-rate', 'POST', { package_id: 0, rate_id: co.rate })
-        .then(function (data) { co.cart = data; renderSummary(); })
+        .then(function (data) { rememberCart(data); renderPayment(); renderSummary(); })
         .catch(function (err) { coAlert('Verzendmethode kon niet worden gekozen: ' + err.message); });
       return;
     }
