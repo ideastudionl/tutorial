@@ -27,6 +27,8 @@ module.exports = async function handler(req, res) {
     .filter((part) => part && part !== '..')
     .join('/');
 
+  res.setHeader('Cache-Control', 'no-store');
+
   if (!ALLOWED.test(path)) {
     res.status(404).json({ message: 'Onbekend pad: ' + path });
     return;
