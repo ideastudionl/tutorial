@@ -179,6 +179,8 @@
   var routes = $$('[data-route]');
   function show(route, scrollTo) {
     routes.forEach(function (r) { r.classList.toggle('is-active', r.getAttribute('data-route') === route); });
+    /* Op de kassa geen menu en geen USP-balk: minder afleiding, meer afgeronde bestellingen. */
+    document.body.classList.toggle('is-checkout', route === 'afrekenen');
     if (scrollTo) {
       var el = document.getElementById(scrollTo);
       if (el) { el.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' }); return; }
@@ -915,7 +917,7 @@
       }
       var required = ['#coEmail', '#coFirst', '#coLast', '#coZip', '#coNumber', '#coStreet', '#coCity'];
       var missing = required.filter(function (sel) { return !$(sel).value.trim(); });
-      $$('.co-field input').forEach(function (i) { i.removeAttribute('aria-invalid'); });
+      $$('.fld input').forEach(function (i) { i.removeAttribute('aria-invalid'); });
       if (missing.length) {
         missing.forEach(function (sel) { $(sel).setAttribute('aria-invalid', 'true'); });
         $(missing[0]).focus();
