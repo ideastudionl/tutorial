@@ -580,7 +580,8 @@ button{font:inherit;color:inherit}
 .co-option .bundle__dot{width:20px;height:20px}
 .co-option[data-selected="true"] .bundle__dot{border-color:var(--flame)}
 .co-option[data-selected="true"] .bundle__dot::after{content:"";width:10px;height:10px;border-radius:999px;background:var(--flame)}
-.co-option span.price{font-family:var(--f-mono)}
+.co-option span.price{font-family:var(--f-mono);font-size:.88rem;color:var(--muted);white-space:nowrap}
+.co-option[data-selected="true"] span.price{color:var(--ink)}
 .co-hint{font-size:.85rem;color:var(--muted);margin:0}
 .co-logo{display:block;background:#fff;border:1px solid var(--line);border-radius:8px;padding:4px 6px}
 .co-logo img{height:24px;width:auto;display:block}
