@@ -4,7 +4,7 @@
 import { mkdir, readFile, writeFile, cp, rm } from 'node:fs/promises';
 
 const body = await readFile('index.html', 'utf8');
-const title = 'Soccer MeMo — voetbal-memoryspel';
+const title = 'Soccer MeMo, het voetbal-memoryspel';
 const desc = 'Soccer MeMo: het voetbal-memoryspel met 48 kaarten. Ontwerpvoorstel voor de nieuwe webwinkel van soccer-games.nl.';
 
 const doc = `<!doctype html>

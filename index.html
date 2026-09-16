@@ -215,22 +215,25 @@
 </svg>
 
 <!-- ===== Header ===== -->
-<header class="header">
+<header class="header" id="siteHeader">
   <div class="wrap header__bar">
     <a class="logo" href="#/" data-link aria-label="Soccer Games, naar de homepagina">
       <img class="logo__img" src="https://www.soccer-games.nl/wp-content/uploads/2022/07/Logo-Soccer-Games.svg" alt="Soccer Games" width="190" height="44">
       <span class="logo__word logo__fallback" hidden><span>Soccer</span><span>Games</span></span>
     </a>
-    <nav class="nav" aria-label="Hoofdmenu">
+    <nav class="nav" id="mainNav" aria-label="Hoofdmenu">
       <a href="#/shop" data-link>Shop</a>
       <a href="#/product" data-link>Het spel</a>
       <a href="#hoe-speel-je" data-link>Spelregels</a>
       <a href="#cadeau" data-link>Cadeautip</a>
-      <a href="#reviews" data-link>Reviews</a>
       <a href="#faq" data-link>Vragen</a>
     </nav>
     <div class="header__actions">
       <span class="demo-chip" id="dataChip" title="Prototype met voorbeelddata">Demo-data</span>
+      <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="mainNav">
+        <span class="nav-toggle__bars" aria-hidden="true"></span>
+        <span class="sr-only">Menu</span>
+      </button>
       <button class="icon-btn" id="cartBtn" aria-haspopup="dialog">
         <svg><use href="#ic-cart"></use></svg>
         <span class="sr-only">Winkelwagen openen</span>
@@ -267,7 +270,7 @@
         <h1>Omdraaien.<br>Onthouden.<br><span class="flip-word">Scoren.</span>
           <svg class="hero__ball" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-ball"></use></svg>
         </h1>
-        <p class="lead">Soccer MeMo is het voetbal-memoryspel met <span class="under">48 kaarten</span> en 24 unieke illustraties. Je kind traint concentratie en geheugen — en jij speelt eindelijk weer eens mee aan tafel.</p>
+        <p class="lead">Soccer MeMo is het voetbal-memoryspel met <span class="under">48 kaarten</span> en 24 unieke illustraties. Je kind traint concentratie en geheugen, en jij speelt eindelijk weer eens mee aan tafel.</p>
         <div class="rating">
           <span class="stars" aria-hidden="true"><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg></span>
           <span><b class="count" data-count="9.4" data-dec="1">9,4</b> gemiddeld · <span class="count" data-count="212">212</span> beoordelingen</span>
@@ -360,7 +363,7 @@
           <div class="pcard__media"><span class="pcard__flag">Bespaar € 4,95</span><img src="https://www.soccer-games.nl/wp-content/uploads/2022/07/Voetbal-Memory-Spel.png" alt="Het voetbal-memoryspel uitgestald" loading="lazy"></div>
           <div class="pcard__body">
             <h3>Duo-pack</h3>
-            <p class="pcard__meta">2 spellen — eentje houden, eentje geven</p>
+            <p class="pcard__meta">2 spellen: eentje houden, eentje geven</p>
             <div class="pcard__foot">
               <span class="pcard__price">€ 24,95</span>
               <button class="btn btn--sm btn--primary" data-add="duo">In mandje</button>
@@ -414,7 +417,7 @@
         </article>
         <article class="step">
           <h3>Wie de meeste paren heeft, wint</h3>
-          <p>Op zijn de kaarten? Tel de paren. Speel een revanche — een potje duurt ongeveer tien minuten.</p>
+          <p>Op zijn de kaarten? Tel de paren. Speel een revanche. Een potje duurt ongeveer tien minuten.</p>
         </article>
       </div>
     </div>
@@ -445,7 +448,7 @@
           <div class="hero__buy">
             <button class="btn btn--primary" data-add="memo">Bestel met cadeauverpakking <span class="btn__price" id="giftPrice">€ 17,90</span></button>
           </div>
-          <p class="eyebrow" style="color:#A9CDB2">Team of vereniging? Vanaf 10 stuks krijg je staffelkorting — mail teams@soccer-games.nl</p>
+          <p class="eyebrow" style="color:#A9CDB2">Team of vereniging? Vanaf 10 stuks krijg je staffelkorting. Mail teams@soccer-games.nl</p>
         </div>
         <div class="gift__art"><img src="https://www.soccer-games.nl/wp-content/uploads/2022/07/Memory-Spel-Voetbal-Thema.png" alt="Kaarten met voetbalthema" loading="lazy"></div>
       </div>
@@ -595,10 +598,10 @@
           </div>
           <button class="btn btn--primary" id="pdpAdd"><svg class="btn__ball" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-ball"></use></svg> In de winkelwagen <span class="btn__price" id="pdpPrice">€ 14,95</span></button>
         </div>
-        <p class="stock" id="stockLine"><span class="dot-live" aria-hidden="true"></span> Op voorraad — nog 39 stuks</p>
+        <p class="stock" id="stockLine"><span class="dot-live" aria-hidden="true"></span> Op voorraad: nog 39 stuks</p>
 
         <div class="delivery">
-          <div class="delivery__row"><svg><use href="#ic-truck"></use></svg><p>Bestel binnen <span class="countdown" id="cutoff">—</span> en we versturen je pakket <b>vandaag nog</b> met PostNL.</p></div>
+          <div class="delivery__row"><svg><use href="#ic-truck"></use></svg><p>Bestel binnen <span class="countdown" id="cutoff">…</span> en we versturen je pakket <b>vandaag nog</b> met PostNL.</p></div>
           <div class="delivery__row"><svg><use href="#ic-shield"></use></svg><p>30 dagen bedenktijd. Niet leuk? Geld terug, retourlabel krijg je van ons.</p></div>
           <div class="delivery__row"><svg><use href="#ic-lock"></use></svg><p>Betaal met iDEAL, Klarna, Bancontact of creditcard. Verzending gratis vanaf € 30.</p></div>
         </div>
@@ -606,7 +609,7 @@
         <div class="tabsish">
           <details class="acc" open><summary>Omschrijving</summary><div class="acc__body" id="pdpDesc">
             <p>Soccer MeMo brengt de zaterdagochtend naar de keukentafel. Op de 48 kaarten staan 24 illustraties die elke jonge voetballer herkent: de bal, de scheenbeschermer, het fluitje van de scheids, de cornervlag, de beker. Kaarten omdraaien, paren zoeken, onthouden waar die ene bal ook alweer lag.</p>
-            <p>Terwijl je kind speelt, oefent het werkgeheugen en volgehouden aandacht — dezelfde concentratie die op het veld het verschil maakt. Zonder scherm, in tien minuten, met jou erbij.</p>
+            <p>Terwijl je kind speelt, oefent het werkgeheugen en volgehouden aandacht, dezelfde concentratie die op het veld het verschil maakt. Zonder scherm, in tien minuten, met jou erbij.</p>
           </div></details>
           <details class="acc"><summary>Spelregels</summary><div class="acc__body"><ul>
             <li>Schud de kaarten en leg ze omgekeerd in een raster.</li>
@@ -649,7 +652,7 @@
         </article>
         <article class="review">
           <span class="stars" aria-hidden="true"><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg></span>
-          <p>&ldquo;Als traktatie voor de JO7 gekocht, drie stuks met korting. De kinderen waren muisstil van concentratie — een klein wonder.&rdquo;</p>
+          <p>&ldquo;Als traktatie voor de JO7 gekocht, drie stuks met korting. De kinderen waren muisstil van concentratie, een klein wonder.&rdquo;</p>
           <span class="review__who"><span class="avatar">MH</span> Mieke H. · Breda</span>
         </article>
       </div>
@@ -809,7 +812,7 @@
 </div>
 
 <!-- =========================================================
-     SHOP — alle producten uit WooCommerce
+     SHOP: alle producten uit WooCommerce
      ========================================================= -->
 <div data-route="shop">
   <div class="wrap">
@@ -820,7 +823,7 @@
         <div class="stack">
           <p class="eyebrow">Alles van Soccer Games</p>
           <h1>Shop</h1>
-          <p class="lead">Spellen, puzzels en cadeaus voor voetbalgekke kinderen. Rechtstreeks uit onze winkel — prijzen en voorraad kloppen dus altijd.</p>
+          <p class="lead">Spellen, puzzels en cadeaus voor voetbalgekke kinderen. Rechtstreeks uit onze winkel, dus prijzen en voorraad kloppen altijd.</p>
         </div>
         <p class="co-hint" id="shopCount"></p>
       </div>

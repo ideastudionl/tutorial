@@ -1,5 +1,5 @@
 /* =============================================================
-   Soccer MeMo — prototype-gedrag
+   Soccer MeMo, prototype-gedrag
    Alles wat hier met vaste data werkt, komt in de echte winkel
    uit de WooCommerce Store API (zie docs/headless-woocommerce.md).
    ============================================================= */
@@ -109,7 +109,7 @@
     if (note) {
       var lines = [];
       if (cart.some(function (l) { return l.id === 'duo' || l.id === 'trio'; })) {
-        lines.push('Het bundelvoordeel bestaat nog niet in WooCommerce — bij de kassa reken je de losse spellen af.');
+        lines.push('Het bundelvoordeel bestaat nog niet in WooCommerce. Bij de kassa reken je de losse spellen af.');
       }
       var extras = cart.filter(function (l) { return !GAMES_PER_LINE[l.id]; })
         .map(function (l) { return CATALOG[l.id].name.toLowerCase(); });
@@ -125,7 +125,7 @@
     var left = Math.max(0, FREE_SHIPPING - total);
     $('#shipMsg').textContent = left > 0
       ? 'Nog ' + euro.format(left) + ' tot gratis verzending'
-      : 'Gelukt — jouw bestelling wordt gratis verzonden';
+      : 'Gelukt! Jouw bestelling wordt gratis verzonden';
     $('#shipFill').style.width = Math.min(100, (total / FREE_SHIPPING) * 100) + '%';
   }
   function openCart() {
@@ -255,7 +255,7 @@
       }
     } else {
       lock = true;
-      msgEl.textContent = 'Net niet — onthoud waar ze lagen.';
+      msgEl.textContent = 'Net niet. Onthoud waar ze lagen.';
       setTimeout(function () {
         open.forEach(function (c) { c.classList.remove('is-open'); c.setAttribute('aria-label', 'Kaart gesloten'); });
         open = []; lock = false;
@@ -315,6 +315,8 @@
   /* ---------- Sticky koopbalk ---------- */
   var stickybar = $('#stickybar'), anchor = $('#pdpAdd');
   function onScroll() {
+    var head = document.getElementById('siteHeader');
+    if (head) head.classList.toggle('is-stuck', window.scrollY > 6);
     if (!stickybar || !anchor) return;
     var onPdp = $('[data-route="product"]').classList.contains('is-active');
     var past = anchor.getBoundingClientRect().bottom < 0;
@@ -339,7 +341,7 @@
     e.preventDefault();
     var input = $('#newsEmail');
     if (!input.value || input.value.indexOf('@') < 0) { input.focus(); say('Vul een geldig e-mailadres in'); return; }
-    say('Demo — hier komt straks de kortingscode per mail');
+    say('Demo: hier komt straks de kortingscode per mail');
     input.value = '';
   });
 
@@ -398,7 +400,7 @@
 
   /* De winkel stuurt geen CORS-headers, dus lezen gaat bij voorkeur via de
      proxy. Draait die er niet (voorbeeldweergave), dan proberen we het alsnog
-     rechtstreeks — dan werkt het in elk geval waar CORS wél is toegestaan. */
+     rechtstreeks; dan werkt het in elk geval waar CORS wél is toegestaan. */
   function storeGet(path) {
     function grab(url) {
       return fetch(url, { cache: 'no-store' }).then(function (r) {
@@ -532,7 +534,7 @@
       if ($('#stockLine')) {
         $('#stockLine').innerHTML = '<span class="dot-live" aria-hidden="true"></span> ' +
           (!p.is_in_stock ? 'Tijdelijk uitverkocht'
-            : amount ? 'Op voorraad — nog ' + amount + ' stuks' : 'Op voorraad');
+            : amount ? 'Op voorraad: nog ' + amount + ' stuks' : 'Op voorraad');
       }
     }
 
@@ -569,7 +571,7 @@
     } else {
       if ($('#pdpRating')) $('#pdpRating').textContent = 'Nog geen beoordelingen';
       $$('#reviewNoteHome, #reviewNotePdp').forEach(function (el) {
-        el.textContent = 'Voorbeeldbeoordelingen — WooCommerce heeft er nog geen';
+        el.textContent = 'Voorbeeldbeoordelingen, WooCommerce heeft er nog geen';
       });
     }
 
@@ -577,9 +579,7 @@
     if (chip) {
       chip.textContent = 'Live uit WooCommerce';
       chip.title = 'Prijs, voorraad, tekst en foto\'s komen rechtstreeks uit de winkel';
-      chip.style.borderStyle = 'solid';
-      chip.style.borderColor = 'var(--brand)';
-      chip.style.color = 'var(--pitch)';
+      chip.classList.add('is-live');
     }
 
     renderCart();
@@ -611,7 +611,7 @@
   var PAYMENT_LABELS = {
     ideal: 'iDEAL', mollie_wc_gateway_ideal: 'iDEAL', pay_gateway_ideal: 'iDEAL',
     mollie_wc_gateway_bancontact: 'Bancontact', mollie_wc_gateway_creditcard: 'Creditcard',
-    mollie_wc_gateway_klarnapaylater: 'Klarna — achteraf betalen',
+    mollie_wc_gateway_klarnapaylater: 'Klarna achteraf betalen',
     stripe: 'Creditcard', 'stripe_cc': 'Creditcard', ppcp_gateway: 'PayPal', paypal: 'PayPal',
     bacs: 'Bankoverschrijving', cheque: 'Op rekening', cod: 'Betalen bij levering'
   };
@@ -955,7 +955,7 @@
       coAlert('');
 
       if (!co.ready) {
-        coAlert('De winkelwagen was nog niet opgehaald — we proberen het nu opnieuw.');
+        coAlert('De winkelwagen was nog niet opgehaald. We proberen het nu opnieuw.');
         startCheckout();
         return;
       }
@@ -1027,19 +1027,57 @@
   foldSummary();
   if (small.addEventListener) small.addEventListener('change', foldSummary);
 
-  var uspDoubled = false;
+  /* De USP-balk schuift op elk scherm door. Daarvoor staat de rij twee keer
+     zo breed als het venster en verspringt hij per halve lengte, zodat de
+     lus naadloos is. De snelheid blijft gelijk: ongeveer 55 pixels per seconde. */
+  var uspBase = null;
   function loopUsps() {
     var list = $('.usps ul');
-    if (!list || uspDoubled || !narrow.matches) return;
-    Array.prototype.slice.call(list.children).forEach(function (li) {
-      var copy = li.cloneNode(true);
-      copy.setAttribute('aria-hidden', 'true');
-      list.appendChild(copy);
-    });
-    uspDoubled = true;
+    if (!list) return;
+    if (!uspBase) uspBase = Array.prototype.slice.call(list.children);
+
+    /* Meet één reeks door de kopieën eerst weg te halen: zo tellen de echte
+       tussenruimtes mee, die per schermbreedte verschillen. */
+    while (list.children.length > uspBase.length) list.removeChild(list.lastChild);
+    var setWidth = list.scrollWidth;
+    if (!setWidth) return;
+
+    /* De rij verspringt per halve lengte. Die halve lengte moet minstens het
+       venster vullen, anders valt er aan het eind van de lus een gat. */
+    var sets = Math.max(2, Math.ceil((window.innerWidth * 2) / setWidth));
+    if (sets % 2) sets++;
+
+    for (var s = 1; s < sets; s++) {
+      uspBase.forEach(function (li) {
+        var copy = li.cloneNode(true);
+        copy.setAttribute('aria-hidden', 'true');
+        list.appendChild(copy);
+      });
+    }
+    list.style.animationDuration = Math.round(setWidth * sets / 2 / 55) + 's';
   }
   loopUsps();
-  if (narrow.addEventListener) narrow.addEventListener('change', loopUsps);
+  window.addEventListener('resize', function () {
+    clearTimeout(loopUsps.timer);
+    loopUsps.timer = setTimeout(loopUsps, 180);
+  });
+
+  /* ---------- Header: menu op mobiel, schaduw zodra je scrollt ---------- */
+  var siteHeader = $('#siteHeader'), navToggle = $('#navToggle');
+  function closeNav() {
+    if (!siteHeader) return;
+    siteHeader.classList.remove('is-open');
+    if (navToggle) navToggle.setAttribute('aria-expanded', 'false');
+  }
+  if (navToggle) {
+    navToggle.addEventListener('click', function () {
+      var open = siteHeader.classList.toggle('is-open');
+      navToggle.setAttribute('aria-expanded', String(open));
+    });
+  }
+  $$('.nav a').forEach(function (a) { a.addEventListener('click', closeNav); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeNav(); });
+  narrow.addEventListener && narrow.addEventListener('change', closeNav);
 
   renderCart();
 })();

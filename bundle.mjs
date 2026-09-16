@@ -20,7 +20,7 @@ const page = (await readFile('index.html', 'utf8'))
   .replace(/<!--[\s\S]*?-->/g, '')
   .split('\n').map((l) => l.replace(/^\s+/, '')).filter((l) => l.length).join('\n');
 
-const title = 'Soccer MeMo — nieuw winkelontwerp';
+const title = 'Soccer MeMo, nieuw winkelontwerp';
 const desc = 'Ontwerpvoorstel voor Soccer Games: homepagina en productpagina, klaar voor een headless WooCommerce-koppeling.';
 const icon = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2322C55E'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23fff' stroke-width='2'/%3E%3Cpath d='M16 10l4.5 3.3-1.7 5.3h-5.6L11.5 13.3z' fill='%23fff'/%3E%3C/svg%3E";
 
