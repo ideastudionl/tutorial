@@ -7,7 +7,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
 const REPO = 'ideastudionl/tutorial';
-const COMMIT = '0d7c16fbb4e7696c40a72092613e2948f16b6971';
+const COMMIT = '8c1f72f4fc2c3d9a0cf32331caa738b1fabc0a27';
 
 const work = mkdtempSync(join(tmpdir(), 'bron-'));
 const tarball = join(work, 'bron.tar.gz');
