@@ -640,13 +640,8 @@
 
     box.innerHTML = methods.map(function (id) {
       var label = PAYMENT_LABELS[id] || id.replace(/_/g, ' ');
-      var logo = /ideal/i.test(id) ? 'pay-ideal'
-        : /klarna/i.test(id) ? 'pay-klarna'
-        : /bancontact/i.test(id) ? 'pay-bancontact' : '';
       return '<label class="co-option" data-method="' + id + '" data-selected="' + (id === co.method) + '">' +
-        '<span class="bundle__dot" aria-hidden="true"></span><span><b>' + label + '</b></span>' +
-        (logo ? '<span class="co-logo"><svg viewBox="0 0 132 44" aria-hidden="true"><use href="#' + logo + '"></use></svg></span>' : '<span></span>') +
-        '</label>';
+        '<span class="bundle__dot" aria-hidden="true"></span><span><b>' + label + '</b></span><span></span></label>';
     }).join('');
   }
 
@@ -782,6 +777,11 @@
         $('#coSubmit').disabled = false;
       });
     });
+  }
+
+  var payStrip = $('#payStrip');
+  if (payStrip) {
+    payStrip.addEventListener('error', function () { payStrip.hidden = true; });
   }
 
   renderCart();

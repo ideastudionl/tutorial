@@ -196,8 +196,8 @@ button{font:inherit;color:inherit}
   letter-spacing:.06em;color:var(--muted);border:1px solid var(--line);border-radius:8px;padding:6px 10px;background:var(--surface);
 }
 .pay svg{width:16px;height:16px;color:var(--ink)}
-.pay--logo{padding:0;border:0;background:none}
-.pay--logo svg{width:auto;height:30px;display:block}
+.pay-strip{height:34px;width:auto;max-width:100%;display:block}
+@media (max-width:640px){.pay-strip{height:auto;width:min(100%,340px)}}
 
 /* ---------- Kolommen / kaarten ---------- */
 .cols{display:grid;gap:clamp(16px,2.5vw,26px)}
@@ -576,7 +576,6 @@ button{font:inherit;color:inherit}
 .co-option[data-selected="true"] .bundle__dot::after{content:"";width:10px;height:10px;border-radius:999px;background:var(--flame)}
 .co-option span.price{font-family:var(--f-mono)}
 .co-hint{font-size:.85rem;color:var(--muted);margin:0}
-.co-logo svg{height:26px;width:auto;display:block}
 
 .co-alert{
   border:1px solid #F0C2BD;border-left:4px solid #D92D20;background:#FDF3F2;
