@@ -580,6 +580,12 @@
 
     var t = co.cart.totals;
     rows += '<div class="co-line"><span>Subtotaal</span><span>' + money(t.total_items, unit) + '</span></div>';
+
+    (co.cart.coupons || []).forEach(function (c) {
+      rows += '<div class="co-line co-line--discount"><span class="co-coupon-tag">' + c.code +
+        ' <button type="button" data-coupon="' + c.code + '" aria-label="Kortingscode verwijderen">×</button></span>' +
+        '<span>− ' + money(c.totals.total_discount, unit) + '</span></div>';
+    });
     rows += '<div class="co-line"><span>Verzending</span><span>' +
       (co.rate ? money(t.total_shipping, unit) : 'nog te bepalen') + '</span></div>';
     rows += '<div class="co-line co-line--total"><span>Totaal</span><span>' + money(t.total_price, unit) + '</span></div>';
@@ -643,6 +649,45 @@
       return '<label class="co-option" data-method="' + id + '" data-selected="' + (id === co.method) + '">' +
         '<span class="bundle__dot" aria-hidden="true"></span><span><b>' + label + '</b></span><span></span></label>';
     }).join('');
+  }
+
+  var lookupKey = '';
+
+  function hint(el, message, tone) {
+    if (!el) return;
+    el.className = 'co-hint' + (tone ? ' co-hint--' + tone : '');
+    el.textContent = message || '';
+    el.hidden = !message;
+  }
+
+  function lookupAddress() {
+    var box = $('#coAddressHint');
+    if ($('#coCountry').value !== 'NL') { hint(box, ''); return Promise.resolve(); }
+
+    var zip = ($('#coZip').value || '').replace(/\s+/g, '').toUpperCase();
+    var nr = ($('#coNumber').value || '').trim();
+    if (!/^[1-9][0-9]{3}[A-Z]{2}$/.test(zip) || !nr) { hint(box, ''); return Promise.resolve(); }
+
+    var key = zip + '-' + nr;
+    if (key === lookupKey) return Promise.resolve();
+    lookupKey = key;
+
+    hint(box, 'Adres opzoeken…');
+    var url = window.__POSTCODE_URL__ || ('/api/postcode?postcode=' + zip + '&number=' + encodeURIComponent(nr));
+
+    return fetch(url)
+      .then(function (r) { return r.json().then(function (d) { if (!r.ok) throw new Error(d.message || 'niet gevonden'); return d; }); })
+      .then(function (a) {
+        $('#coStreet').value = a.street;
+        $('#coCity').value = a.city;
+        if (a.postcode) $('#coZip').value = a.postcode;
+        $$('#coStreet, #coCity').forEach(function (el) { el.removeAttribute('aria-invalid'); });
+        hint(box, a.full || (a.street + ' ' + nr + ', ' + a.city), 'ok');
+      })
+      .catch(function (err) {
+        lookupKey = '';
+        hint(box, 'We konden dit adres niet vinden (' + err.message + '). Vul straat en plaats zelf in.', 'bad');
+      });
   }
 
   function addressFromForm() {
@@ -720,9 +765,49 @@
     }
   });
 
-  ['#coZip', '#coCountry', '#coNumber'].forEach(function (sel) {
+  ['#coZip', '#coNumber'].forEach(function (sel) {
     var el = $(sel);
-    if (el) el.addEventListener('change', refreshCustomer);
+    if (el) {
+      el.addEventListener('change', function () { lookupAddress().then(refreshCustomer); });
+      el.addEventListener('blur', function () { lookupAddress().then(refreshCustomer); });
+    }
+  });
+  if ($('#coCountry')) {
+    $('#coCountry').addEventListener('change', function () { lookupKey = ''; refreshCustomer(); });
+  }
+
+  function applyCoupon() {
+    var input = $('#coCoupon');
+    var msg = $('#coCouponMsg');
+    var code = (input.value || '').trim();
+    if (!code) { input.focus(); return; }
+
+    hint(msg, 'Code controleren…');
+    api('/cart/apply-coupon', 'POST', { code: code })
+      .then(function (data) {
+        rememberCart(data);
+        renderSummary();
+        input.value = '';
+        hint(msg, 'Kortingscode ' + code.toUpperCase() + ' is toegepast.', 'ok');
+      })
+      .catch(function (err) { hint(msg, err.message, 'bad'); });
+  }
+
+  function removeCoupon(code) {
+    api('/cart/remove-coupon', 'POST', { code: code })
+      .then(function (data) { rememberCart(data); renderSummary(); hint($('#coCouponMsg'), ''); })
+      .catch(function (err) { hint($('#coCouponMsg'), err.message, 'bad'); });
+  }
+
+  if ($('#coCouponApply')) $('#coCouponApply').addEventListener('click', applyCoupon);
+  if ($('#coCoupon')) {
+    $('#coCoupon').addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') { e.preventDefault(); applyCoupon(); }
+    });
+  }
+  document.addEventListener('click', function (e) {
+    var rm = e.target.closest('[data-coupon]');
+    if (rm) removeCoupon(rm.getAttribute('data-coupon'));
   });
 
   var form = $('#checkoutForm');
@@ -778,6 +863,15 @@
       });
     });
   }
+
+  /* Laadt het logobestand niet, dan verschijnt het woordmerk als terugval. */
+  $$('.logo__img').forEach(function (img) {
+    img.addEventListener('error', function () {
+      img.hidden = true;
+      var fallback = img.parentNode.querySelector('.logo__fallback');
+      if (fallback) fallback.hidden = false;
+    });
+  });
 
   var payStrip = $('#payStrip');
   if (payStrip) {

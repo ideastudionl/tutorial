@@ -218,8 +218,8 @@
 <header class="header">
   <div class="wrap header__bar">
     <a class="logo" href="#/" data-link aria-label="Soccer Games, naar de homepagina">
-      <svg class="logo__mark" viewBox="0 0 120 120" aria-hidden="true"><use href="#logo-mark"></use></svg>
-      <span class="logo__word"><span>Soccer</span><span>Games</span></span>
+      <img class="logo__img" src="https://www.soccer-games.nl/wp-content/uploads/2022/07/Logo-Soccer-Games.svg" alt="Soccer Games" width="190" height="44">
+      <span class="logo__word logo__fallback" hidden><span>Soccer</span><span>Games</span></span>
     </a>
     <nav class="nav" aria-label="Hoofdmenu">
       <a href="#/product" data-link>Het spel</a>
@@ -724,6 +724,7 @@
             <label class="co-field co-field--sm"><span>Huisnummer</span><input id="coNumber" inputmode="numeric" required></label>
             <label class="co-field co-field--sm"><span>Toevoeging</span><input id="coAddition" placeholder="optioneel"></label>
           </div>
+          <p class="co-hint" id="coAddressHint" role="status" aria-live="polite" hidden></p>
           <div class="co-row">
             <label class="co-field"><span>Straat</span><input id="coStreet" name="address-line1" autocomplete="address-line1" required></label>
             <label class="co-field"><span>Plaats</span><input id="coCity" name="address-level2" autocomplete="address-level2" required></label>
@@ -772,6 +773,15 @@
       <aside class="checkout__summary">
         <h2>Je bestelling</h2>
         <div id="coSummary"><p class="co-hint">Winkelwagen ophalen…</p></div>
+
+        <div class="co-coupon">
+          <label class="co-field" for="coCoupon"><span>Kortingscode</span></label>
+          <div class="co-coupon__row">
+            <input id="coCoupon" placeholder="bijv. TEAM10" autocomplete="off">
+            <button type="button" class="btn btn--sm" id="coCouponApply">Toepassen</button>
+          </div>
+          <p class="co-hint" id="coCouponMsg" role="status" aria-live="polite" hidden></p>
+        </div>
         <div class="delivery" style="margin-top:14px">
           <div class="delivery__row"><svg><use href="#ic-truck"></use></svg><p>Voor 22:00 besteld, morgen in huis met PostNL.</p></div>
           <div class="delivery__row"><svg><use href="#ic-shield"></use></svg><p>30 dagen bedenktijd, retourlabel krijg je van ons.</p></div>
@@ -788,9 +798,9 @@
   <div class="wrap">
     <div class="footer__cols">
       <div>
-        <a class="logo logo--light" href="#/" data-link aria-label="Soccer Games">
-          <svg class="logo__mark" viewBox="0 0 120 120" aria-hidden="true"><use href="#logo-mark"></use></svg>
-          <span class="logo__word"><span>Soccer</span><span>Games</span><span class="logo__tag">Play Focus and Learn</span></span>
+        <a class="logo logo--chip" href="#/" data-link aria-label="Soccer Games">
+          <img class="logo__img" src="https://www.soccer-games.nl/wp-content/uploads/2022/07/Logo-Soccer-Games.svg" alt="Soccer Games" width="190" height="44">
+          <span class="logo__word logo__fallback" hidden><span>Soccer</span><span>Games</span></span>
         </a>
         <p style="margin-top:12px;max-width:34ch;font-size:.92rem">Spellen die voetbalgekke kinderen scherp houden. Bedacht, getekend en gedrukt in Nederland.</p>
       </div>

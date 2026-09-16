@@ -4,6 +4,9 @@ const http = require('node:http');
 const unit = 2;
 let quantity = 0;
 let shippingChosen = false;
+let coupons = [];
+
+const discount = () => (coupons.length ? 250 : 0);
 
 const cart = () => ({
   items: quantity ? [{
@@ -19,12 +22,14 @@ const cart = () => ({
       { rate_id: 'free_shipping:2', name: 'Gratis verzending', price: '0', currency_minor_unit: unit, selected: false }
     ]
   }],
+  coupons: coupons.map((code) => ({ code, totals: { total_discount: '250', currency_minor_unit: unit } })),
   payment_methods: ['cod', 'mollie_wc_gateway_ideal', 'bacs'],
   totals: {
     total_items: String(1495 * quantity),
     total_shipping: shippingChosen ? '395' : '0',
     total_tax: String(Math.round(1495 * quantity * 0.21 / 1.21)),
-    total_price: String(1495 * quantity + (shippingChosen ? 395 : 0)),
+    total_discount: String(discount()),
+    total_price: String(1495 * quantity + (shippingChosen ? 395 : 0) - discount()),
     currency_minor_unit: unit
   }
 });
@@ -45,6 +50,14 @@ http.createServer((req, res) => {
     if (path === '/cart/add-item') quantity = data.quantity;
     if (path === '/cart/update-item') quantity = data.quantity;
     if (path === '/cart/select-shipping-rate') shippingChosen = data.rate_id === 'flat_rate:1';
+    if (path === '/cart/apply-coupon') {
+      if (String(data.code).toUpperCase() !== 'TEAM10') {
+        res.writeHead(400).end(JSON.stringify({ message: 'Kortingscode TEAM10 bestaat niet' }));
+        return;
+      }
+      coupons = ['TEAM10'];
+    }
+    if (path === '/cart/remove-coupon') coupons = [];
     if (path === '/checkout') {
       console.log('BESTELLING:', JSON.stringify(data));
       res.end(JSON.stringify({ order_id: 4242, status: 'pending',

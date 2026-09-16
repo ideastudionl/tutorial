@@ -102,6 +102,9 @@ button{font:inherit;color:inherit}
 .header__bar{display:flex;align-items:center;gap:18px;min-height:64px}
 .logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--f-display);font-weight:800;font-size:1.18rem;letter-spacing:-.03em}
 .logo__mark{width:38px;height:38px;flex:none;color:var(--brand)}
+.logo__img{height:42px;width:auto;display:block}
+.logo--chip{background:#fff;border-radius:14px;padding:10px 14px}
+.logo--chip .logo__img{height:40px}
 .logo__word{display:flex;flex-direction:column;line-height:.86;text-transform:uppercase;letter-spacing:-.02em;color:var(--brand);font-size:1.02rem}
 .logo--light .logo__mark,.logo--light .logo__word{color:#fff}
 .logo__tag{font-family:var(--f-mono);font-size:.6rem;letter-spacing:.18em;color:var(--muted);text-transform:uppercase}
@@ -576,6 +579,22 @@ button{font:inherit;color:inherit}
 .co-option[data-selected="true"] .bundle__dot::after{content:"";width:10px;height:10px;border-radius:999px;background:var(--flame)}
 .co-option span.price{font-family:var(--f-mono)}
 .co-hint{font-size:.85rem;color:var(--muted);margin:0}
+.co-hint--ok{color:var(--pitch);font-weight:600}
+.co-hint--bad{color:#B42318}
+.co-coupon{display:flex;flex-direction:column;gap:6px;border-top:1px solid var(--line);padding-top:14px}
+.co-coupon__row{display:flex;gap:8px}
+.co-coupon__row input{
+  flex:1;min-width:0;font:inherit;font-size:16px;padding:11px 13px;border-radius:12px;
+  border:2px solid var(--line);background:var(--surface);color:var(--ink);text-transform:uppercase;
+}
+.co-coupon__row input:focus{border-color:var(--pitch);outline:3px solid color-mix(in srgb,var(--brand) 30%,transparent)}
+.co-coupon__row .btn{white-space:nowrap}
+.co-line--discount span:last-child{color:var(--pitch)}
+.co-coupon-tag{
+  display:inline-flex;align-items:center;gap:8px;font-size:.82rem;font-family:var(--f-mono);
+  background:var(--pitch-soft);color:var(--pitch);border-radius:999px;padding:4px 10px;
+}
+.co-coupon-tag button{background:none;border:0;cursor:pointer;color:inherit;font-size:1rem;line-height:1;padding:0}
 
 .co-alert{
   border:1px solid #F0C2BD;border-left:4px solid #D92D20;background:#FDF3F2;
