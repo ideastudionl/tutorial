@@ -336,7 +336,7 @@
     e.preventDefault();
     var input = $('#newsEmail');
     if (!input.value || input.value.indexOf('@') < 0) { input.focus(); say('Vul een geldig e-mailadres in'); return; }
-    say('Check je mail — de code staat onderweg');
+    say('Demo — hier komt straks de kortingscode per mail');
     input.value = '';
   });
 
