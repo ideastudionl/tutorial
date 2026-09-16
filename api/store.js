@@ -21,10 +21,14 @@ function readCookie(header, name) {
 
 module.exports = async function handler(req, res) {
   const incoming = new URL(req.url, 'http://localhost');
-  const path = (incoming.searchParams.get('path') || '')
+  /* Het doelpad mag zijn eigen querystring meebrengen: products?per_page=100 */
+  const raw = incoming.searchParams.get('path') || '';
+  const cut = raw.indexOf('?');
+  const path = (cut < 0 ? raw : raw.slice(0, cut))
     .split('/')
     .filter((part) => part && part !== '..')
     .join('/');
+  const ownQuery = cut < 0 ? '' : raw.slice(cut + 1);
 
   res.setHeader('Cache-Control', 'no-store');
 
@@ -34,7 +38,7 @@ module.exports = async function handler(req, res) {
   }
 
   incoming.searchParams.delete('path');
-  const rest = incoming.searchParams.toString();
+  const rest = [ownQuery, incoming.searchParams.toString()].filter(Boolean).join('&');
   const token = readCookie(req.headers.cookie, TOKEN_COOKIE);
 
   const headers = { 'Content-Type': 'application/json', Accept: 'application/json' };

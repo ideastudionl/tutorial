@@ -1137,6 +1137,15 @@ if (en.isIntersecting) { countUp(en.target); nums.unobserve(en.target); }
 $$('.count').forEach(function (el) { nums.observe(el); });
 }
 var shopLoaded = false;
+function storeGet(path) {
+function grab(url) {
+return fetch(url, { cache: 'no-store' }).then(function (r) {
+if (!r.ok) throw new Error('HTTP ' + r.status);
+return r.json();
+});
+}
+return grab(storeUrl(path)).catch(function () { return grab(WOO.base + path); });
+}
 function productPrice(p) {
 var unit = p.prices.currency_minor_unit;
 var range = p.prices.price_range;
@@ -1174,8 +1183,7 @@ function loadShop() {
 if (shopLoaded) return;
 var grid = $('#shopGrid');
 if (!grid) return;
-fetch(WOO.base + '/products?per_page=100&catalog_visibility=visible', { cache: 'no-store' })
-.then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+storeGet('/products?per_page=100')
 .then(function (list) {
 if (!list.length) throw new Error('geen producten');
 list.sort(function (a, b) {
@@ -1288,8 +1296,7 @@ chip.style.color = 'var(--pitch)';
 renderCart();
 paint();
 }
-fetch(WOO.base + '/products/' + WOO.productId, { cache: 'no-store' })
-.then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+storeGet('/products/' + WOO.productId)
 .then(applyProduct)
 .catch(function (err) {
 console.info('Geen live winkeldata (' + err.message + '); de pagina toont de ingebouwde voorbeelddata.');

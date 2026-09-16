@@ -394,6 +394,19 @@
      ============================================================= */
   var shopLoaded = false;
 
+  /* De winkel stuurt geen CORS-headers, dus lezen gaat bij voorkeur via de
+     proxy. Draait die er niet (voorbeeldweergave), dan proberen we het alsnog
+     rechtstreeks — dan werkt het in elk geval waar CORS wél is toegestaan. */
+  function storeGet(path) {
+    function grab(url) {
+      return fetch(url, { cache: 'no-store' }).then(function (r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      });
+    }
+    return grab(storeUrl(path)).catch(function () { return grab(WOO.base + path); });
+  }
+
   function productPrice(p) {
     var unit = p.prices.currency_minor_unit;
     var range = p.prices.price_range;
@@ -435,8 +448,7 @@
     var grid = $('#shopGrid');
     if (!grid) return;
 
-    fetch(WOO.base + '/products?per_page=100&catalog_visibility=visible', { cache: 'no-store' })
-      .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+    storeGet('/products?per_page=100')
       .then(function (list) {
         if (!list.length) throw new Error('geen producten');
         /* Eigen spel bovenaan, daarna op prijs */
@@ -572,8 +584,7 @@
     paint();
   }
 
-  fetch(WOO.base + '/products/' + WOO.productId, { cache: 'no-store' })
-    .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+  storeGet('/products/' + WOO.productId)
     .then(applyProduct)
     .catch(function (err) {
       console.info('Geen live winkeldata (' + err.message + '); de pagina toont de ingebouwde voorbeelddata.');
