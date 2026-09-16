@@ -634,6 +634,21 @@ window.WK = window.WK || {};
     return out + '</span>';
   };
 
+  /* ------------------------------------------------------------- foto's -- */
+  /* De demo tekent illustraties zolang er geen echte foto's zijn. Staat een
+     artikelnummer in het manifest, dan wint de foto. */
+  WK.FOTO_MAP = 'assets/foto/';
+
+  WK.fotos = function (sku) {
+    const lijst = (WK.FOTOS || {})[sku];
+    return Array.isArray(lijst) && lijst.length ? lijst : null;
+  };
+
+  WK.fotoSrc = function (foto) {
+    /* Een ingesloten data-URI heeft geen map nodig. */
+    return /^(data:|https?:)/.test(foto.bestand) ? foto.bestand : WK.FOTO_MAP + foto.bestand;
+  };
+
   /* ----------------------------------------------- apparaat-illustraties -- */
   /* Vervang deze door echte productfoto's zodra de catalogus gekoppeld is;
      de PDP verwacht per artikel foto's van dát exemplaar. */
@@ -988,6 +1003,41 @@ window.WK = window.WK || {};
   ];
 
 })(window.WK);
+
+
+/* assets/foto/manifest.js */
+/* Fotomanifest.
+   ===========================================================================
+   Leeg = de demo tekent lijnillustraties. Zodra hier bestanden bij staan en
+   dit manifest gevuld is, toont de winkel de echte foto's.
+
+   Vullen kan op twee manieren:
+
+   1. Automatisch, op een computer die witgoed-koning.nl kan bereiken:
+        node build/haal-fotos.mjs
+      Dat haalt de productfoto's op via de WooCommerce Store API, zet ze in
+      deze map en schrijft dit bestand opnieuw.
+
+   2. Handmatig: zet de bestanden in deze map met het artikelnummer als naam
+      en een volgnummer erachter, en vul ze hieronder in.
+        WK-26-0402-1.jpg   vooraanzicht
+        WK-26-0402-2.jpg   bedieningspaneel
+        WK-26-0402-3.jpg   binnenzijde
+        WK-26-0402-4.jpg   gebruikssporen
+
+   Per artikelnummer een lijst met {bestand, omschrijving}. De omschrijving
+   wordt de alt-tekst en het onderschrift bij de foto.
+   =========================================================================== */
+window.WK = window.WK || {};
+
+WK.FOTOS = {
+  /* Voorbeeld — verwijder dit zodra er echte foto's zijn:
+  'WK-26-0402': [
+    { bestand: 'WK-26-0402-1.jpg', omschrijving: 'Vooraanzicht' },
+    { bestand: 'WK-26-0402-2.jpg', omschrijving: 'Bedieningspaneel' }
+  ]
+  */
+};
 
 
 /* assets/js/adapters.js */
@@ -1581,11 +1631,19 @@ window.WK = window.WK || {};
   /* ================================================ productweergave ====== */
 
   P.media = function (p, size) {
+    const s = size || 150;
+    /* Uit Shopify of WooCommerce komen de foto's mee met het product. */
     if (p.images && p.images.length) {
       return '<img src="' + esc(p.images[0].url) + '" alt="' + esc(p.images[0].alt) +
-             '" width="' + (size || 150) + '" loading="lazy">';
+             '" width="' + s + '" loading="lazy">';
     }
-    return WK.appliance(p.kind, size || 150);
+    /* In de demo komen ze uit het fotomanifest. */
+    const eigen = WK.fotos(p.sku);
+    if (eigen) {
+      return '<img src="' + esc(WK.fotoSrc(eigen[0])) + '" alt="' + esc(p.title) +
+             '" width="' + s + '" style="max-height:' + s + 'px;object-fit:contain" loading="lazy">';
+    }
+    return WK.appliance(p.kind, s);
   };
 
   P.badges = function (p, withCond) {
@@ -2082,7 +2140,33 @@ window.WK = window.WK || {};
     '</div>';
   };
 
+  /* Echte foto's als ze er zijn, anders de illustratie met de opnames die
+     wij per toestel maken als onderschrift. */
+  function opnames(p) {
+    if (p.images && p.images.length) {
+      return p.images.map((im, i) => ({ src: im.url, label: im.alt || (SHOTS[i] ? SHOTS[i][0] : 'Foto ' + (i + 1)) }));
+    }
+    const eigen = WK.fotos(p.sku);
+    if (eigen) return eigen.map(f => ({ src: WK.fotoSrc(f), label: f.omschrijving || 'Foto' }));
+    return null;
+  }
+
   function gallery(p) {
+    const fotos = opnames(p);
+
+    if (fotos) {
+      return '<div>' +
+        '<div class="gallery-main">' +
+          '<img data-hoofdfoto src="' + esc(fotos[0].src) + '" alt="' + esc(p.title) +
+            '" style="max-height:280px;width:auto;object-fit:contain">' +
+          '<span class="gallery-note" data-note>' + esc(fotos[0].label) + ' — ' + esc(p.sku) + '</span></div>' +
+        (fotos.length > 1 ? '<div class="gallery-thumbs">' + fotos.map((f, i) =>
+          '<button class="gthumb' + (i === 0 ? ' on' : '') + '" data-shot="' + i + '" ' +
+          'aria-label="' + esc(f.label) + '"><img src="' + esc(f.src) + '" alt="" ' +
+          'style="max-width:100%;max-height:100%;object-fit:contain"></button>').join('') + '</div>' : '') +
+      '</div>';
+    }
+
     return '<div>' +
       '<div class="gallery-main">' + P.media(p, 260) +
         '<span class="gallery-note" data-note>' + esc(SHOTS[0][1].replace('%s', p.sku)) + '</span></div>' +
@@ -2185,11 +2269,19 @@ window.WK = window.WK || {};
 
   WK.mounts.pdp = function (root, params) {
     const note = root.querySelector('[data-note]');
-    const sku = (WK.bySlug(params.slug) || {}).sku || '';
+    const hoofd = root.querySelector('[data-hoofdfoto]');
+    const product = WK.bySlug(params.slug) || {};
+    const fotos = opnames(product);
     root.querySelectorAll('[data-shot]').forEach(btn => btn.addEventListener('click', () => {
       root.querySelectorAll('[data-shot]').forEach(b => b.classList.remove('on'));
       btn.classList.add('on');
-      note.textContent = SHOTS[parseInt(btn.dataset.shot, 10)][1].replace('%s', sku);
+      const i = parseInt(btn.dataset.shot, 10);
+      if (fotos && hoofd) {
+        hoofd.src = fotos[i].src;
+        note.textContent = fotos[i].label + ' — ' + (product.sku || '');
+      } else {
+        note.textContent = SHOTS[i][1].replace('%s', product.sku || '');
+      }
     }));
 
     /* Bezorgbelofte op postcode. Overijssel en de Randstad rijden wij zelf,

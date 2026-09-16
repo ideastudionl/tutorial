@@ -60,6 +60,21 @@ window.WK = window.WK || {};
     return out + '</span>';
   };
 
+  /* ------------------------------------------------------------- foto's -- */
+  /* De demo tekent illustraties zolang er geen echte foto's zijn. Staat een
+     artikelnummer in het manifest, dan wint de foto. */
+  WK.FOTO_MAP = 'assets/foto/';
+
+  WK.fotos = function (sku) {
+    const lijst = (WK.FOTOS || {})[sku];
+    return Array.isArray(lijst) && lijst.length ? lijst : null;
+  };
+
+  WK.fotoSrc = function (foto) {
+    /* Een ingesloten data-URI heeft geen map nodig. */
+    return /^(data:|https?:)/.test(foto.bestand) ? foto.bestand : WK.FOTO_MAP + foto.bestand;
+  };
+
   /* ----------------------------------------------- apparaat-illustraties -- */
   /* Vervang deze door echte productfoto's zodra de catalogus gekoppeld is;
      de PDP verwacht per artikel foto's van dát exemplaar. */

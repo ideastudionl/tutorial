@@ -48,7 +48,33 @@
     '</div>';
   };
 
+  /* Echte foto's als ze er zijn, anders de illustratie met de opnames die
+     wij per toestel maken als onderschrift. */
+  function opnames(p) {
+    if (p.images && p.images.length) {
+      return p.images.map((im, i) => ({ src: im.url, label: im.alt || (SHOTS[i] ? SHOTS[i][0] : 'Foto ' + (i + 1)) }));
+    }
+    const eigen = WK.fotos(p.sku);
+    if (eigen) return eigen.map(f => ({ src: WK.fotoSrc(f), label: f.omschrijving || 'Foto' }));
+    return null;
+  }
+
   function gallery(p) {
+    const fotos = opnames(p);
+
+    if (fotos) {
+      return '<div>' +
+        '<div class="gallery-main">' +
+          '<img data-hoofdfoto src="' + esc(fotos[0].src) + '" alt="' + esc(p.title) +
+            '" style="max-height:280px;width:auto;object-fit:contain">' +
+          '<span class="gallery-note" data-note>' + esc(fotos[0].label) + ' — ' + esc(p.sku) + '</span></div>' +
+        (fotos.length > 1 ? '<div class="gallery-thumbs">' + fotos.map((f, i) =>
+          '<button class="gthumb' + (i === 0 ? ' on' : '') + '" data-shot="' + i + '" ' +
+          'aria-label="' + esc(f.label) + '"><img src="' + esc(f.src) + '" alt="" ' +
+          'style="max-width:100%;max-height:100%;object-fit:contain"></button>').join('') + '</div>' : '') +
+      '</div>';
+    }
+
     return '<div>' +
       '<div class="gallery-main">' + P.media(p, 260) +
         '<span class="gallery-note" data-note>' + esc(SHOTS[0][1].replace('%s', p.sku)) + '</span></div>' +
@@ -151,11 +177,19 @@
 
   WK.mounts.pdp = function (root, params) {
     const note = root.querySelector('[data-note]');
-    const sku = (WK.bySlug(params.slug) || {}).sku || '';
+    const hoofd = root.querySelector('[data-hoofdfoto]');
+    const product = WK.bySlug(params.slug) || {};
+    const fotos = opnames(product);
     root.querySelectorAll('[data-shot]').forEach(btn => btn.addEventListener('click', () => {
       root.querySelectorAll('[data-shot]').forEach(b => b.classList.remove('on'));
       btn.classList.add('on');
-      note.textContent = SHOTS[parseInt(btn.dataset.shot, 10)][1].replace('%s', sku);
+      const i = parseInt(btn.dataset.shot, 10);
+      if (fotos && hoofd) {
+        hoofd.src = fotos[i].src;
+        note.textContent = fotos[i].label + ' — ' + (product.sku || '');
+      } else {
+        note.textContent = SHOTS[i][1].replace('%s', product.sku || '');
+      }
     }));
 
     /* Bezorgbelofte op postcode. Overijssel en de Randstad rijden wij zelf,

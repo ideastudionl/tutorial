@@ -97,11 +97,19 @@ window.WK = window.WK || {};
   /* ================================================ productweergave ====== */
 
   P.media = function (p, size) {
+    const s = size || 150;
+    /* Uit Shopify of WooCommerce komen de foto's mee met het product. */
     if (p.images && p.images.length) {
       return '<img src="' + esc(p.images[0].url) + '" alt="' + esc(p.images[0].alt) +
-             '" width="' + (size || 150) + '" loading="lazy">';
+             '" width="' + s + '" loading="lazy">';
     }
-    return WK.appliance(p.kind, size || 150);
+    /* In de demo komen ze uit het fotomanifest. */
+    const eigen = WK.fotos(p.sku);
+    if (eigen) {
+      return '<img src="' + esc(WK.fotoSrc(eigen[0])) + '" alt="' + esc(p.title) +
+             '" width="' + s + '" style="max-height:' + s + 'px;object-fit:contain" loading="lazy">';
+    }
+    return WK.appliance(p.kind, s);
   };
 
   P.badges = function (p, withCond) {

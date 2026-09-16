@@ -34,6 +34,7 @@ demo/
   assets/js/
     ui.js                     iconen, apparaat-illustraties, logo, formatters
     catalog.js                demodata (de enige plek met verzonnen gegevens)
+  assets/foto/manifest.js     koppelt artikelnummers aan fotobestanden
     adapters.js               datalaag: mock | shopify | woocommerce
     cart.js                   winkelwagen
     views.js                  header, footer, productkaart, gedeelde onderdelen
@@ -42,7 +43,8 @@ demo/
     views-pdp.js              productpagina
     views-checkout.js         winkelwagen, afrekenen, showroom
     app.js                    router en opstart
-build/inline.mjs              bouwt dist/ tot één bestand
+build/haal-fotos.mjs          haalt productfoto's op van de bestaande webshop
+build/inline.mjs              bouwt dist/ tot één bestand, foto's als data-URI
 ```
 
 Geen build-stap, geen dependencies, geen framework. Dat is bewust: een webshop hoort snel te
@@ -172,6 +174,42 @@ productattributen gelezen en het keuringsrapport blijft leeg.
 wasmachine zit zowel in `wasmachines` als in `outlet`.
 
 Afrekenen vult de servercart via `/cart/add-item` en stuurt door naar `/afrekenen/`.
+
+## Echte productfoto's toevoegen
+
+De demo tekent lijnillustraties zolang er geen foto's zijn. Er zijn drie manieren om echte
+foto's erin te krijgen; alle drie werken zonder dat er iets aan de opbouw verandert.
+
+**1. Ophalen van de bestaande webshop.** Draai dit op een computer die witgoed-koning.nl kan
+bereiken:
+
+```bash
+node build/haal-fotos.mjs            # of: --url https://witgoed-koning.nl --max 4
+node build/inline.mjs
+```
+
+Het script leest de publieke WooCommerce Store API, zet de foto's in `demo/assets/foto/` met
+het artikelnummer als bestandsnaam, en schrijft `demo/assets/foto/manifest.js`.
+
+**2. Met de hand.** Zet de bestanden in `demo/assets/foto/` en vul het manifest in:
+
+```js
+WK.FOTOS = {
+  'WK-26-0402': [
+    { bestand: 'WK-26-0402-1.jpg', omschrijving: 'Vooraanzicht' },
+    { bestand: 'WK-26-0402-2.jpg', omschrijving: 'Bedieningspaneel' },
+    { bestand: 'WK-26-0402-3.jpg', omschrijving: 'Binnenzijde' },
+    { bestand: 'WK-26-0402-4.jpg', omschrijving: 'Gebruikssporen' }
+  ]
+};
+```
+
+**3. Via de webshop zelf.** Zodra de Shopify- of WooCommerce-adapter aanstaat, komen de foto's
+met het product mee en is het manifest niet meer nodig.
+
+Per artikelnummer zonder foto's blijft de illustratie staan, dus een halve fotosessie levert
+geen kapotte pagina op. `build/inline.mjs` neemt de foto's als data-URI mee in het losse
+bestand en waarschuwt boven 15 MB.
 
 ## Wat er nog moet gebeuren voor livegang
 
