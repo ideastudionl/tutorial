@@ -19,15 +19,20 @@ function readCookie(header, name) {
 }
 
 module.exports = async function handler(req, res) {
-  const segments = [].concat(req.query.path || []).filter((s) => s && s !== '..');
-  const path = segments.join('/');
+  /* Het pad uit de URL lezen is betrouwbaarder dan de dynamische routeparameter. */
+  const incoming = new URL(req.url, 'http://localhost');
+  const path = incoming.pathname
+    .replace(/^\/api\/store\/?/, '')
+    .split('/')
+    .filter((part) => part && part !== '..')
+    .join('/');
 
   if (!ALLOWED.test(path)) {
-    res.status(404).json({ message: 'Onbekend pad' });
+    res.status(404).json({ message: 'Onbekend pad: ' + path });
     return;
   }
 
-  const query = req.url.includes('?') ? '?' + req.url.split('?').slice(1).join('?') : '';
+  const query = incoming.search || '';
   const token = readCookie(req.headers.cookie, TOKEN_COOKIE);
 
   const headers = { 'Content-Type': 'application/json', Accept: 'application/json' };
