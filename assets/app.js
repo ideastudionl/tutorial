@@ -686,9 +686,10 @@
       })
       .catch(function (err) {
         co.ready = false;
-        coAlert('De winkelwagen van de winkel is nu niet bereikbaar (' + err.message +
-          '). <a href="' + SHOP + CHECKOUT_PATH + '?add-to-cart=' + WOO_IDS.memo +
-          '&quantity=' + Math.max(1, gamesWanted()) + '">Afrekenen op soccer-games.nl</a>.', true);
+        coAlert('De winkelwagen van de winkel reageerde niet: <b>' + String(err.message).replace(/</g, '&lt;') +
+          '</b><br><button type="button" class="linkish" id="coRetry">Opnieuw proberen</button> · ' +
+          '<a href="' + SHOP + CHECKOUT_PATH + '?add-to-cart=' + WOO_IDS.memo +
+          '&quantity=' + Math.max(1, gamesWanted()) + '">afrekenen op soccer-games.nl</a>', true);
       })
       .then(function () { co.busy = false; });
   }
@@ -703,6 +704,8 @@
         .catch(function (err) { coAlert('Verzendmethode kon niet worden gekozen: ' + err.message); });
       return;
     }
+    if (e.target.closest('#coRetry')) { coAlert(''); startCheckout(); return; }
+
     var method = e.target.closest('[data-method]');
     if (method) {
       co.method = method.getAttribute('data-method');
@@ -722,7 +725,11 @@
       if (co.busy) return;
       coAlert('');
 
-      if (!co.ready) { coAlert('De winkel is even niet bereikbaar. Probeer het zo nog eens.'); return; }
+      if (!co.ready) {
+        coAlert('De winkelwagen was nog niet opgehaald — we proberen het nu opnieuw.');
+        startCheckout();
+        return;
+      }
       var required = ['#coEmail', '#coFirst', '#coLast', '#coZip', '#coNumber', '#coStreet', '#coCity'];
       var missing = required.filter(function (sel) { return !$(sel).value.trim(); });
       $$('.co-field input').forEach(function (i) { i.removeAttribute('aria-invalid'); });
