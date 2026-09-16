@@ -191,6 +191,7 @@
     if (h === '' || h === '/') return show('home');
     if (h === '/product') return show('product');
     if (h === '/afrekenen') { show('afrekenen'); setTimeout(startCheckout, 0); return; }
+    if (h === '/shop') { show('shop'); setTimeout(loadShop, 0); return; }
     var el = document.getElementById(h);
     var host = el && el.closest('[data-route]');
     show(host ? host.getAttribute('data-route') : 'home', el ? h : null);
@@ -386,6 +387,72 @@
       });
     }, { threshold: 0.9 });
     $$('.count').forEach(function (el) { nums.observe(el); });
+  }
+
+  /* =============================================================
+     Shop: alle producten uit de winkel
+     ============================================================= */
+  var shopLoaded = false;
+
+  function productPrice(p) {
+    var unit = p.prices.currency_minor_unit;
+    var range = p.prices.price_range;
+    if (range && range.min_amount !== range.max_amount) {
+      return 'vanaf ' + euro.format(parseInt(range.min_amount, 10) / Math.pow(10, unit));
+    }
+    return euro.format(parseInt(p.prices.price, 10) / Math.pow(10, unit));
+  }
+
+  function productCard(p) {
+    var img = (p.images && p.images[0]) ? (p.images[0].thumbnail || p.images[0].src) : '';
+    var own = p.id === WOO_IDS.memo;
+    var href = own ? '#/product' : p.permalink;
+    var sale = p.on_sale && p.prices.regular_price !== p.prices.price;
+    var unit = p.prices.currency_minor_unit;
+
+    return '<article class="pcard">' +
+      '<a class="pcard__media" href="' + href + '"' + (own ? ' data-link' : ' target="_blank" rel="noopener"') +
+        ' aria-label="Bekijk ' + p.name.replace(/"/g, '') + '">' +
+        (!p.is_in_stock ? '<span class="pcard__flag pcard__flag--out">Uitverkocht</span>'
+          : sale ? '<span class="pcard__flag">Aanbieding</span>' : '') +
+        (img ? '<img src="' + img + '" alt="" loading="lazy">' : '') +
+      '</a>' +
+      '<div class="pcard__body">' +
+        '<h3>' + p.name + '</h3>' +
+        '<p class="pcard__meta">' + (own ? '48 kaarten · 24 paren · 4+' : (p.type === 'variable' ? 'Meerdere varianten' : '&nbsp;')) + '</p>' +
+        '<div class="pcard__foot"><span class="pcard__price">' + productPrice(p) +
+          (sale ? ' <s style="font-size:.8em;color:var(--muted)">' +
+            euro.format(parseInt(p.prices.regular_price, 10) / Math.pow(10, unit)) + '</s>' : '') + '</span>' +
+          (own
+            ? '<button class="btn btn--sm btn--primary" data-add="memo">In mandje</button>'
+            : '<a class="btn btn--sm btn--ghost" href="' + p.permalink + '" target="_blank" rel="noopener">Bekijken</a>') +
+        '</div>' +
+      '</div></article>';
+  }
+
+  function loadShop() {
+    if (shopLoaded) return;
+    var grid = $('#shopGrid');
+    if (!grid) return;
+
+    fetch(WOO.base + '/products?per_page=100&catalog_visibility=visible', { cache: 'no-store' })
+      .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then(function (list) {
+        if (!list.length) throw new Error('geen producten');
+        /* Eigen spel bovenaan, daarna op prijs */
+        list.sort(function (a, b) {
+          if (a.id === WOO_IDS.memo) return -1;
+          if (b.id === WOO_IDS.memo) return 1;
+          return parseInt(a.prices.price, 10) - parseInt(b.prices.price, 10);
+        });
+        grid.innerHTML = list.map(productCard).join('');
+        if ($('#shopCount')) $('#shopCount').textContent = list.length + ' producten';
+        shopLoaded = true;
+      })
+      .catch(function (err) {
+        grid.innerHTML = '<p class="co-hint">De winkel gaf geen producten terug (' + err.message +
+          '). <a href="https://www.soccer-games.nl/winkel/" target="_blank" rel="noopener">Bekijk de winkel op soccer-games.nl</a>.</p>';
+      });
   }
 
   /* =============================================================
