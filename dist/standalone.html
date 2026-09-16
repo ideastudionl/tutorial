@@ -218,7 +218,6 @@
 <span class="logo__word logo__fallback" hidden><span>Soccer</span><span>Games</span></span>
 </a>
 <nav class="nav" id="mainNav" aria-label="Hoofdmenu">
-<a href="#/shop" data-link>Shop</a>
 <a href="#/product" data-link>Het spel</a>
 <a href="#hoe-speel-je" data-link>Spelregels</a>
 <a href="#cadeau" data-link>Cadeautip</a>
@@ -829,6 +828,7 @@ var cart = [];
 var SHOP = 'https://www.soccer-games.nl';
 var CHECKOUT_PATH = '/afrekenen/';   
 var WOO_IDS = { memo: 65 };
+var SHOP_AAN = false;   
 var GAMES_PER_LINE = { memo: 1, duo: 2, trio: 3 };
 var toast = $('#toast'), toastMsg = $('#toastMsg'), toastTimer;
 function say(msg) {
@@ -977,7 +977,10 @@ var h = (location.hash || '#/').slice(1);
 if (h === '' || h === '/') return show('home');
 if (h === '/product') return show('product');
 if (h === '/afrekenen') { show('afrekenen'); setTimeout(startCheckout, 0); return; }
-if (h === '/shop') { show('shop'); setTimeout(loadShop, 0); return; }
+if (h === '/shop') {
+if (!SHOP_AAN) { location.replace('#/'); return show('home'); }
+show('shop'); setTimeout(loadShop, 0); return;
+}
 var el = document.getElementById(h);
 var host = el && el.closest('[data-route]');
 show(host ? host.getAttribute('data-route') : 'home', el ? h : null);

@@ -27,6 +27,7 @@
   var SHOP = 'https://www.soccer-games.nl';
   var CHECKOUT_PATH = '/afrekenen/';   /* de winkel draait op Nederlandse slugs */
   var WOO_IDS = { memo: 65 };
+  var SHOP_AAN = false;   /* shoppagina tijdelijk uit */
   var GAMES_PER_LINE = { memo: 1, duo: 2, trio: 3 };
 
   /* ---------- Toast ---------- */
@@ -193,7 +194,12 @@
     if (h === '' || h === '/') return show('home');
     if (h === '/product') return show('product');
     if (h === '/afrekenen') { show('afrekenen'); setTimeout(startCheckout, 0); return; }
-    if (h === '/shop') { show('shop'); setTimeout(loadShop, 0); return; }
+    /* De shoppagina staat tijdelijk uit: wie het adres nog heeft, komt op de
+       homepagina uit. Zet SHOP_AAN op true om hem terug te zetten. */
+    if (h === '/shop') {
+      if (!SHOP_AAN) { location.replace('#/'); return show('home'); }
+      show('shop'); setTimeout(loadShop, 0); return;
+    }
     var el = document.getElementById(h);
     var host = el && el.closest('[data-route]');
     show(host ? host.getAttribute('data-route') : 'home', el ? h : null);
