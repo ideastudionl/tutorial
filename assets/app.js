@@ -525,7 +525,7 @@
   }
   var co = { nonce: null, cart: null, rate: null, method: null, methods: [], busy: false, ready: false };
 
-  var IDEAL_LOGO = 'https://assets.ing.com/m/51bf5a43c6df14f3/original/iDEAL-Wero-logo-new.jpeg';
+  var IDEAL_LOGO = 'https://d1twnm33rljaon.cloudfront.net/iDEAL_Wero_Lockup_Yellow_Horizontal_RGB.png';
   var POSTNL_LOGO = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUUKsgpp-qaHW4ODGaZwQ-fqZGQm2nqjZBye6LhiedIQ&s=10';
 
   var PAYMENT_LABELS = {
