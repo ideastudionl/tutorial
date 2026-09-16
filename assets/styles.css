@@ -234,6 +234,7 @@ button{font:inherit;color:inherit}
 .pcard:hover{transform:translateY(-3px);box-shadow:var(--shadow-soft)}
 .pcard__media{position:relative;aspect-ratio:4/3;background:var(--surface-2);display:grid;place-items:center;padding:14px}
 .pcard__media svg{width:100%;height:100%}
+.pcard__media img{width:100%;height:100%;object-fit:contain;display:block}
 .pcard__flag{
   position:absolute;top:12px;left:12px;background:var(--flame);color:#fff;border-radius:999px;
   font-size:.72rem;font-weight:700;padding:4px 10px;letter-spacing:.02em;
@@ -275,6 +276,7 @@ button{font:inherit;color:inherit}
 .gift .lead{color:#C9E3CF}
 .gift__art{display:grid;place-items:center}
 .gift__art svg{width:100%;max-width:320px}
+.gift__art img{width:100%;max-width:340px;border-radius:14px;display:block}
 
 /* ---------- FAQ ---------- */
 .faq{display:flex;flex-direction:column;border-top:1px solid var(--line)}
@@ -413,6 +415,7 @@ button{font:inherit;color:inherit}
 .line-item{display:grid;grid-template-columns:62px 1fr auto;gap:12px;align-items:center}
 .line-item__media{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;aspect-ratio:1/1;display:grid;place-items:center;padding:6px}
 .line-item__media svg{width:100%;height:100%}
+.line-item__media img{width:100%;height:100%;object-fit:contain;display:block;border-radius:6px}
 .line-item b{font-size:.95rem;font-weight:600;display:block}
 .line-item small{display:block;color:var(--muted);font-size:.82rem}
 .line-item__price{font-family:var(--f-mono);font-size:.92rem;text-align:right}

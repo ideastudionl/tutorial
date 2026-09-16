@@ -13,9 +13,9 @@
 
   /* ---------- Catalogus (stand-in voor /wc/store/v1/products) ---------- */
   var CATALOG = {
-    memo:   { name: 'Soccer MeMo',            sub: '48 kaarten · 24 paren', price: 14.95, art: 'art-box' },
-    duo:    { name: 'Duo-pack',               sub: '2 spellen',             price: 24.95, art: 'art-fan' },
-    trio:   { name: 'Trio-pack',              sub: '3 spellen',             price: 34.95, art: 'art-fan' },
+    memo:   { name: 'Soccer MeMo', sub: '48 kaarten · 24 paren', price: 14.95, art: 'art-box', photo: 'https://www.soccer-games.nl/wp-content/uploads/2022/07/Soccer-Memo.jpg' },
+    duo:    { name: 'Duo-pack',    sub: '2 spellen',             price: 24.95, art: 'art-fan', photo: 'https://www.soccer-games.nl/wp-content/uploads/2022/07/Voetbal-Memory-Spel.png' },
+    trio:   { name: 'Trio-pack',   sub: '3 spellen',             price: 34.95, art: 'art-fan', photo: 'https://www.soccer-games.nl/wp-content/uploads/2022/07/Voetbal-Memory-Kopen.png' },
     gift:   { name: 'Cadeauverpakking',       sub: 'Lint + kaartje',        price:  2.95, art: 'art-giftbox' },
     poster: { name: 'Poster "Elftal" A2',     sub: 'Dik papier',            price:  9.95, art: 'art-poster' }
   };
@@ -96,7 +96,9 @@
       body.innerHTML = cart.map(function (l) {
         var p = CATALOG[l.id];
         return '<div class="line-item">' +
-          '<span class="line-item__media"><svg viewBox="0 0 400 400"><use href="#' + p.art + '"></use></svg></span>' +
+          '<span class="line-item__media">' + (p.photo
+            ? '<img src="' + p.photo + '" alt="" loading="lazy">'
+            : '<svg viewBox="0 0 400 400"><use href="#' + p.art + '"></use></svg>') + '</span>' +
           '<span><b>' + p.name + '</b><small>' + p.sub + ' · aantal ' + l.qty + '</small>' +
           '<button class="remove" data-remove="' + l.id + '">Verwijderen</button></span>' +
           '<span class="line-item__price">' + euro.format(p.price * l.qty) + '</span></div>';
