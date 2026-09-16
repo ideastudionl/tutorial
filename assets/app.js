@@ -451,10 +451,6 @@
           (!p.is_in_stock ? 'Tijdelijk uitverkocht'
             : amount ? 'Op voorraad — nog ' + amount + ' stuks' : 'Op voorraad');
       }
-      if ($('#heroStock')) {
-        $('#heroStock').textContent = (amount ? 'Nog ' + amount + ' stuks op voorraad' : stock) +
-          ' · vandaag verzonden';
-      }
     }
 
     if (p.description && $('#pdpDesc')) {

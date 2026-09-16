@@ -295,7 +295,6 @@
 <button class="btn btn--primary" data-add="memo"><svg class="btn__ball" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-ball"></use></svg> In de winkelwagen <span class="btn__price" id="heroPrice">€ 14,95</span></button>
 <a class="btn btn--ghost" href="#/product" data-link>Bekijk het spel <svg width="18" height="18"><use href="#ic-arrow"></use></svg></a>
 </div>
-<p class="eyebrow" id="heroStock">Nog 39 stuks op voorraad · vandaag verzonden</p>
 </div>
 <div class="board-panel" id="speel-mee">
 <div class="board-panel__top">
@@ -1185,10 +1184,6 @@ if ($('#stockLine')) {
 $('#stockLine').innerHTML = '<span class="dot-live" aria-hidden="true"></span> ' +
 (!p.is_in_stock ? 'Tijdelijk uitverkocht'
 : amount ? 'Op voorraad — nog ' + amount + ' stuks' : 'Op voorraad');
-}
-if ($('#heroStock')) {
-$('#heroStock').textContent = (amount ? 'Nog ' + amount + ' stuks op voorraad' : stock) +
-' · vandaag verzonden';
 }
 }
 if (p.description && $('#pdpDesc')) {
