@@ -582,6 +582,8 @@ button{font:inherit;color:inherit}
 .co-option[data-selected="true"] .bundle__dot::after{content:"";width:10px;height:10px;border-radius:999px;background:var(--flame)}
 .co-option span.price{font-family:var(--f-mono)}
 .co-hint{font-size:.85rem;color:var(--muted);margin:0}
+.co-logo{display:block;background:#fff;border:1px solid var(--line);border-radius:8px;padding:4px 6px}
+.co-logo img{height:24px;width:auto;display:block}
 .co-hint--ok{color:var(--pitch);font-weight:600}
 .co-hint--bad{color:#B42318}
 .co-coupon{display:flex;flex-direction:column;gap:6px;border-top:1px solid var(--line);padding-top:14px}

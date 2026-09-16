@@ -525,6 +525,8 @@
   }
   var co = { nonce: null, cart: null, rate: null, method: null, methods: [], busy: false, ready: false };
 
+  var IDEAL_LOGO = 'https://assets.ing.com/m/51bf5a43c6df14f3/original/iDEAL-Wero-logo-new.jpeg';
+
   var PAYMENT_LABELS = {
     ideal: 'iDEAL', mollie_wc_gateway_ideal: 'iDEAL', pay_gateway_ideal: 'iDEAL',
     mollie_wc_gateway_bancontact: 'Bancontact', mollie_wc_gateway_creditcard: 'Creditcard',
@@ -648,8 +650,11 @@
 
     box.innerHTML = methods.map(function (id) {
       var label = PAYMENT_LABELS[id] || id.replace(/_/g, ' ');
+      var logo = /ideal/i.test(id)
+        ? '<span class="co-logo"><img src="' + IDEAL_LOGO + '" alt="" loading="lazy"></span>'
+        : '<span></span>';
       return '<label class="co-option" data-method="' + id + '" data-selected="' + (id === co.method) + '">' +
-        '<span class="bundle__dot" aria-hidden="true"></span><span><b>' + label + '</b></span><span></span></label>';
+        '<span class="bundle__dot" aria-hidden="true"></span><span><b>' + label + '</b></span>' + logo + '</label>';
     }).join('');
   }
 
