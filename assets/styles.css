@@ -584,6 +584,10 @@ button{font:inherit;color:inherit}
 .co-hint{font-size:.85rem;color:var(--muted);margin:0}
 .co-logo{display:block;background:#fff;border:1px solid var(--line);border-radius:8px;padding:4px 6px}
 .co-logo img{height:24px;width:auto;display:block}
+.co-logo--sm{margin-left:auto;padding:3px 5px}
+.co-logo--sm img{height:18px}
+.co-option--ship{grid-template-columns:22px 1fr auto auto;gap:10px}
+.delivery__row{align-items:center}
 .co-hint--ok{color:var(--pitch);font-weight:600}
 .co-hint--bad{color:#B42318}
 .co-coupon{display:flex;flex-direction:column;gap:6px;border-top:1px solid var(--line);padding-top:14px}

@@ -526,6 +526,7 @@
   var co = { nonce: null, cart: null, rate: null, method: null, methods: [], busy: false, ready: false };
 
   var IDEAL_LOGO = 'https://assets.ing.com/m/51bf5a43c6df14f3/original/iDEAL-Wero-logo-new.jpeg';
+  var POSTNL_LOGO = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUUKsgpp-qaHW4ODGaZwQ-fqZGQm2nqjZBye6LhiedIQ&s=10';
 
   var PAYMENT_LABELS = {
     ideal: 'iDEAL', mollie_wc_gateway_ideal: 'iDEAL', pay_gateway_ideal: 'iDEAL',
@@ -616,10 +617,11 @@
       co.rate = chosen.rate_id;
     }
     box.innerHTML = rates.map(function (r) {
-      return '<label class="co-option" data-rate="' + r.rate_id + '" data-selected="' +
+      return '<label class="co-option co-option--ship" data-rate="' + r.rate_id + '" data-selected="' +
         (r.rate_id === co.rate) + '"><span class="bundle__dot" aria-hidden="true"></span>' +
         '<span><b>' + r.name + '</b>' + (r.delivery_time ? '<small>' + r.delivery_time + '</small>' : '') +
-        '</span><span class="price">' + (parseInt(r.price, 10) === 0 ? 'gratis' : money(r.price, r.currency_minor_unit)) +
+        '</span><span class="co-logo co-logo--sm"><img src="' + POSTNL_LOGO + '" alt="PostNL" loading="lazy"></span>' +
+        '<span class="price">' + (parseInt(r.price, 10) === 0 ? 'gratis' : money(r.price, r.currency_minor_unit)) +
         '</span></label>';
     }).join('');
   }
