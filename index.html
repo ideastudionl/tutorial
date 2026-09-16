@@ -692,6 +692,102 @@
     </section>
   </div>
 </div>
+
+<!-- =========================================================
+     AFREKENEN (eigen pagina op de Store API)
+     ========================================================= -->
+<div data-route="afrekenen">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Kruimelpad"><a href="#/" data-link>Home</a> / <a href="#/product" data-link>Soccer MeMo</a> / <span>Afrekenen</span></nav>
+
+    <div class="checkout">
+      <form class="checkout__form" id="checkoutForm" novalidate>
+        <div class="stack" style="gap:8px">
+          <p class="eyebrow">Stap 2 van 2</p>
+          <h1>Afrekenen</h1>
+        </div>
+
+        <div id="checkoutAlert" class="co-alert" role="alert" hidden></div>
+
+        <fieldset class="co-block">
+          <legend>Contact</legend>
+          <div class="co-row">
+            <label class="co-field co-field--full">
+              <span>E-mailadres</span>
+              <input type="email" id="coEmail" name="email" autocomplete="email" required placeholder="jouw@email.nl">
+              <em>Hier sturen we je bevestiging en track&amp;trace naartoe.</em>
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset class="co-block">
+          <legend>Bezorgadres</legend>
+          <div class="co-row">
+            <label class="co-field"><span>Voornaam</span><input id="coFirst" name="given-name" autocomplete="given-name" required></label>
+            <label class="co-field"><span>Achternaam</span><input id="coLast" name="family-name" autocomplete="family-name" required></label>
+          </div>
+          <div class="co-row">
+            <label class="co-field co-field--sm"><span>Postcode</span><input id="coZip" name="postal-code" autocomplete="postal-code" placeholder="1043 AH" required></label>
+            <label class="co-field co-field--sm"><span>Huisnummer</span><input id="coNumber" inputmode="numeric" required></label>
+            <label class="co-field co-field--sm"><span>Toevoeging</span><input id="coAddition" placeholder="optioneel"></label>
+          </div>
+          <div class="co-row">
+            <label class="co-field"><span>Straat</span><input id="coStreet" name="address-line1" autocomplete="address-line1" required></label>
+            <label class="co-field"><span>Plaats</span><input id="coCity" name="address-level2" autocomplete="address-level2" required></label>
+          </div>
+          <div class="co-row">
+            <label class="co-field"><span>Land</span>
+              <select id="coCountry" name="country" autocomplete="country">
+                <option value="NL" selected>Nederland</option>
+                <option value="BE">België</option>
+              </select>
+            </label>
+            <label class="co-field"><span>Telefoon <i>optioneel</i></span><input id="coPhone" type="tel" autocomplete="tel"></label>
+          </div>
+        </fieldset>
+
+        <fieldset class="co-block">
+          <legend>Verzending</legend>
+          <div id="coShipping" class="co-options"><p class="co-hint">Vul je postcode in, dan tonen we de bezorgopties.</p></div>
+        </fieldset>
+
+        <fieldset class="co-block">
+          <legend>Betaalmethode</legend>
+          <div id="coPayment" class="co-options"><p class="co-hint">Bezig met ophalen…</p></div>
+        </fieldset>
+
+        <fieldset class="co-block">
+          <legend>Cadeau</legend>
+          <label class="co-field co-field--full">
+            <span>Tekst voor het kaartje <i>optioneel</i></span>
+            <textarea id="coNote" rows="2" placeholder="Van opa en oma — veel plezier!"></textarea>
+          </label>
+        </fieldset>
+
+        <label class="addon" style="border-style:solid">
+          <input type="checkbox" id="coTerms">
+          <span>Ik ga akkoord met de <a href="https://www.soccer-games.nl/algemene-voorwaarden/" target="_blank" rel="noopener">algemene voorwaarden</a></span>
+        </label>
+
+        <button class="btn btn--primary btn--wide" id="coSubmit" type="submit">
+          <svg class="btn__ball" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-ball"></use></svg>
+          Bestellen en betalen <span class="btn__price" id="coSubmitTotal"></span>
+        </button>
+        <p class="co-hint" style="text-align:center">Je betaalt bij je eigen bank. 30 dagen bedenktijd.</p>
+      </form>
+
+      <aside class="checkout__summary">
+        <h2>Je bestelling</h2>
+        <div id="coSummary"><p class="co-hint">Winkelwagen ophalen…</p></div>
+        <div class="delivery" style="margin-top:14px">
+          <div class="delivery__row"><svg><use href="#ic-truck"></use></svg><p>Voor 22:00 besteld, morgen in huis met PostNL.</p></div>
+          <div class="delivery__row"><svg><use href="#ic-shield"></use></svg><p>30 dagen bedenktijd, retourlabel krijg je van ons.</p></div>
+          <div class="delivery__row"><svg><use href="#ic-lock"></use></svg><p>Je bestelling loopt via de beveiligde kassa van Soccer Games.</p></div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</div>
 </main>
 
 <!-- ===== Footer ===== -->

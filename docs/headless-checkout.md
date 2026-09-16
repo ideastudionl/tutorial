@@ -81,6 +81,27 @@ meelaadt.
 op zichzelf. De winst zit in de dingen die je ermee kúnt doen: minder velden,
 adres op postcode, één scherm in plaats van twee.
 
+## Wat er nu al gebouwd is
+
+De demo heeft een eigen afrekenpagina op `#/afrekenen`:
+
+- `api/store/[...path].js` — proxy naar de Store API. Het cart-token gaat in een
+  `httpOnly`-cookie op het Vercel-domein, de browser ziet het nooit. Alleen de
+  paden `cart`, `checkout` en `products` gaan erdoorheen.
+- De winkelwagen van de demo wordt bij het openen van de afrekenpagina
+  gelijkgetrokken met de echte winkelwagen (`add-item` of `update-item`, dus twee
+  keer klikken verdubbelt niets).
+- Adresformulier met Nederlandse velden: postcode, huisnummer en toevoeging apart,
+  samengevoegd tot `address_1` zoals WooCommerce het wil.
+- Verzendopties en betaalmethodes komen live uit `/cart`; iDEAL wordt bovenaan
+  gezet zodra die methode bestaat.
+- Bestellen doet `POST /checkout` en stuurt door naar `payment_result.redirect_url`.
+- Valt de winkel weg, dan toont de pagina een melding met een link naar de gewone
+  WooCommerce-kassa. Geen doodlopende straat.
+
+Testen zonder de echte winkel kan met `node test/mock-store.js` en
+`window.__STORE_PROXY__ = 'http://localhost:4199'`.
+
 ## Eerlijke volgorde
 
 1. **iDEAL aanzetten** en de doorverwijzing naar de winkelwagen uitzetten. Dit

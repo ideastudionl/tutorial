@@ -541,3 +541,72 @@ button{font:inherit;color:inherit}
   .ball-rail__ball{opacity:1}
   .mcard.is-dealt{animation:none}
 }
+
+
+/* ==========================================================================
+   Eigen afrekenpagina
+   ========================================================================== */
+.checkout{
+  display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);
+  gap:clamp(24px,4vw,48px);align-items:start;padding-bottom:clamp(40px,6vw,72px);
+}
+.checkout__form{display:flex;flex-direction:column;gap:22px}
+.checkout__summary{
+  position:sticky;top:calc(84px + env(safe-area-inset-top,0px));
+  background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-card);padding:22px;
+  display:flex;flex-direction:column;gap:12px;
+}
+.checkout__summary h2{font-size:1.15rem}
+
+.co-block{border:0;padding:0;margin:0;display:flex;flex-direction:column;gap:12px}
+.co-block legend{
+  font-family:var(--f-mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);padding:0;margin-bottom:2px;
+}
+.co-row{display:flex;flex-wrap:wrap;gap:12px}
+.co-field{flex:1 1 220px;display:flex;flex-direction:column;gap:6px;font-weight:600;font-size:.9rem}
+.co-field--full{flex-basis:100%}
+.co-field--sm{flex:1 1 120px}
+.co-field i{font-style:normal;font-weight:400;color:var(--muted)}
+.co-field em{font-style:normal;font-weight:400;font-size:.8rem;color:var(--muted)}
+.co-field input, .co-field select, .co-field textarea{
+  font:inherit;font-weight:400;font-size:16px;padding:13px 14px;border-radius:12px;
+  border:2px solid var(--line);background:var(--surface);color:var(--ink);width:100%;
+}
+.co-field input:focus, .co-field select:focus, .co-field textarea:focus{
+  border-color:var(--pitch);outline:3px solid color-mix(in srgb,var(--brand) 30%,transparent);outline-offset:1px;
+}
+.co-field input[aria-invalid="true"]{border-color:#D92D20}
+
+.co-options{display:flex;flex-direction:column;gap:10px}
+.co-option{
+  display:grid;grid-template-columns:22px 1fr auto;gap:12px;align-items:center;
+  border:2px solid var(--line);border-radius:14px;padding:13px 15px;cursor:pointer;background:var(--surface);
+}
+.co-option[data-selected="true"]{border-color:var(--flame);background:var(--flame-soft)}
+.co-option input{position:absolute;opacity:0;pointer-events:none}
+.co-option b{font-weight:600}
+.co-option small{display:block;color:var(--muted);font-size:.82rem}
+.co-option .bundle__dot{width:20px;height:20px}
+.co-option[data-selected="true"] .bundle__dot{border-color:var(--flame)}
+.co-option[data-selected="true"] .bundle__dot::after{content:"";width:10px;height:10px;border-radius:999px;background:var(--flame)}
+.co-option span.price{font-family:var(--f-mono)}
+.co-hint{font-size:.85rem;color:var(--muted);margin:0}
+
+.co-alert{
+  border:1px solid #F0C2BD;border-left:4px solid #D92D20;background:#FDF3F2;
+  color:#7A271A;border-radius:12px;padding:12px 14px;font-size:.9rem;
+}
+.co-line{display:flex;justify-content:space-between;gap:12px;font-size:.93rem;padding:6px 0}
+.co-line--total{
+  font-family:var(--f-display);font-weight:800;font-size:1.2rem;
+  border-top:2px solid var(--ink);margin-top:6px;padding-top:12px;
+}
+.co-line span:last-child{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.co-line--total span:last-child{font-family:var(--f-display)}
+.co-vat{font-size:.78rem;color:var(--muted);margin:0}
+
+@media (max-width:900px){
+  .checkout{grid-template-columns:1fr}
+  .checkout__summary{position:static;order:-1}
+}

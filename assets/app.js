@@ -167,10 +167,8 @@
       var games = cart.reduce(function (n, l) { return n + (GAMES_PER_LINE[l.id] || 0) * l.qty; }, 0);
       if (!games) { say('Deze artikelen staan nog niet in de winkel'); return; }
 
-      var url = SHOP + CHECKOUT_PATH + '?add-to-cart=' + WOO_IDS.memo + '&quantity=' + games;
-      say('Je gaat naar de kassa van soccer-games.nl');
-      var tab = window.open(url, '_blank', 'noopener');
-      if (!tab) { window.location.href = url; }
+      closeCart();
+      location.hash = '#/afrekenen';
     }
   });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeCart(); });
@@ -190,6 +188,7 @@
     var h = (location.hash || '#/').slice(1);
     if (h === '' || h === '/') return show('home');
     if (h === '/product') return show('product');
+    if (h === '/afrekenen') { show('afrekenen'); setTimeout(startCheckout, 0); return; }
     var el = document.getElementById(h);
     var host = el && el.closest('[data-route]');
     show(host ? host.getAttribute('data-route') : 'home', el ? h : null);
@@ -514,6 +513,248 @@
     .catch(function (err) {
       console.info('Geen live winkeldata (' + err.message + '); de pagina toont de ingebouwde voorbeelddata.');
     });
+
+  /* =============================================================
+     Eigen afrekenpagina op de Store API
+     De winkelwagen van WooCommerce draait achter /api/store, zodat het
+     cart-token in een httpOnly-cookie blijft en niet in de browser.
+     ============================================================= */
+  var STORE = window.__STORE_PROXY__ || '/api/store';
+  var co = { nonce: null, cart: null, rate: null, method: null, busy: false, ready: false };
+
+  var PAYMENT_LABELS = {
+    ideal: 'iDEAL', mollie_wc_gateway_ideal: 'iDEAL', pay_gateway_ideal: 'iDEAL',
+    mollie_wc_gateway_bancontact: 'Bancontact', mollie_wc_gateway_creditcard: 'Creditcard',
+    mollie_wc_gateway_klarnapaylater: 'Klarna — achteraf betalen',
+    stripe: 'Creditcard', 'stripe_cc': 'Creditcard', ppcp_gateway: 'PayPal', paypal: 'PayPal',
+    bacs: 'Bankoverschrijving', cheque: 'Op rekening', cod: 'Betalen bij levering'
+  };
+
+  function money(minor, unit) {
+    return euro.format(parseInt(minor, 10) / Math.pow(10, unit == null ? 2 : unit));
+  }
+
+  function api(path, method, body) {
+    var headers = { 'Content-Type': 'application/json' };
+    if (co.nonce) headers.Nonce = co.nonce;
+    return fetch(STORE + path, {
+      method: method || 'GET',
+      headers: headers,
+      credentials: 'same-origin',
+      body: body ? JSON.stringify(body) : undefined
+    }).then(function (res) {
+      var fresh = res.headers.get('Nonce');
+      if (fresh) co.nonce = fresh;
+      return res.json().catch(function () { return {}; }).then(function (data) {
+        if (!res.ok) {
+          var err = new Error(data.message || ('HTTP ' + res.status));
+          err.data = data;
+          throw err;
+        }
+        return data;
+      });
+    });
+  }
+
+  function coAlert(message, html) {
+    var box = $('#checkoutAlert');
+    if (!box) return;
+    if (!message) { box.hidden = true; box.innerHTML = ''; return; }
+    box.innerHTML = html ? message : message.replace(/</g, '&lt;');
+    box.hidden = false;
+  }
+
+  function gamesWanted() {
+    return cart.reduce(function (n, l) { return n + (GAMES_PER_LINE[l.id] || 0) * l.qty; }, 0);
+  }
+
+  function renderSummary() {
+    var box = $('#coSummary');
+    if (!box || !co.cart) return;
+    var unit = co.cart.totals.currency_minor_unit;
+    var rows = (co.cart.items || []).map(function (i) {
+      return '<div class="co-line"><span>' + i.quantity + ' × ' + i.name +
+        '</span><span>' + money(i.totals.line_total, unit) + '</span></div>';
+    }).join('');
+
+    var t = co.cart.totals;
+    rows += '<div class="co-line"><span>Subtotaal</span><span>' + money(t.total_items, unit) + '</span></div>';
+    rows += '<div class="co-line"><span>Verzending</span><span>' +
+      (co.rate ? money(t.total_shipping, unit) : 'nog te bepalen') + '</span></div>';
+    rows += '<div class="co-line co-line--total"><span>Totaal</span><span>' + money(t.total_price, unit) + '</span></div>';
+    if (parseInt(t.total_tax, 10) > 0) {
+      rows += '<p class="co-vat">Inclusief ' + money(t.total_tax, unit) + ' btw</p>';
+    }
+    box.innerHTML = rows;
+    if ($('#coSubmitTotal')) $('#coSubmitTotal').textContent = money(t.total_price, unit);
+  }
+
+  function renderShipping() {
+    var box = $('#coShipping');
+    if (!box || !co.cart) return;
+    if (!co.cart.needs_shipping) { box.innerHTML = '<p class="co-hint">Geen verzending nodig.</p>'; return; }
+
+    var pack = (co.cart.shipping_rates || [])[0];
+    var rates = pack ? pack.shipping_rates : [];
+    if (!rates.length) {
+      box.innerHTML = '<p class="co-hint">Vul je postcode in, dan tonen we de bezorgopties.</p>';
+      return;
+    }
+    if (!co.rate) {
+      var chosen = rates.filter(function (r) { return r.selected; })[0] || rates[0];
+      co.rate = chosen.rate_id;
+    }
+    box.innerHTML = rates.map(function (r) {
+      return '<label class="co-option" data-rate="' + r.rate_id + '" data-selected="' +
+        (r.rate_id === co.rate) + '"><span class="bundle__dot" aria-hidden="true"></span>' +
+        '<span><b>' + r.name + '</b>' + (r.delivery_time ? '<small>' + r.delivery_time + '</small>' : '') +
+        '</span><span class="price">' + (parseInt(r.price, 10) === 0 ? 'gratis' : money(r.price, r.currency_minor_unit)) +
+        '</span></label>';
+    }).join('');
+  }
+
+  function renderPayment() {
+    var box = $('#coPayment');
+    if (!box || !co.cart) return;
+    var methods = co.cart.payment_methods || [];
+    if (!methods.length) {
+      box.innerHTML = '<p class="co-hint">Er staat nog geen betaalmethode aan in de winkel.</p>';
+      return;
+    }
+    /* iDEAL hoort in Nederland bovenaan */
+    methods = methods.slice().sort(function (a, b) {
+      var ai = /ideal/i.test(a) ? 0 : 1, bi = /ideal/i.test(b) ? 0 : 1;
+      return ai - bi;
+    });
+    if (!co.method || methods.indexOf(co.method) < 0) co.method = methods[0];
+
+    box.innerHTML = methods.map(function (id) {
+      var label = PAYMENT_LABELS[id] || id.replace(/_/g, ' ');
+      return '<label class="co-option" data-method="' + id + '" data-selected="' + (id === co.method) + '">' +
+        '<span class="bundle__dot" aria-hidden="true"></span><span><b>' + label + '</b></span><span></span></label>';
+    }).join('');
+  }
+
+  function addressFromForm() {
+    var number = ($('#coNumber').value || '').trim() + ($('#coAddition').value || '').trim();
+    return {
+      first_name: ($('#coFirst').value || '').trim(),
+      last_name: ($('#coLast').value || '').trim(),
+      address_1: (($('#coStreet').value || '').trim() + ' ' + number).trim(),
+      city: ($('#coCity').value || '').trim(),
+      postcode: ($('#coZip').value || '').trim().toUpperCase(),
+      country: $('#coCountry').value,
+      email: ($('#coEmail').value || '').trim(),
+      phone: ($('#coPhone').value || '').trim()
+    };
+  }
+
+  function refreshCustomer() {
+    var a = addressFromForm();
+    if (!a.postcode || !a.country) return Promise.resolve();
+    return api('/cart/update-customer', 'POST', { billing_address: a, shipping_address: a })
+      .then(function (data) { co.cart = data; co.rate = null; renderShipping(); renderSummary(); })
+      .catch(function () { /* stil: de klant is nog aan het typen */ });
+  }
+
+  function startCheckout() {
+    if (co.busy) return;
+    co.busy = true;
+    coAlert('');
+    api('/cart')
+      .then(function (data) {
+        var want = gamesWanted();
+        var line = (data.items || []).filter(function (i) { return i.id === WOO_IDS.memo; })[0];
+        if (!want) return data;
+        if (!line) return api('/cart/add-item', 'POST', { id: WOO_IDS.memo, quantity: want });
+        if (line.quantity !== want) return api('/cart/update-item', 'POST', { key: line.key, quantity: want });
+        return data;
+      })
+      .then(function (data) {
+        co.cart = data;
+        co.ready = true;
+        renderSummary(); renderShipping(); renderPayment();
+      })
+      .catch(function (err) {
+        co.ready = false;
+        coAlert('De winkelwagen van de winkel is nu niet bereikbaar (' + err.message +
+          '). <a href="' + SHOP + CHECKOUT_PATH + '?add-to-cart=' + WOO_IDS.memo +
+          '&quantity=' + Math.max(1, gamesWanted()) + '">Afrekenen op soccer-games.nl</a>.', true);
+      })
+      .then(function () { co.busy = false; });
+  }
+
+  document.addEventListener('click', function (e) {
+    var rate = e.target.closest('[data-rate]');
+    if (rate) {
+      co.rate = rate.getAttribute('data-rate');
+      $$('[data-rate]').forEach(function (o) { o.setAttribute('data-selected', String(o === rate)); });
+      api('/cart/select-shipping-rate', 'POST', { package_id: 0, rate_id: co.rate })
+        .then(function (data) { co.cart = data; renderSummary(); })
+        .catch(function (err) { coAlert('Verzendmethode kon niet worden gekozen: ' + err.message); });
+      return;
+    }
+    var method = e.target.closest('[data-method]');
+    if (method) {
+      co.method = method.getAttribute('data-method');
+      $$('[data-method]').forEach(function (o) { o.setAttribute('data-selected', String(o === method)); });
+    }
+  });
+
+  ['#coZip', '#coCountry', '#coNumber'].forEach(function (sel) {
+    var el = $(sel);
+    if (el) el.addEventListener('change', refreshCustomer);
+  });
+
+  var form = $('#checkoutForm');
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (co.busy) return;
+      coAlert('');
+
+      if (!co.ready) { coAlert('De winkel is even niet bereikbaar. Probeer het zo nog eens.'); return; }
+      var required = ['#coEmail', '#coFirst', '#coLast', '#coZip', '#coNumber', '#coStreet', '#coCity'];
+      var missing = required.filter(function (sel) { return !$(sel).value.trim(); });
+      $$('.co-field input').forEach(function (i) { i.removeAttribute('aria-invalid'); });
+      if (missing.length) {
+        missing.forEach(function (sel) { $(sel).setAttribute('aria-invalid', 'true'); });
+        $(missing[0]).focus();
+        coAlert('Vul de gemarkeerde velden nog even in.');
+        return;
+      }
+      if (!$('#coTerms').checked) { coAlert('Vink de algemene voorwaarden aan om te bestellen.'); return; }
+      if (!co.method) { coAlert('Kies een betaalmethode.'); return; }
+
+      co.busy = true;
+      $('#coSubmit').disabled = true;
+      var address = addressFromForm();
+
+      api('/checkout', 'POST', {
+        billing_address: address,
+        shipping_address: address,
+        customer_note: ($('#coNote').value || '').trim(),
+        payment_method: co.method,
+        extensions: {}
+      }).then(function (order) {
+        var result = order.payment_result || {};
+        if (result.redirect_url) { window.location.href = result.redirect_url; return; }
+        coAlert('Bestelling ' + order.order_id + ' is aangemaakt, maar de betaalpagina gaf geen adres terug.');
+      }).catch(function (err) {
+        var data = err.data || {};
+        if (data.data && data.data.params) {
+          Object.keys(data.data.params).forEach(function (key) {
+            var el = $('#co' + key.replace('billing_address_', ''));
+            if (el) el.setAttribute('aria-invalid', 'true');
+          });
+        }
+        coAlert('Bestellen lukte niet: ' + err.message);
+      }).then(function () {
+        co.busy = false;
+        $('#coSubmit').disabled = false;
+      });
+    });
+  }
 
   renderCart();
 })();
