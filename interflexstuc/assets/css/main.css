@@ -20,10 +20,13 @@
   --ifs-ink-soft:   #232F42;   /* lopende tekst: donkerder dan voorheen */
   --ifs-stone:      #56627A;   /* bijschriften, nog ruim binnen de norm */
   --ifs-stone-soft: #8A94A6;
-  --ifs-line:       #D9E1EE;
-  --ifs-line-soft:  #EBF0F7;
-  --ifs-mist:       #F2F6FC;
-  --ifs-mist-deep:  #E4EBF6;
+  /* Kalksteen: de vlakken zijn warm, de tekstkleuren blijven koel
+     (afgeleid van het marineblauw). Dat verschil tussen warm en koel geeft
+     meer contrast dan een extra accentkleur zou doen. */
+  --ifs-line:       #E0DAD0;
+  --ifs-line-soft:  #EDE9E2;
+  --ifs-mist:       #F1EDE6;
+  --ifs-mist-deep:  #E5DED2;
   --ifs-white:      #FFFFFF;
   --ifs-green:      #17795A;
   --ifs-amber:      #E9A020;
@@ -695,7 +698,7 @@ a:hover > .ifs-media img, .ifs-card--link:hover .ifs-media img { transform: scal
 .ifs-wizard__nav {
   display: flex; align-items: center; justify-content: flex-end; gap: 1rem;
   padding: 1.35rem clamp(1.5rem, 1rem + 2vw, 2.75rem);
-  border-top: 1px solid var(--ifs-line-soft); background: #F7FAFE;
+  border-top: 1px solid var(--ifs-line-soft); background: #FAF8F4;
 }
 .ifs-wizard__nav [data-prev] { margin-right: auto; }
 .ifs-btn.is-loading { pointer-events: none; opacity: .75; }
