@@ -130,7 +130,7 @@ button{font:inherit;color:inherit}
 }
 
 /* ---------- USP-balk ---------- */
-.usps{background:var(--pitch-deep);color:#EAF6EC;border-bottom:1px solid var(--line)}
+.usps{background:var(--pitch-deep);color:#EAF6EC;border-bottom:1px solid var(--line);overflow:hidden}
 .usps ul{display:flex;flex-wrap:wrap;gap:8px 28px;list-style:none;margin:0;padding:10px 0;justify-content:center;font-size:.86rem}
 .usps li{display:flex;align-items:center;gap:8px}
 .usps svg{width:15px;height:15px;color:var(--lemon);flex:none}
@@ -465,8 +465,21 @@ button{font:inherit;color:inherit}
   .nav{display:none}
   .cols--3,.steps{grid-template-columns:1fr}
   .specs{grid-template-columns:1fr 1fr}
-  .usps ul{justify-content:flex-start;gap:6px 18px;font-size:.8rem}
   .section__head{align-items:start}
+
+  /* USP's schuiven voorbij in plaats van onder elkaar te staan */
+  .usps .wrap{padding-inline:0;overflow:hidden}
+  .usps ul{
+    flex-wrap:nowrap;width:max-content;gap:0 26px;justify-content:flex-start;
+    font-size:.82rem;padding-inline:16px;animation:usp-slide 26s linear infinite;
+  }
+  .usps li{white-space:nowrap;flex:none}
+  .usps:focus-within ul, .usps:hover ul{animation-play-state:paused}
+}
+@keyframes usp-slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){
+  .usps ul{animation:none}
+  .usps{overflow-x:auto;-webkit-overflow-scrolling:touch}
 }
 @media (max-width:460px){
   .cols--4,.cols--2{grid-template-columns:1fr}
@@ -541,13 +554,28 @@ button{font:inherit;color:inherit}
   display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);
   gap:clamp(24px,4vw,48px);align-items:start;padding-bottom:clamp(40px,6vw,72px);
 }
-.checkout__form{display:flex;flex-direction:column;gap:22px}
+.checkout__form{display:flex;flex-direction:column;gap:22px;min-width:0}
 .checkout__summary{
-  position:sticky;top:calc(84px + env(safe-area-inset-top,0px));
+  min-width:0;position:sticky;top:calc(84px + env(safe-area-inset-top,0px));
   background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-card);padding:22px;
   display:flex;flex-direction:column;gap:12px;
 }
 .checkout__summary h2{font-size:1.15rem}
+
+/* Besteloverzicht als accordeon: open op desktop, dichtgeklapt op mobiel */
+.co-sum{display:flex;flex-direction:column;gap:12px}
+.co-sum > summary{list-style:none;cursor:pointer}
+.co-sum > summary::-webkit-details-marker{display:none}
+.co-sum__head{display:flex;align-items:center;gap:10px}
+.co-sum__title{font-family:var(--f-display);font-weight:800;font-size:1.15rem}
+.co-sum__total{margin-left:auto;font-family:var(--f-mono);font-weight:500}
+.co-sum__chev{
+  width:10px;height:10px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);
+  transform:rotate(45deg);transition:transform .2s ease;display:none;
+}
+.co-sum[open] .co-sum__chev{transform:rotate(-135deg)}
+
+.co-coupon__label{font-weight:600;font-size:.9rem}
 
 .co-block{border:0;padding:0;margin:0;display:flex;flex-direction:column;gap:12px}
 .co-block legend{
@@ -562,7 +590,7 @@ button{font:inherit;color:inherit}
 .co-field em{font-style:normal;font-weight:400;font-size:.8rem;color:var(--muted)}
 .co-field input, .co-field select, .co-field textarea{
   font:inherit;font-weight:400;font-size:16px;padding:13px 14px;border-radius:12px;
-  border:2px solid var(--line);background:var(--surface);color:var(--ink);width:100%;
+  border:2px solid var(--line);background:var(--surface);color:var(--ink);width:100%;min-width:0;
 }
 .co-field input:focus, .co-field select:focus, .co-field textarea:focus{
   border-color:var(--pitch);outline:3px solid color-mix(in srgb,var(--brand) 30%,transparent);outline-offset:1px;
@@ -592,7 +620,7 @@ button{font:inherit;color:inherit}
 .delivery__row{align-items:center}
 .co-hint--ok{color:var(--pitch);font-weight:600}
 .co-hint--bad{color:#B42318}
-.co-coupon{display:flex;flex-direction:column;gap:6px;border-top:1px solid var(--line);padding-top:14px}
+.co-coupon{display:flex;flex-direction:column;gap:6px;border-top:1px solid var(--line);padding-top:12px;margin-top:2px}
 .co-coupon__row{display:flex;gap:8px}
 .co-coupon__row input{
   flex:1;min-width:0;font:inherit;font-size:16px;padding:11px 13px;border-radius:12px;
@@ -621,6 +649,18 @@ button{font:inherit;color:inherit}
 .co-vat{font-size:.78rem;color:var(--muted);margin:0}
 
 @media (max-width:900px){
-  .checkout{grid-template-columns:1fr}
-  .checkout__summary{position:static;order:-1}
+  .checkout{grid-template-columns:minmax(0,1fr);gap:18px}
+  .checkout__form{gap:18px}
+  .checkout__form h1{font-size:clamp(1.9rem,8vw,2.4rem)}
+  .checkout__summary{position:static;order:2;padding:14px 16px;gap:10px}
+  .co-sum__chev{display:block}
+  .co-sum{gap:10px}
+  .co-sum:not([open]) > summary{margin:0}
+  .co-block{gap:10px}
+  .co-row{gap:10px}
+  .co-field{flex:1 1 140px}
+  .co-field--full{flex-basis:100%}
+  .co-field input, .co-field select, .co-field textarea{padding:12px 13px}
+  .delivery{padding:14px;gap:8px}
+  .co-option{padding:12px 13px}
 }

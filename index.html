@@ -773,17 +773,24 @@
       </form>
 
       <aside class="checkout__summary">
-        <h2>Je bestelling</h2>
-        <div id="coSummary"><p class="co-hint">Winkelwagen ophalen…</p></div>
+        <details class="co-sum" id="coSumBox" open>
+          <summary class="co-sum__head">
+            <span class="co-sum__title">Je bestelling</span>
+            <span class="co-sum__total" id="coSumTotal"></span>
+            <span class="co-sum__chev" aria-hidden="true"></span>
+          </summary>
+
+          <div id="coSummary"><p class="co-hint">Winkelwagen ophalen…</p></div>
 
         <div class="co-coupon">
-          <label class="co-field" for="coCoupon"><span>Kortingscode</span></label>
+          <label class="co-coupon__label" for="coCoupon">Kortingscode</label>
           <div class="co-coupon__row">
             <input id="coCoupon" placeholder="bijv. TEAM10" autocomplete="off">
             <button type="button" class="btn btn--sm" id="coCouponApply">Toepassen</button>
           </div>
           <p class="co-hint" id="coCouponMsg" role="status" aria-live="polite" hidden></p>
         </div>
+        </details>
         <div class="delivery" style="margin-top:14px">
           <div class="delivery__row"><svg><use href="#ic-truck"></use></svg><p>Voor 22:00 besteld, morgen in huis met PostNL.</p>
             <span class="co-logo co-logo--sm"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUUKsgpp-qaHW4ODGaZwQ-fqZGQm2nqjZBye6LhiedIQ&amp;s=10" alt="PostNL" loading="lazy"></span></div>

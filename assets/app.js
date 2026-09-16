@@ -676,7 +676,9 @@
       rows += '<p class="co-vat">Inclusief ' + money(t.total_tax, unit) + ' btw</p>';
     }
     box.innerHTML = rows;
-    if ($('#coSubmitTotal')) $('#coSubmitTotal').textContent = money(t.total_price, unit);
+    var total = money(t.total_price, unit);
+    if ($('#coSubmitTotal')) $('#coSubmitTotal').textContent = total;
+    if ($('#coSumTotal')) $('#coSumTotal').textContent = total;
   }
 
   function renderShipping() {
@@ -803,6 +805,8 @@
     if (co.busy) return;
     co.busy = true;
     coAlert('');
+    /* Vast bedrag in de kop, zodat het overzicht ook dichtgeklapt iets zegt */
+    if ($('#coSumTotal')) $('#coSumTotal').textContent = euro.format(cartTotal());
     api('/cart')
       .then(function (data) {
         var want = gamesWanted();
@@ -819,7 +823,7 @@
       })
       .catch(function (err) {
         co.ready = false;
-        if (location.hostname.indexOf('vercel.app') < 0) {
+        if (!window.__STORE_PROXY__ && location.hostname.indexOf('vercel.app') < 0) {
           coAlert('Deze afrekenpagina heeft de winkelwagen-proxy nodig en draait alleen op ' +
             '<a href="https://soccer-memo-shop.vercel.app/#/afrekenen">soccer-memo-shop.vercel.app</a>. ' +
             'Op deze voorbeeldweergave is er geen server, dus komt er een 404 terug.', true);
@@ -964,6 +968,32 @@
   if (payStrip) {
     payStrip.addEventListener('error', function () { payStrip.hidden = true; });
   }
+
+  /* ---------- Mobiel: overzicht dichtgeklapt, USP's schuiven voorbij ---------- */
+  var small = window.matchMedia('(max-width: 900px)');
+  var narrow = window.matchMedia('(max-width: 760px)');
+
+  function foldSummary() {
+    var box = $('#coSumBox');
+    if (!box) return;
+    if (small.matches) { box.removeAttribute('open'); } else { box.setAttribute('open', ''); }
+  }
+  foldSummary();
+  if (small.addEventListener) small.addEventListener('change', foldSummary);
+
+  var uspDoubled = false;
+  function loopUsps() {
+    var list = $('.usps ul');
+    if (!list || uspDoubled || !narrow.matches) return;
+    Array.prototype.slice.call(list.children).forEach(function (li) {
+      var copy = li.cloneNode(true);
+      copy.setAttribute('aria-hidden', 'true');
+      list.appendChild(copy);
+    });
+    uspDoubled = true;
+  }
+  loopUsps();
+  if (narrow.addEventListener) narrow.addEventListener('change', loopUsps);
 
   renderCart();
 })();
