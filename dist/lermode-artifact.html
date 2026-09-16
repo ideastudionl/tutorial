@@ -1,0 +1,1368 @@
+<title>LERMODE Amsterdam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   LERMODE — Premium damesmode
+   Design tokens & base
+   ============================================================ */
+:root{
+  --ivory:#FBF9F6;
+  --bone:#F4EFE9;
+  --sand:#EAE0D5;
+  --taupe:#C6B4A2;
+  --clay:#A08A74;
+  --espresso:#241F1A;
+  --ink:#16120E;
+  --gold:#B08A54;
+  --blush:#E9DAD3;
+  --line:rgba(36,31,26,.13);
+  --line-light:rgba(255,255,255,.22);
+  --muted:rgba(36,31,26,.58);
+
+  --ff-display:"Cormorant Garamond",Georgia,"Times New Roman",serif;
+  --ff-sans:"Jost","Helvetica Neue",Arial,sans-serif;
+
+  --wrap:1320px;
+  --gut:clamp(20px,4vw,56px);
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --ease-soft:cubic-bezier(.4,0,.2,1);
+  --header-h:76px;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+body{
+  margin:0;background:var(--ivory);color:var(--espresso);
+  font-family:var(--ff-sans);font-weight:300;font-size:15px;line-height:1.7;
+  letter-spacing:.012em;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+body.is-locked{overflow:hidden}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+h1,h2,h3,h4{margin:0;font-family:var(--ff-display);font-weight:300;letter-spacing:.005em;line-height:1.08}
+p{margin:0 0 1.1em}
+em{font-style:italic}
+svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.15;stroke-linecap:round;stroke-linejoin:round}
+
+.wrap{width:100%;max-width:var(--wrap);margin-inline:auto;padding-inline:var(--gut)}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip-link{position:fixed;top:-60px;left:20px;z-index:200;background:var(--espresso);color:var(--ivory);padding:10px 18px;transition:top .2s}
+.skip-link:focus{top:12px}
+:focus-visible{outline:1px solid var(--gold);outline-offset:3px}
+.u-hide-m{display:inline-flex}
+
+/* ── Typografie-onderdelen ───────────────────────────────── */
+.eyebrow{
+  font-size:10.5px;letter-spacing:.34em;text-transform:uppercase;font-weight:400;
+  color:var(--clay);margin:0 0 18px;
+}
+.eyebrow--light{color:rgba(255,255,255,.78)}
+.sec-title{font-size:clamp(34px,5.2vw,64px);letter-spacing:-.01em}
+.sec-title em{color:var(--clay)}
+.sec-sub{max-width:52ch;margin:16px auto 0;color:var(--muted);font-size:14.5px}
+.sec-head{text-align:center;margin-bottom:clamp(38px,5vw,70px)}
+.sec-head--row{display:flex;align-items:flex-end;justify-content:space-between;gap:30px;text-align:left}
+.sec-head--row .sec-sub{margin-inline:0}
+.sec-foot{text-align:center;margin-top:clamp(40px,5vw,66px)}
+.section{padding:clamp(72px,9vw,132px) 0}
+.section--tight{padding-top:clamp(20px,3vw,42px)}
+
+.link-line{
+  display:inline-block;font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+  padding-bottom:4px;background-image:linear-gradient(currentColor,currentColor);
+  background-size:0 1px;background-repeat:no-repeat;background-position:0 100%;
+  transition:background-size .5s var(--ease);
+}
+
+/* ── Buttons ─────────────────────────────────────────────── */
+.btn{
+  --bg:var(--espresso);--fg:var(--ivory);--bd:var(--espresso);
+  position:relative;display:inline-flex;align-items:center;justify-content:center;
+  padding:16px 38px;background:var(--bg);color:var(--fg);border:1px solid var(--bd);
+  font-size:11px;letter-spacing:.24em;text-transform:uppercase;font-weight:400;
+  overflow:hidden;transition:color .45s var(--ease),border-color .45s var(--ease);
+}
+.btn::after{
+  content:"";position:absolute;inset:0;background:var(--fg);
+  transform:scaleY(0);transform-origin:bottom;transition:transform .5s var(--ease);z-index:0;
+}
+.btn>*{position:relative;z-index:1}
+.btn:hover{color:var(--bg)}
+.btn:hover::after{transform:scaleY(1)}
+.btn--dark{--bg:var(--espresso);--fg:var(--ivory)}
+.btn--light{--bg:var(--ivory);--fg:var(--espresso);--bd:var(--ivory)}
+.btn--ghost-light{--bg:transparent;--fg:#fff;--bd:rgba(255,255,255,.55)}
+.btn--ghost-light:hover{color:var(--espresso)}
+.btn--full{width:100%}
+
+/* ── Announcement bar ────────────────────────────────────── */
+.announce{
+  background:var(--espresso);color:rgba(255,255,255,.88);
+  height:38px;display:grid;place-items:center;overflow:hidden;
+}
+.announce__track{position:relative;height:38px;width:100%}
+.announce__item{
+  position:absolute;inset:0;display:grid;place-items:center;
+  font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;
+  opacity:0;transform:translateY(8px);transition:opacity .6s var(--ease),transform .6s var(--ease);
+  padding-inline:16px;text-align:center;
+}
+.announce__item.is-active{opacity:1;transform:none}
+
+/* ── Header ──────────────────────────────────────────────── */
+.header{
+  position:sticky;top:0;z-index:60;background:rgba(251,249,246,.86);
+  backdrop-filter:saturate(1.3) blur(14px);-webkit-backdrop-filter:saturate(1.3) blur(14px);
+  border-bottom:1px solid transparent;transition:border-color .4s,background .4s,box-shadow .4s;
+}
+.header.is-stuck{border-color:var(--line);box-shadow:0 12px 40px -34px rgba(36,31,26,.6)}
+.header__inner{
+  max-width:var(--wrap);margin-inline:auto;padding:0 var(--gut);
+  display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
+  min-height:var(--header-h);gap:18px;
+}
+.header__right{grid-column:3;display:flex;align-items:center;justify-content:flex-end;gap:clamp(14px,2vw,30px)}
+.nav{display:flex;gap:clamp(18px,2vw,30px);align-items:center}
+.nav--right{justify-content:flex-end}
+.nav a{
+  font-size:11px;letter-spacing:.2em;text-transform:uppercase;position:relative;padding:6px 0;
+}
+.nav a::after{
+  content:"";position:absolute;left:0;bottom:0;height:1px;width:100%;background:currentColor;
+  transform:scaleX(0);transform-origin:right;transition:transform .45s var(--ease);
+}
+.nav a:hover::after{transform:scaleX(1);transform-origin:left}
+.nav a.is-accent{color:var(--gold)}
+
+.brand{grid-column:2;display:flex;flex-direction:column;align-items:center;gap:3px;padding:12px 0}
+.brand__mark{width:22px;height:22px;color:var(--espresso);opacity:.85;transition:width .4s,height .4s,opacity .4s}
+.brand__word{
+  font-family:var(--ff-display);font-size:clamp(19px,2vw,25px);letter-spacing:.4em;text-indent:.4em;
+  line-height:1;font-weight:400;white-space:nowrap;
+}
+.brand__word--lg{font-size:30px;display:block;margin-bottom:20px}
+.brand__tag{font-size:8px;letter-spacing:.42em;text-indent:.42em;text-transform:uppercase;color:var(--clay)}
+.header.is-stuck .brand__mark{width:0;height:0;opacity:0;transition:.4s}
+.header.is-stuck .brand__tag{opacity:0;height:0;overflow:hidden;transition:.3s}
+
+.header__actions{display:flex;align-items:center;justify-content:flex-end;gap:2px}
+.header .header__burger{display:none}
+.icon-btn{
+  width:40px;height:40px;display:inline-grid;place-items:center;position:relative;
+  transition:opacity .3s,transform .3s;
+}
+.icon-btn svg{width:20px;height:20px}
+.icon-btn:hover{opacity:.55}
+.icon-btn--round{border:1px solid var(--line);border-radius:50%;width:44px;height:44px;transition:background .4s,color .4s,border-color .4s}
+.icon-btn--round:hover{background:var(--espresso);color:var(--ivory);border-color:var(--espresso);opacity:1}
+.cart-count{
+  position:absolute;top:4px;right:2px;min-width:16px;height:16px;border-radius:9px;padding:0 4px;
+  background:var(--gold);color:#fff;font-size:9.5px;letter-spacing:0;display:grid;place-items:center;
+  transform:scale(0);transition:transform .35s var(--ease);
+}
+.cart-count.is-on{transform:scale(1)}
+.burger{display:grid;gap:5px;width:20px}
+.burger i{height:1px;background:currentColor;display:block;transition:.35s}
+
+/* ── Beeld-placeholder (wordt vervangen door echte foto) ─── */
+.ph{
+  position:relative;margin:0;overflow:hidden;background:var(--sand);
+  background-image:
+    radial-gradient(56% 44% at var(--ph-lx,50%) var(--ph-ly,26%), rgba(255,255,255,.36) 0%, transparent 62%),
+    radial-gradient(44% 54% at var(--ph-mx,50%) var(--ph-my,64%), var(--ph-b,#8d7460) 0%, transparent 72%),
+    radial-gradient(130% 92% at 50% 118%, var(--ph-c,#3a3029) 0%, transparent 64%),
+    repeating-linear-gradient(var(--ph-tex,104deg), rgba(255,255,255,.055) 0 2px, transparent 2px 7px),
+    linear-gradient(var(--ph-ray,112deg), transparent 30%, rgba(255,255,255,.17) 46%, transparent 60%),
+    linear-gradient(var(--ph-ang,160deg), var(--ph-a,#e6dacd) 0%, var(--ph-b,#8d7460) 58%, var(--ph-c,#3a3029) 100%);
+  background-size:cover;background-position:center;
+  isolation:isolate;
+}
+.ph__shine{display:none}
+.ph::before{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.55;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.42'/%3E%3C/svg%3E");
+  box-shadow:inset 0 0 90px 24px rgba(26,20,16,.3), inset 0 -60px 90px -40px rgba(26,20,16,.45);
+}
+.ph::after{
+  content:attr(data-label);position:absolute;left:0;right:0;bottom:22px;text-align:center;
+  font-size:9.5px;letter-spacing:.34em;text-transform:uppercase;color:rgba(255,255,255,.55);
+  text-shadow:0 1px 14px rgba(0,0,0,.4);pointer-events:none;transition:opacity .4s;
+}
+.cat__img::after,.lookbook__bg::after,.story__img::after,.ig__item .ph::after{bottom:auto;top:20px}
+.ph.is-photo{background-image:var(--src)!important}
+.ph.is-photo::before,.ph.is-photo::after{content:none}
+
+/* ── Hero ────────────────────────────────────────────────── */
+.hero{
+  position:relative;min-height:clamp(560px,92svh,940px);display:grid;align-items:end;
+  color:#fff;overflow:hidden;
+}
+.hero__media{position:absolute;inset:0}
+.hero__slide{
+  position:absolute;inset:0;opacity:0;transform:scale(1.08);
+  transition:opacity 1.6s var(--ease-soft);
+}
+.hero__slide.is-active{opacity:1;animation:kenburns 14s linear forwards}
+@keyframes kenburns{from{transform:scale(1.04)}to{transform:scale(1.14)}}
+.hero__slide::after{bottom:auto;top:26px;opacity:.55}
+.hero__veil{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(20,16,12,.76) 0%,rgba(20,16,12,.34) 42%,rgba(20,16,12,.12) 72%,rgba(20,16,12,.3) 100%);
+}
+.hero__content{
+  position:relative;z-index:2;max-width:var(--wrap);margin-inline:auto;width:100%;
+  padding:0 var(--gut) clamp(84px,11vw,140px);
+}
+.hero__title{
+  font-size:clamp(44px,8.2vw,112px);line-height:.98;letter-spacing:-.015em;margin-bottom:26px;
+}
+.hero__title .line{display:block;overflow:hidden}
+.hero__title .line>span{display:block;transform:translateY(105%);animation:riseIn 1.2s var(--ease) forwards}
+.hero__title .line:nth-child(2)>span{animation-delay:.14s}
+.hero__title em{color:var(--blush)}
+@keyframes riseIn{to{transform:none}}
+.hero__lead{
+  max-width:46ch;color:rgba(255,255,255,.84);font-size:clamp(14.5px,1.35vw,17px);
+  opacity:0;animation:fadeUp 1s var(--ease) .5s forwards;
+}
+.hero__cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px;opacity:0;animation:fadeUp 1s var(--ease) .68s forwards}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.hero__dots{position:absolute;z-index:3;right:var(--gut);bottom:clamp(84px,11vw,140px);display:grid;gap:12px;justify-items:center}
+.dot{flex:none;width:8px;height:8px;padding:0;border-radius:50%;border:1px solid rgba(255,255,255,.65);transition:.35s}
+.dot.is-active{background:#fff;transform:scale(1.25)}
+.hero__scroll{
+  position:absolute;left:var(--gut);bottom:30px;z-index:3;display:flex;align-items:center;gap:12px;
+  font-size:9.5px;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.72);
+}
+.hero__scroll i{width:44px;height:1px;background:currentColor;display:block;transform-origin:left;animation:scrollLine 2.4s var(--ease) infinite}
+@keyframes scrollLine{0%,100%{transform:scaleX(.3)}50%{transform:scaleX(1)}}
+
+/* ── Marquee ─────────────────────────────────────────────── */
+.marquee{background:var(--espresso);color:var(--bone);padding:15px 0;overflow:hidden}
+.marquee__track{display:flex;gap:34px;white-space:nowrap;width:max-content;animation:slide 34s linear infinite}
+.marquee span{font-size:10.5px;letter-spacing:.3em;text-transform:uppercase}
+.marquee b{color:var(--gold)}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+/* ── Categorieën ─────────────────────────────────────────── */
+.cats{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(12px,1.6vw,24px);align-items:start}
+.cat{display:block;position:relative;overflow:hidden;background:var(--sand)}
+.cat__img{aspect-ratio:3/4;transition:transform 1.1s var(--ease)}
+.cat--tall .cat__img{aspect-ratio:3/4.55}
+.cat::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(20,16,12,.62),rgba(20,16,12,.05) 55%);
+  transition:opacity .6s;
+}
+.cat:hover .cat__img{transform:scale(1.06)}
+.cat__body{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:clamp(20px,2.4vw,34px);color:#fff}
+.cat__body h3{font-size:clamp(24px,2.6vw,34px);margin-bottom:8px}
+.cat:hover .link-line{background-size:100% 1px}
+
+/* ── Productgrid ─────────────────────────────────────────── */
+.grid--products{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(14px,1.8vw,30px) clamp(12px,1.4vw,24px)}
+.card{position:relative;opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.card.in{opacity:1;transform:none}
+.card__media{position:relative;display:block;overflow:hidden;background:var(--sand);aspect-ratio:3/4}
+.card__media .ph{position:absolute;inset:0;transition:opacity .7s var(--ease),transform 1.2s var(--ease)}
+.card__media .ph--back{opacity:0}
+.card:hover .ph--front{opacity:0;transform:scale(1.04)}
+.card:hover .ph--back{opacity:1;transform:scale(1.04)}
+.badge{
+  position:absolute;top:14px;left:14px;z-index:3;background:var(--ivory);color:var(--espresso);
+  padding:6px 12px;font-size:9px;letter-spacing:.22em;text-transform:uppercase;
+}
+.badge--sale{background:var(--espresso);color:var(--ivory)}
+.wish{
+  position:absolute;top:10px;right:10px;z-index:3;width:38px;height:38px;border-radius:50%;
+  display:grid;place-items:center;background:rgba(251,249,246,.86);opacity:0;transform:translateY(-6px);
+  transition:.4s var(--ease);
+}
+.wish svg{width:17px;height:17px}
+.card:hover .wish{opacity:1;transform:none}
+.wish.is-on svg{fill:var(--gold);stroke:var(--gold)}
+.card__add{
+  position:absolute;left:10px;right:10px;bottom:10px;z-index:3;
+  background:rgba(251,249,246,.94);backdrop-filter:blur(6px);
+  padding:13px;text-align:center;font-size:10px;letter-spacing:.24em;text-transform:uppercase;
+  opacity:0;transform:translateY(12px);transition:.45s var(--ease);
+}
+.card__add:hover{background:var(--espresso);color:var(--ivory)}
+.card:hover .card__add{opacity:1;transform:none}
+.card__body{padding:16px 2px 0;display:flex;flex-direction:column;gap:5px}
+.card__cat{font-size:9.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--clay)}
+.card__name{font-family:var(--ff-display);font-size:19px;line-height:1.2}
+.card__price{display:flex;align-items:baseline;gap:9px;font-size:13.5px}
+.card__price s{color:var(--muted);font-size:12px}
+.card__price .now{color:var(--gold)}
+.swatches{display:flex;gap:6px;margin-top:3px}
+.swatch{width:11px;height:11px;border-radius:50%;border:1px solid rgba(36,31,26,.18)}
+.card.is-hidden{display:none}
+
+.filters{display:flex;gap:6px;flex-wrap:wrap}
+.filter{
+  padding:9px 18px;border:1px solid var(--line);font-size:10px;letter-spacing:.2em;
+  text-transform:uppercase;transition:.4s var(--ease);
+}
+.filter:hover{border-color:var(--espresso)}
+.filter.is-active{background:var(--espresso);color:var(--ivory);border-color:var(--espresso)}
+
+/* ── Story ───────────────────────────────────────────────── */
+.story{background:var(--bone);padding:clamp(76px,9vw,140px) 0}
+.story__grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(34px,6vw,96px);align-items:center}
+.story__media{position:relative;padding-bottom:64px;padding-right:56px}
+.story__img{aspect-ratio:4/5}
+.story__img--float{
+  position:absolute;right:0;bottom:0;width:46%;aspect-ratio:3/4;
+  border:8px solid var(--bone);
+}
+.story__text p{color:var(--muted);max-width:52ch}
+.story__text .sec-title{margin-bottom:24px}
+.story__facts{display:flex;gap:clamp(22px,4vw,54px);list-style:none;padding:0;margin:34px 0 36px}
+.story__facts li{display:grid;gap:2px}
+.story__facts strong{font-family:var(--ff-display);font-size:38px;font-weight:400;line-height:1}
+.story__facts span{font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--clay)}
+
+/* ── Lookbook ────────────────────────────────────────────── */
+.lookbook{position:relative;min-height:clamp(440px,62vw,640px);display:grid;place-items:center;text-align:center;color:#fff;overflow:hidden}
+.lookbook__bg{position:absolute;inset:-12% 0;height:124%}
+.lookbook__veil{position:absolute;inset:0;background:linear-gradient(rgba(20,16,12,.52),rgba(20,16,12,.62))}
+.lookbook__inner{position:relative;z-index:2;padding-block:clamp(60px,8vw,110px)}
+.lookbook__title{font-size:clamp(36px,6.4vw,82px);line-height:1.02;margin-bottom:20px}
+.lookbook__title em{color:var(--blush)}
+.lookbook__lead{max-width:44ch;margin:0 auto 32px;color:rgba(255,255,255,.82)}
+
+/* ── Carousel ────────────────────────────────────────────── */
+.carousel{
+  display:flex;gap:clamp(12px,1.4vw,24px);overflow-x:auto;scroll-snap-type:x mandatory;
+  padding:0 var(--gut) 10px;scrollbar-width:none;
+}
+.carousel::-webkit-scrollbar{display:none}
+.carousel>.card{flex:0 0 clamp(230px,24vw,320px);scroll-snap-align:start}
+.carousel-nav{display:flex;gap:8px}
+
+/* ── Services ────────────────────────────────────────────── */
+.services{border-block:1px solid var(--line);padding:clamp(46px,5vw,74px) 0}
+.services__grid{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(24px,3vw,52px)}
+.service{opacity:0;transform:translateY(20px);transition:.8s var(--ease);transition-delay:var(--d,0s)}
+.service.in{opacity:1;transform:none}
+.service svg{width:26px;height:26px;color:var(--clay);margin-bottom:16px;stroke-width:1}
+.service h3{font-size:19px;margin-bottom:7px}
+.service p{font-size:13.5px;color:var(--muted);margin:0}
+
+/* ── Reviews ─────────────────────────────────────────────── */
+.reviews{background:var(--bone);text-align:center}
+.reviews__stage{position:relative;min-height:230px;max-width:820px;margin-inline:auto}
+.review{
+  position:absolute;inset:0;margin:0;opacity:0;transform:translateY(14px);
+  transition:opacity .7s var(--ease),transform .7s var(--ease);
+}
+.review.is-active{opacity:1;transform:none;position:relative}
+.stars{color:var(--gold);letter-spacing:.34em;font-size:13px;margin-bottom:22px}
+.review p{font-family:var(--ff-display);font-size:clamp(21px,2.7vw,33px);line-height:1.42;margin-bottom:22px}
+.review cite{font-style:normal;font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--clay)}
+.reviews__dots{display:flex;gap:9px;justify-content:center;margin-top:34px}
+.reviews__dots .dot{border-color:var(--taupe)}
+.reviews__dots .dot.is-active{background:var(--espresso);border-color:var(--espresso)}
+
+/* ── Instagram ───────────────────────────────────────────── */
+.ig{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;margin-top:8px}
+.ig__item{position:relative;overflow:hidden;opacity:0;transform:scale(.97);transition:.8s var(--ease);transition-delay:var(--d,0s)}
+.ig__item.in{opacity:1;transform:none}
+.ig__item .ph{aspect-ratio:1;transition:transform 1s var(--ease)}
+.ig__item:hover .ph{transform:scale(1.07)}
+
+/* ── Newsletter ──────────────────────────────────────────── */
+.news{background:var(--espresso);color:var(--bone);padding:clamp(72px,9vw,128px) 0;text-align:center}
+.news .eyebrow{color:var(--taupe)}
+.news .sec-title{color:var(--ivory)}
+.news__inner{max-width:640px;margin-inline:auto}
+.news__lead{color:rgba(246,242,237,.66);margin:18px 0 32px}
+.news__form{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.news__form input{
+  flex:1 1 320px;background:transparent;border:1px solid rgba(246,242,237,.3);color:var(--ivory);
+  padding:16px 20px;font-family:var(--ff-sans);font-size:13.5px;font-weight:300;
+}
+.news__form input::placeholder{color:rgba(246,242,237,.42)}
+.news__form input:focus{outline:none;border-color:var(--taupe)}
+.news__form .btn{--bg:var(--ivory);--fg:var(--espresso);--bd:var(--ivory)}
+.news__note{font-size:11px;color:rgba(246,242,237,.4);margin:18px 0 0}
+
+/* ── Footer ──────────────────────────────────────────────── */
+.footer{background:var(--ink);color:rgba(246,242,237,.72);padding:clamp(60px,7vw,96px) 0 0;font-size:13.5px}
+.footer__grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:clamp(30px,4vw,60px);padding-bottom:56px}
+.footer__brand p{max-width:34ch;color:rgba(246,242,237,.5)}
+.footer .brand__word{color:var(--ivory)}
+.footer__col h4{font-family:var(--ff-sans);font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--ivory);margin-bottom:18px;font-weight:400}
+.footer__col a{display:block;padding:5px 0;color:rgba(246,242,237,.6);transition:color .3s}
+.footer__col a:hover{color:var(--ivory)}
+.footer__addr{color:rgba(246,242,237,.6);line-height:1.9}
+.footer__addr a{display:inline;padding:0;color:inherit;border-bottom:1px solid rgba(246,242,237,.24)}
+.socials{display:flex;gap:10px;margin-top:22px}
+.socials a{width:38px;height:38px;border:1px solid rgba(246,242,237,.2);border-radius:50%;display:grid;place-items:center;transition:.4s}
+.socials svg{width:17px;height:17px}
+.socials a:hover{background:var(--ivory);color:var(--ink);border-color:var(--ivory)}
+.footer__bar{
+  border-top:1px solid rgba(246,242,237,.12);padding-block:24px;
+  display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;
+  font-size:11px;color:rgba(246,242,237,.42);
+}
+.footer__bar p{margin:0}
+.pay{display:flex;gap:8px;flex-wrap:wrap}
+.pay span{border:1px solid rgba(246,242,237,.16);padding:5px 10px;font-size:9.5px;letter-spacing:.12em}
+.footer__legal{display:flex;gap:18px}
+.footer__legal a:hover{color:var(--ivory)}
+
+/* ── Drawers / overlays ──────────────────────────────────── */
+.scrim{
+  position:fixed;inset:0;z-index:70;background:rgba(20,16,12,.44);backdrop-filter:blur(3px);
+  opacity:0;visibility:hidden;transition:opacity .45s var(--ease),visibility .45s;
+}
+.scrim.is-on{opacity:1;visibility:visible}
+.drawer{
+  position:fixed;top:0;bottom:0;z-index:80;width:min(420px,92vw);background:var(--ivory);
+  display:flex;flex-direction:column;transition:transform .55s var(--ease);
+  box-shadow:0 0 90px -30px rgba(20,16,12,.55);
+}
+.drawer--left{left:0;transform:translateX(-102%)}
+.drawer--right{right:0;transform:translateX(102%)}
+.drawer.is-open{transform:none}
+.drawer__head{display:flex;align-items:center;justify-content:space-between;padding:22px 26px;border-bottom:1px solid var(--line)}
+.drawer__title{font-family:var(--ff-display);font-size:21px}
+.drawer__title em{color:var(--clay);font-style:normal;font-size:15px}
+.drawer__nav{display:flex;flex-direction:column;padding:22px 26px;overflow-y:auto;flex:1}
+.drawer__nav a{font-family:var(--ff-display);font-size:26px;padding:11px 0;transition:padding-left .4s var(--ease)}
+.drawer__nav a:hover{padding-left:10px}
+.drawer__nav a.is-accent{color:var(--gold)}
+.drawer__nav hr{border:0;border-top:1px solid var(--line);margin:18px 0;width:100%}
+.drawer__nav hr~a{font-family:var(--ff-sans);font-size:12px;letter-spacing:.18em;text-transform:uppercase}
+.drawer__foot{padding:22px 26px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+.drawer__foot p{margin:0}
+
+.cart__ship{padding:18px 26px;border-bottom:1px solid var(--line);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.cart__bar{display:block;height:2px;background:var(--sand);margin-top:10px}
+.cart__bar b{display:block;height:100%;width:0;background:var(--gold);transition:width .6s var(--ease)}
+.cart__items{flex:1;overflow-y:auto;padding:8px 26px}
+.cart__empty{text-align:center;padding:64px 0;color:var(--muted);font-family:var(--ff-display);font-size:20px}
+.cart__empty span{display:block;font-family:var(--ff-sans);font-size:12px;margin-top:8px}
+.cart-line{display:grid;grid-template-columns:78px 1fr auto;gap:16px;padding:20px 0;border-bottom:1px solid var(--line)}
+.cart-line .ph{aspect-ratio:3/4}
+.cart-line__name{font-family:var(--ff-display);font-size:17px}
+.cart-line__meta{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--clay);margin-top:3px}
+.cart-line__qty{display:flex;align-items:center;gap:12px;margin-top:10px;border:1px solid var(--line);width:max-content;padding:3px 10px}
+.cart-line__qty button{font-size:14px;line-height:1;padding:2px 4px;color:var(--muted)}
+.cart-line__qty span{font-size:12px;min-width:14px;text-align:center}
+.cart-line__price{font-size:13.5px}
+.cart-line__rm{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:10px;display:block;text-decoration:underline}
+.cart__foot{padding:22px 26px 26px;border-top:1px solid var(--line)}
+.cart__row{display:flex;justify-content:space-between;align-items:baseline;font-size:12px;letter-spacing:.16em;text-transform:uppercase}
+.cart__row strong{font-family:var(--ff-display);font-size:23px;font-weight:400;letter-spacing:0}
+.cart__note{font-size:11px;color:var(--muted);margin:8px 0 16px}
+
+.search-overlay{
+  position:fixed;inset:0;z-index:90;background:var(--ivory);display:grid;place-items:center;
+  opacity:0;visibility:hidden;transform:translateY(-14px);transition:.5s var(--ease);
+}
+.search-overlay.is-open{opacity:1;visibility:visible;transform:none}
+.search-overlay__close{position:absolute;top:22px;right:var(--gut)}
+.search-overlay__inner{width:min(720px,88vw);text-align:center}
+.search-overlay input{
+  width:100%;border:0;border-bottom:1px solid var(--line);background:none;padding:18px 0;
+  font-family:var(--ff-display);font-size:clamp(26px,4vw,44px);text-align:center;color:var(--espresso);
+}
+.search-overlay input:focus{outline:none;border-color:var(--espresso)}
+.search-overlay__hint{font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--clay);margin:34px 0 14px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.chip{border:1px solid var(--line);padding:9px 18px;font-size:11px;letter-spacing:.14em;transition:.35s}
+.chip:hover{background:var(--espresso);color:var(--ivory);border-color:var(--espresso)}
+
+.toast{
+  position:fixed;left:50%;bottom:34px;z-index:120;transform:translate(-50%,24px);
+  background:var(--espresso);color:var(--ivory);padding:14px 26px;font-size:11px;
+  letter-spacing:.2em;text-transform:uppercase;opacity:0;visibility:hidden;transition:.45s var(--ease);
+}
+.toast.is-on{opacity:1;visibility:visible;transform:translate(-50%,0)}
+
+/* ── Reveal ──────────────────────────────────────────────── */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .9s var(--ease),transform .9s var(--ease);transition-delay:var(--d,0s)}
+.reveal.in{opacity:1;transform:none}
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width:1180px){
+  .nav--left a:nth-child(n+4),.nav--right a:nth-child(n+3){display:none}
+  .grid--products{grid-template-columns:repeat(3,1fr)}
+  .ig{grid-template-columns:repeat(3,1fr)}
+}
+@media (max-width:980px){
+  :root{--header-h:64px}
+  .nav{display:none}
+  .header .header__burger{display:inline-grid}
+  .header__inner{grid-template-columns:1fr auto 1fr}
+  .brand{grid-column:2}
+  .u-hide-m{display:none}
+  .story__grid{grid-template-columns:1fr;gap:44px}
+  .story__media{padding-right:34px;padding-bottom:44px}
+  .services__grid{grid-template-columns:repeat(2,1fr)}
+  .footer__grid{grid-template-columns:1fr 1fr}
+  .sec-head--row{flex-direction:column;align-items:flex-start;gap:20px}
+}
+@media (max-width:680px){
+  body{font-size:14.5px}
+  .grid--products{grid-template-columns:repeat(2,1fr);gap:26px 12px}
+  .cats{grid-template-columns:1fr;gap:12px}
+  .cat__img,.cat--tall .cat__img{aspect-ratio:4/5}
+  .hero{min-height:88svh}
+  .hero__dots{display:none}
+  .hero__scroll{display:none}
+  .ig{grid-template-columns:repeat(2,1fr)}
+  .story__facts{gap:20px}
+  .story__facts strong{font-size:30px}
+  .footer__grid{grid-template-columns:1fr;gap:34px}
+  .footer__bar{flex-direction:column;align-items:flex-start;gap:14px}
+  .card__add{opacity:1;transform:none;position:static;margin-top:10px;background:none;border:1px solid var(--line);backdrop-filter:none}
+  .wish{opacity:1;transform:none}
+  .news__form{flex-direction:column}
+  .news__form .btn{width:100%}
+  .hero__cta{flex-direction:column;align-items:stretch}
+  .hero__cta .btn{width:100%}
+}
+
+
+/* Artifact-skelet: veilige zones respecteren */
+html,body{margin:0}
+.header{top:env(safe-area-inset-top,0px)}
+.announce{padding-top:env(safe-area-inset-top,0px);height:auto;min-height:38px}
+.toast{bottom:calc(34px + env(safe-area-inset-bottom,0px))}
+
+</style>
+<a class="skip-link" href="#main">Naar hoofdinhoud</a>
+
+<!-- ══ ANNOUNCEMENT ══ -->
+<div class="announce" role="region" aria-label="Aankondigingen">
+  <div class="announce__track" data-announce>
+    <span class="announce__item is-active">Gratis verzending in NL &amp; BE vanaf &euro;100</span>
+    <span class="announce__item">Nieuwe najaarscollectie &mdash; nu online</span>
+    <span class="announce__item">30 dagen bedenktijd &middot; Zorgeloos retourneren</span>
+  </div>
+</div>
+
+<!-- ══ HEADER ══ -->
+<header class="header" data-header>
+  <div class="header__inner">
+    <button class="icon-btn header__burger" data-open="nav" aria-label="Menu openen">
+      <span class="burger"><i></i><i></i><i></i></span>
+    </button>
+
+    <nav class="nav nav--left" aria-label="Hoofdnavigatie">
+      <a href="#new">Nieuw</a>
+      <a href="#categorieen">Kleding</a>
+      <a href="#bestsellers">Tassen</a>
+      <a href="#instagram">Accessoires</a>
+    </nav>
+
+    <a class="brand" href="#top" aria-label="LERMODE — home">
+      <svg class="brand__mark" viewBox="0 0 48 48" aria-hidden="true">
+        <circle cx="24" cy="24" r="23" fill="none" stroke="currentColor" stroke-width=".6"/>
+        <path d="M16 15v18h11" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="square"/>
+        <path d="M24 33 33 15" fill="none" stroke="currentColor" stroke-width="1.1"/>
+      </svg>
+      <span class="brand__word">LERMODE</span>
+      <span class="brand__tag">Amsterdam</span>
+    </a>
+
+    <div class="header__right">
+    <nav class="nav nav--right" aria-label="Secundaire navigatie">
+      <a href="#story">Atelier</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#sale" class="is-accent">Sale</a>
+    </nav>
+
+    <div class="header__actions">
+      <button class="icon-btn" data-open="search" aria-label="Zoeken">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>
+      </button>
+      <button class="icon-btn u-hide-m" aria-label="Account">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.8 20c.9-3.8 3.8-5.8 7.2-5.8s6.3 2 7.2 5.8"/></svg>
+      </button>
+      <button class="icon-btn u-hide-m" aria-label="Verlanglijst">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7.5-4.6-7.5-9.4A4.1 4.1 0 0 1 12 8.2a4.1 4.1 0 0 1 7.5 2.4C19.5 15.4 12 20 12 20Z"/></svg>
+      </button>
+      <button class="icon-btn icon-btn--cart" data-open="cart" aria-label="Winkelmand openen">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9.5 8V6.4a2.5 2.5 0 0 1 5 0V8"/></svg>
+        <span class="cart-count" data-cart-count>0</span>
+      </button>
+    </div>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<span id="top"></span>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="hero__media">
+    <figure class="ph hero__slide is-active" data-img="hero-1" data-label="Herfst 2026 — Look 01" style="--ph-a:#e0d2c4;--ph-b:#8d7460;--ph-c:#3a3029;--ph-ang:152deg;--ph-lx:42%;--ph-ly:22%;--ph-mx:58%;--ph-my:60%;--ph-tex:88deg;--ph-ray:100deg"></figure>
+    <figure class="ph hero__slide" data-img="hero-2" data-label="Herfst 2026 — Look 02" style="--ph-a:#e9ded8;--ph-b:#9c8378;--ph-c:#3c332e;--ph-ang:168deg;--ph-lx:58%;--ph-ly:30%;--ph-mx:42%;--ph-my:66%;--ph-tex:97deg;--ph-ray:114deg"></figure>
+    <figure class="ph hero__slide" data-img="hero-3" data-label="Herfst 2026 — Look 03" style="--ph-a:#d9d3cb;--ph-b:#7f7a70;--ph-c:#312e29;--ph-ang:186deg;--ph-lx:50%;--ph-ly:18%;--ph-mx:50%;--ph-my:72%;--ph-tex:106deg;--ph-ray:128deg"></figure>
+  </div>
+  <div class="hero__veil"></div>
+
+  <div class="hero__content">
+    <p class="eyebrow eyebrow--light">Najaarscollectie 2026</p>
+    <h1 class="hero__title">
+      <span class="line"><span>Tijdloze elegantie,</span></span>
+      <span class="line"><span><em>zorgvuldig</em> gekozen</span></span>
+    </h1>
+    <p class="hero__lead">Verfijnde stukken in kasjmier, zijde en Italiaanse wol &mdash; ontworpen in Amsterdam, gemaakt om jaren mee te gaan.</p>
+    <div class="hero__cta">
+      <a href="#new" class="btn btn--light">Shop de collectie</a>
+      <a href="#story" class="btn btn--ghost-light">Ons atelier</a>
+    </div>
+  </div>
+
+  <div class="hero__dots" role="tablist" aria-label="Hero slides">
+    <button class="dot is-active" data-slide="0" aria-label="Look 1"></button>
+    <button class="dot" data-slide="1" aria-label="Look 2"></button>
+    <button class="dot" data-slide="2" aria-label="Look 3"></button>
+  </div>
+
+  <a class="hero__scroll" href="#categorieen" aria-label="Scroll verder">
+    <span>Scroll</span><i></i>
+  </a>
+</section>
+
+<!-- ══ MARQUEE ══ -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__track">
+    <span>Italiaanse stoffen</span><b>&bull;</b><span>Kleinschalige productie</span><b>&bull;</b>
+    <span>Gratis verzending vanaf &euro;100</span><b>&bull;</b><span>Persoonlijk stijladvies</span><b>&bull;</b>
+    <span>Italiaanse stoffen</span><b>&bull;</b><span>Kleinschalige productie</span><b>&bull;</b>
+    <span>Gratis verzending vanaf &euro;100</span><b>&bull;</b><span>Persoonlijk stijladvies</span><b>&bull;</b>
+  </div>
+</div>
+
+<!-- ══ CATEGORIEËN ══ -->
+<section class="section" id="categorieen">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <p class="eyebrow">Shop per categorie</p>
+      <h2 class="sec-title">De garderobe</h2>
+      <p class="sec-sub">Drie pijlers waarop elke verfijnde garderobe rust.</p>
+    </header>
+
+    <div class="cats">
+      <a class="cat reveal" href="#new">
+        <figure class="ph cat__img" data-img="cat-kleding" data-label="Kleding" style="--ph-a:#e6dacd;--ph-b:#96826f;--ph-c:#3b332c;--ph-ang:144deg;--ph-lx:36%;--ph-ly:34%;--ph-mx:64%;--ph-my:78%;--ph-tex:115deg;--ph-ray:142deg"></figure>
+        <div class="cat__body">
+          <h3>Kleding</h3>
+          <span class="link-line">Jurken, blazers &amp; knitwear</span>
+        </div>
+      </a>
+      <a class="cat cat--tall reveal" href="#bestsellers" style="--d:.1s">
+        <figure class="ph cat__img" data-img="cat-tassen" data-label="Tassen" style="--ph-a:#dfd3c6;--ph-b:#8a705a;--ph-c:#342b23;--ph-ang:204deg;--ph-lx:64%;--ph-ly:26%;--ph-mx:36%;--ph-my:60%;--ph-tex:124deg;--ph-ray:156deg"></figure>
+        <div class="cat__body">
+          <h3>Tassen</h3>
+          <span class="link-line">Leder uit Florence</span>
+        </div>
+      </a>
+      <a class="cat reveal" href="#instagram" style="--d:.2s">
+        <figure class="ph cat__img" data-img="cat-accessoires" data-label="Accessoires" style="--ph-a:#eae1da;--ph-b:#9b8a80;--ph-c:#3a322d;--ph-ang:160deg;--ph-lx:48%;--ph-ly:20%;--ph-mx:52%;--ph-my:66%;--ph-tex:88deg;--ph-ray:170deg"></figure>
+        <div class="cat__body">
+          <h3>Accessoires</h3>
+          <span class="link-line">Sieraden, sjaals &amp; riemen</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ NIEUW BINNEN ══ -->
+<section class="section section--tight" id="new">
+  <div class="wrap">
+    <header class="sec-head sec-head--row reveal">
+      <div>
+        <p class="eyebrow">Net gearriveerd</p>
+        <h2 class="sec-title">Nieuw binnen</h2>
+      </div>
+      <div class="filters" role="tablist">
+        <button class="filter is-active" data-filter="all">Alles</button>
+        <button class="filter" data-filter="kleding">Kleding</button>
+        <button class="filter" data-filter="knitwear">Knitwear</button>
+        <button class="filter" data-filter="tassen">Tassen</button>
+      </div>
+    </header>
+
+    <div class="grid grid--products" data-products></div>
+
+    <div class="sec-foot reveal">
+      <a href="#" class="btn btn--dark">Bekijk alle 148 stukken</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ STORY / EDITORIAL ══ -->
+<section class="story" id="story">
+  <div class="wrap story__grid">
+    <div class="story__media reveal">
+      <figure class="ph story__img" data-img="story-atelier" data-label="Atelier — Amsterdam" style="--ph-a:#e5dbd0;--ph-b:#8f7c6a;--ph-c:#362e27;--ph-ang:176deg;--ph-lx:56%;--ph-ly:32%;--ph-mx:44%;--ph-my:72%;--ph-tex:97deg;--ph-ray:100deg"></figure>
+      <figure class="ph story__img story__img--float" data-img="story-detail" data-label="Detail" style="--ph-a:#efe7df;--ph-b:#a2907f;--ph-c:#3b332c;--ph-ang:138deg;--ph-lx:44%;--ph-ly:24%;--ph-mx:56%;--ph-my:78%;--ph-tex:106deg;--ph-ray:114deg"></figure>
+    </div>
+    <div class="story__text reveal" style="--d:.12s">
+      <p class="eyebrow">Sinds 2009</p>
+      <h2 class="sec-title">Mode die blijft,<br><em>geen seizoen lang</em></h2>
+      <p>Wat begon als een kleine boetiek is uitgegroeid tot een huis met een heldere overtuiging: liever twintig perfecte stukken dan tweehonderd middelmatige. Elk ontwerp wordt in eigen atelier getekend, gepast en bijgeschaafd tot de pasvorm klopt &mdash; op elk figuur.</p>
+      <p>Wij werken met Italiaanse en Portugese familiebedrijven die al generaties weven. Kleine oplages, eerlijke ketens, stoffen die mooier worden met de jaren.</p>
+      <ul class="story__facts">
+        <li><strong>17</strong><span>jaar vakmanschap</span></li>
+        <li><strong>32k</strong><span>vrouwen gekleed</span></li>
+        <li><strong>4.9</strong><span>gemiddelde review</span></li>
+      </ul>
+      <a href="#" class="btn btn--dark">Lees ons verhaal</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ LOOKBOOK / PARALLAX ══ -->
+<section class="lookbook" id="sale">
+  <figure class="ph lookbook__bg" data-img="lookbook" data-label="Lookbook" style="--ph-a:#d8cec4;--ph-b:#7d6b5b;--ph-c:#2b241e;--ph-ang:196deg;--ph-lx:60%;--ph-ly:28%;--ph-mx:40%;--ph-my:60%;--ph-tex:115deg;--ph-ray:128deg"></figure>
+  <div class="lookbook__veil"></div>
+  <div class="wrap lookbook__inner reveal">
+    <p class="eyebrow eyebrow--light">Private sale &mdash; t/m zondag</p>
+    <h2 class="lookbook__title">Tot <em>30%</em> op<br>geselecteerde stukken</h2>
+    <p class="lookbook__lead">Een zorgvuldige selectie uit voorgaande collecties. Zolang de voorraad strekt.</p>
+    <a href="#new" class="btn btn--light">Shop de sale</a>
+  </div>
+</section>
+
+<!-- ══ BESTSELLERS ══ -->
+<section class="section" id="bestsellers">
+  <div class="wrap">
+    <header class="sec-head sec-head--row reveal">
+      <div>
+        <p class="eyebrow">Meest geliefd</p>
+        <h2 class="sec-title">Bestsellers</h2>
+      </div>
+      <div class="carousel-nav">
+        <button class="icon-btn icon-btn--round" data-carousel="prev" aria-label="Vorige">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg>
+        </button>
+        <button class="icon-btn icon-btn--round" data-carousel="next" aria-label="Volgende">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 5.5 6.5 6.5-6.5 6.5"/></svg>
+        </button>
+      </div>
+    </header>
+  </div>
+  <div class="carousel" data-bestsellers></div>
+</section>
+
+<!-- ══ SERVICES ══ -->
+<section class="services">
+  <div class="wrap services__grid">
+    <div class="service reveal">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8.5h13v8H3z"/><path d="M16 11h3.2l1.8 2.6v2.9H16z"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17.5" cy="17.5" r="1.8"/></svg>
+      <h3>Gratis verzending</h3><p>Vanaf &euro;100 in NL &amp; BE, voor 22:00 besteld morgen in huis.</p>
+    </div>
+    <div class="service reveal" style="--d:.08s">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4v4h-4"/></svg>
+      <h3>30 dagen retour</h3><p>Past het niet? Retourneren is gratis en zonder gedoe.</p>
+    </div>
+    <div class="service reveal" style="--d:.16s">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5 14.6 9l6 .9-4.3 4.2 1 6-5.3-2.8L6.7 20l1-6L3.4 9.9l6-.9z"/></svg>
+      <h3>Persoonlijk advies</h3><p>Onze stylisten denken graag met je mee &mdash; per app of in de boetiek.</p>
+    </div>
+    <div class="service reveal" style="--d:.24s">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="6.5" width="17" height="11.5" rx="1.5"/><path d="M3.5 10.5h17"/></svg>
+      <h3>Veilig betalen</h3><p>iDEAL, Klarna, Bancontact, creditcard &amp; Apple Pay.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ REVIEWS ══ -->
+<section class="section reviews" id="reviews">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <p class="eyebrow">4.9 / 5 &mdash; 2.184 beoordelingen</p>
+      <h2 class="sec-title">Wat klanten zeggen</h2>
+    </header>
+    <div class="reviews__stage reveal" data-reviews>
+      <blockquote class="review is-active">
+        <div class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p>&ldquo;De kwaliteit is werkelijk uitzonderlijk. Mijn blazer valt alsof hij op maat gemaakt is &mdash; ik krijg er elke week complimenten over.&rdquo;</p>
+        <cite>Marieke V. &middot; Amsterdam</cite>
+      </blockquote>
+      <blockquote class="review">
+        <div class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p>&ldquo;Eindelijk een webshop waar je niet hoeft te twijfelen. Prachtig ingepakt, snel geleverd en het stylingadvies was echt persoonlijk.&rdquo;</p>
+        <cite>Sanne D. &middot; Antwerpen</cite>
+      </blockquote>
+      <blockquote class="review">
+        <div class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p>&ldquo;Ik draag mijn kasjmier trui nu drie winters en hij is nog als nieuw. Dat is precies waarom ik hier blijf kopen.&rdquo;</p>
+        <cite>Yvonne K. &middot; Rotterdam</cite>
+      </blockquote>
+    </div>
+    <div class="reviews__dots" data-review-dots>
+      <button class="dot is-active" aria-label="Review 1"></button>
+      <button class="dot" aria-label="Review 2"></button>
+      <button class="dot" aria-label="Review 3"></button>
+    </div>
+  </div>
+</section>
+
+<!-- ══ INSTAGRAM ══ -->
+<section class="section section--tight" id="instagram">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <p class="eyebrow">&#64;lermode</p>
+      <h2 class="sec-title">Gedragen door jou</h2>
+      <p class="sec-sub">Tag ons met <strong>#LERMODEwomen</strong> voor een plek in onze feed.</p>
+    </header>
+  </div>
+  <div class="ig">
+    <a class="ig__item reveal" href="#"><figure class="ph" data-img="ig-1" data-label="&#64;lermode" style="--ph-a:#e8ddd2;--ph-b:#96826f;--ph-c:#39312a;--ph-ang:158deg;--ph-lx:52%;--ph-ly:36%;--ph-mx:48%;--ph-my:66%;--ph-tex:124deg;--ph-ray:142deg"></figure></a>
+    <a class="ig__item reveal" href="#" style="--d:.06s"><figure class="ph" data-img="ig-2" data-label="&#64;lermode" style="--ph-a:#ded5cd;--ph-b:#867a6c;--ph-c:#332d27;--ph-ang:170deg;--ph-lx:38%;--ph-ly:22%;--ph-mx:62%;--ph-my:72%;--ph-tex:88deg;--ph-ray:156deg"></figure></a>
+    <a class="ig__item reveal" href="#" style="--d:.12s"><figure class="ph" data-img="ig-3" data-label="&#64;lermode" style="--ph-a:#f0e7df;--ph-b:#a4907e;--ph-c:#3d342c;--ph-ang:148deg;--ph-lx:62%;--ph-ly:30%;--ph-mx:38%;--ph-my:78%;--ph-tex:97deg;--ph-ray:170deg"></figure></a>
+    <a class="ig__item reveal" href="#" style="--d:.18s"><figure class="ph" data-img="ig-4" data-label="&#64;lermode" style="--ph-a:#e3d8cf;--ph-b:#8f7c6c;--ph-c:#36302a;--ph-ang:152deg;--ph-lx:42%;--ph-ly:22%;--ph-mx:58%;--ph-my:60%;--ph-tex:106deg;--ph-ray:100deg"></figure></a>
+    <a class="ig__item reveal" href="#" style="--d:.24s"><figure class="ph" data-img="ig-5" data-label="&#64;lermode" style="--ph-a:#ebe2d9;--ph-b:#9d8b7a;--ph-c:#3a322b;--ph-ang:168deg;--ph-lx:58%;--ph-ly:30%;--ph-mx:42%;--ph-my:66%;--ph-tex:115deg;--ph-ray:114deg"></figure></a>
+    <a class="ig__item reveal" href="#" style="--d:.3s"><figure class="ph" data-img="ig-6" data-label="&#64;lermode" style="--ph-a:#dcd2c9;--ph-b:#8a7767;--ph-c:#342d26;--ph-ang:186deg;--ph-lx:50%;--ph-ly:18%;--ph-mx:50%;--ph-my:72%;--ph-tex:124deg;--ph-ray:128deg"></figure></a>
+  </div>
+</section>
+
+<!-- ══ NEWSLETTER ══ -->
+<section class="news">
+  <div class="wrap news__inner reveal">
+    <p class="eyebrow">Word lid van de club</p>
+    <h2 class="sec-title">10% op je eerste bestelling</h2>
+    <p class="news__lead">Ontvang als eerste nieuwe collecties, private sales en stijladvies. Eén mail per week, nooit meer.</p>
+    <form class="news__form" data-newsletter novalidate>
+      <label class="sr-only" for="nl-mail">E-mailadres</label>
+      <input id="nl-mail" type="email" name="email" placeholder="jouw@email.nl" required>
+      <button class="btn btn--dark" type="submit">Inschrijven</button>
+    </form>
+    <p class="news__note">Door je in te schrijven ga je akkoord met ons privacybeleid.</p>
+  </div>
+</section>
+
+</main>
+
+<!-- ══ FOOTER ══ -->
+<footer class="footer">
+  <div class="wrap footer__grid">
+    <div class="footer__brand">
+      <span class="brand__word brand__word--lg">LERMODE</span>
+      <p>Premium damesmode uit Amsterdam. Tijdloze ontwerpen, eerlijke materialen, een pasvorm die klopt.</p>
+      <div class="socials">
+        <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".9" fill="currentColor"/></svg></a>
+        <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M14.5 21v-8h2.7l.5-3.2h-3.2V7.7c0-.9.3-1.6 1.7-1.6h1.6V3.2A22 22 0 0 0 15.3 3c-2.5 0-4.2 1.5-4.2 4.3v2.5H8.3V13h2.8v8z"/></svg></a>
+        <a href="#" aria-label="Pinterest"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M10.2 18.5c.5-1.9 1.6-5.9 1.6-5.9a2.7 2.7 0 0 1-.3-1.3c0-1.2.7-2.1 1.6-2.1.8 0 1.1.6 1.1 1.3 0 .8-.5 2-.8 3.1-.2 1 .5 1.7 1.4 1.7 1.7 0 2.9-2.2 2.9-4.7 0-1.9-1.3-3.4-3.7-3.4-2.7 0-4.4 2-4.4 4.2 0 .8.2 1.3.6 1.8.2.2.2.3.1.5l-.2.7c0 .2-.2.3-.4.2-1.2-.5-1.7-1.8-1.7-3.3 0-2.5 2.1-5.4 6.2-5.4 3.3 0 5.5 2.4 5.5 5 0 3.4-1.9 5.9-4.7 5.9-.9 0-1.8-.5-2.1-1.1l-.6 2.2c-.2.8-.7 1.6-1.1 2.2z"/></svg></a>
+        <a href="#" aria-label="TikTok"><svg viewBox="0 0 24 24"><path d="M14.5 3v9.8a3 3 0 1 1-2.6-3v-2.7a5.7 5.7 0 1 0 5.3 5.7V9.2a6.3 6.3 0 0 0 3.3 1V7.6a3.7 3.7 0 0 1-3.3-3.6z"/></svg></a>
+      </div>
+    </div>
+
+    <div class="footer__col">
+      <h4>Shop</h4>
+      <a href="#new">Nieuw binnen</a><a href="#categorieen">Kleding</a><a href="#bestsellers">Tassen</a>
+      <a href="#instagram">Accessoires</a><a href="#sale">Sale</a><a href="#">Cadeaubon</a>
+    </div>
+    <div class="footer__col">
+      <h4>Service</h4>
+      <a href="#">Verzending &amp; levering</a><a href="#">Retourneren</a><a href="#">Maattabel</a>
+      <a href="#">Onderhoudsadvies</a><a href="#">Veelgestelde vragen</a><a href="#">Contact</a>
+    </div>
+    <div class="footer__col">
+      <h4>Boetiek</h4>
+      <p class="footer__addr">
+        Cornelis Schuytstraat 24<br>1071 JJ Amsterdam<br><br>
+        di &ndash; za &middot; 10:00 &ndash; 18:00<br>
+        <a href="#">+31 20 123 45 67</a><br>
+        <a href="#">hello@lermode.nl</a>
+      </p>
+    </div>
+  </div>
+
+  <div class="wrap footer__bar">
+    <p>&copy; 2026 LERMODE &middot; KvK 12345678 &middot; Alle prijzen incl. btw</p>
+    <div class="pay" aria-label="Betaalmethoden">
+      <span>iDEAL</span><span>Klarna</span><span>VISA</span><span>Mastercard</span><span>Bancontact</span><span>Apple&nbsp;Pay</span>
+    </div>
+    <div class="footer__legal">
+      <a href="#">Privacy</a><a href="#">Voorwaarden</a><a href="#">Cookies</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ══ MOBIELE NAV ══ -->
+<div class="drawer drawer--left" data-panel="nav" aria-hidden="true">
+  <div class="drawer__head">
+    <span class="brand__word">LERMODE</span>
+    <button class="icon-btn" data-close aria-label="Sluiten"><svg viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
+  </div>
+  <nav class="drawer__nav">
+    <a href="#new">Nieuw binnen</a><a href="#categorieen">Kleding</a><a href="#bestsellers">Tassen</a>
+    <a href="#instagram">Accessoires</a><a href="#sale" class="is-accent">Sale</a>
+    <hr><a href="#story">Ons atelier</a><a href="#reviews">Reviews</a><a href="#">Contact</a>
+  </nav>
+  <div class="drawer__foot">
+    <p>Cornelis Schuytstraat 24, Amsterdam</p>
+    <p>+31 20 123 45 67</p>
+  </div>
+</div>
+
+<!-- ══ CART ══ -->
+<div class="drawer drawer--right" data-panel="cart" aria-hidden="true">
+  <div class="drawer__head">
+    <span class="drawer__title">Winkelmand <em data-cart-title>(0)</em></span>
+    <button class="icon-btn" data-close aria-label="Sluiten"><svg viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
+  </div>
+  <div class="cart__ship"><span data-ship-text>Nog &euro;100,00 tot gratis verzending</span><i class="cart__bar"><b data-ship-bar></b></i></div>
+  <div class="cart__items" data-cart-items>
+    <p class="cart__empty">Je winkelmand is nog leeg.<br><span>Ontdek de nieuwe collectie.</span></p>
+  </div>
+  <div class="cart__foot">
+    <div class="cart__row"><span>Subtotaal</span><strong data-cart-total>&euro; 0,00</strong></div>
+    <p class="cart__note">Verzendkosten worden bij het afrekenen berekend.</p>
+    <button class="btn btn--dark btn--full">Afrekenen</button>
+  </div>
+</div>
+
+<!-- ══ SEARCH ══ -->
+<div class="search-overlay" data-panel="search" aria-hidden="true">
+  <button class="icon-btn search-overlay__close" data-close aria-label="Sluiten"><svg viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
+  <div class="search-overlay__inner">
+    <label class="sr-only" for="q">Zoeken</label>
+    <input id="q" type="search" placeholder="Waar ben je naar op zoek?" autocomplete="off">
+    <p class="search-overlay__hint">Populair</p>
+    <div class="chips">
+      <button class="chip">Kasjmier trui</button><button class="chip">Blazer</button><button class="chip">Zijden blouse</button>
+      <button class="chip">Leren tas</button><button class="chip">Midi jurk</button>
+    </div>
+  </div>
+</div>
+
+<div class="scrim" data-scrim></div>
+<div class="toast" data-toast role="status" aria-live="polite"></div>
+<script>
+/* ============================================================
+   LERMODE — demo interacties
+   ============================================================ */
+(function () {
+  'use strict';
+
+  /* ── Catalogus ───────────────────────────────────────────
+     img / imgBack verwijzen naar assets/img/<naam>.jpg.
+     Ontbreekt het bestand, dan blijft de editorial placeholder staan. */
+  var PRODUCTS = [
+    { id:'p1', name:'Zijden blouse Céleste', cat:'kleding', catLabel:'Blouses', price:189, img:'product-1', back:'product-1b',
+      badge:'Nieuw', tones:['#EFE6DC','#2A2622','#B9A08C'], ph:['#efe5d9','#a08b76','#3a322a'] },
+    { id:'p2', name:'Kasjmier trui Luna', cat:'knitwear', catLabel:'Knitwear', price:245, img:'product-2', back:'product-2b',
+      tones:['#E4D8CB','#8C7A68','#3C3630'], ph:['#e7ddd1','#95836f','#38312a'] },
+    { id:'p3', name:'Wollen blazer Vivienne', cat:'kleding', catLabel:'Blazers', price:329, was:449, img:'product-3', back:'product-3b',
+      badge:'Sale', tones:['#26221E','#6E6257'], ph:['#ded4c9','#7f6d5c','#2f2922'] },
+    { id:'p4', name:'Leren tas Margot', cat:'tassen', catLabel:'Tassen', price:279, img:'product-4', back:'product-4b',
+      badge:'Bestseller', tones:['#8B5E3C','#26221E','#C9B39B'], ph:['#e3d3c1','#8d6a4c','#33271d'] },
+    { id:'p5', name:'Plissé midi jurk Aurore', cat:'kleding', catLabel:'Jurken', price:265, img:'product-5', back:'product-5b',
+      tones:['#3A3F44','#E8DED4'], ph:['#e9e2da','#8b8378','#333029'] },
+    { id:'p6', name:'Ribgebreide cardigan Neve', cat:'knitwear', catLabel:'Knitwear', price:198, img:'product-6', back:'product-6b',
+      tones:['#F0E7DD','#C2AD98'], ph:['#f1e8de','#a89380','#3d342c'] },
+    { id:'p7', name:'Schoudertas Colette', cat:'tassen', catLabel:'Tassen', price:225, was:295, img:'product-7', back:'product-7b',
+      badge:'Sale', tones:['#26221E','#A38B75'], ph:['#dcd0c3','#816c58','#2e271f'] },
+    { id:'p8', name:'Tailored pantalon Sienne', cat:'kleding', catLabel:'Broeken', price:179, img:'product-8', back:'product-8b',
+      tones:['#2B2724','#D8CBBC','#7E6E5E'], ph:['#e0d7cc','#8a7a68','#352e27'] }
+  ];
+
+  var BESTSELLERS = [
+    { id:'b1', name:'Kasjmier sjaal Iris', cat:'accessoires', catLabel:'Accessoires', price:129, img:'best-1', back:'best-1b',
+      badge:'Bestseller', tones:['#E7DACE','#6F6055'], ph:['#ece0d3','#9c8874','#3a3129'] },
+    { id:'b2', name:'Trenchcoat Margaux', cat:'kleding', catLabel:'Jassen', price:389, img:'best-2', back:'best-2b',
+      tones:['#CBB79E','#2A2622'], ph:['#e5d8c6','#a08d72','#39302a'] },
+    { id:'b3', name:'Satijnen slipdress Elise', cat:'kleding', catLabel:'Jurken', price:219, img:'best-3', back:'best-3b',
+      tones:['#B9A08C','#3A3F44'], ph:['#eadfd9','#a1897e','#3b322e'] },
+    { id:'b4', name:'Gouden hanger Solène', cat:'accessoires', catLabel:'Sieraden', price:95, img:'best-4', back:'best-4b',
+      tones:['#C8A560'], ph:['#f0e7dc','#b09a78','#3d352b'] },
+    { id:'b5', name:'Merino coltrui Ondine', cat:'knitwear', catLabel:'Knitwear', price:159, img:'best-5', back:'best-5b',
+      tones:['#26221E','#E8DED4','#8C7A68'], ph:['#e2d9d0','#8c8073','#332e28'] },
+    { id:'b6', name:'Leren riem Adèle', cat:'accessoires', catLabel:'Accessoires', price:89, img:'best-6', back:'best-6b',
+      tones:['#6B4A2F','#26221E'], ph:['#ded1c2','#87694c','#302620'] }
+  ];
+
+  var FREE_SHIP = 100;
+
+  /* ── Helpers ─────────────────────────────────────────────── */
+  var $  = function (s, c) { return (c || document).querySelector(s); };
+  var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
+  var euro = function (n) { return '€ ' + n.toFixed(2).replace('.', ','); };
+
+  /* Variatie per beeld, zodat placeholders niet identiek ogen */
+  var phSeed = 0;
+  function phStyle(ph, seed) {
+    var k = (typeof seed === 'number' ? seed : phSeed++);
+    var ang = 138 + (k * 23) % 72;
+    var lx  = 36 + (k * 17) % 30;
+    var ly  = 18 + (k * 11) % 20;
+    return '--ph-a:' + ph[0] + ';--ph-b:' + ph[1] + ';--ph-c:' + ph[2] +
+           ';--ph-ang:' + ang + 'deg;--ph-lx:' + lx + '%;--ph-ly:' + ly + '%' +
+           ';--ph-mx:' + (100 - lx) + '%;--ph-my:' + (58 + (k % 5) * 6) + '%' +
+           ';--ph-tex:' + (88 + (k % 6) * 9) + 'deg;--ph-ray:' + (98 + (k % 7) * 13) + 'deg';
+  }
+
+  function cardHTML(p) {
+    var badge = p.badge
+      ? '<span class="badge' + (p.badge === 'Sale' ? ' badge--sale' : '') + '">' + p.badge + '</span>' : '';
+    var price = p.was
+      ? '<s>' + euro(p.was) + '</s><span class="now">' + euro(p.price) + '</span>'
+      : '<span>' + euro(p.price) + '</span>';
+    var swatches = (p.tones || []).map(function (t) {
+      return '<span class="swatch" style="background:' + t + '"></span>';
+    }).join('');
+
+    return '' +
+      '<article class="card" data-cat="' + p.cat + '" data-id="' + p.id + '">' +
+        '<a class="card__media" href="#" aria-label="' + p.name + '">' +
+          badge +
+          '<figure class="ph ph--front" data-img="' + p.img + '" data-label="' + p.catLabel + '" style="' + phStyle(p.ph) + '"></figure>' +
+          '<figure class="ph ph--back" data-img="' + p.back + '" data-label="' + p.name + '" style="' + phStyle([p.ph[1], p.ph[2], p.ph[0]]) + '"></figure>' +
+          '<button class="wish" data-wish aria-label="Aan verlanglijst toevoegen">' +
+            '<svg viewBox="0 0 24 24"><path d="M12 20s-7.5-4.6-7.5-9.4A4.1 4.1 0 0 1 12 8.2a4.1 4.1 0 0 1 7.5 2.4C19.5 15.4 12 20 12 20Z"/></svg>' +
+          '</button>' +
+          '<button class="card__add" data-add="' + p.id + '">In winkelmand</button>' +
+        '</a>' +
+        '<div class="card__body">' +
+          '<span class="card__cat">' + p.catLabel + '</span>' +
+          '<h3 class="card__name">' + p.name + '</h3>' +
+          '<div class="card__price">' + price + '</div>' +
+          (swatches ? '<div class="swatches">' + swatches + '</div>' : '') +
+        '</div>' +
+      '</article>';
+  }
+
+  /* ── Render ──────────────────────────────────────────────── */
+  var grid = $('[data-products]');
+  var rail = $('[data-bestsellers]');
+  if (grid) grid.innerHTML = PRODUCTS.map(cardHTML).join('');
+  if (rail) rail.innerHTML = BESTSELLERS.map(cardHTML).join('');
+
+  var ALL = PRODUCTS.concat(BESTSELLERS);
+  var byId = function (id) {
+    for (var i = 0; i < ALL.length; i++) if (ALL[i].id === id) return ALL[i];
+    return null;
+  };
+
+  /* ── Echte foto's inladen zodra ze bestaan ───────────────── */
+  function hydratePhotos(root) {
+    $$('[data-img]', root || document).forEach(function (el) {
+      if (el.dataset.hydrated) return;
+      el.dataset.hydrated = '1';
+      var name = el.dataset.img;
+      var tries = ['assets/img/' + name + '.jpg', 'assets/img/' + name + '.webp', 'assets/img/' + name + '.png'];
+      (function next(i) {
+        if (i >= tries.length) return;
+        var probe = new Image();
+        probe.onload = function () {
+          el.style.setProperty('--src', 'url("' + tries[i] + '")');
+          el.classList.add('is-photo');
+        };
+        probe.onerror = function () { next(i + 1); };
+        probe.src = tries[i];
+      })(0);
+    });
+  }
+  hydratePhotos();
+
+  /* ── Scroll reveal ───────────────────────────────────────── */
+  var io = 'IntersectionObserver' in window
+    ? new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+        });
+      }, { threshold: .12, rootMargin: '0px 0px -8% 0px' })
+    : null;
+
+  function observe(root) {
+    $$('.reveal, .card, .service, .ig__item', root || document).forEach(function (el) {
+      if (io) io.observe(el); else el.classList.add('in');
+    });
+  }
+  observe();
+
+  /* ── Product-kaarten: stagger ────────────────────────────── */
+  $$('.grid--products .card').forEach(function (c, i) {
+    c.style.transitionDelay = (i % 4) * 0.08 + 's';
+  });
+
+  /* ── Header sticky state ─────────────────────────────────── */
+  var header = $('[data-header]');
+  var onScroll = function () {
+    if (header) header.classList.toggle('is-stuck', window.scrollY > 40);
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* ── Announcement rotator ────────────────────────────────── */
+  var items = $$('.announce__item');
+  if (items.length > 1) {
+    var ai = 0;
+    setInterval(function () {
+      items[ai].classList.remove('is-active');
+      ai = (ai + 1) % items.length;
+      items[ai].classList.add('is-active');
+    }, 4200);
+  }
+
+  /* ── Hero slider ─────────────────────────────────────────── */
+  var slides = $$('.hero__slide');
+  var dots = $$('.hero__dots .dot');
+  var hi = 0, heroTimer;
+  function goSlide(n) {
+    if (!slides.length) return;
+    slides[hi].classList.remove('is-active');
+    if (dots[hi]) dots[hi].classList.remove('is-active');
+    hi = (n + slides.length) % slides.length;
+    slides[hi].classList.add('is-active');
+    if (dots[hi]) dots[hi].classList.add('is-active');
+  }
+  function autoHero() {
+    clearInterval(heroTimer);
+    heroTimer = setInterval(function () { goSlide(hi + 1); }, 6500);
+  }
+  dots.forEach(function (d, i) {
+    d.addEventListener('click', function () { goSlide(i); autoHero(); });
+  });
+  if (slides.length > 1) autoHero();
+
+  /* ── Reviews slider ──────────────────────────────────────── */
+  var reviews = $$('.review');
+  var rDots = $$('[data-review-dots] .dot');
+  var ri = 0, rTimer;
+  function goReview(n) {
+    if (!reviews.length) return;
+    reviews[ri].classList.remove('is-active');
+    if (rDots[ri]) rDots[ri].classList.remove('is-active');
+    ri = (n + reviews.length) % reviews.length;
+    reviews[ri].classList.add('is-active');
+    if (rDots[ri]) rDots[ri].classList.add('is-active');
+  }
+  function autoReview() {
+    clearInterval(rTimer);
+    rTimer = setInterval(function () { goReview(ri + 1); }, 6000);
+  }
+  rDots.forEach(function (d, i) {
+    d.addEventListener('click', function () { goReview(i); autoReview(); });
+  });
+  if (reviews.length > 1) autoReview();
+
+  /* ── Filters ─────────────────────────────────────────────── */
+  $$('.filter').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      $$('.filter').forEach(function (b) { b.classList.remove('is-active'); });
+      btn.classList.add('is-active');
+      var f = btn.dataset.filter;
+      $$('.grid--products .card').forEach(function (card) {
+        var show = f === 'all' || card.dataset.cat === f;
+        card.classList.toggle('is-hidden', !show);
+        if (show) { card.classList.remove('in'); requestAnimationFrame(function () { card.classList.add('in'); }); }
+      });
+    });
+  });
+
+  /* ── Bestseller-carousel ─────────────────────────────────── */
+  var carousel = $('.carousel');
+  $$('[data-carousel]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      if (!carousel) return;
+      var step = carousel.querySelector('.card') ? carousel.querySelector('.card').offsetWidth + 24 : 300;
+      carousel.scrollBy({ left: btn.dataset.carousel === 'next' ? step : -step, behavior: 'smooth' });
+    });
+  });
+
+  /* ── Panels (nav / cart / search) ────────────────────────── */
+  var scrim = $('[data-scrim]');
+  function openPanel(name) {
+    var el = $('[data-panel="' + name + '"]');
+    if (!el) return;
+    el.classList.add('is-open');
+    el.setAttribute('aria-hidden', 'false');
+    if (name !== 'search' && scrim) scrim.classList.add('is-on');
+    document.body.classList.add('is-locked');
+    if (name === 'search') { var q = $('#q'); if (q) setTimeout(function () { q.focus(); }, 320); }
+  }
+  function closePanels() {
+    $$('[data-panel]').forEach(function (el) {
+      el.classList.remove('is-open');
+      el.setAttribute('aria-hidden', 'true');
+    });
+    if (scrim) scrim.classList.remove('is-on');
+    document.body.classList.remove('is-locked');
+  }
+  $$('[data-open]').forEach(function (b) {
+    b.addEventListener('click', function () { openPanel(b.dataset.open); });
+  });
+  $$('[data-close]').forEach(function (b) { b.addEventListener('click', closePanels); });
+  if (scrim) scrim.addEventListener('click', closePanels);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closePanels(); });
+  $$('.drawer__nav a').forEach(function (a) { a.addEventListener('click', closePanels); });
+
+  /* ── Toast ───────────────────────────────────────────────── */
+  var toastEl = $('[data-toast]'), toastTimer;
+  function toast(msg) {
+    if (!toastEl) return;
+    toastEl.textContent = msg;
+    toastEl.classList.add('is-on');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toastEl.classList.remove('is-on'); }, 2600);
+  }
+
+  /* ── Winkelmand ──────────────────────────────────────────── */
+  var cart = [];
+  var elItems = $('[data-cart-items]');
+  var elTotal = $('[data-cart-total]');
+  var elCount = $('[data-cart-count]');
+  var elTitle = $('[data-cart-title]');
+  var elShipTxt = $('[data-ship-text]');
+  var elShipBar = $('[data-ship-bar]');
+
+  function cartTotal() {
+    return cart.reduce(function (s, l) { return s + l.price * l.qty; }, 0);
+  }
+
+  function renderCart() {
+    if (!elItems) return;
+    var count = cart.reduce(function (s, l) { return s + l.qty; }, 0);
+    var total = cartTotal();
+
+    if (!cart.length) {
+      elItems.innerHTML = '<p class="cart__empty">Je winkelmand is nog leeg.<br><span>Ontdek de nieuwe collectie.</span></p>';
+    } else {
+      elItems.innerHTML = cart.map(function (l) {
+        return '' +
+          '<div class="cart-line" data-line="' + l.id + '">' +
+            '<figure class="ph" data-img="' + l.img + '" data-label="" style="' + phStyle(l.ph) + '"></figure>' +
+            '<div>' +
+              '<div class="cart-line__name">' + l.name + '</div>' +
+              '<div class="cart-line__meta">Maat M · ' + l.catLabel + '</div>' +
+              '<div class="cart-line__qty">' +
+                '<button data-qty="-1" aria-label="Minder">−</button>' +
+                '<span>' + l.qty + '</span>' +
+                '<button data-qty="1" aria-label="Meer">+</button>' +
+              '</div>' +
+            '</div>' +
+            '<div>' +
+              '<div class="cart-line__price">' + euro(l.price * l.qty) + '</div>' +
+              '<button class="cart-line__rm" data-rm>Verwijder</button>' +
+            '</div>' +
+          '</div>';
+      }).join('');
+      hydratePhotos(elItems);
+    }
+
+    if (elTotal) elTotal.textContent = euro(total);
+    if (elTitle) elTitle.textContent = '(' + count + ')';
+    if (elCount) { elCount.textContent = count; elCount.classList.toggle('is-on', count > 0); }
+
+    var left = Math.max(0, FREE_SHIP - total);
+    if (elShipTxt) elShipTxt.textContent = left > 0
+      ? 'Nog ' + euro(left) + ' tot gratis verzending'
+      : 'Gefeliciteerd — je verzending is gratis';
+    if (elShipBar) elShipBar.style.width = Math.min(100, (total / FREE_SHIP) * 100) + '%';
+  }
+
+  function addToCart(id) {
+    var p = byId(id);
+    if (!p) return;
+    var line = null;
+    for (var i = 0; i < cart.length; i++) if (cart[i].id === id) line = cart[i];
+    if (line) line.qty++;
+    else cart.push({ id: p.id, name: p.name, price: p.price, img: p.img, ph: p.ph, catLabel: p.catLabel, qty: 1 });
+    renderCart();
+    toast(p.name + ' toegevoegd');
+    openPanel('cart');
+  }
+
+  document.addEventListener('click', function (e) {
+    var add = e.target.closest('[data-add]');
+    if (add) { e.preventDefault(); addToCart(add.dataset.add); return; }
+
+    var wish = e.target.closest('[data-wish]');
+    if (wish) {
+      e.preventDefault();
+      wish.classList.toggle('is-on');
+      toast(wish.classList.contains('is-on') ? 'Toegevoegd aan verlanglijst' : 'Verwijderd van verlanglijst');
+      return;
+    }
+
+    var qty = e.target.closest('[data-qty]');
+    if (qty) {
+      var lineEl = qty.closest('[data-line]');
+      var id = lineEl.dataset.line;
+      for (var i = 0; i < cart.length; i++) {
+        if (cart[i].id === id) {
+          cart[i].qty += parseInt(qty.dataset.qty, 10);
+          if (cart[i].qty < 1) cart.splice(i, 1);
+          break;
+        }
+      }
+      renderCart();
+      return;
+    }
+
+    var rm = e.target.closest('[data-rm]');
+    if (rm) {
+      var rid = rm.closest('[data-line]').dataset.line;
+      cart = cart.filter(function (l) { return l.id !== rid; });
+      renderCart();
+      toast('Verwijderd uit winkelmand');
+      return;
+    }
+
+    var media = e.target.closest('.card__media');
+    if (media) e.preventDefault();
+  });
+
+  renderCart();
+
+  /* ── Nieuwsbrief ─────────────────────────────────────────── */
+  var nlForm = $('[data-newsletter]');
+  if (nlForm) {
+    nlForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var input = nlForm.querySelector('input');
+      if (!input.value || input.value.indexOf('@') < 0) { toast('Vul een geldig e-mailadres in'); input.focus(); return; }
+      toast('Welkom bij de club — check je inbox');
+      nlForm.reset();
+    });
+  }
+
+  /* ── Zoek-chips ──────────────────────────────────────────── */
+  $$('.chip').forEach(function (c) {
+    c.addEventListener('click', function () {
+      var q = $('#q');
+      if (q) { q.value = c.textContent; q.focus(); }
+    });
+  });
+
+  /* ── Lookbook parallax ───────────────────────────────────── */
+  var look = $('.lookbook__bg');
+  if (look && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    var ticking = false;
+    window.addEventListener('scroll', function () {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () {
+        var r = look.parentElement.getBoundingClientRect();
+        if (r.bottom > 0 && r.top < window.innerHeight) {
+          var p = (r.top + r.height / 2 - window.innerHeight / 2) / window.innerHeight;
+          look.style.transform = 'translateY(' + (p * 8).toFixed(2) + '%)';
+        }
+        ticking = false;
+      });
+    }, { passive: true });
+  }
+})();
+
+</script>
