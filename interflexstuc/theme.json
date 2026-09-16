@@ -25,12 +25,12 @@
         },
         {
           "slug": "ink",
-          "color": "#0B1B33",
+          "color": "#0A1626",
           "name": "Marine"
         },
         {
           "slug": "stone",
-          "color": "#647089",
+          "color": "#56627A",
           "name": "Grijs"
         },
         {
@@ -61,13 +61,13 @@
       "fontFamilies": [
         {
           "slug": "body",
-          "name": "Ubuntu",
-          "fontFamily": "Ubuntu, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
+          "name": "Source Sans 3",
+          "fontFamily": "'Source Sans 3', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
         },
         {
           "slug": "heading",
-          "name": "Ubuntu Bold",
-          "fontFamily": "Ubuntu, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
+          "name": "Archivo",
+          "fontFamily": "Archivo, 'Source Sans 3', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
         }
       ],
       "fontSizes": [
@@ -78,7 +78,7 @@
         },
         {
           "slug": "medium",
-          "size": "1.0625rem",
+          "size": "1.09375rem",
           "name": "Normaal"
         },
         {
@@ -108,7 +108,7 @@
   "styles": {
     "color": {
       "background": "var(--wp--preset--color--white)",
-      "text": "#33415A"
+      "text": "#232F42"
     },
     "typography": {
       "fontFamily": "var(--wp--preset--font-family--body)",
@@ -124,19 +124,19 @@
       "h1": {
         "typography": {
           "fontFamily": "var(--wp--preset--font-family--heading)",
-          "fontWeight": "700"
+          "fontWeight": "800"
         }
       },
       "h2": {
         "typography": {
           "fontFamily": "var(--wp--preset--font-family--heading)",
-          "fontWeight": "700"
+          "fontWeight": "800"
         }
       },
       "h3": {
         "typography": {
           "fontFamily": "var(--wp--preset--font-family--heading)",
-          "fontWeight": "700"
+          "fontWeight": "800"
         }
       },
       "button": {

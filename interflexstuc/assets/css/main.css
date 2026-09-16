@@ -16,10 +16,10 @@
   --ifs-orange-dark: #D24817;
   --ifs-orange-tint: #FDEDE7;
 
-  --ifs-ink:        #0B1B33;   /* diep marineblauw voor donkere vlakken */
-  --ifs-ink-soft:   #33415A;
-  --ifs-stone:      #647089;
-  --ifs-stone-soft: #98A2B4;
+  --ifs-ink:        #0A1626;   /* diep marineblauw voor donkere vlakken */
+  --ifs-ink-soft:   #232F42;   /* lopende tekst: donkerder dan voorheen */
+  --ifs-stone:      #56627A;   /* bijschriften, nog ruim binnen de norm */
+  --ifs-stone-soft: #8A94A6;
   --ifs-line:       #D9E1EE;
   --ifs-line-soft:  #EBF0F7;
   --ifs-mist:       #F2F6FC;
@@ -29,17 +29,20 @@
   --ifs-amber:      #E9A020;
 
   /* Typografie — Ubuntu, conform het stijlbord */
-  --ifs-font-body: "Ubuntu", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --ifs-font-head: "Ubuntu", var(--ifs-font-body);
+  /* Archivo voor koppen (stevige grotesk), Source Sans 3 voor lopende
+     tekst. Het verschil in karakter geeft de pagina meer contrast dan
+     één familie in twee gewichten. Het logo blijft de huisstijlletter. */
+  --ifs-font-body: "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --ifs-font-head: "Archivo", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 
   --ifs-fs-xs:   0.8125rem;
   --ifs-fs-sm:   0.9375rem;
-  --ifs-fs-base: 1.0625rem;
+  --ifs-fs-base: 1.09375rem;
   --ifs-fs-lg:   1.1875rem;
   --ifs-fs-xl:   clamp(1.35rem, 1.1rem + 0.9vw, 1.75rem);
   --ifs-fs-h3:   clamp(1.35rem, 1.15rem + 0.8vw, 1.65rem);
   --ifs-fs-h2:   clamp(1.85rem, 1.35rem + 2.1vw, 2.9rem);
-  --ifs-fs-h1:   clamp(2.25rem, 1.5rem + 3.2vw, 4rem);
+  --ifs-fs-h1:   clamp(2.4rem, 1.5rem + 3.6vw, 4.5rem);
 
   /* Ruimte */
   --ifs-gap:       1.5rem;
@@ -115,14 +118,14 @@ ul, ol { padding-left: 1.15em; }
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--ifs-font-head);
   color: var(--ifs-ink);
-  line-height: 1.2;
-  letter-spacing: -.008em;
+  line-height: 1.16;
+  letter-spacing: -.018em;
   margin: 0 0 .6em;
-  font-weight: 700;
+  font-weight: 800;
   text-wrap: balance;
 }
-h1 { font-size: var(--ifs-fs-h1); letter-spacing: -.015em; line-height: 1.12; }
-h2 { font-size: var(--ifs-fs-h2); letter-spacing: -.018em; }
+h1 { font-size: var(--ifs-fs-h1); letter-spacing: -.03em; line-height: 1.04; }
+h2 { font-size: var(--ifs-fs-h2); letter-spacing: -.026em; }
 h3 { font-size: var(--ifs-fs-h3); }
 h4 { font-size: var(--ifs-fs-lg); font-weight: 700; }
 
@@ -143,6 +146,19 @@ p:last-child { margin-bottom: 0; }
 .ifs-section { padding-block: var(--ifs-section); }
 .ifs-section--tight { padding-block: clamp(2.5rem, 1.5rem + 4vw, 4.5rem); }
 .ifs-section--tint { background: var(--ifs-mist); }
+
+/* Eén donker vlak halverwege geeft de pagina ritme; foto's komen er bovendien
+   beter op uit dan op wit. */
+.ifs-section--dark { background: var(--ifs-ink); color: #BDCADC; }
+.ifs-section--dark h2, .ifs-section--dark h3, .ifs-section--dark strong { color: #fff; }
+.ifs-section--dark .ifs-eyebrow { color: #8FA4C2; }
+.ifs-section--dark .ifs-section-head { border-bottom-color: rgba(255, 255, 255, .14); }
+.ifs-section--dark .ifs-project { border-color: rgba(255, 255, 255, .12); }
+.ifs-section--dark .ifs-project__cap span { color: #8FA4C2; }
+.ifs-section--dark .ifs-media { background: #142338; }
+.ifs-section--dark .ifs-media__ph { background: repeating-linear-gradient(115deg, #142338 0 6px, #18294180 6px 13px); color: #3D5478; }
+.ifs-section--dark .ifs-btn--ghost { --btn-fg: #fff; --btn-bd: rgba(255, 255, 255, .3); }
+.ifs-section--dark .ifs-btn--ghost:hover { --btn-bd: #fff; background: rgba(255, 255, 255, .08); }
 
 /* Kop links, inleiding rechts ernaast: benut de bredere pagina en leest
    rustiger dan een gecentreerde blok-op-blok-opbouw. De kinderen worden
