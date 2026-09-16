@@ -1230,7 +1230,10 @@ fetch(WOO.base + '/products/' + WOO.productId, { cache: 'no-store' })
 .catch(function (err) {
 console.info('Geen live winkeldata (' + err.message + '); de pagina toont de ingebouwde voorbeelddata.');
 });
-var STORE = window.__STORE_PROXY__ || '/api/store';
+function storeUrl(path) {
+if (window.__STORE_PROXY__) return window.__STORE_PROXY__ + path;
+return '/api/store?path=' + encodeURIComponent(path.replace(/^\//, ''));
+}
 var co = { nonce: null, cart: null, rate: null, method: null, methods: [], busy: false, ready: false };
 var PAYMENT_LABELS = {
 ideal: 'iDEAL', mollie_wc_gateway_ideal: 'iDEAL', pay_gateway_ideal: 'iDEAL',
@@ -1245,7 +1248,7 @@ return euro.format(parseInt(minor, 10) / Math.pow(10, unit == null ? 2 : unit));
 function api(path, method, body) {
 var headers = { 'Content-Type': 'application/json' };
 if (co.nonce) headers.Nonce = co.nonce;
-return fetch(STORE + path, {
+return fetch(storeUrl(path), {
 method: method || 'GET',
 headers: headers,
 credentials: 'same-origin',

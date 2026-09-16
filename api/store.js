@@ -1,10 +1,11 @@
 /* =============================================================
    Proxy naar de WooCommerce Store API.
 
-   Waarom deze tussenstap: de winkelwagen van WooCommerce hangt aan een
-   Cart-Token. Dat token hoort niet in de browser thuis, dus bewaren we het
-   hier in een httpOnly-cookie en sturen het server-side mee. Same-origin
-   betekent bovendien geen CORS-gedoe en geen nonce die kwijtraakt.
+   Geen dynamische route meer: het doelpad komt als querystring binnen
+   (/api/store?path=cart/add-item). Vercel routeerde een tweede padsegment
+   niet naar de functie, waardoor elke POST een 404 opleverde.
+
+   Het Cart-Token blijft hier in een httpOnly-cookie en komt niet in de browser.
    ============================================================= */
 
 const STORE = process.env.WOO_STORE_URL || 'https://www.soccer-games.nl/wp-json/wc/store/v1';
@@ -19,10 +20,8 @@ function readCookie(header, name) {
 }
 
 module.exports = async function handler(req, res) {
-  /* Het pad uit de URL lezen is betrouwbaarder dan de dynamische routeparameter. */
   const incoming = new URL(req.url, 'http://localhost');
-  const path = incoming.pathname
-    .replace(/^\/api\/store\/?/, '')
+  const path = (incoming.searchParams.get('path') || '')
     .split('/')
     .filter((part) => part && part !== '..')
     .join('/');
@@ -34,7 +33,8 @@ module.exports = async function handler(req, res) {
     return;
   }
 
-  const query = incoming.search || '';
+  incoming.searchParams.delete('path');
+  const rest = incoming.searchParams.toString();
   const token = readCookie(req.headers.cookie, TOKEN_COOKIE);
 
   const headers = { 'Content-Type': 'application/json', Accept: 'application/json' };
@@ -43,7 +43,7 @@ module.exports = async function handler(req, res) {
 
   let upstream;
   try {
-    upstream = await fetch(STORE + '/' + path + query, {
+    upstream = await fetch(STORE + '/' + path + (rest ? '?' + rest : ''), {
       method: req.method,
       headers,
       body: req.method === 'GET' || req.method === 'HEAD' ? undefined
@@ -57,13 +57,12 @@ module.exports = async function handler(req, res) {
   const fresh = upstream.headers.get('cart-token');
   if (fresh && fresh !== token) {
     res.setHeader('Set-Cookie',
-      `${TOKEN_COOKIE}=${encodeURIComponent(fresh)}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=1209600`);
+      TOKEN_COOKIE + '=' + encodeURIComponent(fresh) + '; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=1209600');
   }
 
   const nonce = upstream.headers.get('nonce');
   if (nonce) res.setHeader('Nonce', nonce);
 
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
-  res.setHeader('Cache-Control', 'no-store');
   res.status(upstream.status).send(await upstream.text());
 };

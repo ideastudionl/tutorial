@@ -515,7 +515,12 @@
      De winkelwagen van WooCommerce draait achter /api/store, zodat het
      cart-token in een httpOnly-cookie blijft en niet in de browser.
      ============================================================= */
-  var STORE = window.__STORE_PROXY__ || '/api/store';
+  /* Lokaal testen praat rechtstreeks met een nagebouwde winkel; op Vercel gaat
+     alles via één proxy-functie die het doelpad als querystring krijgt. */
+  function storeUrl(path) {
+    if (window.__STORE_PROXY__) return window.__STORE_PROXY__ + path;
+    return '/api/store?path=' + encodeURIComponent(path.replace(/^\//, ''));
+  }
   var co = { nonce: null, cart: null, rate: null, method: null, methods: [], busy: false, ready: false };
 
   var PAYMENT_LABELS = {
@@ -533,7 +538,7 @@
   function api(path, method, body) {
     var headers = { 'Content-Type': 'application/json' };
     if (co.nonce) headers.Nonce = co.nonce;
-    return fetch(STORE + path, {
+    return fetch(storeUrl(path), {
       method: method || 'GET',
       headers: headers,
       credentials: 'same-origin',

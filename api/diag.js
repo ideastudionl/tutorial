@@ -2,7 +2,7 @@
    de eigen proxy heen. Zo zien we of de POST-calls aankomen. */
 
 module.exports = async function handler(req, res) {
-  const base = 'https://' + req.headers.host + '/api/store';
+  const base = 'https://' + req.headers.host + '/api/store?path=';
   const steps = [];
   let cookie = '';
   let nonce = '';
@@ -12,7 +12,7 @@ module.exports = async function handler(req, res) {
     if (cookie) headers.Cookie = cookie;
     if (nonce) headers.Nonce = nonce;
     try {
-      const r = await fetch(base + path, {
+      const r = await fetch(base + encodeURIComponent(path.replace(/^\//, '')), {
         method,
         headers,
         body: body ? JSON.stringify(body) : undefined
