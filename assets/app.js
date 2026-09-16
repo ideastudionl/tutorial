@@ -654,13 +654,57 @@
     return cart.reduce(function (n, l) { return n + (GAMES_PER_LINE[l.id] || 0) * l.qty; }, 0);
   }
 
+  function esc(text) {
+    return String(text == null ? '' : text)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  /* Een regel uit de Store API draagt zijn eigen foto. Ontbreekt die, dan pakken
+     we de catalogusfoto en anders de illustratie van de doos. */
+  function lineMedia(item) {
+    var img = (item.images || [])[0];
+    var src = img && (img.thumbnail || img.src);
+    if (!src) {
+      Object.keys(WOO_IDS).forEach(function (k) {
+        if (WOO_IDS[k] === item.id && CATALOG[k] && CATALOG[k].photo) src = CATALOG[k].photo;
+      });
+    }
+    return src
+      ? '<img src="' + esc(src) + '" alt="" loading="lazy">'
+      : '<svg class="co-item__art" aria-hidden="true"><use href="#art-box"></use></svg>';
+  }
+
+  function lineSub(item) {
+    var t = item.totals || {};
+    if (t.line_subtotal != null) return parseInt(t.line_subtotal, 10);
+    var reg = item.prices && item.prices.regular_price;
+    if (reg) return parseInt(reg, 10) * item.quantity;
+    return parseInt(t.line_total, 10);
+  }
+
   function renderSummary() {
     var box = $('#coSummary');
     if (!box || !co.cart) return;
     var unit = co.cart.totals.currency_minor_unit;
+    var codes = (co.cart.coupons || []).map(function (c) { return c.code; });
     var rows = (co.cart.items || []).map(function (i) {
-      return '<div class="co-line"><span>' + i.quantity + ' × ' + i.name +
-        '</span><span>' + money(i.totals.line_total, unit) + '</span></div>';
+      var total = parseInt(i.totals.line_total, 10);
+      var was = Math.max(lineSub(i), (i.prices && i.prices.regular_price)
+        ? parseInt(i.prices.regular_price, 10) * i.quantity : 0);
+      var tags = total < lineSub(i)
+        ? codes.map(function (c) { return '<span class="co-tag">' + esc(c) + '</span>'; }).join('')
+        : '';
+      return '<div class="co-item">' +
+        '<span class="co-item__media">' + lineMedia(i) +
+          '<span class="co-item__qty" aria-hidden="true">' + i.quantity + '</span>' +
+          '<span class="sr-only">Aantal: ' + i.quantity + '</span></span>' +
+        '<span class="co-item__info"><b class="co-item__name">' + esc(i.name) + '</b>' +
+          (CATALOG.memo && WOO_IDS.memo === i.id ? '<small>' + esc(CATALOG.memo.sub) + '</small>' : '') +
+          (tags ? '<span class="co-item__tags">' + tags + '</span>' : '') + '</span>' +
+        '<span class="co-item__price">' +
+          (was > total ? '<s>' + money(was, unit) + '</s>' : '') +
+          '<b>' + money(total, unit) + '</b></span>' +
+        '</div>';
     }).join('');
 
     var t = co.cart.totals;

@@ -11,8 +11,15 @@ const discount = () => (coupons.length ? 250 : 0);
 const cart = () => ({
   items: quantity ? [{
     key: 'abc123', id: 65, name: 'Soccer Memo', quantity,
+    images: [{ id: 1, src: 'https://www.soccer-games.nl/wp-content/uploads/2022/07/Soccer-Memo.jpg',
+      thumbnail: 'https://www.soccer-games.nl/wp-content/uploads/2022/07/Soccer-Memo.jpg',
+      alt: 'Soccer Memo' }],
     prices: { price: '1495', regular_price: '1995', currency_minor_unit: unit },
-    totals: { line_total: String(1495 * quantity), currency_minor_unit: unit }
+    totals: {
+      line_subtotal: String(1495 * quantity),
+      line_total: String(1495 * quantity - discount()),
+      currency_minor_unit: unit
+    }
   }] : [],
   needs_shipping: true,
   shipping_rates: [{
