@@ -191,6 +191,7 @@ button{font:inherit;color:inherit}
 .price-line{display:flex;align-items:baseline;gap:10px;font-family:var(--f-mono)}
 .price{font-size:1.5rem;font-weight:500}
 .price--was{color:var(--muted);text-decoration:line-through;font-size:1rem}
+[hidden]{display:none!important}
 .rating{display:flex;align-items:center;gap:10px;font-size:.92rem;color:var(--muted)}
 .stars{display:inline-flex;gap:2px;color:var(--lemon)}
 .stars svg{width:16px;height:16px}
@@ -394,7 +395,15 @@ button{font:inherit;color:inherit}
 .bundle__label{display:flex;flex-direction:column;gap:2px}
 .bundle__label b{font-weight:600}
 .bundle__label span{font-size:.84rem;color:var(--muted)}
-.bundle__tag{font-size:.7rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;background:var(--pitch);color:#fff;border-radius:999px;padding:3px 8px;align-self:start;margin-left:6px}
+/* Het label wint het van .bundle__label span hierboven: die regel is
+   specifieker en kleurde de tekst grijs, waardoor er tekst in bijna dezelfde
+   kleur als de achtergrond stond. Donkere letters op oranje lezen beter dan
+   witte: wit op #FF5A00 haalt de contrastnorm niet. */
+.bundle__label span.bundle__tag{
+  font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;line-height:1.55;
+  background:var(--pitch);color:#fff;border-radius:999px;padding:2px 9px;align-self:start;margin-left:6px;
+}
+.bundle__label span.bundle__tag--deal{background:var(--flame);color:#231000}
 .bundle__price{font-family:var(--f-mono);text-align:right}
 .bundle__price s{display:block;font-size:.78rem;color:var(--muted)}
 

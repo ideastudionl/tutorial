@@ -575,7 +575,11 @@
           p.review_count + ' beoordelingen';
       }
     } else {
-      if ($('#pdpRating')) $('#pdpRating').textContent = 'Nog geen beoordelingen';
+      /* Nul beoordelingen in de winkel: dan laten we de beoordelingsregel weg
+         in plaats van er 'nog geen beoordelingen' van te maken. Dat laatste
+         praat een bezoeker juist uit de koop. */
+      var ratingRow = $('#pdpRating') && $('#pdpRating').closest('.rating');
+      if (ratingRow) ratingRow.hidden = true;
       $$('#reviewNoteHome, #reviewNotePdp').forEach(function (el) {
         el.textContent = 'Voorbeeldbeoordelingen, WooCommerce heeft er nog geen';
       });
