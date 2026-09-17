@@ -139,10 +139,15 @@ button{font:inherit;color:inherit}
 }
 
 .nav-toggle{
-  display:none;align-items:center;justify-content:center;width:42px;height:42px;flex:none;
+  display:none;position:relative;width:44px;height:44px;flex:none;padding:0;
   border:2px solid var(--line-strong);border-radius:999px;background:var(--surface);cursor:pointer;
 }
-.nav-toggle__bars{position:relative;display:block;width:18px;height:2px;border-radius:2px;background:currentColor}
+/* De drie streepjes hangen aan het midden van de knop zelf, niet aan een
+   flexregel: zo staan ze altijd precies gecentreerd en even lang. */
+.nav-toggle__bars{
+  position:absolute;left:50%;top:50%;width:18px;height:2px;margin:-1px 0 0 -9px;
+  border-radius:2px;background:currentColor;
+}
 .nav-toggle__bars::before,.nav-toggle__bars::after{
   content:"";position:absolute;left:0;width:18px;height:2px;border-radius:2px;background:currentColor;
   transition:transform .2s ease;
@@ -507,12 +512,18 @@ button{font:inherit;color:inherit}
   .gift__art{order:-1}
 }
 @media (max-width:760px){
-  .nav-toggle{display:inline-flex}
+  .nav-toggle{display:block}
+  .icon-btn{min-height:44px}
+  /* Zonder deze regel bleef de knoppengroep tegen het logo plakken, omdat het
+     verborgen menu de duwende marge droeg. */
+  .nav + .header__actions{margin-left:auto}
+  .header__bar{gap:10px}
   .nav{
-    display:none;position:absolute;left:0;right:0;top:100%;margin:0;
+    display:none;position:absolute;right:var(--gutter);left:auto;top:calc(100% + 8px);margin:0;
+    width:min(250px,calc(100vw - var(--gutter) * 2));
     flex-direction:column;gap:0;background:var(--paper);
-    border-bottom:1px solid var(--line);padding:4px var(--gutter) 10px;
-    box-shadow:0 20px 34px -26px rgba(6,52,30,.8);
+    border:1px solid var(--line);border-radius:14px;padding:4px 16px;
+    box-shadow:0 22px 40px -24px rgba(6,52,30,.85);
   }
   .header.is-open .nav{display:flex}
   .nav a{padding-block:13px;border-bottom:1px solid var(--line);border-radius:0}
