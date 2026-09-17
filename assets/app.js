@@ -12,12 +12,15 @@
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
 
   /* ---------- Catalogus (stand-in voor /wc/store/v1/products) ---------- */
+  /* units zegt hoeveel stuks van welk WooCommerce-product er in één regel
+     zitten. Een lege lijst betekent: bestaat nog niet in de winkel en gaat dus
+     niet mee naar de kassa. */
   var CATALOG = {
-    memo:   { name: 'Soccer MeMo', sub: '48 kaarten · 24 paren', price: 14.95, art: 'art-box', photo: 'https://www.soccer-games.nl/wp-content/uploads/2022/07/Soccer-Memo.jpg' },
-    duo:    { name: 'Duo-pack',    sub: '2 spellen',             price: 24.95, art: 'art-fan', photo: 'https://www.soccer-games.nl/wp-content/uploads/2022/07/Voetbal-Memory-Spel.png' },
-    trio:   { name: 'Trio-pack',   sub: '3 spellen',             price: 34.95, art: 'art-fan', photo: 'https://www.soccer-games.nl/wp-content/uploads/2022/07/Voetbal-Memory-Kopen.png' },
-    gift:   { name: 'Cadeauverpakking',       sub: 'Lint + kaartje',        price:  2.95, art: 'art-giftbox' },
-    poster: { name: 'Poster "Elftal" A2',     sub: 'Dik papier',            price:  9.95, art: 'art-poster' }
+    memo:   { name: 'Soccer MeMo', sub: '48 kaarten · 24 paren', price: 14.95, art: 'art-box', photo: 'https://www.soccer-games.nl/wp-content/uploads/2022/07/Soccer-Memo.jpg', units: [{ id: 65, per: 1 }] },
+    duo:    { name: 'Duo-pack',    sub: '2 spellen',             price: 24.95, art: 'art-fan', photo: 'https://www.soccer-games.nl/wp-content/uploads/2022/07/Voetbal-Memory-Spel.png', units: [{ id: 65, per: 2 }] },
+    trio:   { name: 'Trio-pack',   sub: '3 spellen',             price: 34.95, art: 'art-fan', photo: 'https://www.soccer-games.nl/wp-content/uploads/2022/07/Voetbal-Memory-Kopen.png', units: [{ id: 65, per: 3 }] },
+    gift:   { name: 'Cadeauverpakking',       sub: 'Lint + kaartje',        price:  2.95, art: 'art-giftbox', units: [] },
+    poster: { name: 'Poster "Elftal" A2',     sub: 'Dik papier',            price:  9.95, art: 'art-poster', units: [] }
   };
   var FREE_SHIPPING = 30;
   var cart = [];
@@ -28,7 +31,6 @@
   var CHECKOUT_PATH = '/afrekenen/';   /* de winkel draait op Nederlandse slugs */
   var WOO_IDS = { memo: 65 };
   var SHOP_AAN = false;   /* shoppagina tijdelijk uit */
-  var GAMES_PER_LINE = { memo: 1, duo: 2, trio: 3 };
 
   /* ---------- Toast ---------- */
   var toast = $('#toast'), toastMsg = $('#toastMsg'), toastTimer;
@@ -84,8 +86,27 @@
   var drawer = $('#drawer'), scrim = $('#scrim'), body = $('#drawerBody');
 
   function cartTotal() {
-    return cart.reduce(function (s, l) { return s + CATALOG[l.id].price * l.qty; }, 0);
+    return cart.reduce(function (s, l) { return s + l.price * l.qty; }, 0);
   }
+
+  /* Elke regel draagt zijn eigen naam, prijs en WooCommerce-eenheden, zodat een
+     regel uit de catalogus en een regel uit de winkel hetzelfde werken. */
+  function lineFromCatalog(key) {
+    var c = CATALOG[key];
+    if (!c) return null;
+    return { key: key, name: c.name, sub: c.sub, price: c.price, photo: c.photo, art: c.art,
+      units: (c.units || []).map(function (u) { return { id: u.id, per: u.per }; }), qty: 0 };
+  }
+
+  function lineFromProduct(p) {
+    var unit = p.prices && p.prices.currency_minor_unit;
+    var img = (p.images || [])[0];
+    return { key: 'p' + p.id, name: p.name, sub: p.sku ? 'Artikelnummer ' + p.sku : 'Uit de winkel',
+      price: fromMinor(p.prices.price, unit), photo: img && (img.thumbnail || img.src), art: 'art-box',
+      units: [{ id: p.id, per: 1 }], qty: 0 };
+  }
+
+  function orderable(line) { return (line.units || []).length > 0; }
   function renderCart() {
     var count = cart.reduce(function (s, l) { return s + l.qty; }, 0);
     $('#cartCount').textContent = count;
@@ -95,25 +116,24 @@
         '<button class="btn btn--sm btn--pitch" data-add="memo">Soccer MeMo toevoegen</button></div>';
     } else {
       body.innerHTML = cart.map(function (l) {
-        var p = CATALOG[l.id];
         return '<div class="line-item">' +
-          '<span class="line-item__media">' + (p.photo
-            ? '<img src="' + p.photo + '" alt="" loading="lazy">'
-            : '<svg viewBox="0 0 400 400"><use href="#' + p.art + '"></use></svg>') + '</span>' +
-          '<span><b>' + p.name + '</b><small>' + p.sub + ' · aantal ' + l.qty + '</small>' +
-          '<button class="remove" data-remove="' + l.id + '">Verwijderen</button></span>' +
-          '<span class="line-item__price">' + euro.format(p.price * l.qty) + '</span></div>';
+          '<span class="line-item__media">' + (l.photo
+            ? '<img src="' + l.photo + '" alt="" loading="lazy">'
+            : '<svg viewBox="0 0 400 400"><use href="#' + (l.art || 'art-box') + '"></use></svg>') + '</span>' +
+          '<span><b>' + l.name + '</b><small>' + l.sub + ' · aantal ' + l.qty + '</small>' +
+          '<button class="remove" data-remove="' + l.key + '">Verwijderen</button></span>' +
+          '<span class="line-item__price">' + euro.format(l.price * l.qty) + '</span></div>';
       }).join('');
     }
 
     var note = $('#handoffNote');
     if (note) {
       var lines = [];
-      if (cart.some(function (l) { return l.id === 'duo' || l.id === 'trio'; })) {
+      if (cart.some(function (l) { return l.key === 'duo' || l.key === 'trio'; })) {
         lines.push('Het bundelvoordeel bestaat nog niet in WooCommerce. Bij de kassa reken je de losse spellen af.');
       }
-      var extras = cart.filter(function (l) { return !GAMES_PER_LINE[l.id]; })
-        .map(function (l) { return CATALOG[l.id].name.toLowerCase(); });
+      var extras = cart.filter(function (l) { return !orderable(l); })
+        .map(function (l) { return l.name.toLowerCase(); });
       if (extras.length) {
         lines.push(extras.join(' en ') + ' staat nog niet in de winkel en gaat niet mee.');
       }
@@ -138,13 +158,13 @@
     drawer.classList.remove('is-on'); scrim.classList.remove('is-on');
     drawer.setAttribute('aria-hidden', 'true');
   }
-  function add(id, qty, origin) {
-    if (!CATALOG[id]) return;
+  function addLine(fresh, qty, origin) {
+    if (!fresh) return;
     qty = qty || 1;
-    var line = cart.filter(function (l) { return l.id === id; })[0];
-    if (line) { line.qty += qty; } else { cart.push({ id: id, qty: qty }); }
+    var line = cart.filter(function (l) { return l.key === fresh.key; })[0];
+    if (line) { line.qty += qty; } else { fresh.qty = qty; cart.push(fresh); }
     renderCart();
-    say(CATALOG[id].name + ' toegevoegd');
+    say(fresh.name + ' toegevoegd');
     if (origin) {
       var r = origin.getBoundingClientRect();
       pop(r.left + r.width / 2, r.top + r.height / 2);
@@ -152,14 +172,24 @@
     openCart();
   }
 
+  function add(key, qty, origin) { addLine(lineFromCatalog(key), qty, origin); }
+  function addProduct(p, qty, origin) { addLine(lineFromProduct(p), qty, origin); }
+
   document.addEventListener('click', function (e) {
     var addBtn = e.target.closest('[data-add]');
     if (addBtn) { add(addBtn.getAttribute('data-add'), 1, addBtn); return; }
 
+    var shopBtn = e.target.closest('[data-shop-add]');
+    if (shopBtn) {
+      var found = shopById[shopBtn.getAttribute('data-shop-add')];
+      if (found) addProduct(found, 1, shopBtn);
+      return;
+    }
+
     var rm = e.target.closest('[data-remove]');
     if (rm) {
-      var id = rm.getAttribute('data-remove');
-      cart = cart.filter(function (l) { return l.id !== id; });
+      var key = rm.getAttribute('data-remove');
+      cart = cart.filter(function (l) { return l.key !== key; });
       renderCart(); return;
     }
     if (e.target.closest('#cartBtn')) { openCart(); return; }
@@ -167,8 +197,7 @@
     if (e.target.closest('#checkoutBtn')) {
       if (!cart.length) { say('Leg eerst een spel in je winkelwagen'); return; }
 
-      var games = cart.reduce(function (n, l) { return n + (GAMES_PER_LINE[l.id] || 0) * l.qty; }, 0);
-      if (!games) { say('Deze artikelen staan nog niet in de winkel'); return; }
+      if (!cart.some(orderable)) { say('Deze artikelen staan nog niet in de winkel'); return; }
 
       closeCart();
       location.hash = '#/afrekenen';
@@ -192,7 +221,13 @@
   function routeFromHash() {
     var h = (location.hash || '#/').slice(1);
     if (h === '' || h === '/') return show('home');
-    if (h === '/product') return show('product');
+    /* #/product toont Soccer MeMo, #/product/123 elk ander product uit de winkel. */
+    if (h === '/product' || h.indexOf('/product/') === 0) {
+      var wanted = h.indexOf('/product/') === 0 ? parseInt(h.slice(9), 10) : WOO_IDS.memo;
+      show('product');
+      setTimeout(function () { loadProduct(wanted); }, 0);
+      return;
+    }
     if (h === '/afrekenen') { show('afrekenen'); setTimeout(startCheckout, 0); return; }
     /* De shoppagina staat tijdelijk uit: wie het adres nog heeft, komt op de
        homepagina uit. Zet SHOP_AAN op true om hem terug te zetten. */
@@ -288,8 +323,14 @@
   });
 
   /* ---------- Productpagina: bundels, aantal, prijs ---------- */
+  /* pdp.eigen is waar zolang Soccer MeMo op de pagina staat: dan gelden de
+     bundels, de cadeauverpakking en de spelregels. Elk ander product uit de
+     winkel gebruikt dezelfde pagina zonder die blokken. */
+  var pdp = { id: WOO_IDS.memo, product: null, eigen: true, kanKopen: true };
   var bundle = 'memo', qty = 1;
+
   function currentPrice() {
+    if (!pdp.eigen) return (pdp.product ? pdp.prijs : 0) * qty;
     return (CATALOG[bundle].price + ($('#giftWrap').checked ? CATALOG.gift.price : 0)) * qty;
   }
   function paint() {
@@ -311,6 +352,11 @@
   $('#qtyMinus').addEventListener('click', function () { qty = Math.max(1, qty - 1); paint(); });
 
   function pdpAdd(origin) {
+    if (!pdp.eigen) {
+      if (!pdp.kanKopen || !pdp.product) { say('Dit product bestel je op soccer-games.nl'); return; }
+      addProduct(pdp.product, qty, origin);
+      return;
+    }
     add(bundle, qty, origin);
     if ($('#giftWrap').checked) { add('gift', qty); }
   }
@@ -429,29 +475,33 @@
   function productCard(p) {
     var img = (p.images && p.images[0]) ? (p.images[0].thumbnail || p.images[0].src) : '';
     var own = p.id === WOO_IDS.memo;
-    var href = own ? '#/product' : p.permalink;
+    var href = own ? '#/product' : '#/product/' + p.id;
     var sale = p.on_sale && p.prices.regular_price !== p.prices.price;
     var unit = p.prices.currency_minor_unit;
+    /* Varianten en uitverkochte artikelen gaan niet rechtstreeks in de mand:
+       die hebben eerst een keuze of een leverdatum nodig. */
+    var direct = p.is_in_stock && p.type !== 'variable' && !(p.variations && p.variations.length);
 
     return '<article class="pcard">' +
-      '<a class="pcard__media" href="' + href + '"' + (own ? ' data-link' : ' target="_blank" rel="noopener"') +
-        ' aria-label="Bekijk ' + p.name.replace(/"/g, '') + '">' +
+      '<a class="pcard__media" href="' + href + '" data-link aria-label="Bekijk ' + esc(p.name) + '">' +
         (!p.is_in_stock ? '<span class="pcard__flag pcard__flag--out">Uitverkocht</span>'
           : sale ? '<span class="pcard__flag">Aanbieding</span>' : '') +
-        (img ? '<img src="' + img + '" alt="" loading="lazy">' : '') +
+        (img ? '<img src="' + esc(img) + '" alt="" loading="lazy">' : '') +
       '</a>' +
       '<div class="pcard__body">' +
-        '<h3>' + p.name + '</h3>' +
-        '<p class="pcard__meta">' + (own ? '48 kaarten · 24 paren · 4+' : (p.type === 'variable' ? 'Meerdere varianten' : '&nbsp;')) + '</p>' +
+        '<h3><a href="' + href + '" data-link>' + esc(p.name) + '</a></h3>' +
+        '<p class="pcard__meta">' + (own ? '48 kaarten · 24 paren · 4+' : (p.type === 'variable' ? 'Meerdere uitvoeringen' : '&nbsp;')) + '</p>' +
         '<div class="pcard__foot"><span class="pcard__price">' + productPrice(p) +
           (sale ? ' <s style="font-size:.8em;color:var(--muted)">' +
             euro.format(parseInt(p.prices.regular_price, 10) / Math.pow(10, unit)) + '</s>' : '') + '</span>' +
-          (own
-            ? '<button class="btn btn--sm btn--primary" data-add="memo">In mandje</button>'
-            : '<a class="btn btn--sm btn--ghost" href="' + p.permalink + '" target="_blank" rel="noopener">Bekijken</a>') +
+          (own ? '<button class="btn btn--sm btn--primary" data-add="memo">In mandje</button>'
+            : direct ? '<button class="btn btn--sm btn--primary" data-shop-add="' + p.id + '">In mandje</button>'
+            : '<a class="btn btn--sm btn--ghost" href="' + href + '" data-link>Bekijken</a>') +
         '</div>' +
       '</div></article>';
   }
+
+  var shopById = {};
 
   function loadShop() {
     if (shopLoaded) return;
@@ -467,6 +517,7 @@
           if (b.id === WOO_IDS.memo) return 1;
           return parseInt(a.prices.price, 10) - parseInt(b.prices.price, 10);
         });
+        list.forEach(function (p) { shopById[p.id] = p; });
         grid.innerHTML = list.map(productCard).join('');
         if ($('#shopCount')) $('#shopCount').textContent = list.length + ' producten';
         shopLoaded = true;
@@ -594,11 +645,151 @@
     paint();
   }
 
-  storeGet('/products/' + WOO.productId)
-    .then(applyProduct)
-    .catch(function (err) {
-      console.info('Geen live winkeldata (' + err.message + '); de pagina toont de ingebouwde voorbeelddata.');
-    });
+  /* ---------- Eén productpagina voor de hele winkel ----------
+     De opmaak in de HTML hoort bij Soccer MeMo. We bewaren die stukken één keer,
+     zodat terugkeren naar het eigen spel altijd de eigen tekst teruggeeft, ook
+     als er ondertussen een ander product op de pagina heeft gestaan. */
+  var MEMO_VELDEN = ['#pdpEyebrow', '#pdpTitle', '#pdpLead', '#pdpDesc', '#thumbs', '#galMainWrap',
+    '#stockLine', '#crumbProduct', '#pdpPrice', '#stickyName'];
+  var memoHTML = null;
+
+  function bewaarMemo() {
+    if (memoHTML) return;
+    memoHTML = {};
+    MEMO_VELDEN.forEach(function (sel) { if ($(sel)) memoHTML[sel] = $(sel).innerHTML; });
+  }
+
+  function herstelMemo() {
+    if (!memoHTML) return;
+    Object.keys(memoHTML).forEach(function (sel) { if ($(sel)) $(sel).innerHTML = memoHTML[sel]; });
+  }
+
+  /* Blokken die alleen over het memoryspel gaan */
+  function toonEigenBlokken(aan) {
+    $$('[data-memo]').forEach(function (el) { el.hidden = !aan; });
+    if ($('#bundles')) $('#bundles').hidden = !aan;
+    if ($('#giftRow')) $('#giftRow').hidden = !aan;
+  }
+
+  function loadProduct(id) {
+    id = parseInt(id, 10) || WOO_IDS.memo;
+    bewaarMemo();
+
+    pdp.id = id;
+    pdp.eigen = id === WOO_IDS.memo;
+    pdp.kanKopen = true;
+    qty = 1;
+    if (pdp.eigen) { bundle = 'memo'; herstelMemo(); }
+    toonEigenBlokken(pdp.eigen);
+    /* Schoon beginnen: een vorig product kan de koopregel verborgen hebben
+       omdat het uitverkocht was of varianten had. */
+    if ($('#buyRow')) $('#buyRow').hidden = false;
+    if ($('#pdpVariant')) $('#pdpVariant').hidden = true;
+    /* De voorbeeldbeoordeling hoort bij het eigen spel. Een ander product laat
+       alleen zijn eigen beoordelingen zien, en anders geen regel. */
+    if ($('#pdpRatingRow')) $('#pdpRatingRow').hidden = !pdp.eigen;
+    paint();
+
+    storeGet('/products/' + id)
+      .then(function (p) {
+        pdp.product = p;
+        if (pdp.eigen) { applyProduct(p); return; }
+        applyGeneric(p);
+      })
+      .catch(function (err) {
+        console.info('Geen live winkeldata (' + err.message + '); de pagina toont de ingebouwde voorbeelddata.');
+        if (!pdp.eigen) {
+          coProductFout('Dit product kon niet worden opgehaald uit de winkel (' + err.message + ').');
+        }
+      });
+  }
+
+  function coProductFout(tekst) {
+    var box = $('#pdpVariant');
+    if (!box) return;
+    box.textContent = tekst;
+    box.hidden = false;
+    pdp.kanKopen = false;
+    if ($('#buyRow')) $('#buyRow').hidden = true;
+  }
+
+  /* Elk ander product uit de winkel in dezelfde opmaak */
+  function applyGeneric(p) {
+    var unit = p.prices && p.prices.currency_minor_unit;
+    pdp.prijs = fromMinor(p.prices.price, unit);
+    var was = fromMinor(p.prices.regular_price, unit);
+
+    if ($('#pdpTitle')) $('#pdpTitle').textContent = p.name;
+    if ($('#crumbProduct')) $('#crumbProduct').textContent = p.name;
+    if ($('#stickyName')) $('#stickyName').textContent = p.name;
+    if ($('#pdpEyebrow')) $('#pdpEyebrow').textContent = p.sku ? 'Artikelnummer ' + p.sku : 'Uit onze winkel';
+
+    if ($('#pdpRatingRow')) {
+      var heeft = p.review_count > 0;
+      $('#pdpRatingRow').hidden = !heeft;
+      if (heeft && $('#pdpRating')) {
+        $('#pdpRating').innerHTML = '<b>' + String(p.average_rating).replace('.', ',') + '</b> · ' +
+          p.review_count + ' beoordelingen';
+      }
+    }
+
+    if ($('#pdpLead')) {
+      var kort = cleanDescription(p.short_description || '');
+      $('#pdpLead').innerHTML = kort || 'Bekijk de omschrijving hieronder voor alle details.';
+    }
+    if ($('#pdpDesc')) {
+      $('#pdpDesc').innerHTML = cleanDescription(p.description || '') ||
+        '<p>De winkel geeft voor dit product nog geen omschrijving.</p>';
+    }
+
+    if ($('#stockLine')) {
+      var voorraad = p.stock_availability && p.stock_availability.text;
+      var aantal = voorraad && (voorraad.match(/\d+/) || [])[0];
+      $('#stockLine').innerHTML = '<span class="dot-live" aria-hidden="true"></span> ' +
+        (!p.is_in_stock ? 'Tijdelijk uitverkocht'
+          : aantal ? 'Op voorraad: nog ' + aantal + ' stuks' : 'Op voorraad');
+    }
+
+    toonFotos(p);
+
+    if ($('#bundlePrice1')) setBundlePrice($('#bundlePrice1'), pdp.prijs, was);
+
+    /* Producten met varianten hebben een maat- of kleurkeuze nodig; die weigert
+       de Store API zonder gekozen variant. Die verwijzen we door naar de winkel. */
+    var varianten = p.type === 'variable' || (p.variations && p.variations.length);
+    if (varianten || !p.is_in_stock) {
+      pdp.kanKopen = false;
+      if ($('#buyRow')) $('#buyRow').hidden = true;
+      if ($('#pdpVariant')) {
+        $('#pdpVariant').innerHTML = (varianten
+          ? 'Dit product heeft meerdere uitvoeringen. Kies je variant in de winkel: '
+          : 'Dit product is tijdelijk uitverkocht. Bekijk het in de winkel: ') +
+          '<a href="' + p.permalink + '" target="_blank" rel="noopener">' + esc(p.name) + '</a>.';
+        $('#pdpVariant').hidden = false;
+      }
+    } else {
+      pdp.kanKopen = true;
+      if ($('#buyRow')) $('#buyRow').hidden = false;
+    }
+    paint();
+  }
+
+  function toonFotos(p) {
+    if (!p.images || !p.images.length) return;
+    var thumbs = $('#thumbs');
+    if (thumbs) {
+      thumbs.innerHTML = p.images.slice(0, 6).map(function (img, i) {
+        var label = img.alt || img.name || ('Foto ' + (i + 1));
+        return '<button class="thumb" data-src="' + img.src + '" aria-label="' + esc(label) + '"' +
+          (i === 0 ? ' aria-current="true"' : '') + '><img src="' + (img.thumbnail || img.src) +
+          '" alt="" loading="lazy"></button>';
+      }).join('');
+    }
+    galWrap.innerHTML = '<img src="' + p.images[0].src + '" alt="' +
+      esc(p.images[0].alt || p.images[0].name || p.name) + '">';
+  }
+
+  loadProduct(WOO_IDS.memo);
 
   /* =============================================================
      Eigen afrekenpagina op de Store API
@@ -658,8 +849,19 @@
     box.hidden = false;
   }
 
-  function gamesWanted() {
-    return cart.reduce(function (n, l) { return n + (GAMES_PER_LINE[l.id] || 0) * l.qty; }, 0);
+  /* Wat de winkelwagen van WooCommerce moet bevatten: per product-id het totaal
+     aantal stuks, opgeteld over alle regels. */
+  function wooWanted() {
+    var want = {};
+    cart.forEach(function (l) {
+      (l.units || []).forEach(function (u) { want[u.id] = (want[u.id] || 0) + u.per * l.qty; });
+    });
+    return want;
+  }
+
+  function wooCount() {
+    var want = wooWanted();
+    return Object.keys(want).reduce(function (n, id) { return n + want[id]; }, 0);
   }
 
   function esc(text) {
@@ -863,12 +1065,26 @@
     if ($('#coSumTotal')) $('#coSumTotal').textContent = euro.format(cartTotal());
     api('/cart')
       .then(function (data) {
-        var want = gamesWanted();
-        var line = (data.items || []).filter(function (i) { return i.id === WOO_IDS.memo; })[0];
-        if (!want) return data;
-        if (!line) return api('/cart/add-item', 'POST', { id: WOO_IDS.memo, quantity: want });
-        if (line.quantity !== want) return api('/cart/update-item', 'POST', { key: line.key, quantity: want });
-        return data;
+        /* De winkelwagen van de winkel gelijkzetten aan die van de site: regels
+           bijwerken, weghalen wat er niet meer in hoort en de rest toevoegen.
+           Dat gaat na elkaar, want elke call geeft een nieuw cart-token terug. */
+        var want = wooWanted();
+        var steps = [];
+
+        (data.items || []).forEach(function (item) {
+          var target = want[item.id] || 0;
+          delete want[item.id];
+          if (!target) { steps.push(function () { return api('/cart/remove-item', 'POST', { key: item.key }); }); }
+          else if (item.quantity !== target) {
+            steps.push(function () { return api('/cart/update-item', 'POST', { key: item.key, quantity: target }); });
+          }
+        });
+        Object.keys(want).forEach(function (id) {
+          var n = want[id];
+          if (n > 0) steps.push(function () { return api('/cart/add-item', 'POST', { id: parseInt(id, 10), quantity: n }); });
+        });
+
+        return steps.reduce(function (chain, step) { return chain.then(step); }, Promise.resolve(data));
       })
       .then(function (data) {
         rememberCart(data);
@@ -886,7 +1102,7 @@
         coAlert('De winkelwagen van de winkel reageerde niet: <b>' + String(err.message).replace(/</g, '&lt;') +
           '</b><br><button type="button" class="linkish" id="coRetry">Opnieuw proberen</button> · ' +
           '<a href="' + SHOP + CHECKOUT_PATH + '?add-to-cart=' + WOO_IDS.memo +
-          '&quantity=' + Math.max(1, gamesWanted()) + '">afrekenen op soccer-games.nl</a>', true);
+          '&quantity=' + Math.max(1, wooCount()) + '">afrekenen op soccer-games.nl</a>', true);
       })
       .then(function () { co.busy = false; });
   }

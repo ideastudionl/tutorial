@@ -539,7 +539,7 @@
      ========================================================= -->
 <div data-route="product">
   <div class="wrap">
-    <nav class="crumbs" aria-label="Kruimelpad"><a href="#/" data-link>Home</a> / <a href="#shop" data-link>Spellen</a> / <span>Soccer MeMo</span></nav>
+    <nav class="crumbs" aria-label="Kruimelpad"><a href="#/" data-link>Home</a> / <a href="#shop" data-link>Spellen</a> / <span id="crumbProduct">Soccer MeMo</span></nav>
 
     <div class="pdp">
       <!-- Galerij -->
@@ -560,11 +560,11 @@
         <div class="stack" style="gap:10px">
           <p class="eyebrow" id="pdpEyebrow">Voetbal-memory · 48 kaarten</p>
           <h1 id="pdpTitle">Soccer MeMo</h1>
-          <div class="rating">
+          <div class="rating" id="pdpRatingRow">
             <span class="stars" aria-hidden="true"><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg><svg><use href="#ic-star"></use></svg></span>
             <a href="#reviews-pdp" data-link id="pdpRating"><b>9,4</b> · 212 beoordelingen</a>
           </div>
-          <p class="lead">48 kaarten met 24 voetbalillustraties. Zoek de paren, train het geheugen en speel met z'n tweeën tot z'n vieren een potje van tien minuten.</p>
+          <div class="lead" id="pdpLead"><p>48 kaarten met 24 voetbalillustraties. Zoek de paren, train het geheugen en speel met z'n tweeën tot z'n vieren een potje van tien minuten.</p></div>
         </div>
 
         <fieldset class="bundles" id="bundles" style="border:0;padding:0;margin:0">
@@ -589,9 +589,11 @@
           </label>
         </fieldset>
 
-        <label class="addon"><input type="checkbox" id="giftWrap"> <span>Cadeauverpakking met oranje lint en handgeschreven kaartje</span> <b>+ € 2,95</b></label>
+        <label class="addon" id="giftRow"><input type="checkbox" id="giftWrap"> <span>Cadeauverpakking met oranje lint en handgeschreven kaartje</span> <b>+ € 2,95</b></label>
 
-        <div class="buy-row">
+        <p class="co-hint" id="pdpVariant" hidden></p>
+
+        <div class="buy-row" id="buyRow">
           <div class="qty">
             <button type="button" id="qtyMinus" aria-label="Aantal verlagen">–</button>
             <output id="qtyVal" aria-live="polite">1</output>
@@ -612,7 +614,7 @@
             <p>Soccer MeMo brengt de zaterdagochtend naar de keukentafel. Op de 48 kaarten staan 24 illustraties die elke jonge voetballer herkent: de bal, de scheenbeschermer, het fluitje van de scheids, de cornervlag, de beker. Kaarten omdraaien, paren zoeken, onthouden waar die ene bal ook alweer lag.</p>
             <p>Terwijl je kind speelt, oefent het werkgeheugen en volgehouden aandacht, dezelfde concentratie die op het veld het verschil maakt. Zonder scherm, in tien minuten, met jou erbij.</p>
           </div></details>
-          <details class="acc"><summary>Spelregels</summary><div class="acc__body"><ul>
+          <details class="acc" data-memo><summary>Spelregels</summary><div class="acc__body"><ul>
             <li>Schud de kaarten en leg ze omgekeerd in een raster.</li>
             <li>Om de beurt draai je twee kaarten om.</li>
             <li>Twee dezelfde? Je houdt het paar en gaat nog een keer.</li>
@@ -620,7 +622,7 @@
             <li>Alle kaarten weg? De speler met de meeste paren wint.</li>
             <li>Met kinderen onder de zes speel je met 12 tot 16 kaarten.</li>
           </ul></div></details>
-          <details class="acc"><summary>Specificaties</summary><div class="acc__body"><ul>
+          <details class="acc" data-memo><summary>Specificaties</summary><div class="acc__body"><ul>
             <li>48 kaarten (24 paren), 300 g/m² karton met matte lak</li>
             <li>Kaartformaat 6,5 × 6,5 cm, doos 14 × 10 × 4 cm</li>
             <li>2 – 4 spelers, speelduur ± 10 minuten</li>
@@ -635,7 +637,7 @@
     </div>
 
     <!-- Reviews PDP -->
-    <section class="section" id="reviews-pdp">
+    <section class="section" id="reviews-pdp" data-memo>
       <div class="section__head">
         <div class="stack"><p class="eyebrow" id="reviewNotePdp">212 beoordelingen</p><h2>Gemiddeld een 9,4</h2></div>
         <p class="lead" style="max-width:32ch">Alle beoordelingen komen van klanten die Soccer MeMo bij ons bestelden.</p>
@@ -660,7 +662,7 @@
     </section>
 
     <!-- Cross-sell -->
-    <section class="section">
+    <section class="section" data-memo>
       <div class="section__head"><div class="stack"><p class="eyebrow">Vaak samen besteld</p><h2>Maak het af</h2></div></div>
       <div class="cols cols--3">
         <article class="pcard">
@@ -681,7 +683,7 @@
       </div>
     </section>
 
-    <section class="section" id="faq-pdp">
+    <section class="section" id="faq-pdp" data-memo>
       <div class="section__head"><div class="stack"><p class="eyebrow">Vragen over dit spel</p><h2>Nog twijfels?</h2></div></div>
       <div class="faq">
         <details open><summary>Is het niet te moeilijk voor een kleuter?</summary><p>Nee, je past het aantal kaarten aan. Met 12 kaarten wint een vierjarige gewoon van papa. Naarmate het geheugen groeit, leg je er kaarten bij.</p></details>
@@ -882,7 +884,7 @@
 <!-- ===== Sticky koopbalk (productpagina) ===== -->
 <div class="stickybar" id="stickybar">
   <div class="stickybar__in">
-    <div class="stickybar__txt"><b>Soccer MeMo</b><span id="stickyPrice">€ 14,95</span></div>
+    <div class="stickybar__txt"><b id="stickyName">Soccer MeMo</b><span id="stickyPrice">€ 14,95</span></div>
     <button class="btn btn--primary btn--sm" id="stickyAdd">In de winkelwagen</button>
   </div>
 </div>

@@ -264,3 +264,41 @@ Zodra die drie dingen in WooCommerce staan, hoeft alleen `WOO_IDS` in
 verschillende artikelen in één keer doorgeven, dan is dit het moment om over te
 stappen op de Store API-winkelwagen met de proxy-route uit hoofdstuk 4 — de
 `?add-to-cart=`-truc van WooCommerce doet maar één product per keer.
+
+## 13. Eén productpagina voor de hele winkel
+
+De productpagina is een sjabloon, geen pagina van één product. Het adres draagt
+het WooCommerce-id:
+
+- `#/product` toont Soccer MeMo (id 65)
+- `#/product/101` toont product 101 uit dezelfde winkel
+
+Bij het openen haalt de pagina `/wc/store/v1/products/<id>` op en vult daarmee
+titel, kruimelpad, inleiding, prijs, voorraad, foto's en omschrijving. De
+opmaak in `index.html` hoort bij Soccer MeMo; die stukken worden bij het eerste
+bezoek bewaard en teruggezet zodra je weer bij het eigen spel bent.
+
+Blokken met `data-memo` gaan alleen over het memoryspel en verdwijnen bij een
+ander product: spelregels, specificaties, de beoordelingen, de cross-sell en de
+vragen. Hetzelfde geldt voor de bundels (1, 2 of 3 spellen) en de
+cadeauverpakking. Wat blijft staan is de kern: galerij, titel, prijs, aantal,
+koopknop, voorraad, bezorgbelofte, omschrijving en verzendvoorwaarden.
+
+**Varianten.** Een product met uitvoeringen (`type: "variable"`) weigert de
+Store API zonder gekozen variant. Die producten tonen daarom geen koopknop maar
+een regel met een link naar de winkel. Hetzelfde gebeurt bij een uitverkocht
+product. Wil je die hier wel kunnen afrekenen, dan is er een keuzeveld nodig dat
+`/products/<id>/variations` uitleest en de gekozen variatie-id meestuurt.
+
+### De winkelwagen rekent in product-id's
+
+Elke regel in de winkelwagen draagt zijn eigen `units`: hoeveel stuks van welk
+WooCommerce-product erin zitten. Het Duo-pack is bijvoorbeeld `[{ id: 65, per: 2 }]`.
+Bij het afrekenen telt de site die eenheden op en zet hij de winkelwagen van de
+winkel daaraan gelijk: bestaande regels bijwerken, regels die er niet meer in
+horen verwijderen met `/cart/remove-item`, en de rest toevoegen. Die calls gaan
+na elkaar, want elke call geeft een nieuw cart-token terug.
+
+Artikelen zonder `units` (cadeauverpakking, poster) bestaan nog niet in
+WooCommerce. Die blijven in de winkelwagen van de site staan met een melding en
+gaan niet mee naar de kassa.
