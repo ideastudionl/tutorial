@@ -1299,8 +1299,6 @@ $('#pdpRating').innerHTML = '<b>' + String(p.average_rating).replace('.', ',') +
 p.review_count + ' beoordelingen';
 }
 } else {
-var ratingRow = $('#pdpRating') && $('#pdpRating').closest('.rating');
-if (ratingRow) ratingRow.hidden = true;
 $$('#reviewNoteHome, #reviewNotePdp').forEach(function (el) {
 el.textContent = 'Voorbeeldbeoordelingen, WooCommerce heeft er nog geen';
 });
