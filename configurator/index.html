@@ -20,6 +20,21 @@
     }
     /* Valt weg zodra de configurator geladen is */
     .fk-laden { padding: 60px 20px; text-align: center; color: #5b6875; }
+
+    /* Demobalk: alleen zichtbaar op de demo-omgeving, niet op de live site */
+    .fk-demobalk {
+      background: #123a5c;
+      color: #dce7f1;
+      font-size: 13.5px;
+      line-height: 1.5;
+      padding: 12px 20px;
+    }
+    .fk-demobalk .binnen {
+      max-width: 1180px; margin: 0 auto;
+      display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: baseline;
+    }
+    .fk-demobalk strong { color: #fff; font-weight: 600; letter-spacing: .01em; }
+    .fk-demobalk span { opacity: .85; }
   </style>
 </head>
 <body>
@@ -30,6 +45,13 @@
     De drie scriptbestanden onderaan doen de rest.
     ==========================================================================
   -->
+  <div class="fk-demobalk" id="fk-demobalk" hidden>
+    <div class="binnen">
+      <strong>Ideastudio demo kozijnen offerte</strong>
+      <span>Voorbeeldprijzen — aanvragen worden in deze demo niet verstuurd.</span>
+    </div>
+  </div>
+
   <div id="fortis-configurator">
     <div class="fk-laden">De configurator wordt geladen…</div>
   </div>
@@ -41,6 +63,22 @@
          dan stellen wij de offerte samen met u op.</p>
     </div>
   </noscript>
+
+  <script>
+    /*
+      De demobalk verschijnt alleen op de demo-omgeving (een vercel.app-adres)
+      of wanneer ?demo=1 aan het adres wordt toegevoegd. Op de eigen website
+      van Fortis Kozijnen blijft hij dus onzichtbaar.
+    */
+    (function () {
+      var demo = /(^|\.)vercel\.app$/.test(location.hostname) ||
+                 /[?&]demo=1(&|$)/.test(location.search);
+      if (!demo) return;
+      var balk = document.getElementById('fk-demobalk');
+      if (balk) balk.hidden = false;
+      document.title = 'Ideastudio demo kozijnen offerte';
+    })();
+  </script>
 
   <script src="assets/js/catalog.js"></script>
   <script src="assets/js/pricing.js"></script>

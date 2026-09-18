@@ -1,0 +1,3 @@
+# De PHP-versie van het endpoint hoort niet op Vercel: daar draait api/offerte.js.
+# Zo wordt offerte.php ook niet als platte tekst geserveerd.
+server/

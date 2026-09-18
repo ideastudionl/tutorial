@@ -147,6 +147,15 @@ Laat `settings.endpoint` leeg als er (nog) geen server beschikbaar is. De bezoek
 dan de printbare offerte en de knop "Configuratie mailen naar mijzelf", die de samenvatting
 in het e-mailprogramma zet.
 
+### Draait de site op Node of Vercel?
+
+Dan neemt `api/offerte.js` de plaats in van het PHP-bestand. `vercel.json` stuurt
+`/server/offerte.php` door naar die functie, zodat de configurator zelf niets hoeft te
+weten van de hosting. Deze functie controleert en logt de aanvraag, maar verstuurt nog
+geen e-mail: vul in `verstuurMail()` een maildienst in (Resend, Postmark, SendGrid of
+SMTP) en zet de sleutel als omgevingsvariabele in het project. Zolang dat niet gebeurd
+is, is het een demo-endpoint.
+
 Wie liever met een ander systeem werkt (CRM, Make, Zapier, een eigen API): het formulier
 verstuurt een gewone JSON-POST met daarin de klantgegevens, alle elementen, de volledige
 prijsopbouw per element en de totalen. Elk endpoint dat JSON accepteert, kan die ontvangen.
@@ -156,7 +165,7 @@ prijsopbouw per element en de totalen. Elk endpoint dat JSON accepteert, kan die
 ## Mappen
 
 ```
-index.html                              installatievoorbeeld met uitleg
+index.html                              demo- en installatievoorbeeld met uitleg
 configurator/
   index.html                            de configurator als losse pagina
   embed.js                              plaatst de configurator op elke website
@@ -165,8 +174,14 @@ configurator/
   assets/js/pricing.js                  prijsberekening
   assets/js/preview.js                  live tekening (SVG)
   assets/js/app.js                      stappen, interface en offerteaanvraag
-server/offerte.php                      ontvangt en mailt de aanvraag
+server/offerte.php                      ontvangt en mailt de aanvraag (PHP-hosting)
+api/offerte.js                          hetzelfde endpoint voor Node/Vercel
+vercel.json                             routering voor de demo-omgeving
 ```
+
+De configurator toont een demobalk met "Ideastudio demo kozijnen offerte" zodra hij op
+een `vercel.app`-adres draait of wanneer `?demo=1` aan het adres wordt toegevoegd. Op de
+eigen website van Fortis Kozijnen blijft die balk onzichtbaar.
 
 ---
 
