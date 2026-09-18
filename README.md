@@ -177,6 +177,8 @@ configurator/
 server/offerte.php                      ontvangt en mailt de aanvraag (PHP-hosting)
 api/offerte.js                          hetzelfde endpoint voor Node/Vercel
 vercel.json                             routering voor de demo-omgeving
+                                        (cleanUrls staat bewust uit: de assets
+                                        worden met relatieve paden geladen)
 ```
 
 De configurator toont een demobalk met "Ideastudio demo kozijnen offerte" zodra hij op
