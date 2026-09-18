@@ -1,0 +1,6 @@
+# Binnengekomen offerteaanvragen (worden door server/offerte.php weggeschreven)
+server/aanvragen/
+
+# Systeembestanden
+.DS_Store
+Thumbs.db

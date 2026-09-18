@@ -1,0 +1,463 @@
+/* ==========================================================================
+   FORTIS KOZIJNEN - OFFERTE CONFIGURATOR
+   configurator.css
+
+   Huisstijl aanpassen? Wijzig alleen de variabelen in :root hieronder.
+   ========================================================================== */
+
+:root {
+  /* --- huisstijl --------------------------------------------------------- */
+  --fk-primair:        #123a5c;   /* donkerblauw - koppen, knoppen */
+  --fk-primair-donker: #0c2a44;
+  --fk-primair-licht:  #e8f0f7;
+  --fk-accent:         #d97706;   /* accentkleur - prijzen, actieve stap */
+  --fk-accent-licht:   #fef3e2;
+
+  /* --- neutraal ---------------------------------------------------------- */
+  --fk-tekst:      #1f2933;
+  --fk-tekst-zacht:#5b6875;
+  --fk-lijn:       #dfe5ec;
+  --fk-lijn-sterk: #c3ccd8;
+  --fk-vlak:       #ffffff;
+  --fk-vlak-zacht: #f5f7fa;
+  --fk-groen:      #17803d;
+  --fk-rood:       #c1332b;
+
+  --fk-radius:     12px;
+  --fk-radius-s:   8px;
+  --fk-schaduw:    0 1px 2px rgba(16, 32, 48, .06), 0 8px 24px rgba(16, 32, 48, .07);
+  --fk-schaduw-s:  0 1px 2px rgba(16, 32, 48, .08);
+  --fk-font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+             "Helvetica Neue", Arial, sans-serif;
+}
+
+/* ==========================================================================
+   Basis
+   ========================================================================== */
+
+.fk * { box-sizing: border-box; }
+
+.fk {
+  font-family: var(--fk-font);
+  color: var(--fk-tekst);
+  font-size: 15px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+.fk h1, .fk h2, .fk h3, .fk h4 { margin: 0; font-weight: 650; line-height: 1.25; color: var(--fk-primair); }
+.fk p { margin: 0 0 .75em; }
+.fk p:last-child { margin-bottom: 0; }
+.fk small { font-size: 13px; }
+
+.fk-wrap {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 24px 20px 64px;
+}
+
+/* ==========================================================================
+   Koptekst + stappenbalk
+   ========================================================================== */
+
+.fk-header { margin-bottom: 22px; }
+.fk-header h1 { font-size: clamp(22px, 3vw, 30px); }
+.fk-header .fk-sub { color: var(--fk-tekst-zacht); margin-top: 6px; }
+
+.fk-steps {
+  display: flex;
+  gap: 6px;
+  list-style: none;
+  margin: 22px 0 0;
+  padding: 0;
+  flex-wrap: wrap;
+}
+.fk-steps li { flex: 1 1 140px; }
+
+.fk-step {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--fk-vlak);
+  border: 1px solid var(--fk-lijn);
+  border-radius: var(--fk-radius-s);
+  font: inherit;
+  font-size: 14px;
+  color: var(--fk-tekst-zacht);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color .15s, color .15s, background .15s;
+}
+.fk-step:hover:not(:disabled) { border-color: var(--fk-lijn-sterk); }
+.fk-step:disabled { cursor: not-allowed; opacity: .55; }
+.fk-step[aria-current="step"] {
+  border-color: var(--fk-primair);
+  background: var(--fk-primair-licht);
+  color: var(--fk-primair);
+  font-weight: 600;
+}
+.fk-step .fk-step-nr {
+  flex: 0 0 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--fk-vlak-zacht);
+  border: 1px solid var(--fk-lijn);
+  font-size: 12.5px;
+  font-weight: 650;
+}
+.fk-step[aria-current="step"] .fk-step-nr { background: var(--fk-primair); border-color: var(--fk-primair); color: #fff; }
+.fk-step.is-done .fk-step-nr { background: var(--fk-groen); border-color: var(--fk-groen); color: #fff; }
+
+/* ==========================================================================
+   Layout: formulier links, preview + prijs rechts
+   ========================================================================== */
+
+.fk-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 24px;
+  align-items: start;
+  margin-top: 22px;
+}
+@media (max-width: 920px) {
+  /* Op een telefoon eerst de tekening en de prijs, daarna de keuzes */
+  .fk-layout { display: flex; flex-direction: column-reverse; }
+}
+
+.fk-panel {
+  background: var(--fk-vlak);
+  border: 1px solid var(--fk-lijn);
+  border-radius: var(--fk-radius);
+  box-shadow: var(--fk-schaduw-s);
+  padding: 22px;
+}
+.fk-panel + .fk-panel { margin-top: 18px; }
+.fk-panel > h2 { font-size: 19px; }
+.fk-panel > .fk-hint { color: var(--fk-tekst-zacht); font-size: 14px; margin: 6px 0 18px; }
+
+.fk-aside { position: sticky; top: 18px; }
+@media (max-width: 920px) { .fk-aside { position: static; } }
+
+/* ==========================================================================
+   Vaste prijsbalk onderaan (alleen op smalle schermen)
+   ========================================================================== */
+
+.fk-mobielbalk { display: none; }
+
+@media (max-width: 920px) {
+  .fk-mobielbalk {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    z-index: 40;
+    padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 0px));
+    background: var(--fk-vlak);
+    border-top: 1px solid var(--fk-lijn);
+    box-shadow: 0 -4px 18px rgba(16, 32, 48, .1);
+  }
+  .fk-mobielbalk .fk-mb-prijs { flex: 1 1 auto; min-width: 0; line-height: 1.2; }
+  .fk-mobielbalk .fk-mb-prijs strong { display: block; font-size: 19px; color: var(--fk-primair); }
+  .fk-mobielbalk .fk-mb-prijs span { font-size: 12px; color: var(--fk-tekst-zacht); }
+  .fk-mobielbalk .fk-knop { flex: 0 0 auto; padding: 11px 16px; }
+  .fk-wrap { padding-bottom: 96px; }
+}
+
+/* ==========================================================================
+   Keuzekaarten
+   ========================================================================== */
+
+.fk-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
+}
+.fk-grid.is-wide { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+
+.fk-card { position: relative; display: block; cursor: pointer; }
+.fk-card input { position: absolute; opacity: 0; width: 0; height: 0; }
+
+.fk-card .fk-card-body {
+  display: block;            /* span in een label: anders breekt de rand op */
+  height: 100%;
+  border: 1.5px solid var(--fk-lijn);
+  border-radius: var(--fk-radius-s);
+  padding: 12px 14px;
+  background: var(--fk-vlak);
+  transition: border-color .15s, background .15s, box-shadow .15s;
+}
+.fk-card:hover .fk-card-body { border-color: var(--fk-lijn-sterk); }
+.fk-card input:focus-visible + .fk-card-body { outline: 2px solid var(--fk-accent); outline-offset: 2px; }
+.fk-card input:checked + .fk-card-body {
+  border-color: var(--fk-primair);
+  background: var(--fk-primair-licht);
+  box-shadow: inset 0 0 0 1px var(--fk-primair);
+}
+
+.fk-card-title { font-weight: 600; display: flex; align-items: center; gap: 8px; line-height: 1.35; }
+.fk-card-desc  { display: block; color: var(--fk-tekst-zacht); font-size: 13px; margin-top: 3px; }
+.fk-card-price { display: block; color: var(--fk-accent); font-size: 13px; font-weight: 600; margin-top: 6px; }
+
+.fk-swatch {
+  width: 22px; height: 22px; border-radius: 50%;
+  border: 1px solid rgba(0,0,0,.25);
+  flex: 0 0 auto;
+  box-shadow: inset 0 -3px 5px rgba(0,0,0,.12);
+}
+
+/* Miniatuur-tekening in de productkaarten */
+.fk-card-thumb { width: 100%; height: 84px; margin-bottom: 8px; display: block; }
+
+/* ==========================================================================
+   Formulierelementen
+   ========================================================================== */
+
+.fk-veld { margin-bottom: 16px; }
+.fk-veld > label, .fk-label {
+  display: block;
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+.fk-veld .fk-uitleg { color: var(--fk-tekst-zacht); font-size: 13px; margin-top: 4px; }
+
+.fk-input, .fk-select, .fk-textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1.5px solid var(--fk-lijn);
+  border-radius: var(--fk-radius-s);
+  font: inherit;
+  color: var(--fk-tekst);
+  background: var(--fk-vlak);
+  transition: border-color .15s, box-shadow .15s;
+}
+.fk-input:focus, .fk-select:focus, .fk-textarea:focus {
+  outline: none;
+  border-color: var(--fk-primair);
+  box-shadow: 0 0 0 3px var(--fk-primair-licht);
+}
+.fk-input[aria-invalid="true"] { border-color: var(--fk-rood); }
+.fk-textarea { min-height: 96px; resize: vertical; }
+
+.fk-rij { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 520px) { .fk-rij { grid-template-columns: 1fr; } }
+
+.fk-maat-wrap { position: relative; }
+.fk-maat-wrap .fk-eenheid {
+  position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+  color: var(--fk-tekst-zacht); font-size: 13px; pointer-events: none;
+}
+.fk-maat-wrap .fk-input { padding-right: 42px; }
+
+.fk-fout { color: var(--fk-rood); font-size: 13px; margin-top: 5px; display: none; }
+.fk-fout.is-zichtbaar { display: block; }
+
+.fk-slider { width: 100%; accent-color: var(--fk-primair); }
+
+/* Aantal-stepper */
+.fk-stepper { display: inline-flex; align-items: stretch; border: 1.5px solid var(--fk-lijn); border-radius: var(--fk-radius-s); overflow: hidden; }
+.fk-stepper button {
+  width: 40px; border: 0; background: var(--fk-vlak-zacht); font-size: 18px;
+  color: var(--fk-primair); cursor: pointer; line-height: 1;
+}
+.fk-stepper button:hover { background: var(--fk-primair-licht); }
+.fk-stepper input { width: 64px; border: 0; text-align: center; font: inherit; padding: 9px 0; }
+.fk-stepper input:focus { outline: none; }
+
+/* Aanvinkopties */
+.fk-optie {
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 12px 14px;
+  border: 1.5px solid var(--fk-lijn);
+  border-radius: var(--fk-radius-s);
+  cursor: pointer;
+  transition: border-color .15s, background .15s;
+}
+.fk-optie:hover { border-color: var(--fk-lijn-sterk); }
+.fk-optie input { margin: 3px 0 0; width: 17px; height: 17px; accent-color: var(--fk-primair); flex: 0 0 auto; }
+.fk-optie:has(input:checked) { border-color: var(--fk-primair); background: var(--fk-primair-licht); }
+.fk-optie-tekst { flex: 1 1 auto; }
+.fk-optie-naam { display: block; font-weight: 600; }
+.fk-optie-desc { display: block; color: var(--fk-tekst-zacht); font-size: 13px; }
+.fk-optie-prijs { font-weight: 650; color: var(--fk-accent); white-space: nowrap; }
+
+.fk-optielijst { display: grid; gap: 10px; }
+
+/* ==========================================================================
+   Preview + prijskaart
+   ========================================================================== */
+
+.fk-preview {
+  background: linear-gradient(170deg, #f8fafc 0%, #eef2f7 100%);
+  border: 1px solid var(--fk-lijn);
+  border-radius: var(--fk-radius);
+  padding: 8px;
+}
+.fk-preview svg { width: 100%; height: auto; display: block; }
+.fk-preview-bijschrift {
+  text-align: center; color: var(--fk-tekst-zacht); font-size: 12.5px; padding: 2px 6px 6px;
+}
+
+.fk-prijskaart { margin-top: 16px; }
+.fk-prijs-groot {
+  font-size: 30px; font-weight: 700; color: var(--fk-primair); line-height: 1.1;
+}
+.fk-prijs-label { color: var(--fk-tekst-zacht); font-size: 13px; }
+
+.fk-specs { list-style: none; margin: 14px 0 0; padding: 0; font-size: 13.5px; }
+.fk-specs li { display: flex; justify-content: space-between; gap: 12px; padding: 5px 0; border-bottom: 1px dashed var(--fk-lijn); }
+.fk-specs li:last-child { border-bottom: 0; }
+.fk-specs .fk-spec-naam { color: var(--fk-tekst-zacht); }
+.fk-specs .fk-spec-waarde { text-align: right; font-weight: 550; }
+
+/* ==========================================================================
+   Knoppen
+   ========================================================================== */
+
+.fk-knop {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 11px 20px;
+  border-radius: var(--fk-radius-s);
+  border: 1.5px solid transparent;
+  font: inherit; font-weight: 600;
+  cursor: pointer;
+  transition: background .15s, border-color .15s, color .15s, transform .05s;
+  text-decoration: none;
+}
+.fk-knop { max-width: 100%; }
+.fk-knop:active { transform: translateY(1px); }
+.fk-knop--primair { background: var(--fk-primair); color: #fff; }
+.fk-knop--primair:hover { background: var(--fk-primair-donker); }
+.fk-knop--accent { background: var(--fk-accent); color: #fff; }
+.fk-knop--accent:hover { filter: brightness(.94); }
+.fk-knop--rand { background: var(--fk-vlak); color: var(--fk-primair); border-color: var(--fk-lijn-sterk); }
+.fk-knop--rand:hover { border-color: var(--fk-primair); background: var(--fk-primair-licht); }
+.fk-knop--stil { background: none; color: var(--fk-tekst-zacht); padding: 6px 8px; font-weight: 550; }
+.fk-knop--stil:hover { color: var(--fk-rood); }
+.fk-knop--blok { width: 100%; }
+.fk-knop:disabled { opacity: .5; cursor: not-allowed; }
+
+.fk-acties { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--fk-lijn); }
+.fk-acties .fk-spacer { flex: 1 1 auto; }
+
+/* ==========================================================================
+   Offerteoverzicht
+   ========================================================================== */
+
+.fk-regels { display: grid; gap: 12px; }
+
+.fk-regel {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: start;
+  border: 1px solid var(--fk-lijn);
+  border-radius: var(--fk-radius-s);
+  padding: 14px;
+  background: var(--fk-vlak);
+}
+@media (max-width: 620px) { .fk-regel { grid-template-columns: 72px minmax(0, 1fr); } }
+
+.fk-regel-thumb {
+  background: var(--fk-vlak-zacht);
+  border: 1px solid var(--fk-lijn);
+  border-radius: 6px;
+  padding: 4px;
+}
+.fk-regel-thumb svg { width: 100%; height: 78px; display: block; }
+.fk-regel-titel { font-weight: 650; }
+.fk-regel-spec { color: var(--fk-tekst-zacht); font-size: 13.5px; margin-top: 2px; }
+.fk-regel-opties { font-size: 13px; color: var(--fk-tekst-zacht); margin-top: 6px; }
+.fk-regel-prijs { text-align: right; font-weight: 700; white-space: nowrap; }
+.fk-regel-prijs small { display: block; font-weight: 500; color: var(--fk-tekst-zacht); }
+.fk-regel-knoppen { grid-column: 2 / -1; display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+
+/* Smalle schermen: prijs en knoppen onder de omschrijving, netjes uitgelijnd */
+@media (max-width: 620px) {
+  .fk-regel-prijs { grid-column: 2 / -1; text-align: left; margin-top: 6px; }
+  .fk-regel-prijs small { display: inline; margin-left: 8px; }
+}
+
+.fk-leeg {
+  text-align: center; padding: 34px 18px; color: var(--fk-tekst-zacht);
+  border: 1.5px dashed var(--fk-lijn-sterk); border-radius: var(--fk-radius-s);
+  background: var(--fk-vlak-zacht);
+}
+
+.fk-totalen { list-style: none; margin: 18px 0 0; padding: 16px 0 0; border-top: 2px solid var(--fk-lijn); }
+.fk-totalen li { display: flex; justify-content: space-between; gap: 16px; padding: 4px 0; }
+.fk-totalen .fk-korting { color: var(--fk-groen); }
+.fk-totalen .fk-eindtotaal {
+  font-size: 20px; font-weight: 750; color: var(--fk-primair);
+  border-top: 1px solid var(--fk-lijn); margin-top: 8px; padding-top: 10px;
+}
+
+.fk-melding {
+  border-radius: var(--fk-radius-s);
+  padding: 12px 14px;
+  font-size: 14px;
+  margin-bottom: 16px;
+  border: 1px solid transparent;
+}
+.fk-melding--info    { background: var(--fk-primair-licht); border-color: #c6dcee; color: var(--fk-primair-donker); }
+.fk-melding--succes  { background: #e7f6ec; border-color: #b6e2c4; color: #10592c; }
+.fk-melding--fout    { background: #fdecea; border-color: #f5c2bd; color: #8f241d; }
+.fk-melding--let-op  { background: var(--fk-accent-licht); border-color: #f3d4a2; color: #8a4b04; }
+
+.fk-badge {
+  display: inline-block; padding: 2px 8px; border-radius: 999px;
+  background: var(--fk-accent-licht); color: #8a4b04;
+  font-size: 12px; font-weight: 650;
+}
+
+.fk-voorwaarden { font-size: 12.5px; color: var(--fk-tekst-zacht); margin-top: 18px; padding-left: 18px; }
+.fk-voorwaarden li { margin-bottom: 4px; }
+
+/* ==========================================================================
+   Bedanktscherm
+   ========================================================================== */
+
+.fk-bedankt { text-align: center; padding: 20px 10px; }
+.fk-bedankt .fk-vink {
+  width: 62px; height: 62px; border-radius: 50%;
+  background: #e7f6ec; color: var(--fk-groen);
+  display: grid; place-items: center; margin: 0 auto 16px;
+  font-size: 30px;
+}
+.fk-bedankt h2 { font-size: 23px; margin-bottom: 8px; }
+.fk-referentie {
+  display: inline-block; margin-top: 10px; padding: 8px 16px;
+  background: var(--fk-vlak-zacht); border: 1px dashed var(--fk-lijn-sterk);
+  border-radius: var(--fk-radius-s); font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+
+/* ==========================================================================
+   Afdrukken / opslaan als PDF
+   ========================================================================== */
+
+@media print {
+  @page { margin: 16mm; }
+  body { background: #fff; }
+  .fk-niet-printen, .fk-steps, .fk-acties, .fk-aside,
+  .fk-stap-panel, .fk-mobielbalk { display: none !important; }
+  .fk-wrap { max-width: none; padding: 0; }
+  .fk-panel { border: 0; box-shadow: none; padding: 0; }
+  .fk-panel + .fk-panel { margin-top: 12px; }
+  .fk-regel { break-inside: avoid; border-color: #ccc; }
+  .fk-layout { display: block; }
+  .fk-header { margin-bottom: 0; }
+  .fk-print-kop { display: block !important; margin-bottom: 18px; border-bottom: 2px solid var(--fk-primair); padding-bottom: 10px; }
+
+  /* Stapnummer en niet-gekozen diensten horen niet op de afdruk */
+  .fk-stapnr { display: none; }
+  .fk-optie { border-color: #ddd; padding: 8px 0; }
+  .fk-optie:not(:has(input:checked)) { display: none; }
+  .fk-optie input { display: none; }
+  .fk-optielijst { gap: 0; }
+}
+.fk-print-kop { display: none; }

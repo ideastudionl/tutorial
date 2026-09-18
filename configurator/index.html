@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Offerte configurator - Fortis Kozijnen</title>
+  <meta name="description" content="Stel online uw kozijn samen: materiaal, profiel, vakverdeling, beglazing, ventilatieroosters en horren. U ziet direct een prijsindicatie en vraagt in één klik een vrijblijvende offerte aan.">
+  <meta name="robots" content="index, follow">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/configurator.css">
+
+  <style>
+    body {
+      margin: 0;
+      background: #f2f5f9;
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    }
+    /* Valt weg zodra de configurator geladen is */
+    .fk-laden { padding: 60px 20px; text-align: center; color: #5b6875; }
+  </style>
+</head>
+<body>
+
+  <!--
+    ==========================================================================
+    Plaats dit element op de pagina waar de configurator moet verschijnen.
+    De drie scriptbestanden onderaan doen de rest.
+    ==========================================================================
+  -->
+  <div id="fortis-configurator">
+    <div class="fk-laden">De configurator wordt geladen…</div>
+  </div>
+
+  <noscript>
+    <div style="max-width:700px;margin:40px auto;padding:20px;background:#fff;border-radius:12px">
+      <h2>JavaScript staat uit</h2>
+      <p>Voor de configurator is JavaScript nodig. Zet JavaScript aan of neem contact met ons op,
+         dan stellen wij de offerte samen met u op.</p>
+    </div>
+  </noscript>
+
+  <script src="assets/js/catalog.js"></script>
+  <script src="assets/js/pricing.js"></script>
+  <script src="assets/js/preview.js"></script>
+  <script src="assets/js/app.js"></script>
+
+  <script>
+    /*
+      Hoogte doorgeven aan de website wanneer de configurator in een iframe
+      staat (zie embed.js). Zonder iframe gebeurt hier niets.
+    */
+    (function () {
+      if (window.parent === window) return;
+      function meld() {
+        var hoogte = Math.ceil(document.documentElement.scrollHeight);
+        window.parent.postMessage({ type: 'fortis-configurator:hoogte', hoogte: hoogte }, '*');
+      }
+      window.addEventListener('load', meld);
+      if ('ResizeObserver' in window) new ResizeObserver(meld).observe(document.body);
+      else setInterval(meld, 500);
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Offerte configurator - installatievoorbeeld | Fortis Kozijnen</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --blauw: #123a5c; --lijn: #dfe5ec; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: #f2f5f9; color: #1f2933;
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      line-height: 1.6;
+    }
+    .kop { background: var(--blauw); color: #fff; padding: 40px 20px; }
+    .kop .binnen { max-width: 980px; margin: 0 auto; }
+    .kop h1 { margin: 0 0 8px; font-size: clamp(22px, 3vw, 32px); }
+    .kop p { margin: 0; opacity: .85; }
+    main { max-width: 980px; margin: 0 auto; padding: 32px 20px 64px; }
+    .kaart { background: #fff; border: 1px solid var(--lijn); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+    h2 { color: var(--blauw); font-size: 20px; margin: 0 0 12px; }
+    code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13.5px; }
+    pre {
+      background: #0f172a; color: #e2e8f0; padding: 16px; border-radius: 8px;
+      overflow-x: auto; line-height: 1.5;
+    }
+    .knop {
+      display: inline-block; background: #d97706; color: #fff; text-decoration: none;
+      padding: 12px 22px; border-radius: 8px; font-weight: 600;
+    }
+    ul { padding-left: 20px; }
+    li { margin-bottom: 6px; }
+    .rooster { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; }
+    .stap { background: #f5f7fa; border: 1px solid var(--lijn); border-radius: 8px; padding: 12px 14px; }
+    .stap b { color: var(--blauw); }
+  </style>
+</head>
+<body>
+
+<div class="kop">
+  <div class="binnen">
+    <h1>Offerte configurator</h1>
+    <p>Installatievoorbeeld voor de website van Fortis Kozijnen</p>
+  </div>
+</div>
+
+<main>
+
+  <div class="kaart">
+    <h2>Bekijk de configurator</h2>
+    <p>De configurator werkt volledig zelfstandig: HTML, CSS en JavaScript, zonder externe
+       bibliotheken of bouwstap.</p>
+    <p><a class="knop" href="configurator/index.html">Configurator openen</a></p>
+  </div>
+
+  <div class="kaart">
+    <h2>De stappen</h2>
+    <div class="rooster">
+      <div class="stap"><b>1.</b> Materiaal (kunststof of aluminium)</div>
+      <div class="stap"><b>2.</b> Kozijnmaat</div>
+      <div class="stap"><b>3.</b> Profiel</div>
+      <div class="stap"><b>4.</b> Vakverdeling</div>
+      <div class="stap"><b>5.</b> Vast glas of te openen</div>
+      <div class="stap"><b>6.</b> Muuraansluiting</div>
+      <div class="stap"><b>7.</b> Kleur kozijn en muur-RAL</div>
+      <div class="stap"><b>8.</b> Soort beglazing</div>
+      <div class="stap"><b>9.</b> Ventilatieroosters</div>
+      <div class="stap"><b>10.</b> Inzethorren</div>
+      <div class="stap"><b>11.</b> Montage en toebehoren</div>
+      <div class="stap"><b>12.</b> Offerte aanvragen</div>
+    </div>
+  </div>
+
+  <div class="kaart">
+    <h2>Op de website plaatsen — manier 1: insluiten (aanbevolen)</h2>
+    <p>Eén regel op de pagina waar de configurator moet komen. Werkt in WordPress
+       (blok <em>Aangepaste HTML</em>), Wix, Joomla en elk ander CMS.</p>
+<pre>&lt;div id="fortis-configurator"&gt;&lt;/div&gt;
+&lt;script src="https://www.fortiskozijnen.nl/configurator/embed.js"
+        data-doel="#fortis-configurator"&gt;&lt;/script&gt;</pre>
+    <p>De configurator komt in een iframe te staan en groeit automatisch mee met de inhoud,
+       zodat er geen dubbele scrollbalk ontstaat.</p>
+  </div>
+
+  <div class="kaart">
+    <h2>Op de website plaatsen — manier 2: in de pagina zelf</h2>
+    <p>Wilt u de configurator in het thema van de website opnemen, plaats dan het doel-element
+       en de vier scripts rechtstreeks in de pagina:</p>
+<pre>&lt;link rel="stylesheet" href="/configurator/assets/css/configurator.css"&gt;
+
+&lt;div id="fortis-configurator"&gt;&lt;/div&gt;
+
+&lt;script src="/configurator/assets/js/catalog.js"&gt;&lt;/script&gt;
+&lt;script src="/configurator/assets/js/pricing.js"&gt;&lt;/script&gt;
+&lt;script src="/configurator/assets/js/preview.js"&gt;&lt;/script&gt;
+&lt;script src="/configurator/assets/js/app.js"&gt;&lt;/script&gt;</pre>
+  </div>
+
+  <div class="kaart">
+    <h2>Prijzen en opties aanpassen</h2>
+    <p>Alles staat in <code>configurator/assets/js/catalog.js</code>. Daar wijzigt u materialen,
+       profielen, kleuren, beglazing, roosters, horren, montagetarieven en de btw.
+       De rekenmodule en de tekening passen zich automatisch aan.</p>
+    <ul>
+      <li>Huisstijlkleuren: bovenaan <code>configurator/assets/css/configurator.css</code></li>
+      <li>Ontvanger van de aanvragen: <code>server/offerte.php</code></li>
+      <li>Volgorde van de stappen: <code>STAPPEN</code> onderaan <code>configurator/assets/js/app.js</code></li>
+    </ul>
+  </div>
+
+</main>
+
+</body>
+</html>
