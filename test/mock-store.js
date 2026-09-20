@@ -100,7 +100,14 @@ http.createServer((req, res) => {
     res.setHeader('Nonce', 'testnonce');
     if (req.method === 'OPTIONS') { res.writeHead(204).end(); return; }
 
-    if (path === '/products') { res.end(JSON.stringify(Object.values(CATALOGUS))); return; }
+    if (path === '/products') {
+      const slug = new URL(req.url, 'http://x').searchParams.get('slug');
+      const alles = Object.values(CATALOGUS);
+      /* de winkel geeft een slug mee; hier leiden we hem af van de naam */
+      const bijSlug = (p) => p.name.toLowerCase().split(' ')[0].replace(/[^a-z]/g, '');
+      res.end(JSON.stringify(slug ? alles.filter((p) => bijSlug(p) === slug.split('-')[0]) : alles));
+      return;
+    }
     if (path.startsWith('/products/')) {
       const found = CATALOGUS[path.split('/')[2]];
       if (!found) { res.writeHead(404).end(JSON.stringify({ message: 'Onbekend product' })); return; }

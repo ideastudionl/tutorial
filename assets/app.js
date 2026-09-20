@@ -30,6 +30,7 @@
   var SHOP = 'https://www.soccer-games.nl';
   var CHECKOUT_PATH = '/afrekenen/';   /* de winkel draait op Nederlandse slugs */
   var WOO_IDS = { memo: 65 };
+  var MEMO_SLUG = 'soccer-memo';
   var SHOP_AAN = false;   /* shoppagina tijdelijk uit */
 
   /* ---------- Toast ---------- */
@@ -200,13 +201,22 @@
       if (!cart.some(orderable)) { say('Deze artikelen staan nog niet in de winkel'); return; }
 
       closeCart();
-      location.hash = '#/afrekenen';
+      naar('/afrekenen', '');
     }
   });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeCart(); });
 
-  /* ---------- Routing (#/ en #/product) ---------- */
+  /* ---------- Routing ----------
+     Op de echte site staan er gewone adressen in de balk: /product/soccer-memo
+     in plaats van #/product. Google kan dan elke pagina apart indexeren. De
+     server stuurt die adressen naar index.html (zie vercel.json).
+
+     In een voorbeeldweergave schrijft geen server mee. Daar valt alles terug op
+     hash-adressen, en die blijven ook op de echte site werken: oude links
+     komen gewoon uit waar ze horen. */
+  var PADEN = Boolean(window.__PADEN__ && window.history && window.history.pushState);
   var routes = $$('[data-route]');
+
   function show(route, scrollTo) {
     routes.forEach(function (r) { r.classList.toggle('is-active', r.getAttribute('data-route') === route); });
     /* Op de kassa geen menu en geen USP-balk: minder afleiding, meer afgeronde bestellingen. */
@@ -218,29 +228,93 @@
     window.scrollTo({ top: 0, behavior: 'auto' });
     onScroll();
   }
-  function routeFromHash() {
-    var h = (location.hash || '#/').slice(1);
-    if (h === '' || h === '/') return show('home');
-    /* #/product toont Soccer MeMo, #/product/123 elk ander product uit de winkel. */
-    if (h === '/product' || h.indexOf('/product/') === 0) {
-      var wanted = h.indexOf('/product/') === 0 ? parseInt(h.slice(9), 10) : WOO_IDS.memo;
-      show('product');
-      setTimeout(function () { loadProduct(wanted); }, 0);
+
+  /* Van intern adres naar wat er in een href hoort te staan. */
+  function adres(pad, anker) {
+    if (PADEN) return pad + (anker ? '#' + anker : '');
+    if (anker) return '#' + anker;
+    return '#' + pad;
+  }
+
+  function naar(pad, anker) {
+    if (PADEN) {
+      window.history.pushState({}, '', adres(pad, anker));
+      teken(pad, anker);
       return;
     }
-    if (h === '/afrekenen') { show('afrekenen'); setTimeout(startCheckout, 0); return; }
+    var doel = adres(pad, anker);
+    if (location.hash === doel) teken(pad, anker); else location.hash = doel;
+  }
+
+  /* Wat staat er nu in de adresbalk? */
+  function huidig() {
+    if (PADEN) {
+      var los = (location.hash || '').replace(/^#/, '');
+      /* een oud hash-adres op de nieuwe site */
+      if (los.charAt(0) === '/') return { pad: los.replace(/\/+$/, '') || '/', anker: '' };
+      return { pad: location.pathname.replace(/\/+$/, '') || '/', anker: los };
+    }
+    var h = (location.hash || '#/').slice(1) || '/';
+    if (h.charAt(0) !== '/') return { pad: '/', anker: h };
+    return { pad: h.replace(/\/+$/, '') || '/', anker: '' };
+  }
+
+  function teken(pad, anker) {
+    if (pad === '/' && !anker) return show('home');
+
+    if (pad === '/product' || pad.indexOf('/product/') === 0) {
+      var deel = pad.indexOf('/product/') === 0 ? pad.slice(9) : '';
+      show('product');
+      setTimeout(function () { loadProduct(deel || WOO_IDS.memo); }, 0);
+      return;
+    }
+    if (pad === '/afrekenen') { show('afrekenen'); setTimeout(startCheckout, 0); return; }
     /* De shoppagina staat tijdelijk uit: wie het adres nog heeft, komt op de
        homepagina uit. Zet SHOP_AAN op true om hem terug te zetten. */
-    if (h === '/shop') {
-      if (!SHOP_AAN) { location.replace('#/'); return show('home'); }
+    if (pad === '/shop') {
+      if (!SHOP_AAN) {
+        if (PADEN) window.history.replaceState({}, '', '/'); else location.replace('#/');
+        return show('home');
+      }
       show('shop'); setTimeout(loadShop, 0); return;
     }
-    var el = document.getElementById(h);
+
+    /* Een anker: zoek het blok op en toon de pagina waar het op staat. */
+    var el = anker && document.getElementById(anker);
     var host = el && el.closest('[data-route]');
-    show(host ? host.getAttribute('data-route') : 'home', el ? h : null);
+    show(host ? host.getAttribute('data-route') : 'home', el ? anker : null);
   }
-  window.addEventListener('hashchange', routeFromHash);
-  routeFromHash();
+
+  function tekenHuidig() { var nu = huidig(); teken(nu.pad, nu.anker); }
+
+  if (PADEN) {
+    /* De links in de pagina zijn als #/product geschreven; op de echte site
+       maken we er gewone adressen van, zodat ze te kopiëren en te delen zijn. */
+    $$('a[data-link]').forEach(function (a) {
+      var href = a.getAttribute('href') || '';
+      if (href.indexOf('#/') === 0) a.setAttribute('href', href.slice(1));
+    });
+
+    document.addEventListener('click', function (e) {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      var a = e.target.closest('a[data-link]');
+      if (!a) return;
+      var href = a.getAttribute('href') || '';
+      e.preventDefault();
+      if (href.charAt(0) === '/') { naar(href.replace(/\/+$/, '') || '/', ''); return; }
+      if (href.charAt(0) === '#') {
+        var anker = href.slice(1);
+        var el = document.getElementById(anker);
+        var host = el && el.closest('[data-route]');
+        var kaart = { home: '/', product: '/product', shop: '/shop', afrekenen: '/afrekenen' };
+        naar(kaart[host ? host.getAttribute('data-route') : 'home'] || '/', anker);
+      }
+    });
+    window.addEventListener('popstate', tekenHuidig);
+  }
+
+  window.addEventListener('hashchange', tekenHuidig);
+  tekenHuidig();
 
   /* ---------- Memory-demo ---------- */
   var ICONS = ['card-ball', 'card-trophy', 'card-team', 'card-goal', 'card-kit', 'card-bottle'];
@@ -475,7 +549,7 @@
   function productCard(p) {
     var img = (p.images && p.images[0]) ? (p.images[0].thumbnail || p.images[0].src) : '';
     var own = p.id === WOO_IDS.memo;
-    var href = own ? '#/product' : '#/product/' + p.id;
+    var href = own ? adres('/product') : adres('/product/' + (p.slug || p.id));
     var sale = p.on_sale && p.prices.regular_price !== p.prices.price;
     var unit = p.prices.currency_minor_unit;
     /* Varianten en uitverkochte artikelen gaan niet rechtstreeks in de mand:
@@ -671,7 +745,24 @@
     if ($('#giftRow')) $('#giftRow').hidden = !aan;
   }
 
-  function loadProduct(id) {
+  /* Het adres draagt een id (/product/101) of een slug (/product/soccer-memo).
+     Een slug zoeken we op bij de winkel; alleen het eigen spel kennen we uit
+     ons hoofd, zodat de eigen pagina ook zonder winkel opent. */
+  function loadProduct(sleutel) {
+    if (typeof sleutel === 'string' && !/^\d+$/.test(sleutel)) {
+      if (sleutel === MEMO_SLUG) return toonProduct(WOO_IDS.memo);
+      return storeGet('/products?slug=' + encodeURIComponent(sleutel))
+        .then(function (lijst) {
+          var p = lijst && lijst[0];
+          if (!p) throw new Error('niet gevonden');
+          toonProduct(p.id);
+        })
+        .catch(function () { toonProduct(WOO_IDS.memo); });
+    }
+    return toonProduct(sleutel);
+  }
+
+  function toonProduct(id) {
     id = parseInt(id, 10) || WOO_IDS.memo;
     bewaarMemo();
 
