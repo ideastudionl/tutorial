@@ -6,6 +6,50 @@
    4. Layout        8. Responsive
    ========================================================= */
 
+/* ---------- 0. Lettertypes (lokaal gehost) ----------
+   Variabele fonts: één bestand dekt alle gewichten. latin-ext laadt alleen
+   als er een teken uit dat bereik op de pagina staat. */
+@font-face {
+  font-family: "Archivo";
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url("/fonts/archivo-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Archivo";
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url("/fonts/archivo-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Source Sans 3";
+  font-style: normal;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url("/fonts/source-sans-3-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Source Sans 3";
+  font-style: normal;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url("/fonts/source-sans-3-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
 /* ---------- 1. Tokens ---------- */
 :root {
   /* Kleur — huisstijl Interflex Stuc (#0d4ead / #f15a24) */
@@ -422,6 +466,27 @@ a:hover > .ifs-media img, .ifs-card--link:hover .ifs-media img { transform: scal
 .ifs-hero__visual { position: relative; }
 .ifs-hero__visual .ifs-media { aspect-ratio: 5 / 6; box-shadow: var(--ifs-shadow-lg); }
 
+/* Beoordelingsbadge die over de foto valt. */
+.ifs-hero__float {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 18px;
+  background: #fff;
+  border: 1px solid var(--ifs-line-soft);
+  border-radius: var(--ifs-radius-lg);
+  box-shadow: var(--ifs-shadow-lg);
+  white-space: nowrap;
+}
+.ifs-hero__float--br { right: -20px; bottom: 28px; }
+.ifs-hero__float strong {
+  font-family: var(--ifs-font-head);
+  font-size: 1.125rem;
+  color: var(--ifs-ink);
+}
+.ifs-hero__float small { font-size: 0.875rem; color: var(--ifs-stone); }
+
 /* USP-balk */
 .ifs-usp { background: var(--ifs-white); border-bottom: 1px solid var(--ifs-line); }
 .ifs-usp__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1px; background: var(--ifs-line-soft); }
@@ -761,6 +826,8 @@ a:hover > .ifs-media img, .ifs-card--link:hover .ifs-media img { transform: scal
   .ifs-sticky-cta { display: flex; }
   body { padding-bottom: 74px; }
   .ifs-hero__visual .ifs-media { aspect-ratio: 4 / 3; }
+  /* Op smalle schermen mag de badge niet buiten het scherm steken. */
+  .ifs-hero__float--br { right: 12px; bottom: 12px; }
   .ifs-wizard__nav { flex-direction: column-reverse; }
   .ifs-wizard__nav [data-prev] { margin-right: 0; }
   .ifs-wizard__nav .ifs-btn { width: 100%; }

@@ -5,6 +5,7 @@ import Footer from '../components/Footer.astro';
 import QuoteModal from '../components/QuoteModal.astro';
 import { site } from '../data/site';
 import { businessSchema, breadcrumbSchema } from '../lib/schema';
+import { ogImages } from '../data/og';
 
 interface Props {
   title: string;
@@ -20,6 +21,14 @@ const { title, description, schema = [], crumbs, noModal = false } = Astro.props
 
 const canonical = new URL(Astro.url.pathname, Astro.site ?? site.url).href;
 const fullTitle = title.includes(site.name) ? title : `${title} — ${site.name}`;
+
+// Deelafbeelding: de bestandsnaam volgt het pad (/diensten/betonlook/ ->
+// diensten-betonlook). Bestaat die niet, dan pakken we de algemene.
+const ogSlug = Astro.url.pathname.replace(/^\/|\/$/g, '').replace(/\//g, '-');
+const ogImage = new URL(
+  `/og/${ogImages.has(ogSlug) ? ogSlug : 'home'}.jpg`,
+  Astro.site ?? site.url,
+).href;
 
 const blocks = [businessSchema(), ...(crumbs ? [breadcrumbSchema(crumbs)] : []), ...schema];
 ---
@@ -41,13 +50,29 @@ const blocks = [businessSchema(), ...(crumbs ? [breadcrumbSchema(crumbs)] : []),
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="nl_NL" />
     <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:alt" content={fullTitle} />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={ogImage} />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Lettertypes staan op ons eigen domein: geen externe verbinding, geen
+         extra wachttijd voor de eerste tekst, en niets dat naar Google lekt. -->
     <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Source+Sans+3:wght@400;600;700&display=swap"
+      rel="preload"
+      href="/fonts/archivo-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/source-sans-3-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
     />
 
     {blocks.map((block) => (

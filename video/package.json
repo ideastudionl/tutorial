@@ -1,0 +1,23 @@
+{
+  "name": "interflexstuc-video",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "studio": "remotion studio",
+    "og": "node scripts/render-og.mjs",
+    "video": "node scripts/render-video.mjs"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.526",
+    "@remotion/renderer": "^4.0.526",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "remotion": "^4.0.526"
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "esbuild": "^0.28.2",
+    "typescript": "^7.0.2"
+  }
+}

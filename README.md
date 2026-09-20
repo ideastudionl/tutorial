@@ -25,6 +25,15 @@ Beveiligd met één wachtwoord uit `PORTAL_PASSWORD`.
 per dienst een `Service`. Sitemap, robots.txt, canonicals, Open Graph, en 301-redirects
 van de oude WordPress-URL's.
 
+**Deelafbeeldingen** — elke pagina heeft een eigen `og:image` in `site/public/og/`,
+met de juiste plaats of dienst en het juiste tarief erop. Dat is wat iemand ziet als
+een link in WhatsApp of op LinkedIn wordt gedeeld. Ze worden gemaakt met Remotion,
+uit dezelfde gegevens als de pagina's — zie `video/`.
+
+**Lettertypes** — Archivo en Source Sans 3 staan in `site/public/fonts/` en komen dus
+van ons eigen domein. Geen verbinding met Google, geen extra wachttijd voordat de
+eerste tekst verschijnt, en niets dat bezoekersgegevens naar buiten stuurt.
+
 ## Lokaal draaien
 
 ```bash
@@ -74,6 +83,9 @@ Vercel regelt het SSL-certificaat zelf.
 Teksten, prijzen, diensten, werkgebieden, reviews en projecten staan als data in
 `site/src/data/`. Eén bestand aanpassen verandert de site overal waar die gegevens
 voorkomen — ook in de structured data.
+
+Verander je een tarief, een plaats of een dienst, draai dan `cd video && npm run og`
+en commit het resultaat mee: anders blijven de deelafbeeldingen het oude tarief tonen.
 
 Elke push naar `main` zet Vercel automatisch live. Een push naar een andere branch
 levert een preview-URL op, zodat je een wijziging eerst kunt bekijken.
