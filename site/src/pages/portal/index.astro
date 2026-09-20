@@ -2,7 +2,7 @@
 export const prerender = false;
 
 import Base from '../../layouts/Base.astro';
-import { adminClient, STATUSSEN, type Aanvraag } from '../../lib/supabase';
+import { adminClient, STATUSSEN, herkomstVan, isAdvertentie, type Aanvraag } from '../../lib/supabase';
 import { icon } from '../../lib/icons';
 import { werkOptions, situatieOptions, oppervlakteOptions, pandOptions, planningOptions } from '../../lib/quote';
 
@@ -107,6 +107,14 @@ const nieuw = aanvragen.filter((a) => a.status === 'nieuw').length;
                     {a.richtprijs && (
                       <span style="color:var(--ifs-stone);font-size:var(--ifs-fs-sm)">{a.richtprijs}</span>
                     )}
+                    {herkomstVan(a) && (
+                      <span
+                        class={`ifs-badge${isAdvertentie(a) ? ' ifs-badge--green' : ''}`}
+                        title="Herkomst van deze aanvraag"
+                      >
+                        {herkomstVan(a)}
+                      </span>
+                    )}
                     <span style="margin-left:auto;color:var(--ifs-stone);font-size:var(--ifs-fs-xs)">{datum(a.created_at)}</span>
                   </summary>
 
@@ -124,6 +132,9 @@ const nieuw = aanvragen.filter((a) => a.status === 'nieuw').length;
                       {a.pand && <div class="ifs-summary__row"><dt>Type pand</dt><dd>{labelOf(pandOptions, a.pand)}</dd></div>}
                       {a.planning && <div class="ifs-summary__row"><dt>Start</dt><dd>{labelOf(planningOptions, a.planning)}</dd></div>}
                       {a.opmerking && <div class="ifs-summary__row"><dt>Toelichting</dt><dd style="text-align:left">{a.opmerking}</dd></div>}
+                      {herkomstVan(a) && <div class="ifs-summary__row"><dt>Herkomst</dt><dd>{herkomstVan(a)}</dd></div>}
+                      {a.utm_content && <div class="ifs-summary__row"><dt>Advertentie</dt><dd>{a.utm_content}</dd></div>}
+                      {a.landingspagina && <div class="ifs-summary__row"><dt>Binnengekomen op</dt><dd>{a.landingspagina}</dd></div>}
                     </dl>
 
                     <form method="POST" action="/api/status" style="display:flex;flex-wrap:wrap;gap:.5rem;align-items:end;margin-top:1rem">

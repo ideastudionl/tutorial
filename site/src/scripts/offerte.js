@@ -485,6 +485,12 @@
 				return;
 			}
 
+			// Herkomst meesturen: zo is in het portal te zien welke campagne
+			// deze aanvraag opleverde.
+			if ( window.ifsVulHerkomst ) {
+				window.ifsVulHerkomst( form );
+			}
+
 			var data = new FormData( form );
 
 			submitBtn.classList.add( 'is-loading' );
@@ -509,8 +515,11 @@
 						root.classList.add( 'is-done' );
 						root.scrollIntoView( { behavior: 'smooth', block: 'center' } );
 
-						if ( window.dataLayer ) {
-							window.dataLayer.push( { event: 'offerte_verstuurd' } );
+						if ( window.ifsMeet ) {
+							window.ifsMeet( 'offerte_verstuurd', {
+								waarde: result.waarde || 0,
+								werk: data.getAll( 'werk[]' ).join( ', ' )
+							} );
 						}
 						return;
 					}

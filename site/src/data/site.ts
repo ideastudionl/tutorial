@@ -25,8 +25,16 @@ export const site = {
     { label: 'Zondag', time: 'Gesloten', days: ['Su'] },
   ],
 
-  /** Voorbeeldcijfers — vervang door de echte vóór livegang. */
-  rating: { score: '9,4', count: 87 },
+  /**
+   * Voorbeeldcijfers — vervang door de echte vóór livegang.
+   *
+   * Zet `geverifieerd` pas op true als dit cijfer klopt en herleidbaar is tot
+   * echte beoordelingen. Zolang het false is, laten we de waardering weg uit
+   * de structured data: een verzonnen beoordelingscijfer aan Google doorgeven
+   * is in strijd met hun richtlijnen en kan de hele site uit de zoekresultaten
+   * halen. Op de pagina zelf blijft het zichtbaar als voorbeeld.
+   */
+  rating: { score: '9,4', count: 87, geverifieerd: false },
   yearsActive: 10,
   projectsDone: 750,
   warrantyYears: 5,

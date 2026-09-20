@@ -262,6 +262,7 @@ p:last-child { margin-bottom: 0; }
 .ifs-btn--light { --btn-bg: #fff; --btn-fg: var(--ifs-ink); --btn-bd: #fff; }
 .ifs-btn--lg { padding: 1.1rem 2.1rem; font-size: var(--ifs-fs-base); }
 .ifs-btn--block { width: 100%; }
+.ifs-btn--sm { padding: .7rem 1.25rem; font-size: var(--ifs-fs-xs); }
 
 .ifs-link-arrow {
   display: inline-flex; align-items: center; gap: .45rem;
@@ -798,6 +799,48 @@ a:hover > .ifs-media img, .ifs-card--link:hover .ifs-media img { transform: scal
 .ifs-contact-card h3 { color: #fff; }
 /* Niet op knoppen: die halen hun kleur uit --btn-fg en werden zo wit-op-wit. */
 .ifs-contact-card a:not(.ifs-btn) { color: #fff; }
+
+/* ---------- Cookiebanner ---------- */
+.ifs-toestemming {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  padding: 1rem;
+  background: var(--ifs-ink);
+  color: #C3CCDC;
+  box-shadow: 0 -8px 32px rgba(10, 22, 38, .22);
+}
+.ifs-toestemming__inner {
+  max-width: var(--ifs-container);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+.ifs-toestemming__tekst {
+  flex: 1 1 340px;
+  margin: 0;
+  font-size: var(--ifs-fs-sm);
+  line-height: 1.5;
+}
+.ifs-toestemming__tekst a { color: #fff; }
+/* Beide knoppen even opvallend: weigeren mag niet moeilijker zijn dan
+   accepteren. */
+.ifs-toestemming__knoppen { display: flex; gap: .65rem; flex: none; }
+.ifs-toestemming .ifs-btn--ghost { --btn-fg: #fff; --btn-bd: #3B4A63; }
+.ifs-toestemming .ifs-btn--ghost:hover { --btn-bd: #fff; background: transparent; }
+
+/* Zolang de vraag openstaat de mobiele actiebalk weghalen: die zit op
+   dezelfde plek en dekte de knoppen af. */
+body.ifs-vraagt-toestemming .ifs-sticky-cta { display: none; }
+
+@media (max-width: 560px) {
+  .ifs-toestemming__knoppen { width: 100%; }
+  .ifs-toestemming__knoppen .ifs-btn { flex: 1; }
+}
 
 /* ---------- 8. Responsive ---------- */
 @media (max-width: 1080px) {

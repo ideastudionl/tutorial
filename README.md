@@ -34,6 +34,14 @@ uit dezelfde gegevens als de pagina's — zie `video/`.
 van ons eigen domein. Geen verbinding met Google, geen extra wachttijd voordat de
 eerste tekst verschijnt, en niets dat bezoekersgegevens naar buiten stuurt.
 
+**Herkomst van aanvragen** — bij elke offerteaanvraag wordt vastgelegd via welke
+campagne, welk zoekwoord en welke pagina de bezoeker binnenkwam (`utm_*`, `gclid`,
+`fbclid`). Dat staat bij de aanvraag in het portal en in de melding per e-mail.
+Zonder dit zie je bij Google Ads wel de kosten, maar niet wat ze opleverden.
+
+**Conversiemeting** — `offerte_verstuurd` (met geschatte orderwaarde),
+`telefoon_klik` en `whatsapp_klik`, achter een cookiebanner. Zie hieronder.
+
 ## Lokaal draaien
 
 ```bash
@@ -67,13 +75,59 @@ Vercel regelt het SSL-certificaat zelf.
   redirecten met een 301
 - Search Console koppelen en `sitemap-index.xml` indienen
 
+## Marketing instellen
+
+Alle meting staat uit tot je codes invult. Zolang de vier variabelen leeg zijn,
+laadt de site geen enkele externe tag en verschijnt er geen cookiebanner.
+
+Zet in Vercel onder Settings → Environment Variables:
+
+| Variabele | Waar vind je hem |
+|---|---|
+| `PUBLIC_GA4_ID` | Google Analytics → Beheer → Gegevensstromen (`G-…`) |
+| `PUBLIC_ADS_ID` | Google Ads → Tools → Conversies (`AW-…`) |
+| `PUBLIC_ADS_CONVERSIE_LABEL` | Google Ads, bij de conversieactie zelf |
+| `PUBLIC_META_PIXEL_ID` | Meta Events Manager (alleen cijfers) |
+
+Maak de conversie in Google Ads aan als **Import/handmatig** met gebeurtenisnaam
+`offerte_verstuurd`, en zet 'waarde' op *gebruik de waarde uit de gebeurtenis*:
+de site stuurt een geschatte orderwaarde mee, zodat Ads kan sturen op omzet in
+plaats van op het aantal aanvragen. Die waarde wordt op de server berekend, niet
+in de browser — anders was hij te vervalsen.
+
+**Toestemming.** Google laadt met alle opslag op 'geweigerd' (Consent Mode v2);
+er komt pas een cookie op het apparaat als de bezoeker accepteert. De Meta-pixel
+laadt helemaal niet zonder toestemming. Weigeren is net zo makkelijk gemaakt als
+accepteren, en de keuze is in te trekken via de privacyverklaring — dat is geen
+vrijblijvendheid maar een eis van de AVG.
+
+**Campagne-URL's.** Gebruik altijd `utm_source`, `utm_medium` en `utm_campaign`,
+bijvoorbeeld:
+
+```
+https://interflexstuc.nl/stukadoor/amsterdam/?utm_source=google&utm_medium=cpc&utm_campaign=stucwerk-amsterdam
+```
+
+De herkomst wordt per bezoek onthouden bij de eerste pagina. Klikt iemand op je
+advertentie en gaat die daarna nog ergens anders heen en terug, dan blijft de
+advertentie de bron.
+
 ## Nog te doen vóór livegang
 
+- **Supabase bijwerken.** De tabel heeft er kolommen bij voor de herkomst.
+  Draai het `alter table`-blok onderaan `site/supabase-setup.sql` in de
+  SQL-editor. Doe je dat niet, dan blijven aanvragen gewoon binnenkomen — ze
+  worden dan zonder herkomst bewaard — maar weet je dus niet welke campagne
+  ze opleverde.
 - **Redirects aanvullen.** In `site/astro.config.mjs` staan de URL's die ik uit
   zoekresultaten kon afleiden. Haal de volledige lijst uit Search Console
   (Pagina's → geïndexeerd) en vul aan — zonder redirect verliest een pagina zijn positie.
 - **Echte reviews** in `site/src/data/reviews.ts`, en het cijfer in `site/src/data/site.ts`.
-  Dat cijfer staat ook in de structured data, dus het moet kloppen.
+  Het cijfer 9,4 uit 87 beoordelingen is verzonnen. Zolang `rating.geverifieerd`
+  op `false` staat, geven we de waardering niet door aan Google: een verzonnen
+  beoordelingscijfer in de structured data is in strijd met hun richtlijnen en
+  kan de hele site uit de zoekresultaten halen. Zet hem op `true` zodra de
+  cijfers echt zijn — vóór je gaat adverteren.
 - **Foto's.** Er staan nu placeholders. Leg ze in `site/public/` en verwijs ernaar
   vanuit de data-bestanden.
 - **KvK- en BTW-nummer** in `site/src/data/site.ts`, en de privacyverklaring aanvullen.

@@ -90,3 +90,23 @@ export function estimate(data: Record<string, any>): string {
   const fmt = (n: number) => '€ ' + Math.round(n / 10) * 10;
   return `${fmt(mid * 0.9)} – ${fmt(mid * 1.2)} (indicatie, ± ${m2} m²)`;
 }
+
+/**
+ * Geschatte orderwaarde in hele euro's, voor de conversiemeting.
+ *
+ * Google Ads kan hiermee sturen op omzet in plaats van op aantal aanvragen:
+ * een aanvraag voor 200 m² is nu eenmaal meer waard dan een voor 10 m².
+ * Het is een indicatie uit dezelfde formule als de richtprijs, geen offerte.
+ */
+export function estimateValue(data: Record<string, any>): number {
+  const werk = (Array.isArray(data.werk) ? data.werk : [data.werk]).filter(Boolean);
+  const rates = werk.map((w: string) => pricing.rates[w]).filter((r: number) => typeof r === 'number');
+  if (!rates.length) return 0;
+
+  const rate = Math.max(...rates);
+  const factor = pricing.factors[data.situatie] ?? 1;
+  const m2 = Number(data.oppervlakte_m2) || pricing.areas[data.oppervlakte];
+  if (!m2) return 0;
+
+  return Math.round(rate * factor * m2);
+}

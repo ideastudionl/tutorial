@@ -1,0 +1,30 @@
+---
+/**
+ * Cookiebanner. Verschijnt alleen als er daadwerkelijk een meetcode is
+ * ingesteld — zonder tags valt er niets toe te stemmen.
+ */
+import { tags, tagsActief } from '../lib/tags';
+---
+{tagsActief && (
+  <>
+    <script is:inline set:html={`window.ifsTags=${JSON.stringify(tags)}`} />
+
+    <div class="ifs-toestemming" data-toestemming hidden role="dialog" aria-label="Cookies" aria-live="polite">
+      <div class="ifs-toestemming__inner">
+        <p class="ifs-toestemming__tekst">
+          We meten met cookies welke advertenties bezoekers opleveren. Weiger je,
+          dan werkt de site gewoon en meten we niets persoonlijks.{' '}
+          <a href="/privacyverklaring/">Meer hierover</a>.
+        </p>
+        <div class="ifs-toestemming__knoppen">
+          <button type="button" class="ifs-btn ifs-btn--ghost ifs-btn--sm" data-toestemming-keuze="nee">
+            Alleen noodzakelijk
+          </button>
+          <button type="button" class="ifs-btn ifs-btn--sm" data-toestemming-keuze="ja">
+            Accepteren
+          </button>
+        </div>
+      </div>
+    </div>
+  </>
+)}

@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 import { Resend } from 'resend';
 import { createClient } from '@supabase/supabase-js';
-import { describe, estimate } from '../../lib/quote';
+import { describe, estimate, estimateValue } from '../../lib/quote';
 import { site } from '../../data/site';
 
 export const prerender = false;
@@ -53,6 +53,21 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     opmerking: clean(form.get('opmerking'), 2000),
   };
 
+  // Herkomst: waar kwam deze aanvraag vandaan? Komt uit de browser en is dus
+  // niet te vertrouwen — daarom afkappen en nergens als HTML tonen.
+  const herkomst = {
+    utm_source: clean(form.get('utm_source'), 200),
+    utm_medium: clean(form.get('utm_medium'), 200),
+    utm_campaign: clean(form.get('utm_campaign'), 200),
+    utm_term: clean(form.get('utm_term'), 200),
+    utm_content: clean(form.get('utm_content'), 200),
+    gclid: clean(form.get('gclid'), 200),
+    fbclid: clean(form.get('fbclid'), 200),
+    msclkid: clean(form.get('msclkid'), 200),
+    landingspagina: clean(form.get('landingspagina'), 300),
+    verwijzer: clean(form.get('verwijzer'), 300),
+  };
+
   const errors: string[] = [];
   if (!data.werk.length) errors.push('Geef aan welk werk je wilt laten uitvoeren.');
   if (!data.naam) errors.push('Vul je naam in.');
@@ -68,6 +83,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
 
   const rows = describe(data);
   const richtprijs = estimate(data);
+  const waarde = estimateValue(data);
 
   // Eerst bewaren, dan mailen: een aanvraag mag nooit verloren gaan omdat de
   // mailprovider hapert.
@@ -78,9 +94,22 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   if (supabaseUrl && serviceKey) {
     try {
       const supabase = createClient(supabaseUrl, serviceKey, { auth: { persistSession: false } });
-      const { error } = await supabase.from('aanvragen').insert({ ...data, richtprijs, status: 'nieuw' });
+      const basis = { ...data, richtprijs, status: 'nieuw' };
+
+      const { error } = await supabase.from('aanvragen').insert({ ...basis, ...herkomst });
       stored = !error;
-      if (error) console.error('Opslaan mislukt:', error.message);
+
+      // Draait de site al met herkomstregistratie terwijl de kolommen nog niet
+      // in Supabase staan? Dan de aanvraag alsnog bewaren zonder herkomst: een
+      // aanvraag kwijtraken is erger dan niet weten waar hij vandaan kwam.
+      if (error) {
+        console.error('Opslaan mislukt:', error.message);
+        const opnieuw = await supabase.from('aanvragen').insert(basis);
+        stored = !opnieuw.error;
+        if (!opnieuw.error) {
+          console.error('Bewaard zonder herkomst. Draai het alter table-blok uit supabase-setup.sql.');
+        }
+      }
     } catch (e) {
       console.error('Supabase niet bereikbaar:', e);
     }
@@ -94,7 +123,15 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     const to = import.meta.env.QUOTE_TO_EMAIL || site.email;
     const from = import.meta.env.QUOTE_FROM_EMAIL || `offerte@${new URL(site.url).hostname}`;
 
-    const table = Object.entries(rows)
+    const bron = [herkomst.utm_source, herkomst.utm_medium, herkomst.utm_campaign]
+      .filter(Boolean)
+      .join(' / ');
+
+    const table = Object.entries({
+      ...rows,
+      Herkomst: bron,
+      Landingspagina: herkomst.landingspagina,
+    })
       .filter(([, v]) => v)
       .map(
         ([k, v]) =>
@@ -144,5 +181,12 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     );
   }
 
-  return json({ ok: true, message: `Bedankt! We hebben je aanvraag ontvangen en nemen ${site.responseTime} contact met je op.` });
+  // De waarde gaat mee terug zodat Google Ads kan sturen op omzet in plaats
+  // van op het aantal aanvragen. De browser rekent hem niet zelf uit: dan zou
+  // iedereen hem kunnen opgeven.
+  return json({
+    ok: true,
+    waarde,
+    message: `Bedankt! We hebben je aanvraag ontvangen en nemen ${site.responseTime} contact met je op.`,
+  });
 };

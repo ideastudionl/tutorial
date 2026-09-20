@@ -4,8 +4,10 @@ import { areas } from '../data/areas';
 
 /** JSON-LD voor het bedrijf. Staat op elke pagina. */
 export function businessSchema() {
+  // Dagen zonder openingstijd (zondag) vallen af. Het type-predicaat vertelt
+  // TypeScript dat opens en closes daarna wél bestaan.
   const openingHours = site.hours
-    .filter((h) => h.opens)
+    .filter((h): h is Extract<(typeof site.hours)[number], { opens: string }> => 'opens' in h)
     .map((h) => ({ '@type': 'OpeningHoursSpecification', dayOfWeek: h.days, opens: h.opens, closes: h.closes }));
 
   return {
@@ -29,13 +31,18 @@ export function businessSchema() {
     },
     openingHoursSpecification: openingHours,
     areaServed: areas.map((a) => ({ '@type': 'City', name: a.city })),
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: site.rating.score.replace(',', '.'),
-      reviewCount: site.rating.count,
-      bestRating: '10',
-      worstRating: '1',
-    },
+    // Alleen doorgeven als de cijfers kloppen; zie data/site.ts.
+    ...(site.rating.geverifieerd
+      ? {
+          aggregateRating: {
+            '@type': 'AggregateRating',
+            ratingValue: site.rating.score.replace(',', '.'),
+            reviewCount: site.rating.count,
+            bestRating: '10',
+            worstRating: '1',
+          },
+        }
+      : {}),
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
       name: 'Diensten',
