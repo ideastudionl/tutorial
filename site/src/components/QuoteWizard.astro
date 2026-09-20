@@ -1,0 +1,226 @@
+---
+import { site } from '../data/site';
+import { icon } from '../lib/icons';
+import { werkOptions, situatieOptions, oppervlakteOptions, pandOptions, planningOptions, pricing } from '../lib/quote';
+
+interface Props {
+  /** Strakkere variant voor in het venster. */
+  compact?: boolean;
+  /** Vooraf aangevinkte dienst, bijvoorbeeld vanuit een dienstpagina. */
+  preset?: string;
+}
+const { compact = false, preset = '' } = Astro.props;
+
+const uid = 'w' + Math.random().toString(36).slice(2, 8);
+const total = 4;
+
+const fields = [
+  { key: 'naam', label: 'Naam', type: 'text', required: true, autocomplete: 'name', width: 'half' },
+  { key: 'telefoon', label: 'Telefoonnummer', type: 'tel', required: true, autocomplete: 'tel', width: 'half' },
+  { key: 'email', label: 'E-mailadres', type: 'email', required: true, autocomplete: 'email', width: 'half' },
+  { key: 'postcode', label: 'Postcode', type: 'text', required: true, autocomplete: 'postal-code', width: 'quarter' },
+  { key: 'plaats', label: 'Plaats', type: 'text', required: true, autocomplete: 'address-level2', width: 'quarter' },
+];
+---
+<div class={`ifs-wizard${compact ? ' ifs-wizard--compact' : ''}`} id={uid} data-wizard data-total={total}>
+  <div class="ifs-wizard__head">
+    <div class="ifs-wizard__progress">
+      <span class="ifs-wizard__count" data-counter>Stap <b>1</b> van {total}</span>
+      <span class="ifs-wizard__time"><Fragment set:html={icon('clock', 14)} /> ± 2 minuten</span>
+    </div>
+    <div class="ifs-wizard__bar" role="progressbar" aria-valuemin="1" aria-valuemax={total} aria-valuenow="1" aria-label="Voortgang offerteaanvraag">
+      <i data-bar style={`width:${Math.round(100 / total)}%`}></i>
+    </div>
+    <div class="ifs-price-panel" data-price hidden>
+      <div class="ifs-price-panel__figure">
+        <span class="ifs-price-panel__label">Richtprijs</span>
+        <strong data-price-value aria-live="polite"></strong>
+        <span class="ifs-price-panel__unit" data-price-unit></span>
+      </div>
+    </div>
+  </div>
+
+  <form class="ifs-wizard__body" data-quote-form novalidate>
+    <section class="ifs-step-panel is-active" data-panel="1">
+      <h2>Wat wil je laten doen?</h2>
+      <p class="ifs-step-panel__hint">Meerdere antwoorden mogelijk.</p>
+      <fieldset style="border:0;padding:0;margin:0">
+        <legend class="screen-reader-text">Wat wil je laten doen?</legend>
+        <div class="ifs-options">
+          {werkOptions.map((o) => (
+            <label class="ifs-option">
+              <input type="checkbox" name="werk[]" value={o.value} checked={preset === o.value} />
+              <span class="ifs-option__box">
+                <span class="ifs-option__icon"><Fragment set:html={icon(o.icon, 18)} /></span>
+                <span class="ifs-option__label">{o.label}</span>
+                <span class="ifs-option__check" aria-hidden="true"><Fragment set:html={icon('check', 11)} /></span>
+              </span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+    </section>
+
+    <section class="ifs-step-panel" data-panel="2" hidden>
+      <h2>Wat is de situatie van de ondergrond?</h2>
+      <p class="ifs-step-panel__hint">Dit bepaalt hoeveel voorbereidend werk er nodig is.</p>
+      <fieldset style="border:0;padding:0;margin:0">
+        <legend class="screen-reader-text">Situatie van de ondergrond</legend>
+        <div class="ifs-options">
+          {situatieOptions.map((o) => (
+            <label class="ifs-option">
+              <input type="radio" name="situatie" value={o.value} />
+              <span class="ifs-option__box">
+                <span class="ifs-option__icon"><Fragment set:html={icon(o.icon, 18)} /></span>
+                <span class="ifs-option__label">{o.label}</span>
+                <span class="ifs-option__check" aria-hidden="true"><Fragment set:html={icon('check', 11)} /></span>
+              </span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+    </section>
+
+    <section class="ifs-step-panel" data-panel="3" hidden>
+      <h2>Om hoeveel vierkante meter gaat het ongeveer?</h2>
+      <p class="ifs-step-panel__hint">Kies een bereik, of vul hieronder het exacte aantal in voor een scherpere prijs.</p>
+      <fieldset style="border:0;padding:0;margin:0">
+        <legend class="screen-reader-text">Oppervlakte</legend>
+        <div class="ifs-options">
+          {oppervlakteOptions.map((o) => (
+            <label class="ifs-option">
+              <input type="radio" name="oppervlakte" value={o.value} />
+              <span class="ifs-option__box">
+                <span class="ifs-option__icon"><Fragment set:html={icon(o.icon, 18)} /></span>
+                <span class="ifs-option__label">{o.label}</span>
+                <span class="ifs-option__check" aria-hidden="true"><Fragment set:html={icon('check', 11)} /></span>
+              </span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
+      <div class="ifs-area" data-area>
+        <div class="ifs-area__or"><span>of vul het exact in</span></div>
+        <div class="ifs-area__tabs" role="tablist" aria-label="Manier van opgeven">
+          <button type="button" role="tab" aria-selected="true" data-area-tab="direct">Ik weet de m²</button>
+          <button type="button" role="tab" aria-selected="false" data-area-tab="reken">Reken het uit</button>
+        </div>
+        <div class="ifs-area__panel is-active" data-area-panel="direct">
+          <div class="ifs-field">
+            <label for={`${uid}-m2`}>Oppervlakte in m²</label>
+            <input type="number" inputmode="decimal" min="1" max="99999" step="0.1" id={`${uid}-m2`} data-area-direct placeholder="bijv. 48" />
+          </div>
+        </div>
+        <div class="ifs-area__panel" data-area-panel="reken" hidden>
+          <div data-area-rows></div>
+          <button type="button" class="ifs-area__add" data-area-add>
+            <Fragment set:html={icon('check', 14)} /> Vlak toevoegen
+          </button>
+        </div>
+        <p class="ifs-area__total" data-area-total hidden>Totaal: <strong data-area-total-value></strong></p>
+        <input type="hidden" name="oppervlakte_m2" value="" data-area-value />
+      </div>
+    </section>
+
+    <section class="ifs-step-panel" data-panel="4" hidden>
+      <h2>Waar mogen we de offerte naartoe sturen?</h2>
+      <p class="ifs-step-panel__hint">We nemen {site.responseTime} contact op. Je zit nergens aan vast.</p>
+
+      <div class="ifs-recap">
+        <dl data-summary></dl>
+        <button type="button" class="ifs-recap__edit" data-goto="1">Wijzigen</button>
+      </div>
+
+      <div class="ifs-fields ifs-fields--grid">
+        {fields.map((f) => (
+          <div class={`ifs-field ifs-field--${f.width}`}>
+            <label for={`${uid}-${f.key}`}>{f.label} {f.required && <span class="req" aria-hidden="true">*</span>}</label>
+            <input type={f.type} id={`${uid}-${f.key}`} name={f.key} autocomplete={f.autocomplete} required={f.required} />
+            <span class="ifs-field__error" data-error hidden></span>
+          </div>
+        ))}
+
+        <div class="ifs-field ifs-field--half">
+          <label for={`${uid}-pand`}>Type pand</label>
+          <select id={`${uid}-pand`} name="pand">
+            <option value="">— kies —</option>
+            {pandOptions.map((o) => <option value={o.value}>{o.label}</option>)}
+          </select>
+        </div>
+        <div class="ifs-field ifs-field--half">
+          <label for={`${uid}-planning`}>Gewenste start</label>
+          <select id={`${uid}-planning`} name="planning">
+            <option value="">— kies —</option>
+            {planningOptions.map((o) => <option value={o.value}>{o.label}</option>)}
+          </select>
+        </div>
+        <div class="ifs-field ifs-field--full">
+          <label for={`${uid}-opmerking`}>Toelichting (optioneel)</label>
+          <textarea id={`${uid}-opmerking`} name="opmerking" rows="3"></textarea>
+          <small>Bijvoorbeeld de hoogte van de ruimte of een deadline.</small>
+        </div>
+      </div>
+
+      <label class="ifs-consent">
+        <input type="checkbox" name="consent" value="1" required />
+        <span>
+          Ik ga akkoord met de <a href="/privacyverklaring/" target="_blank" rel="noopener">privacyverklaring</a>.
+          We gebruiken je gegevens alleen voor deze aanvraag.
+        </span>
+      </label>
+
+      <div class="ifs-hp" aria-hidden="true">
+        <label for={`${uid}-website`}>Laat dit veld leeg</label>
+        <input type="text" id={`${uid}-website`} name="website" tabindex="-1" autocomplete="off" />
+      </div>
+    </section>
+
+    <div class="ifs-notice ifs-notice--err ifs-wizard__error" data-form-error hidden role="alert"></div>
+  </form>
+
+  <div class="ifs-wizard__nav">
+    <button type="button" class="ifs-btn ifs-btn--ghost" data-prev hidden><span aria-hidden="true">←</span> Vorige</button>
+    <button type="button" class="ifs-btn" data-next>Volgende <Fragment set:html={icon('arrow-right', 17)} /></button>
+    <button type="button" class="ifs-btn" data-submit hidden>Aanvraag versturen <Fragment set:html={icon('arrow-right', 17)} /></button>
+  </div>
+
+  <ul class="ifs-wizard__trust">
+    <li><Fragment set:html={icon('check-circle', 15)} /> Gratis en vrijblijvend</li>
+    <li><Fragment set:html={icon('check-circle', 15)} /> Geen aanbetaling</li>
+    <li><Fragment set:html={icon('check-circle', 15)} /> {site.warrantyYears} jaar garantie</li>
+  </ul>
+
+  <div class="ifs-wizard__done" data-done role="status" aria-live="polite">
+    <div class="ifs-wizard__done-icon"><Fragment set:html={icon('check-circle', 32)} /></div>
+    <h2>Je aanvraag is verstuurd</h2>
+    <p data-done-message>We nemen {site.responseTime} contact met je op.</p>
+    <ul class="ifs-wizard__next">
+      <li><span>1</span> Direct een bevestiging per e-mail</li>
+      <li><span>2</span> We bellen je om de klus door te nemen</li>
+      <li><span>3</span> Offerte met een vaste prijs per m²</li>
+    </ul>
+  </div>
+</div>
+
+<script define:vars={{ pricing }}>
+  window.ifsQuote = {
+    endpoint: '/api/offerte',
+    pricing,
+    i18n: {
+      required: 'Maak eerst een keuze om verder te gaan.',
+      fillFields: 'Vul de verplichte velden in.',
+      invalidMail: 'Vul een geldig e-mailadres in.',
+      invalidTel: 'Vul een geldig telefoonnummer in.',
+      consent: 'Ga akkoord met de privacyverklaring om te versturen.',
+      genericErr: 'Er ging iets mis. Bel ons gerust even, dan regelen we het direct.',
+      priceFrom: 'vanaf',
+      perM2: 'per m²',
+      priceUnit: 'op basis van ± %s m²',
+      priceNoArea: 'zodra je de oppervlakte kiest, rekenen we een totaalprijs uit',
+    },
+  };
+</script>
+<script>
+  import '../scripts/offerte.js';
+</script>

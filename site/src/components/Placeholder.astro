@@ -1,0 +1,8 @@
+---
+import { icon } from '../lib/icons';
+interface Props { ratio?: string; class?: string }
+const { ratio = 'ifs-media--ratio', class: cls = '' } = Astro.props;
+---
+<div class={`ifs-media ${ratio} ${cls}`}>
+  <div class="ifs-media__ph"><Fragment set:html={icon('image', 40)} /></div>
+</div>

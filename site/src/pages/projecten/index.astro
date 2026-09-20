@@ -1,0 +1,26 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import Cta from '../../components/Cta.astro';
+import { projects } from '../../data/projects';
+import { site } from '../../data/site';
+
+const crumbs = [{ name: 'Home', url: '/' }, { name: 'Projecten', url: '/projecten/' }];
+---
+<Base title="Projecten" description={`Een greep uit recent uitgevoerd stuc- en schilderwerk in ${site.city} en omstreken.`} crumbs={crumbs}>
+  <div class="ifs-page-head">
+    <div class="ifs-container">
+      <Breadcrumbs items={crumbs} />
+      <span class="ifs-eyebrow">Ons werk</span>
+      <h1>Projecten</h1>
+      <p class="ifs-lead">Een greep uit recent uitgevoerd stuc- en schilderwerk in {site.city} en omstreken.</p>
+    </div>
+  </div>
+  <section class="ifs-section">
+    <div class="ifs-container">
+      <div class="ifs-projects">{projects.map((p) => <ProjectCard project={p} />)}</div>
+    </div>
+  </section>
+  <Cta />
+</Base>

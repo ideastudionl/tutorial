@@ -1,0 +1,60 @@
+---
+import Base from '../layouts/Base.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import QuoteWizard from '../components/QuoteWizard.astro';
+import { site } from '../data/site';
+import { reviews } from '../data/reviews';
+import { icon, stars } from '../lib/icons';
+import { headlineRate } from '../data/services';
+
+const crumbs = [{ name: 'Home', url: '/' }, { name: 'Offerte aanvragen', url: '/offerte/' }];
+const price = headlineRate.toFixed(2).replace('.', ',');
+---
+<Base title="Offerte aanvragen" description={`Vraag in drie minuten een vrijblijvende offerte aan voor stucwerk of schilderwerk. Vanaf € ${price} per m².`} crumbs={crumbs} noModal>
+  <div class="ifs-page-head">
+    <div class="ifs-container">
+      <Breadcrumbs items={crumbs} />
+      <span class="ifs-eyebrow">Vrijblijvend &amp; gratis</span>
+      <h1>Vraag je offerte aan</h1>
+      <p class="ifs-lead">Beantwoord vier korte vragen — dat kost je ongeveer twee minuten. Je krijgt {site.responseTime} een prijsopgave die past bij jouw klus.</p>
+    </div>
+  </div>
+
+  <section class="ifs-quote">
+    <div class="ifs-container">
+      <div class="ifs-quote__layout">
+        <div><QuoteWizard /></div>
+        <aside class="ifs-quote__aside">
+          <div class="ifs-card">
+            <h3>Wat je van ons krijgt</h3>
+            <ul>
+              <li><Fragment set:html={icon('check-circle', 19)} /> Vaste prijs per m², geen uurtje-factuurtje</li>
+              <li><Fragment set:html={icon('check-circle', 19)} /> Duidelijk wat er wél en niet bij zit</li>
+              <li><Fragment set:html={icon('check-circle', 19)} /> Realistische start- en einddatum</li>
+              <li><Fragment set:html={icon('check-circle', 19)} /> {site.warrantyYears} jaar garantie op de uitvoering</li>
+            </ul>
+          </div>
+          {reviews.slice(0, 2).map((r) => (
+            <article class="ifs-card ifs-review">
+              <Fragment set:html={stars(r.rating)} />
+              <div class="ifs-review__text">{r.text}</div>
+              <footer class="ifs-review__meta">
+                <span class="ifs-review__avatar" aria-hidden="true">{r.author.charAt(0)}</span>
+                <span><strong>{r.author}</strong><span>{r.job} · {r.city}</span></span>
+              </footer>
+            </article>
+          ))}
+          <div class="ifs-card ifs-contact-card">
+            <h3>Liever bellen?</h3>
+            <p style="font-size:var(--ifs-fs-sm)">{site.hours.map((h) => `${h.label}: ${h.time}`).join(' · ')}</p>
+            <p>
+              <a class="ifs-btn ifs-btn--light ifs-btn--block" href={site.phoneHref}>
+                <Fragment set:html={icon('phone', 18)} /> {site.phone}
+              </a>
+            </p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+</Base>

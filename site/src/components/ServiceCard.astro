@@ -1,0 +1,15 @@
+---
+import Placeholder from './Placeholder.astro';
+import type { Service } from '../data/services';
+interface Props { service: Service }
+const { service } = Astro.props;
+---
+<a class="ifs-card ifs-card--link ifs-service" href={`/diensten/${service.slug}/`}>
+  <Placeholder ratio="" />
+  <div class="ifs-service__body">
+    <h3>{service.title}</h3>
+    <p>{service.short}</p>
+    <p><span class="ifs-badge">vanaf {service.priceLabel}</span></p>
+    <span class="ifs-link-arrow">Bekijk deze dienst <span aria-hidden="true">→</span></span>
+  </div>
+</a>

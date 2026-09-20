@@ -1,0 +1,23 @@
+---
+import Base from '../layouts/Base.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Cta from '../components/Cta.astro';
+const crumbs = [{ name: 'Home', url: '/' }, { name: 'Algemene voorwaarden', url: '/algemene-voorwaarden/' }];
+---
+<Base title="Algemene voorwaarden" description="De algemene voorwaarden van Interflex Stuc." crumbs={crumbs}>
+  <div class="ifs-page-head">
+    <div class="ifs-container">
+      <Breadcrumbs items={crumbs} />
+      <h1>Algemene voorwaarden</h1>
+      <p class="ifs-lead">De algemene voorwaarden van Interflex Stuc.</p>
+    </div>
+  </div>
+  <section class="ifs-section">
+    <div class="ifs-container">
+      <article class="ifs-content">
+        <p><em>Plaats hier de algemene voorwaarden van Interflex Stuc. Werk je met de voorwaarden van een brancheorganisatie, verwijs daar dan naar en neem een downloadlink op.</em></p>
+      </article>
+    </div>
+  </section>
+  <Cta />
+</Base>

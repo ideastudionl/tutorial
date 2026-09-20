@@ -1,0 +1,40 @@
+---
+import Base from '../layouts/Base.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Cta from '../components/Cta.astro';
+import { areas } from '../data/areas';
+import { site } from '../data/site';
+import { icon } from '../lib/icons';
+
+const crumbs = [{ name: 'Home', url: '/' }, { name: 'Werkgebied', url: '/werkgebied/' }];
+---
+<Base title="Ons werkgebied" description={`Stukadoor actief in ${areas.slice(0, 6).map((a) => a.city).join(', ')} en de rest van Noord-Holland en Utrecht.`} crumbs={crumbs}>
+  <div class="ifs-page-head">
+    <div class="ifs-container">
+      <Breadcrumbs items={crumbs} />
+      <span class="ifs-eyebrow">Waar we werken</span>
+      <h1>Ons werkgebied</h1>
+      <p class="ifs-lead">Vanuit {site.city} werken we in heel Noord-Holland en een deel van Utrecht. Kies je plaats voor meer informatie.</p>
+    </div>
+  </div>
+  <section class="ifs-section">
+    <div class="ifs-container">
+      <div class="ifs-grid ifs-grid--3">
+        {areas.map((a) => (
+          <a class="ifs-card ifs-card--link" href={`/stukadoor/${a.slug}/`} style="text-decoration:none">
+            <div class="ifs-icon-box"><Fragment set:html={icon('pin')} /></div>
+            <h3 style="margin-bottom:.4rem">Stukadoor in {a.city}</h3>
+            <p style="color:var(--ifs-stone);font-size:var(--ifs-fs-sm);margin-bottom:1rem">
+              Glad stucwerk, plafonds, sierpleister en schilderwerk in {a.city}.
+            </p>
+            <p style="margin-bottom:1rem">
+              <span class="ifs-badge ifs-badge--green"><Fragment set:html={icon('clock', 14)} /> {a.travel}</span>
+            </p>
+            <span class="ifs-link-arrow">Bekijk deze plaats <span aria-hidden="true">→</span></span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+  <Cta />
+</Base>

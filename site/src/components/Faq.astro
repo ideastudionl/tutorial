@@ -1,0 +1,14 @@
+---
+import { faq } from '../data/faq';
+interface Props { limit?: number }
+const { limit = 8 } = Astro.props;
+const items = faq.slice(0, limit);
+---
+<div class="ifs-faq">
+  {items.map((item) => (
+    <details class="ifs-faq__item">
+      <summary class="ifs-faq__q">{item.q}</summary>
+      <div class="ifs-faq__a"><p>{item.a}</p></div>
+    </details>
+  ))}
+</div>

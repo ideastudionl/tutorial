@@ -1,0 +1,76 @@
+---
+import { site } from '../data/site';
+import { icon } from '../lib/icons';
+
+const nav = [
+  { label: 'Diensten', href: '/diensten/' },
+  { label: 'Projecten', href: '/projecten/' },
+  { label: 'Werkgebied', href: '/werkgebied/' },
+  { label: 'Prijzen', href: '/prijzen/' },
+  { label: 'Contact', href: '/contact/' },
+];
+const path = Astro.url.pathname;
+---
+<div class="ifs-topbar">
+  <div class="ifs-container ifs-topbar__inner">
+    <ul class="ifs-topbar__list">
+      <li><Fragment set:html={icon('shield', 14)} /> {site.warrantyYears} jaar garantie op ons werk</li>
+      <li><Fragment set:html={icon('clock', 14)} /> Reactie {site.responseTime}</li>
+      <li><Fragment set:html={icon('pin', 14)} /> Actief in {site.city} &amp; omstreken</li>
+    </ul>
+    <div class="ifs-topbar__list">
+      <a href={site.phoneHref}><Fragment set:html={icon('phone', 14)} /> {site.phone}</a>
+    </div>
+  </div>
+</div>
+
+<header class="ifs-header" id="masthead">
+  <div class="ifs-container ifs-header__inner">
+    <a class="ifs-brand" href="/" rel="home">
+      <img class="ifs-brand__logo" src="/logo.svg" alt={site.name} width="421" height="167" />
+      <span class="ifs-brand__tag">{site.tagline}</span>
+    </a>
+
+    <nav class="ifs-nav" aria-label="Hoofdnavigatie">
+      <ul>
+        {nav.map((item) => (
+          <li class={path.startsWith(item.href) ? 'current-menu-item' : ''}>
+            <a href={item.href}>{item.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="ifs-header__actions">
+      <a class="ifs-header__phone" href={site.phoneHref}>
+        <Fragment set:html={icon('phone', 18)} /> {site.phone}
+      </a>
+      <a class="ifs-btn" href="/offerte/" data-quote-open>Offerte aanvragen</a>
+      <button class="ifs-burger" type="button" aria-expanded="false" aria-controls="ifs-mobile-nav" aria-label="Menu openen">
+        <span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="ifs-overlay" data-overlay></div>
+
+<nav class="ifs-mobile-nav" id="ifs-mobile-nav" aria-label="Mobiele navigatie" inert>
+  <div class="ifs-mobile-nav__head">
+    <a class="ifs-brand" href="/" rel="home">
+      <img class="ifs-brand__logo" src="/logo.svg" alt={site.name} width="421" height="167" />
+    </a>
+    <button class="ifs-burger" type="button" data-close-nav aria-label="Menu sluiten" aria-expanded="true"><span></span></button>
+  </div>
+  <ul>
+    {nav.map((item) => (
+      <li><a href={item.href}>{item.label}</a></li>
+    ))}
+  </ul>
+  <div class="ifs-mobile-nav__actions">
+    <a class="ifs-btn ifs-btn--block" href="/offerte/" data-quote-open>Offerte aanvragen</a>
+    <a class="ifs-btn ifs-btn--ghost ifs-btn--block" href={site.phoneHref}>
+      <Fragment set:html={icon('phone', 18)} /> {site.phone}
+    </a>
+  </div>
+</nav>

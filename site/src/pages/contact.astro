@@ -1,0 +1,68 @@
+---
+import Base from '../layouts/Base.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import QuoteWizard from '../components/QuoteWizard.astro';
+import { site, addressLine } from '../data/site';
+import { icon } from '../lib/icons';
+
+const crumbs = [{ name: 'Home', url: '/' }, { name: 'Contact', url: '/contact/' }];
+---
+<Base title="Contact" description={`Bel, mail of vraag direct online een offerte aan bij ${site.name} in ${site.city}. We reageren ${site.responseTime}.`} crumbs={crumbs} noModal>
+  <div class="ifs-page-head">
+    <div class="ifs-container">
+      <Breadcrumbs items={crumbs} />
+      <h1>Contact</h1>
+      <p class="ifs-lead">Bel, mail of vraag direct online een offerte aan. We reageren {site.responseTime}.</p>
+    </div>
+  </div>
+
+  <section class="ifs-section">
+    <div class="ifs-container">
+      <div class="ifs-split">
+        <div>
+          <h2>Contactgegevens</h2>
+          <ul class="ifs-checklist" style="gap:1.25rem">
+            <li>
+              <Fragment set:html={icon('phone', 21)} />
+              <span><strong style="display:block;color:var(--ifs-ink)">Telefoon</strong><a href={site.phoneHref}>{site.phone}</a></span>
+            </li>
+            <li>
+              <Fragment set:html={icon('mail', 21)} />
+              <span><strong style="display:block;color:var(--ifs-ink)">E-mail</strong><a href={`mailto:${site.email}`}>{site.email}</a></span>
+            </li>
+            <li>
+              <Fragment set:html={icon('pin', 21)} />
+              <span>
+                <strong style="display:block;color:var(--ifs-ink)">Adres</strong>
+                {addressLine}<br />
+                <a href={site.mapsUrl} target="_blank" rel="noopener">Route plannen</a>
+              </span>
+            </li>
+          </ul>
+
+          <h3 style="margin-top:2.5rem">Openingstijden</h3>
+          <table class="ifs-price-table" style="max-width:420px">
+            <tbody>
+              {site.hours.map((h) => (
+                <tr><td>{h.label}</td><td>{h.time}</td></tr>
+              ))}
+            </tbody>
+          </table>
+
+          {(site.kvk || site.btw) && (
+            <p style="margin-top:2rem;font-size:var(--ifs-fs-sm);color:var(--ifs-stone)">
+              {site.kvk && <>KvK {site.kvk}<br /></>}
+              {site.btw && <>BTW {site.btw}</>}
+            </p>
+          )}
+        </div>
+
+        <div>
+          <h2>Direct een offerte</h2>
+          <p class="ifs-lead" style="margin-bottom:1.75rem">Weet in twee minuten wat je klus kost.</p>
+          <QuoteWizard />
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

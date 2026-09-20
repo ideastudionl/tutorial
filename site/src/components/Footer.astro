@@ -1,0 +1,81 @@
+---
+import { site } from '../data/site';
+import { services } from '../data/services';
+import { areas } from '../data/areas';
+import { icon } from '../lib/icons';
+
+const socials = Object.entries(site.social).filter(([, url]) => url);
+---
+<footer class="ifs-footer">
+  <div class="ifs-container">
+    <div class="ifs-footer__grid">
+      <div class="ifs-footer__brand">
+        <a class="ifs-brand ifs-brand--light" href="/" rel="home">
+          <img class="ifs-brand__logo" src="/logo.svg" alt={site.name} width="421" height="167" />
+        </a>
+        <p>
+          Stukadoors- en afbouwbedrijf uit {site.city}. Glad stucwerk, sierpleister, betonlook,
+          gevelstuc en schilderwerk voor woningen, VvE&rsquo;s en bedrijfspanden.
+        </p>
+        {socials.length > 0 && (
+          <div class="ifs-socials" style="margin-top:1.5rem">
+            {socials.map(([network, url]) => (
+              <a href={url} target="_blank" rel="noopener noreferrer" aria-label={network}>
+                <Fragment set:html={icon(network, 18)} />
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div>
+        <h4>Diensten</h4>
+        <ul>
+          {services.map((s) => (
+            <li><a href={`/diensten/${s.slug}/`}>{s.title}</a></li>
+          ))}
+        </ul>
+      </div>
+
+      <div>
+        <h4>Werkgebied</h4>
+        <ul>
+          {areas.slice(0, 8).map((a) => (
+            <li><a href={`/stukadoor/${a.slug}/`}>{a.city}</a></li>
+          ))}
+        </ul>
+      </div>
+
+      <div>
+        <h4>Contact</h4>
+        <ul class="ifs-footer__contact">
+          <li>
+            <Fragment set:html={icon('pin', 17)} />
+            <span>{site.street}<br />{site.postcode} {site.city}</span>
+          </li>
+          <li><Fragment set:html={icon('phone', 17)} /> <a href={site.phoneHref}>{site.phone}</a></li>
+          <li><Fragment set:html={icon('mail', 17)} /> <a href={`mailto:${site.email}`}>{site.email}</a></li>
+        </ul>
+
+        <h4 style="margin-top:2rem">Openingstijden</h4>
+        <ul>
+          {site.hours.map((h) => (
+            <li class="ifs-footer__hours"><span>{h.label}</span><strong>{h.time}</strong></li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <div class="ifs-footer__bottom">
+      <p style="margin:0">
+        &copy; {new Date().getFullYear()} {site.name}
+        {site.kvk && <> &middot; KvK {site.kvk}</>}
+        {site.btw && <> &middot; BTW {site.btw}</>}
+      </p>
+      <ul>
+        <li><a href="/privacyverklaring/">Privacyverklaring</a></li>
+        <li><a href="/algemene-voorwaarden/">Algemene voorwaarden</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>

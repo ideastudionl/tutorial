@@ -1,0 +1,13 @@
+---
+import Placeholder from './Placeholder.astro';
+import type { Project } from '../data/projects';
+interface Props { project: Project }
+const { project } = Astro.props;
+---
+<a class="ifs-project" href={`/projecten/${project.slug}/`}>
+  <Placeholder ratio="" />
+  <div class="ifs-project__cap">
+    <strong>{project.title}</strong>
+    <span>{project.city} · {project.surface}</span>
+  </div>
+</a>

@@ -1,0 +1,42 @@
+---
+import { icon, stars } from '../lib/icons';
+import { reviews as allReviews } from '../data/reviews';
+interface Props { limit?: number }
+const { limit = 6 } = Astro.props;
+const reviews = allReviews.slice(0, limit);
+---
+<div class="ifs-slider" data-slider>
+  <div class="ifs-slider__track" data-slider-track tabindex="0" role="group" aria-label="Klantbeoordelingen, horizontaal scrollbaar">
+    {reviews.map((r) => (
+      <article class="ifs-card ifs-review">
+        <div style="display:flex;align-items:center;gap:.75rem">
+          <Fragment set:html={stars(r.rating)} />
+          {r.source === 'google' && (
+            <span class="ifs-review__source"><Fragment set:html={icon('google', 15)} /> via Google</span>
+          )}
+        </div>
+        <div class="ifs-review__text">{r.text}</div>
+        <footer class="ifs-review__meta">
+          <span class="ifs-review__avatar" aria-hidden="true">{r.author.charAt(0)}</span>
+          <span>
+            <strong>{r.author}</strong>
+            <span>{r.job} · {r.city}</span>
+          </span>
+        </footer>
+      </article>
+    ))}
+  </div>
+  {reviews.length > 1 && (
+    <div class="ifs-slider__nav">
+      <div class="ifs-slider__dots" data-slider-dots></div>
+      <div class="ifs-slider__buttons">
+        <button type="button" class="ifs-slider__btn" data-slider-prev aria-label="Vorige beoordelingen">
+          <Fragment set:html={icon('chevron-left', 20)} />
+        </button>
+        <button type="button" class="ifs-slider__btn" data-slider-next aria-label="Volgende beoordelingen">
+          <Fragment set:html={icon('chevron-right', 20)} />
+        </button>
+      </div>
+    </div>
+  )}
+</div>

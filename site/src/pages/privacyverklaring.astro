@@ -1,0 +1,34 @@
+---
+import Base from '../layouts/Base.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Cta from '../components/Cta.astro';
+const crumbs = [{ name: 'Home', url: '/' }, { name: 'Privacyverklaring', url: '/privacyverklaring/' }];
+---
+<Base title="Privacyverklaring" description="Hoe Interflex Stuc omgaat met je persoonsgegevens." crumbs={crumbs}>
+  <div class="ifs-page-head">
+    <div class="ifs-container">
+      <Breadcrumbs items={crumbs} />
+      <h1>Privacyverklaring</h1>
+      <p class="ifs-lead">Hoe Interflex Stuc omgaat met je persoonsgegevens.</p>
+    </div>
+  </div>
+  <section class="ifs-section">
+    <div class="ifs-container">
+      <article class="ifs-content">
+        <p>Interflex Stuc hecht waarde aan de bescherming van je persoonsgegevens. In deze verklaring leggen we uit welke gegevens we verwerken en waarom.</p>
+        <h2>Welke gegevens verwerken wij?</h2>
+        <p>Wanneer je een offerte aanvraagt of contact met ons opneemt, verwerken wij je naam, e-mailadres, telefoonnummer, postcode en plaats, en de informatie die je zelf over de klus doorgeeft.</p>
+        <h2>Waarvoor gebruiken wij deze gegevens?</h2>
+        <p>Uitsluitend om je aanvraag te beantwoorden, een offerte op te stellen en — als je akkoord gaat — het werk uit te voeren en te factureren. We verkopen je gegevens niet en delen ze niet met derden voor commerciële doeleinden.</p>
+        <h2>Hoe lang bewaren wij gegevens?</h2>
+        <p>Offerteaanvragen bewaren we maximaal twee jaar. Gegevens die horen bij een uitgevoerde opdracht bewaren we zeven jaar, omdat de Belastingdienst dat voorschrijft.</p>
+        <h2>Je rechten</h2>
+        <p>Je mag je gegevens altijd inzien, laten corrigeren of laten verwijderen. Stuur daarvoor een bericht naar het e-mailadres op onze contactpagina. We reageren binnen vier weken.</p>
+        <h2>Cookies</h2>
+        <p>Deze website plaatst alleen functionele cookies die nodig zijn om de site te laten werken.</p>
+        <p><em>Vul deze verklaring aan met je KvK-nummer en vestigingsgegevens voordat de site live gaat.</em></p>
+      </article>
+    </div>
+  </section>
+  <Cta />
+</Base>

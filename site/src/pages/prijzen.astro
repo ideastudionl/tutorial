@@ -1,0 +1,55 @@
+---
+import Base from '../layouts/Base.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Cta from '../components/Cta.astro';
+import { services } from '../data/services';
+
+const crumbs = [{ name: 'Home', url: '/' }, { name: 'Prijzen', url: '/prijzen/' }];
+
+const extra = [
+  { title: 'Wanden — sausklaar', note: 'Extra afwerkgang, strak onder verf', price: '€ 20,50 / m²' },
+  { title: 'Behang verwijderen', note: 'Per m² wandoppervlak', price: '€ 4,50 / m²' },
+  { title: 'Gevelisolatie met sierpleister', note: 'Inclusief isolatieplaten en wapening', price: 'op aanvraag' },
+];
+---
+<Base title="Prijzen" description="Richtprijzen voor stucwerk, sierpleister, betonlook en schilderwerk — inclusief materiaal." crumbs={crumbs}>
+  <div class="ifs-page-head">
+    <div class="ifs-container">
+      <Breadcrumbs items={crumbs} />
+      <span class="ifs-eyebrow">Tarieven</span>
+      <h1>Prijzen</h1>
+      <p class="ifs-lead">Richtprijzen inclusief materiaal. De definitieve prijs volgt na een gratis opname — wat daar wordt afgesproken, staat vast.</p>
+    </div>
+  </div>
+
+  <section class="ifs-section">
+    <div class="ifs-container">
+      <div style="overflow-x:auto">
+        <table class="ifs-price-table">
+          <thead><tr><th>Werkzaamheid</th><th>Toelichting</th><th>Vanafprijs</th></tr></thead>
+          <tbody>
+            {services.map((s) => (
+              <tr><td><a href={`/diensten/${s.slug}/`}>{s.title}</a></td><td>{s.short}</td><td>{s.priceLabel}</td></tr>
+            ))}
+            {extra.map((e) => (
+              <tr><td>{e.title}</td><td>{e.note}</td><td>{e.price}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <article class="ifs-content" style="margin-top:3rem">
+        <h2>Waar hangt de prijs vanaf?</h2>
+        <ul>
+          <li><strong>Staat van de ondergrond.</strong> Scheuren, loszittend stuc of oud behang vragen extra voorbereiding.</li>
+          <li><strong>Oppervlakte.</strong> Bij grotere oppervlaktes daalt de prijs per m², omdat opbouw- en afbouwtijd over meer meters wordt verdeeld.</li>
+          <li><strong>Hoogte en bereikbaarheid.</strong> Vides, trappenhuizen en gevels vragen om rolsteigers of steigerwerk.</li>
+          <li><strong>Afwerkingsniveau.</strong> Sausklaar vraagt een extra gang ten opzichte van behangklaar.</li>
+        </ul>
+        <h2>Geen verrassingen achteraf</h2>
+        <p>Wat in de offerte staat, is wat je betaalt. Komen we tijdens het werk iets tegen dat we vooraf niet konden zien — bijvoorbeeld vocht achter een wand — dan leggen we het eerst aan je voor. We voeren nooit ongevraagd meerwerk uit.</p>
+      </article>
+    </div>
+  </section>
+  <Cta />
+</Base>

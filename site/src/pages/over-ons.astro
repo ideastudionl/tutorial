@@ -1,0 +1,31 @@
+---
+import Base from '../layouts/Base.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Cta from '../components/Cta.astro';
+const crumbs = [{ name: 'Home', url: '/' }, { name: 'Over ons', url: '/over-ons/' }];
+---
+<Base title="Over ons" description="Interflex Stuc is een stukadoors- en afbouwbedrijf uit Amsterdam met ruim tien jaar ervaring." crumbs={crumbs}>
+  <div class="ifs-page-head">
+    <div class="ifs-container">
+      <Breadcrumbs items={crumbs} />
+      <h1>Over ons</h1>
+      <p class="ifs-lead">Interflex Stuc is een stukadoors- en afbouwbedrijf uit Amsterdam met ruim tien jaar ervaring.</p>
+    </div>
+  </div>
+  <section class="ifs-section">
+    <div class="ifs-container">
+      <article class="ifs-content">
+        <p>Interflex Stuc is een stukadoors- en afbouwbedrijf uit Amsterdam. Wat begon als één stukadoor met een bus vol gereedschap, is uitgegroeid tot een vast team van ervaren vakmensen dat werkt in Amsterdam, Noord-Holland en Utrecht.</p>
+        <h2>Waar we in geloven</h2>
+        <p>Goed stucwerk merk je pas als het klaar is: een wand die overal even vlak is, een plafond zonder zichtbare naden, een hoek die kaarsrecht loopt. Dat vraagt tijd in de voorbereiding — voorstrijken, repareren, afplakken. Juist daar wordt in onze branche het vaakst op bezuinigd, en juist daar zie je het later aan.</p>
+        <h2>Eén aanspreekpunt</h2>
+        <p>Bij ons heb je van opname tot oplevering met dezelfde mensen te maken. Degene die de prijs opneemt is ook betrokken bij de uitvoering. Dat voorkomt misverstanden en betekent dat afspraken die je maakt ook echt op de steiger terechtkomen.</p>
+        <h2>Voor wie we werken</h2>
+        <p>Ongeveer de helft van ons werk doen we voor particulieren: van één kamer tot een complete verbouwing. De andere helft bestaat uit opdrachten voor aannemers, VvE&rsquo;s en projectontwikkelaars — nieuwbouwprojecten, trappenhuizen en gevelrenovaties.</p>
+        <h2>Eerlijk advies</h2>
+        <p>Soms is stucwerk niet de beste oplossing. Als een muur eerst een vochtprobleem heeft, zeggen we dat — ook als dat betekent dat de klus wordt uitgesteld. Werk dat over een jaar loslaat helpt niemand.</p>
+      </article>
+    </div>
+  </section>
+  <Cta />
+</Base>

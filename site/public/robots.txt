@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /portal/
+Disallow: /api/
+
+Sitemap: https://interflexstuc.nl/sitemap-index.xml

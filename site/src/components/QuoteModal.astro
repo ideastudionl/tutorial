@@ -1,0 +1,18 @@
+---
+import QuoteWizard from './QuoteWizard.astro';
+import { icon } from '../lib/icons';
+---
+<dialog class="ifs-modal" id="ifs-quote-modal" aria-labelledby="ifs-modal-title">
+  <div class="ifs-modal__head">
+    <div>
+      <p class="ifs-modal__eyebrow">Gratis en vrijblijvend</p>
+      <h2 class="ifs-modal__title" id="ifs-modal-title">Bereken je richtprijs</h2>
+    </div>
+    <button type="button" class="ifs-modal__close" data-quote-close aria-label="Sluiten">
+      <Fragment set:html={icon('close', 20)} />
+    </button>
+  </div>
+  <div class="ifs-modal__body">
+    <QuoteWizard compact />
+  </div>
+</dialog>

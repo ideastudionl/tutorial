@@ -1,0 +1,73 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import Placeholder from '../../components/Placeholder.astro';
+import Cta from '../../components/Cta.astro';
+import { projects } from '../../data/projects';
+import { site } from '../../data/site';
+
+export function getStaticPaths() {
+  return projects.map((project) => ({ params: { slug: project.slug }, props: { project } }));
+}
+
+const { project } = Astro.props;
+const others = projects.filter((p) => p.slug !== project.slug);
+const crumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Projecten', url: '/projecten/' },
+  { name: project.title, url: `/projecten/${project.slug}/` },
+];
+---
+<Base title={project.title} description={project.summary} crumbs={crumbs}>
+  <div class="ifs-page-head">
+    <div class="ifs-container">
+      <Breadcrumbs items={crumbs} />
+      <span class="ifs-eyebrow">Project</span>
+      <h1>{project.title}</h1>
+      <p class="ifs-lead">{project.summary}</p>
+    </div>
+  </div>
+
+  <section class="ifs-section">
+    <div class="ifs-container">
+      <div class="ifs-layout">
+        <article class="ifs-content">
+          <Placeholder ratio="ifs-media--ratio" />
+          <Fragment set:html={project.body} />
+        </article>
+        <aside class="ifs-aside">
+          <div class="ifs-aside__card">
+            <h3>Projectgegevens</h3>
+            <dl style="margin:0;display:grid;gap:.75rem;font-size:var(--ifs-fs-sm)">
+              <div style="display:flex;justify-content:space-between;gap:1rem">
+                <dt style="color:var(--ifs-stone)">Plaats</dt><dd style="margin:0;font-weight:700;color:var(--ifs-ink)">{project.city}</dd>
+              </div>
+              <div style="display:flex;justify-content:space-between;gap:1rem">
+                <dt style="color:var(--ifs-stone)">Oppervlakte</dt><dd style="margin:0;font-weight:700;color:var(--ifs-ink)">{project.surface}</dd>
+              </div>
+              <div style="display:flex;justify-content:space-between;gap:1rem">
+                <dt style="color:var(--ifs-stone)">Doorlooptijd</dt><dd style="margin:0;font-weight:700;color:var(--ifs-ink)">{project.duration}</dd>
+              </div>
+            </dl>
+          </div>
+          <div class="ifs-aside__card">
+            <h3>Zoiets ook laten doen?</h3>
+            <p>Vraag een vrijblijvende offerte aan. Reactie {site.responseTime}.</p>
+            <a class="ifs-btn ifs-btn--block" href="/offerte/" data-quote-open>Offerte aanvragen</a>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  {others.length > 0 && (
+    <section class="ifs-section ifs-section--tint">
+      <div class="ifs-container">
+        <div class="ifs-section-head"><h2>Meer projecten</h2></div>
+        <div class="ifs-projects">{others.map((p) => <ProjectCard project={p} />)}</div>
+      </div>
+    </section>
+  )}
+  <Cta />
+</Base>

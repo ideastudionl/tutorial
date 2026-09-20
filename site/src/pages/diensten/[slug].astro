@@ -1,0 +1,92 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import QuoteWizard from '../../components/QuoteWizard.astro';
+import Placeholder from '../../components/Placeholder.astro';
+import { services } from '../../data/services';
+import { site } from '../../data/site';
+import { icon } from '../../lib/icons';
+
+export function getStaticPaths() {
+  return services.map((service) => ({ params: { slug: service.slug }, props: { service } }));
+}
+
+const { service } = Astro.props;
+const others = services.filter((s) => s.slug !== service.slug);
+const crumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Diensten', url: '/diensten/' },
+  { name: service.title, url: `/diensten/${service.slug}/` },
+];
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: service.title,
+  description: service.short,
+  provider: { '@id': `${site.url}/#organisatie` },
+  areaServed: { '@type': 'City', name: site.city },
+  ...(service.rate ? { offers: { '@type': 'Offer', price: service.rate, priceCurrency: 'EUR', unitText: 'm²' } } : {}),
+};
+---
+<Base title={service.title} description={service.short} crumbs={crumbs} schema={[serviceSchema]} noModal>
+  <div class="ifs-page-head">
+    <div class="ifs-container">
+      <Breadcrumbs items={crumbs} />
+      <span class="ifs-eyebrow">Dienst</span>
+      <h1>{service.title}</h1>
+      <p class="ifs-lead">{service.short}</p>
+      <div style="display:flex;flex-wrap:wrap;gap:.8rem;margin-top:1.75rem">
+        <a class="ifs-btn" href="#offerte">Offerte voor deze dienst</a>
+        <a class="ifs-btn ifs-btn--ghost" href={site.phoneHref}>
+          <Fragment set:html={icon('phone', 18)} /> {site.phone}
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <section class="ifs-section">
+    <div class="ifs-container">
+      <div class="ifs-layout">
+        <article class="ifs-content">
+          <Placeholder ratio="ifs-media--ratio" />
+          <Fragment set:html={service.body} />
+        </article>
+        <aside class="ifs-aside">
+          <div class="ifs-aside__card">
+            <span class="ifs-badge">Richtprijs</span>
+            <h3 style="margin:.75rem 0 .25rem">{service.priceLabel}</h3>
+            <p>Inclusief materiaal. De definitieve prijs hangt af van de ondergrond en het afwerkingsniveau.</p>
+            <a class="ifs-btn ifs-btn--block" href="#offerte">Bereken jouw prijs</a>
+          </div>
+          <div class="ifs-aside__card">
+            <h3>Pluspunten</h3>
+            <ul class="ifs-checklist">
+              {service.usps.map((u) => (
+                <li><Fragment set:html={icon('check-circle', 21)} /> {u}</li>
+              ))}
+            </ul>
+          </div>
+          <div class="ifs-aside__card">
+            <h3>Andere diensten</h3>
+            <ul style="list-style:none;padding:0;margin:0;display:grid;gap:.6rem;font-size:var(--ifs-fs-sm)">
+              {others.map((o) => (
+                <li><a class="ifs-link-arrow" href={`/diensten/${o.slug}/`}>{o.title} <span aria-hidden="true">→</span></a></li>
+              ))}
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="ifs-quote" id="offerte">
+    <div class="ifs-container">
+      <div class="ifs-section-head">
+        <h2>Wat kost {service.title.toLowerCase()} bij jou?</h2>
+        <p class="ifs-lead">Vul de vragen in en ontvang {site.responseTime} een vrijblijvende prijsopgave.</p>
+      </div>
+      <div style="max-width:860px"><QuoteWizard preset={service.slug} /></div>
+    </div>
+  </section>
+</Base>

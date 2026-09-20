@@ -1,0 +1,36 @@
+---
+import Base from '../layouts/Base.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Cta from '../components/Cta.astro';
+const crumbs = [{ name: 'Home', url: '/' }, { name: 'Werkwijze', url: '/werkwijze/' }];
+---
+<Base title="Werkwijze" description="Van aanvraag tot oplevering in vier duidelijke stappen, met een vaste prijs vooraf en vijf jaar garantie." crumbs={crumbs}>
+  <div class="ifs-page-head">
+    <div class="ifs-container">
+      <Breadcrumbs items={crumbs} />
+      <h1>Werkwijze</h1>
+      <p class="ifs-lead">Van aanvraag tot oplevering in vier duidelijke stappen, met een vaste prijs vooraf en vijf jaar garantie.</p>
+    </div>
+  </div>
+  <section class="ifs-section">
+    <div class="ifs-container">
+      <article class="ifs-content">
+        <h2>1. Aanvraag</h2>
+        <p>Je vult de offerteaanvraag in of belt ons. We vragen door op het soort werk, de oppervlakte en de staat van de ondergrond — dat bepaalt namelijk het grootste deel van de prijs.</p>
+        <h2>2. Opname en prijs</h2>
+        <p>Bij grotere klussen komen we vrijblijvend langs om op te meten en de ondergrond te beoordelen. Daarna ontvang je binnen 24 uur een offerte met een vaste prijs per vierkante meter en een duidelijke omschrijving van wat er wel en niet bij zit.</p>
+        <h2>3. Uitvoering</h2>
+        <p>We plannen een startdatum en een verwachte einddatum. Op de eerste dag schermen we vloeren, kozijnen en meubels af. We werken per ruimte en ruimen aan het einde van elke dag op.</p>
+        <h2>4. Oplevering en garantie</h2>
+        <p>We lopen het werk samen na en werken eventuele puntjes direct af. Je krijgt van ons advies over droogtijden en wanneer je kunt schilderen. Op de uitvoering geldt vijf jaar garantie.</p>
+        <h2>Wat we van jou nodig hebben</h2>
+        <ul>
+        <li>Vrije toegang tot de werkruimte en een aansluiting voor stroom en water.</li>
+        <li>Losse spullen en gordijnen vooraf weggehaald (kunnen we ook voor je doen).</li>
+        <li>Bij appartementen: afstemming met de VvE over het gebruik van de lift en de aanvoer van materiaal.</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+  <Cta />
+</Base>

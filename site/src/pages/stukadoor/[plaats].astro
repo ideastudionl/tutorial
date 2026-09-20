@@ -1,0 +1,116 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import QuoteWizard from '../../components/QuoteWizard.astro';
+import ReviewSlider from '../../components/ReviewSlider.astro';
+import SectionHead from '../../components/SectionHead.astro';
+import { areas } from '../../data/areas';
+import { services } from '../../data/services';
+import { site } from '../../data/site';
+import { icon } from '../../lib/icons';
+
+export function getStaticPaths() {
+  return areas.map((area) => ({ params: { plaats: area.slug }, props: { area } }));
+}
+
+const { area } = Astro.props;
+const crumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Werkgebied', url: '/werkgebied/' },
+  { name: area.city, url: `/stukadoor/${area.slug}/` },
+];
+
+const usps = [
+  { icon: 'pin', title: area.travel, text: 'vanaf onze locatie in Amsterdam' },
+  { icon: 'euro', title: 'Vaste prijs per m²', text: 'geen verrassingen achteraf' },
+  { icon: 'star', title: `${site.rating.score} gemiddeld`, text: `${site.rating.count} beoordelingen` },
+  { icon: 'shield', title: `${site.warrantyYears} jaar garantie`, text: 'op al ons stuc- en schilderwerk' },
+];
+---
+<Base
+  title={`Stukadoor ${area.city}`}
+  description={`Stukadoor in ${area.city} voor glad stucwerk, plafonds, sierpleister en schilderwerk. Vaste prijs vooraf en ${site.warrantyYears} jaar garantie.`}
+  crumbs={crumbs}
+  noModal
+>
+  <div class="ifs-page-head">
+    <div class="ifs-container">
+      <Breadcrumbs items={crumbs} />
+      <span class="ifs-eyebrow">Werkgebied</span>
+      <h1>Stukadoor in {area.city}</h1>
+      <p class="ifs-lead">
+        Glad stucwerk, plafonds, sierpleister, betonlook en schilderwerk in {area.city}.
+        Vaste prijs vooraf en {site.warrantyYears} jaar garantie op de uitvoering.
+      </p>
+      <div style="display:flex;flex-wrap:wrap;gap:.8rem;margin-top:1.75rem">
+        <a class="ifs-btn" href="#offerte">Prijs in 3 minuten</a>
+        <a class="ifs-btn ifs-btn--ghost" href={site.phoneHref}>
+          <Fragment set:html={icon('phone', 18)} /> {site.phone}
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <section class="ifs-usp">
+    <div class="ifs-container">
+      <div class="ifs-usp__grid">
+        {usps.map((u) => (
+          <div class="ifs-usp__item">
+            <Fragment set:html={icon(u.icon, 21)} />
+            <span><strong>{u.title}</strong><span>{u.text}</span></span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="ifs-section">
+    <div class="ifs-container">
+      <div class="ifs-layout">
+        <article class="ifs-content">
+          <p>Zoek je een ervaren stukadoor in {area.city}? {site.name} werkt al ruim {site.yearsActive} jaar in {area.city} en omgeving. We verzorgen glad stucwerk, plafonds, sierpleister, betonlook en schilderwerk — voor particulieren, VvE&rsquo;s en aannemers.</p>
+          <h2>Wat we doen in {area.city}</h2>
+          <p>Van één kamer behangklaar maken tot het complete stucwerk van een nieuwbouwproject. We werken in {area.districts} en alle omliggende wijken. Vanuit onze locatie in {site.city} zijn we in {area.travel} ter plaatse, waardoor we ook kleinere klussen goed kunnen inplannen.</p>
+          <h2>Eerst kijken, dan pas een prijs</h2>
+          <p>We geven geen prijs op basis van een gevoel. Bij grotere klussen komen we vrijblijvend langs om de ondergrond te beoordelen en op te meten. Daarna ontvang je een vaste prijs per vierkante meter, met daarin duidelijk benoemd wat er wél en niet bij zit.</p>
+          <h2>Werken in bewoonde huizen</h2>
+          <p>De meeste klussen voeren we uit terwijl mensen gewoon in hun woning wonen. We schermen vloeren en meubels af, houden de looproutes vrij en ruimen elke dag op. In een appartement stemmen we vooraf af hoe we materiaal aanvoeren en waar we mogen zagen en mengen.</p>
+        </article>
+        <aside class="ifs-aside">
+          <div class="ifs-aside__card">
+            <h3>Diensten in {area.city}</h3>
+            <ul style="list-style:none;padding:0;margin:0;display:grid;gap:.6rem;font-size:var(--ifs-fs-sm)">
+              {services.map((s) => (
+                <li><a class="ifs-link-arrow" href={`/diensten/${s.slug}/`}>{s.title} <span aria-hidden="true">→</span></a></li>
+              ))}
+            </ul>
+          </div>
+          <div class="ifs-aside__card ifs-contact-card" style="background:var(--ifs-ink);color:#93A1B8">
+            <h3 style="color:#fff">Direct contact</h3>
+            <p style="color:#93A1B8">Even overleggen over je klus in {area.city}?</p>
+            <a class="ifs-btn ifs-btn--light ifs-btn--block" href={site.phoneHref}>
+              <Fragment set:html={icon('phone', 18)} /> {site.phone}
+            </a>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="ifs-section ifs-section--tint">
+    <div class="ifs-container">
+      <SectionHead title="Wat klanten zeggen" />
+      <ReviewSlider />
+    </div>
+  </section>
+
+  <section class="ifs-quote" id="offerte">
+    <div class="ifs-container">
+      <div class="ifs-section-head">
+        <h2>Offerte voor je klus in {area.city}</h2>
+        <p class="ifs-lead">Vier korte vragen. Reactie {site.responseTime}.</p>
+      </div>
+      <div style="max-width:860px"><QuoteWizard /></div>
+    </div>
+  </section>
+</Base>

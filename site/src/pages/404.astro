@@ -1,0 +1,19 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site';
+---
+<Base title="Pagina niet gevonden" description="Deze pagina bestaat niet meer.">
+  <section class="ifs-section">
+    <div class="ifs-container ifs-narrow">
+      <span class="ifs-eyebrow">Foutmelding 404</span>
+      <h1>Deze pagina bestaat niet (meer)</h1>
+      <p class="ifs-lead">Mogelijk is de pagina verplaatst of klopt het adres niet. Hieronder vind je de meest bezochte pagina&rsquo;s.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:.8rem;margin:2.5rem 0">
+        <a class="ifs-btn" href="/offerte/">Offerte aanvragen</a>
+        <a class="ifs-btn ifs-btn--ghost" href="/diensten/">Onze diensten</a>
+        <a class="ifs-btn ifs-btn--ghost" href="/">Naar de homepage</a>
+      </div>
+      <p style="color:var(--ifs-stone)">Liever even bellen? <a href={site.phoneHref}>{site.phone}</a></p>
+    </div>
+  </section>
+</Base>

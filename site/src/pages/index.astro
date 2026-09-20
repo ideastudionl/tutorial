@@ -1,0 +1,257 @@
+---
+import Base from '../layouts/Base.astro';
+import SectionHead from '../components/SectionHead.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import ReviewSlider from '../components/ReviewSlider.astro';
+import QuoteWizard from '../components/QuoteWizard.astro';
+import Placeholder from '../components/Placeholder.astro';
+import Faq from '../components/Faq.astro';
+import Cta from '../components/Cta.astro';
+import { site } from '../data/site';
+import { services, headlineRate } from '../data/services';
+import { areas } from '../data/areas';
+import { projects } from '../data/projects';
+import { faq } from '../data/faq';
+import { icon, stars } from '../lib/icons';
+import { faqSchema } from '../lib/schema';
+import { whatsappHref } from '../data/site';
+
+const price = headlineRate.toFixed(2).replace('.', ',');
+const quick = services.slice(0, 6);
+
+const usps = [
+  { icon: 'euro', title: 'Vaste prijs per m²', text: 'Wat in de offerte staat, is wat je betaalt.' },
+  { icon: 'clock', title: `Reactie ${site.responseTime}`, text: 'Ook op zaterdag bereikbaar.' },
+  { icon: 'shield', title: `${site.warrantyYears} jaar garantie`, text: 'Op de uitvoering van al ons werk.' },
+  { icon: 'thumbs-up', title: 'Schoon opgeleverd', text: 'Afval mee, ruimte bezemschoon.' },
+];
+
+const steps = [
+  { title: 'Aanvraag', text: 'Je vult de vragen hierboven in of belt ons. We weten dan al waar het over gaat.' },
+  { title: 'Opname & prijs', text: 'Bij grotere klussen komen we vrijblijvend meten. Daarna volgt een vaste prijs per m².' },
+  { title: 'Uitvoering', text: 'We schermen alles af, werken per ruimte en ruimen elke dag op.' },
+  { title: 'Oplevering', text: `We lopen het werk samen na. Op de uitvoering krijg je ${site.warrantyYears} jaar garantie.` },
+];
+---
+<Base
+  title={`Stukadoor ${site.city} — ${site.name}`}
+  description={`Stukadoor in ${site.city} en omstreken. Glad stucwerk vanaf € ${price} per m², sierpleister, betonlook en schilderwerk. Vaste prijs vooraf en ${site.warrantyYears} jaar garantie.`}
+  schema={[faqSchema(faq)]}
+  noModal={false}
+>
+  <section class="ifs-hero">
+    <div class="ifs-container ifs-hero__inner">
+      <div class="ifs-hero__content">
+        <span class="ifs-eyebrow">Stukadoor in {site.city} &amp; omstreken</span>
+        <h1>Strak stucwerk dat <em>jaren</em> mooi blijft</h1>
+        <p class="ifs-lead">
+          {site.name} levert glad stucwerk, sierpleister en schilderwerk voor woningen en
+          bedrijfspanden in {site.city} en omstreken. Vakwerk van ervaren stukadoors, met een vaste
+          prijs vooraf.
+        </p>
+        <div class="ifs-hero__actions">
+          <a class="ifs-btn ifs-btn--lg" href="#offerte">Prijs in 3 minuten <Fragment set:html={icon('arrow-right', 18)} /></a>
+          <a class="ifs-btn ifs-btn--ghost ifs-btn--lg" href={site.phoneHref}>
+            <Fragment set:html={icon('phone', 18)} /> {site.phone}
+          </a>
+        </div>
+        <ul class="ifs-hero__facts">
+          <li><strong>vanaf &euro;&nbsp;{price}</strong> per m²</li>
+          <li>{site.rating.score} uit {site.rating.count} beoordelingen</li>
+          <li>{site.warrantyYears} jaar garantie</li>
+        </ul>
+      </div>
+      <div class="ifs-hero__visual">
+        <Placeholder ratio="" class="ifs-hero__photo" />
+        <div class="ifs-hero__float ifs-hero__float--br">
+          <Fragment set:html={stars(5)} />
+          <strong>{site.rating.score}</strong>
+          <small>{site.rating.count} beoordelingen</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ifs-usp">
+    <div class="ifs-container">
+      <div class="ifs-usp__grid">
+        {usps.map((u) => (
+          <div class="ifs-usp__item">
+            <Fragment set:html={icon(u.icon, 21)} />
+            <span><strong>{u.title}</strong><span>{u.text}</span></span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="ifs-quote" id="offerte">
+    <div class="ifs-container">
+      <SectionHead
+        eyebrow="Offerte aanvragen"
+        title="Weet binnen 3 minuten wat je klus kost"
+        text={`Beantwoord vier korte vragen en zie meteen een richtprijs — vanaf € ${price} per m². Daarna volgt ${site.responseTime} een vrijblijvende opgave.`}
+      />
+      <div class="ifs-quote__layout">
+        <div>
+          <div class="ifs-quickstart">
+            <span class="ifs-quickstart__label">Waar gaat het om?</span>
+            <div class="ifs-places">
+              {quick.map((s) => (
+                <a class="ifs-place" data-quote-preset={s.slug} href={`/offerte/?werk=${s.slug}`}>
+                  {s.title} <span aria-hidden="true">→</span>
+                </a>
+              ))}
+            </div>
+          </div>
+          <QuoteWizard />
+        </div>
+
+        <aside class="ifs-quote__aside">
+          <div class="ifs-card">
+            <h3>Wat je van ons krijgt</h3>
+            <ul>
+              <li><Fragment set:html={icon('check-circle', 19)} /> Een vaste prijs per vierkante meter, geen uurtje-factuurtje</li>
+              <li><Fragment set:html={icon('check-circle', 19)} /> Duidelijk wat er wél en niet bij zit</li>
+              <li><Fragment set:html={icon('check-circle', 19)} /> Een realistische start- en einddatum</li>
+              <li><Fragment set:html={icon('check-circle', 19)} /> Vrijblijvend — je zit nergens aan vast</li>
+            </ul>
+          </div>
+          <div class="ifs-card ifs-contact-card">
+            <h3>Liever even overleggen?</h3>
+            <p style="font-size:var(--ifs-fs-sm)">Bel ons gerust. We denken graag mee, ook als je nog niet weet welke afwerking je wilt.</p>
+            <p>
+              <a class="ifs-btn ifs-btn--light ifs-btn--block" href={site.phoneHref}>
+                <Fragment set:html={icon('phone', 18)} /> {site.phone}
+              </a>
+            </p>
+            <p style="margin-top:.6rem">
+              <a class="ifs-btn ifs-btn--ghost ifs-btn--block" style="--btn-fg:#fff;--btn-bd:rgba(255,255,255,.25)" href={whatsappHref} target="_blank" rel="noopener">
+                <Fragment set:html={icon('whatsapp', 18)} /> WhatsApp ons
+              </a>
+            </p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="ifs-section">
+    <div class="ifs-container">
+      <SectionHead
+        eyebrow="Onze diensten"
+        title="Van één kamer behangklaar tot een complete gevel"
+        text="We doen het stuc- én schilderwerk zelf. Eén partij voor het hele traject scheelt afstemming, wachttijd en discussie achteraf."
+      />
+      <div class="ifs-grid ifs-grid--3">
+        {services.map((s) => <ServiceCard service={s} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="ifs-section ifs-section--tint">
+    <div class="ifs-container">
+      <SectionHead eyebrow="Zo werkt het" title="Vier stappen, geen verrassingen" />
+      <div class="ifs-steps">
+        {steps.map((s, i) => (
+          <div class="ifs-step">
+            <div class="ifs-step__num">{i + 1}</div>
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="ifs-section">
+    <div class="ifs-container">
+      <div class="ifs-split">
+        <div>
+          <span class="ifs-eyebrow">Over {site.name}</span>
+          <h2>Vakwerk zie je pas als het af is</h2>
+          <p class="ifs-lead">
+            Een wand die overal even vlak is, een plafond zonder zichtbare naden, een hoek die
+            kaarsrecht loopt. Dat vraagt tijd in de voorbereiding — en juist daar wordt in onze
+            branche het vaakst op bezuinigd.
+          </p>
+          <ul class="ifs-checklist">
+            <li><Fragment set:html={icon('check-circle', 21)} /> Vast team van ervaren stukadoors, geen wisselende inhuur</li>
+            <li><Fragment set:html={icon('check-circle', 21)} /> Eén aanspreekpunt van opname tot oplevering</li>
+            <li><Fragment set:html={icon('check-circle', 21)} /> Eerlijk advies — ook als stucwerk (nog) niet de oplossing is</li>
+            <li><Fragment set:html={icon('check-circle', 21)} /> Werken in bewoonde woningen, netjes afgeschermd</li>
+          </ul>
+          <div class="ifs-stat-strip">
+            <div class="ifs-stat"><strong>{site.yearsActive}+</strong><span>jaar ervaring</span></div>
+            <div class="ifs-stat"><strong>{site.projectsDone}+</strong><span>afgeronde projecten</span></div>
+            <div class="ifs-stat"><strong>{site.rating.score}</strong><span>gemiddelde beoordeling</span></div>
+          </div>
+          <p style="margin-top:2rem"><a class="ifs-btn ifs-btn--ink" href="/over-ons/">Meer over ons</a></p>
+        </div>
+        <div class="ifs-split__visual"><Placeholder /></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ifs-section ifs-section--dark">
+    <div class="ifs-container">
+      <SectionHead eyebrow="Recent werk" title="Bekijk wat we voor anderen deden" />
+      <div class="ifs-projects">
+        {projects.map((p) => <ProjectCard project={p} />)}
+      </div>
+      <p style="margin-top:2.5rem">
+        <a class="ifs-btn ifs-btn--ghost" href="/projecten/">Alle projecten bekijken</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="ifs-section">
+    <div class="ifs-container">
+      <SectionHead eyebrow="Klantbeoordelingen" title="Wat klanten over ons zeggen" />
+      <p style="margin-bottom:2rem">
+        <span class="ifs-google-summary">
+          <span class="ifs-google-summary__mark"><Fragment set:html={icon('google', 18)} /> Google</span>
+          <Fragment set:html={stars(5)} />
+          <strong>{site.rating.score}</strong>
+          <span>uit {site.rating.count} beoordelingen</span>
+        </span>
+      </p>
+      <ReviewSlider />
+    </div>
+  </section>
+
+  <section class="ifs-section ifs-section--tint">
+    <div class="ifs-container">
+      <div class="ifs-split">
+        <div>
+          <span class="ifs-eyebrow">Werkgebied</span>
+          <h2>Actief in Amsterdam, Noord-Holland en Utrecht</h2>
+          <p class="ifs-lead">
+            Vanuit onze locatie aan de {site.street} zijn we snel ter plaatse. Daardoor kunnen we
+            ook kleinere klussen goed inplannen.
+          </p>
+          <p><a class="ifs-link-arrow" href="/werkgebied/">Bekijk het hele werkgebied <span aria-hidden="true">→</span></a></p>
+        </div>
+        <div>
+          <div class="ifs-places">
+            {areas.map((a) => (
+              <a class="ifs-place" href={`/stukadoor/${a.slug}/`}>
+                <Fragment set:html={icon('pin', 15)} /> {a.city}
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ifs-section">
+    <div class="ifs-container">
+      <SectionHead eyebrow="Veelgestelde vragen" title="Goed om te weten" />
+      <div class="ifs-narrow" style="margin-inline:0"><Faq /></div>
+    </div>
+  </section>
+
+  <Cta />
+</Base>

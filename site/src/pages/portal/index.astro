@@ -1,0 +1,148 @@
+---
+export const prerender = false;
+
+import Base from '../../layouts/Base.astro';
+import { adminClient, STATUSSEN, type Aanvraag } from '../../lib/supabase';
+import { icon } from '../../lib/icons';
+import { werkOptions, situatieOptions, oppervlakteOptions, pandOptions, planningOptions } from '../../lib/quote';
+
+/**
+ * Toegang met één wachtwoord in een cookie. Genoeg voor een portal dat door
+ * twee mensen gebruikt wordt; wil je meerdere accounts, dan stappen we over
+ * op Supabase Auth.
+ */
+const PASSWORD = import.meta.env.PORTAL_PASSWORD;
+const COOKIE = 'ifs_portal';
+
+if (Astro.request.method === 'POST') {
+  const form = await Astro.request.formData();
+  if (PASSWORD && form.get('wachtwoord') === PASSWORD) {
+    Astro.cookies.set(COOKIE, '1', { httpOnly: true, secure: true, sameSite: 'lax', path: '/portal', maxAge: 60 * 60 * 24 * 30 });
+    return Astro.redirect('/portal/');
+  }
+  if (form.get('uitloggen')) {
+    Astro.cookies.delete(COOKIE, { path: '/portal' });
+    return Astro.redirect('/portal/');
+  }
+}
+
+const ingelogd = Astro.cookies.get(COOKIE)?.value === '1';
+
+let aanvragen: Aanvraag[] = [];
+let fout = '';
+
+if (ingelogd) {
+  const supabase = adminClient();
+  if (!supabase) {
+    fout = 'De databasekoppeling is nog niet ingesteld. Vul PUBLIC_SUPABASE_URL en SUPABASE_SERVICE_ROLE_KEY in bij de omgevingsvariabelen.';
+  } else {
+    const { data, error } = await supabase
+      .from('aanvragen')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(200);
+    if (error) fout = `Ophalen mislukt: ${error.message}`;
+    else aanvragen = (data ?? []) as Aanvraag[];
+  }
+}
+
+const labelOf = (list: { value: string; label: string }[], v: string) =>
+  list.find((o) => o.value === v)?.label ?? v;
+
+const datum = (iso: string) =>
+  new Date(iso).toLocaleString('nl-NL', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+
+const nieuw = aanvragen.filter((a) => a.status === 'nieuw').length;
+---
+<Base title="Offerteportal" description="Overzicht van binnengekomen offerteaanvragen." noModal>
+  <section class="ifs-section">
+    <div class="ifs-container">
+      {!ingelogd ? (
+        <div style="max-width:24rem">
+          <h1>Portal</h1>
+          <p class="ifs-lead" style="margin-bottom:1.5rem">Log in om de offerteaanvragen te bekijken.</p>
+          <form method="POST" class="ifs-fields">
+            <div class="ifs-field">
+              <label for="wachtwoord">Wachtwoord</label>
+              <input type="password" id="wachtwoord" name="wachtwoord" required autocomplete="current-password" />
+            </div>
+            <button class="ifs-btn" type="submit">Inloggen</button>
+          </form>
+          {!PASSWORD && (
+            <p class="ifs-notice ifs-notice--err" style="margin-top:1.5rem">
+              Er is nog geen wachtwoord ingesteld. Zet <code>PORTAL_PASSWORD</code> bij de omgevingsvariabelen in Vercel.
+            </p>
+          )}
+        </div>
+      ) : (
+        <>
+          <div class="ifs-section-head">
+            <span class="ifs-eyebrow">Portal</span>
+            <h2>Offerteaanvragen</h2>
+            <p class="ifs-lead">
+              {aanvragen.length} aanvragen, waarvan {nieuw} nog niet opgepakt.
+            </p>
+          </div>
+
+          <form method="POST" style="margin-bottom:1.5rem">
+            <button class="ifs-btn ifs-btn--ghost" type="submit" name="uitloggen" value="1">
+              <Fragment set:html={icon('logout', 17)} /> Uitloggen
+            </button>
+          </form>
+
+          {fout && <p class="ifs-notice ifs-notice--err">{fout}</p>}
+
+          {!fout && aanvragen.length === 0 && (
+            <p class="ifs-notice ifs-notice--ok">Nog geen aanvragen binnengekomen.</p>
+          )}
+
+          {aanvragen.length > 0 && (
+            <div class="ifs-grid" style="gap:1rem">
+              {aanvragen.map((a) => (
+                <details class="ifs-card" style="padding:0">
+                  <summary style="display:flex;flex-wrap:wrap;align-items:center;gap:.5rem 1rem;padding:1rem 1.25rem;cursor:pointer;list-style:none">
+                    <strong style="font-family:var(--ifs-font-head)">{a.naam}</strong>
+                    <span style="color:var(--ifs-stone);font-size:var(--ifs-fs-sm)">{a.plaats}</span>
+                    <span class={`ifs-badge${a.status === 'nieuw' ? '' : ' ifs-badge--green'}`}>{a.status}</span>
+                    {a.richtprijs && (
+                      <span style="color:var(--ifs-stone);font-size:var(--ifs-fs-sm)">{a.richtprijs}</span>
+                    )}
+                    <span style="margin-left:auto;color:var(--ifs-stone);font-size:var(--ifs-fs-xs)">{datum(a.created_at)}</span>
+                  </summary>
+
+                  <div style="padding:0 1.25rem 1.25rem;border-top:1px solid var(--ifs-line-soft)">
+                    <dl class="ifs-summary" style="margin-top:1rem">
+                      <div class="ifs-summary__row"><dt>Telefoon</dt><dd><a href={`tel:${a.telefoon}`}>{a.telefoon}</a></dd></div>
+                      <div class="ifs-summary__row"><dt>E-mail</dt><dd><a href={`mailto:${a.email}`}>{a.email}</a></dd></div>
+                      <div class="ifs-summary__row"><dt>Adres</dt><dd>{a.postcode} {a.plaats}</dd></div>
+                      <div class="ifs-summary__row"><dt>Werk</dt><dd>{(a.werk ?? []).map((w) => labelOf(werkOptions, w)).join(', ')}</dd></div>
+                      <div class="ifs-summary__row"><dt>Ondergrond</dt><dd>{labelOf(situatieOptions, a.situatie)}</dd></div>
+                      <div class="ifs-summary__row">
+                        <dt>Oppervlakte</dt>
+                        <dd>{a.oppervlakte_m2 > 0 ? `${a.oppervlakte_m2} m²` : labelOf(oppervlakteOptions, a.oppervlakte)}</dd>
+                      </div>
+                      {a.pand && <div class="ifs-summary__row"><dt>Type pand</dt><dd>{labelOf(pandOptions, a.pand)}</dd></div>}
+                      {a.planning && <div class="ifs-summary__row"><dt>Start</dt><dd>{labelOf(planningOptions, a.planning)}</dd></div>}
+                      {a.opmerking && <div class="ifs-summary__row"><dt>Toelichting</dt><dd style="text-align:left">{a.opmerking}</dd></div>}
+                    </dl>
+
+                    <form method="POST" action="/api/status" style="display:flex;flex-wrap:wrap;gap:.5rem;align-items:end;margin-top:1rem">
+                      <input type="hidden" name="id" value={a.id} />
+                      <div class="ifs-field" style="max-width:12rem">
+                        <label for={`status-${a.id}`}>Status</label>
+                        <select id={`status-${a.id}`} name="status">
+                          {STATUSSEN.map((s) => <option value={s} selected={s === a.status}>{s}</option>)}
+                        </select>
+                      </div>
+                      <button class="ifs-btn ifs-btn--ghost" type="submit">Opslaan</button>
+                    </form>
+                  </div>
+                </details>
+              ))}
+            </div>
+          )}
+        </>
+      )}
+    </div>
+  </section>
+</Base>

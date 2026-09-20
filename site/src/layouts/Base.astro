@@ -1,0 +1,76 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import QuoteModal from '../components/QuoteModal.astro';
+import { site } from '../data/site';
+import { businessSchema, breadcrumbSchema } from '../lib/schema';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Extra JSON-LD, bijvoorbeeld FAQ of een dienst. */
+  schema?: object[];
+  crumbs?: { name: string; url?: string }[];
+  /** Het offertevenster weglaten op pagina's die de wizard al tonen. */
+  noModal?: boolean;
+}
+
+const { title, description, schema = [], crumbs, noModal = false } = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site ?? site.url).href;
+const fullTitle = title.includes(site.name) ? title : `${title} — ${site.name}`;
+
+const blocks = [businessSchema(), ...(crumbs ? [breadcrumbSchema(crumbs)] : []), ...schema];
+---
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0A1626" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/logo.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="nl_NL" />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Source+Sans+3:wght@400;600;700&display=swap"
+    />
+
+    {blocks.map((block) => (
+      <script type="application/ld+json" set:html={JSON.stringify(block)} />
+    ))}
+  </head>
+
+  <body>
+    <a class="ifs-skip-link" href="#content">Naar de inhoud springen</a>
+    <Header />
+    <main id="content">
+      <slot />
+    </main>
+    <Footer />
+    {!noModal && <QuoteModal />}
+
+    <div class="ifs-sticky-cta">
+      <a class="ifs-btn ifs-btn--ghost" href={site.phoneHref}>Bel direct</a>
+      <a class="ifs-btn" href="/offerte/" data-quote-open>Offerte aanvragen</a>
+    </div>
+
+    <script>
+      import '../scripts/main.js';
+    </script>
+  </body>
+</html>

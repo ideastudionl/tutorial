@@ -1,0 +1,26 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ServiceCard from '../../components/ServiceCard.astro';
+import Cta from '../../components/Cta.astro';
+import { services } from '../../data/services';
+import { site } from '../../data/site';
+
+const crumbs = [{ name: 'Home', url: '/' }, { name: 'Diensten', url: '/diensten/' }];
+---
+<Base title="Onze diensten" description={`Stuc- en schilderwerk voor woningen, VvE's en bedrijfspanden in ${site.city} en omstreken. Alles in eigen beheer.`} crumbs={crumbs}>
+  <div class="ifs-page-head">
+    <div class="ifs-container">
+      <Breadcrumbs items={crumbs} />
+      <span class="ifs-eyebrow">Wat we doen</span>
+      <h1>Onze diensten</h1>
+      <p class="ifs-lead">Stuc- en schilderwerk voor woningen, VvE&rsquo;s en bedrijfspanden in {site.city} en omstreken. Alles in eigen beheer — van voorbereiding tot afwerking.</p>
+    </div>
+  </div>
+  <section class="ifs-section">
+    <div class="ifs-container">
+      <div class="ifs-grid ifs-grid--3">{services.map((s) => <ServiceCard service={s} />)}</div>
+    </div>
+  </section>
+  <Cta />
+</Base>
