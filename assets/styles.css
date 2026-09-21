@@ -270,12 +270,20 @@ button{font:inherit;color:inherit}
   border-radius:var(--r-card);overflow:hidden;transition:transform .16s ease,box-shadow .16s ease;
 }
 .pcard:hover{transform:translateY(-3px);box-shadow:var(--shadow-soft)}
-.pcard__media{position:relative;aspect-ratio:4/3;background:var(--surface-2);display:grid;place-items:center;padding:14px}
-.pcard__media svg{width:100%;height:100%}
-.pcard__media img{width:100%;height:100%;object-fit:contain;display:block}
+/* Het beeld hangt absoluut in het vak in plaats van het vak te vullen met
+   height:100%. Dat percentage rekent tegen een hoogte die zelf nog uit
+   aspect-ratio moet komen; browsers lossen dat verschillend op, waardoor het
+   vak uitrekte of de foto scheef kwam te staan. Absoluut gepositioneerd is de
+   hoogte wel bepaald, en inset zorgt voor de rand rondom. */
+.pcard__media{position:relative;aspect-ratio:4/3;background:var(--surface-2);overflow:hidden}
+.pcard__media svg,
+.pcard__media img{
+  position:absolute;inset:14px;width:calc(100% - 28px);height:calc(100% - 28px);
+  object-fit:contain;display:block;
+}
 .pcard__flag--out{background:var(--muted)}
 .pcard__flag{
-  position:absolute;top:12px;left:12px;background:var(--flame);color:#fff;border-radius:999px;
+  position:absolute;top:12px;left:12px;z-index:1;background:var(--flame);color:#fff;border-radius:999px;
   font-size:.72rem;font-weight:700;padding:4px 10px;letter-spacing:.02em;
 }
 .pcard__body{display:flex;flex-direction:column;gap:8px;padding:16px;flex:1}
@@ -364,19 +372,23 @@ button{font:inherit;color:inherit}
    over het koopblok heen. */
 .gallery{display:flex;flex-direction:column;gap:12px;min-width:0;position:sticky;top:calc(84px + env(safe-area-inset-top,0px))}
 .gallery__main{
-  min-width:0;background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-card);
-  aspect-ratio:1/1;display:grid;place-items:center;padding:clamp(16px,3vw,32px);overflow:hidden;
+  position:relative;min-width:0;background:var(--surface-2);border:1px solid var(--line);
+  border-radius:var(--r-card);aspect-ratio:1/1;padding:clamp(16px,3vw,32px);overflow:hidden;
 }
-.gallery__main svg{width:100%;height:100%}
-.gallery__main img{width:100%;height:100%;object-fit:contain;display:block}
-.thumb img{width:100%;height:100%;object-fit:contain;display:block}
+.gallery__main svg,
+.gallery__main img{
+  position:absolute;inset:clamp(16px,3vw,32px);
+  width:calc(100% - 2 * clamp(16px,3vw,32px));height:calc(100% - 2 * clamp(16px,3vw,32px));
+  object-fit:contain;display:block;
+}
+.thumb svg,
+.thumb img{position:absolute;inset:8px;width:calc(100% - 16px);height:calc(100% - 16px);object-fit:contain;display:block}
 .thumbs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
 .thumb{
-  background:var(--surface-2);border:2px solid var(--line);border-radius:12px;aspect-ratio:1/1;
-  padding:8px;cursor:pointer;display:grid;place-items:center;min-width:0;overflow:hidden;
+  position:relative;background:var(--surface-2);border:2px solid var(--line);border-radius:12px;
+  aspect-ratio:1/1;padding:8px;cursor:pointer;min-width:0;overflow:hidden;
 }
 .thumb[aria-current="true"]{border-color:var(--flame)}
-.thumb svg{width:100%;height:100%}
 
 .buybox{display:flex;flex-direction:column;gap:18px;min-width:0}
 .buybox h1{font-size:clamp(1.9rem,3.6vw,2.7rem)}
