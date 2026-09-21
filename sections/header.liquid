@@ -234,6 +234,13 @@
   }
   @media (min-width: 921px) {
     .mobile-panel { display:none !important; }
+    /* Header: logo links, menu rechts, iconen uiterst rechts */
+    .header__inner { display:flex; align-items:center; height:80px; gap:30px; }
+    .logo { order:1; text-align:left; margin-right:auto; flex:0 0 auto; }
+    .header__nav { order:2; flex:0 0 auto; gap:30px; justify-content:flex-end; }
+    .header__icons { order:3; flex:0 0 auto; }
+    .header__nav .header__nav-link, .header__nav > a { white-space:nowrap; }
+    .header__nav-item.has-sub:last-child .header__submenu { left:auto; right:0; }
   }
   @media (max-width: 400px) {
     .header__search-btn { display:none; }
