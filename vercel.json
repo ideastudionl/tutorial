@@ -6,6 +6,20 @@
     { "source": "/shop", "destination": "/index.html" },
     { "source": "/afrekenen", "destination": "/index.html" }
   ],
+  "redirects": [
+    { "source": "/wp-admin", "destination": "https://winkel.soccer-games.nl/wp-admin", "permanent": false },
+    { "source": "/wp-admin/:pad*", "destination": "https://winkel.soccer-games.nl/wp-admin/:pad*", "permanent": false },
+    { "source": "/wp-login.php", "destination": "https://winkel.soccer-games.nl/wp-login.php", "permanent": false },
+    { "source": "/mijn-account/:pad*", "destination": "https://winkel.soccer-games.nl/mijn-account/:pad*", "permanent": false },
+    { "source": "/wp-content/:pad*", "destination": "https://winkel.soccer-games.nl/wp-content/:pad*", "permanent": true },
+    { "source": "/wp-includes/:pad*", "destination": "https://winkel.soccer-games.nl/wp-includes/:pad*", "permanent": true },
+    { "source": "/wp-json/:pad*", "destination": "https://winkel.soccer-games.nl/wp-json/:pad*", "permanent": true },
+    { "source": "/algemene-voorwaarden", "destination": "https://winkel.soccer-games.nl/algemene-voorwaarden", "permanent": true },
+    { "source": "/privacy-voorwaarden", "destination": "https://winkel.soccer-games.nl/privacy-voorwaarden", "permanent": true },
+    { "source": "/winkel", "destination": "/shop", "permanent": true },
+    { "source": "/product-categorie/:pad*", "destination": "/shop", "permanent": true },
+    { "source": "/winkelwagen", "destination": "/", "permanent": true }
+  ],
   "headers": [
     {
       "source": "/(.*)",
@@ -20,6 +34,12 @@
       "source": "/media/(.*)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=2592000, immutable" }
+      ]
+    },
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=3600, must-revalidate" }
       ]
     }
   ]
