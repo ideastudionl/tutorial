@@ -219,6 +219,17 @@
     font-size:13px; color:var(--ink); text-decoration:none; background:#FBF9F5;
   }
 
+  /* ---- Sticky header: verfijnde scroll-staat ---- */
+  .site-header { transition: box-shadow .3s ease, background-color .3s ease; }
+  .site-header.is-scrolled { background:rgba(247,244,239,.97); box-shadow:0 6px 22px -14px rgba(22,19,15,.32); }
+  @media (min-width:921px){
+    .header__inner, .logo__name { transition:height .32s cubic-bezier(.2,.7,.15,1), font-size .32s cubic-bezier(.2,.7,.15,1); }
+    .site-header.is-scrolled .header__inner { height:64px; }
+    .site-header.is-scrolled .header__nav { gap:26px; }
+    .site-header.is-scrolled .logo__name { font-size:21px; }
+    .site-header.is-scrolled .logo__sub { display:none; }
+  }
+
   /* ---- MOBIEL: desktop-nav verbergen, hamburger tonen (moet NA de regels hierboven staan) ---- */
   @media (max-width: 920px) {
     .header__nav { display:none !important; }
@@ -352,6 +363,13 @@
       if(window.innerWidth > 920){ closeMenu(); }
       else { setSubHeight(panel && panel.querySelector('[data-m-item].is-open')); }
     });
+
+    var header = document.querySelector('.site-header');
+    if(header){
+      var onScroll = function(){ header.classList.toggle('is-scrolled', (window.scrollY || window.pageYOffset) > 8); };
+      window.addEventListener('scroll', onScroll, { passive:true });
+      onScroll();
+    }
   })();
 </script>
 
