@@ -141,5 +141,20 @@ voorkomen — ook in de structured data.
 Verander je een tarief, een plaats of een dienst, draai dan `cd video && npm run og`
 en commit het resultaat mee: anders blijven de deelafbeeldingen het oude tarief tonen.
 
-Elke push naar `main` zet Vercel automatisch live. Een push naar een andere branch
-levert een preview-URL op, zodat je een wijziging eerst kunt bekijken.
+### Publiceren
+
+De productiebranch van dit project is de standaardbranch van de repository. Elke
+push daarheen zet Vercel automatisch live; een push naar een andere branch levert
+een preview-URL op, zodat je een wijziging eerst kunt bekijken voordat klanten hem
+zien. Stel diezelfde branch in Vercel in als Production Branch.
+
+### Via Claude
+
+Je kunt wijzigingen ook vragen in plaats van zelf coderen. Open de repository in
+[Claude Code op het web](https://claude.ai/code), beschrijf wat er moet veranderen,
+en laat het resultaat naar een branch pushen. Vercel bouwt daar een preview van.
+Ben je tevreden, dan merge je die branch naar de productiebranch en staat het live.
+
+Werkt goed als opdracht: "zet het tarief voor plafonds op € 19", "voeg Zaandijk toe
+als werkgebied", "vervang de reviews door deze vijf". Wat je erbij moet zeggen: of
+de deelafbeeldingen opnieuw gegenereerd moeten worden.
