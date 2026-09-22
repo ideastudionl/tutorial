@@ -9,7 +9,7 @@
           <div class="header__nav-item has-sub">
             <a href="{{ link.url }}" class="header__nav-link" aria-haspopup="true" aria-expanded="false">
               {{ link.title }}
-              {%- if forloop.first -%}<span class="new-dot"></span>{%- endif -%}
+              {%- if false -%}<span class="new-dot"></span>{%- endif -%}
               <svg class="caret" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
             </a>
             <div class="header__submenu">
@@ -23,7 +23,7 @@
         {%- else -%}
           <a href="{{ link.url }}" class="header__nav-link">
             {{ link.title }}
-            {%- if forloop.first -%}<span class="new-dot"></span>{%- endif -%}
+            {%- if false -%}<span class="new-dot"></span>{%- endif -%}
           </a>
         {%- endif -%}
       {%- endfor -%}
@@ -219,6 +219,8 @@
     font-size:13px; color:var(--ink); text-decoration:none; background:#FBF9F5;
   }
 
+  /* ---- Sticky op de Shopify-sectiewrapper: anders zit position:sticky opgesloten in de wrapper en scrollt hij mee weg ---- */
+  #shopify-section-{{ section.id }} { position:sticky; top:0; z-index:60; }
   /* ---- Sticky header: verfijnde scroll-staat ---- */
   .site-header { transition: box-shadow .3s ease, background-color .3s ease; }
   .site-header.is-scrolled { background:rgba(247,244,239,.97); box-shadow:0 6px 22px -14px rgba(22,19,15,.32); }
