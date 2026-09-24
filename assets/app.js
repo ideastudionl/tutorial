@@ -269,6 +269,7 @@
       return;
     }
     if (pad === '/afrekenen') { show('afrekenen'); setTimeout(startCheckout, 0); return; }
+    if (pad === '/bedankt') { show('bedankt'); setTimeout(toonBedankt, 0); return; }
     /* De shoppagina staat tijdelijk uit: wie het adres nog heeft, komt op de
        homepagina uit. Zet SHOP_AAN op true om hem terug te zetten. */
     if (pad === '/shop') {
@@ -1297,9 +1298,11 @@
         payment_method: co.method,
         extensions: {}
       }).then(function (order) {
+        bewaarBestelling(order);
         var result = order.payment_result || {};
         if (result.redirect_url) { window.location.href = result.redirect_url; return; }
-        coAlert('Bestelling ' + order.order_id + ' is aangemaakt, maar de betaalpagina gaf geen adres terug.');
+        /* Geen betaalpagina nodig (bijvoorbeeld bankoverschrijving): meteen bedanken. */
+        naar('/bedankt', '');
       }).catch(function (err) {
         var data = err.data || {};
         if (data.data && data.data.params) {
@@ -1314,6 +1317,173 @@
         $('#coSubmit').disabled = false;
       });
     });
+  }
+
+  /* =============================================================
+     Bedankpagina
+     Na het betalen stuurt Mollie de klant terug naar /bedankt?order=..&key=..
+     (zie de snippet in docs/livegang.md). De status komt uit WooCommerce zelf,
+     want alleen die weet of het geld binnen is. Kan de winkel de bestelling
+     niet teruggeven, dan tonen we wat we bij het afrekenen zelf opsloegen.
+     ============================================================= */
+  var BESTELLING = 'soccer-games-laatste-bestelling';
+
+  function bewaarBestelling(order) {
+    try {
+      localStorage.setItem(BESTELLING, JSON.stringify({
+        id: order.order_id,
+        key: order.order_key || '',
+        status: order.status || '',
+        totaal: order.totals && order.totals.total_price,
+        unit: order.totals && order.totals.currency_minor_unit,
+        regels: (order.items || []).map(function (i) {
+          return { naam: i.name, aantal: i.quantity, bedrag: i.totals && i.totals.line_total };
+        }),
+        tijd: Date.now()
+      }));
+    } catch (e) { /* privémodus: dan doen we het zonder */ }
+  }
+
+  function laatsteBestelling() {
+    try {
+      var ruw = localStorage.getItem(BESTELLING);
+      return ruw ? JSON.parse(ruw) : null;
+    } catch (e) { return null; }
+  }
+
+  var STATUSSEN = {
+    processing: { toon: 'gelukt', icoon: 'ic-check', titel: 'Betaling ontvangen',
+      tekst: 'Je bestelling staat klaar om ingepakt te worden. De bevestiging ligt zo in je mailbox.' },
+    completed: { toon: 'gelukt', icoon: 'ic-truck', titel: 'Je bestelling is onderweg',
+      tekst: 'Het pakket is verzonden. Volgens PostNL ligt het meestal de volgende dag op de mat.' },
+    'on-hold': { toon: 'wacht', icoon: 'ic-clock', titel: 'We wachten op je overboeking',
+      tekst: 'Zodra het bedrag binnen is, pakken we je bestelling in. Je krijgt daar bericht van.' },
+    pending: { toon: 'wacht', icoon: 'ic-clock', titel: 'De betaling is nog niet afgerond',
+      tekst: 'Je bestelling staat klaar, alleen het geld is nog niet binnen. Je kunt het opnieuw proberen.' },
+    failed: { toon: 'mis', icoon: 'ic-close', titel: 'De betaling is niet gelukt',
+      tekst: 'Er is niets afgeschreven. Je bestelling staat nog klaar, dus je kunt het gewoon opnieuw proberen.' },
+    cancelled: { toon: 'mis', icoon: 'ic-close', titel: 'Je hebt de betaling afgebroken',
+      tekst: 'Er is niets afgeschreven. Wil je toch bestellen, dan kun je de betaling hervatten.' },
+    refunded: { toon: 'wacht', icoon: 'ic-clock', titel: 'Deze bestelling is terugbetaald',
+      tekst: 'Het bedrag staat binnen een paar werkdagen op je rekening.' }
+  };
+
+  var GELUKT = { processing: 1, completed: 1, 'on-hold': 1 };
+
+  function bedanktParams() {
+    var q = {};
+    (location.search || '').replace(/^\?/, '').split('&').forEach(function (deel) {
+      if (!deel) return;
+      var los = deel.split('=');
+      q[decodeURIComponent(los[0])] = decodeURIComponent((los[1] || '').replace(/\+/g, ' '));
+    });
+    /* In hashmodus hangt de querystring achter het adres: #/bedankt?order=12 */
+    var h = (location.hash || '').split('?')[1];
+    if (h) {
+      h.split('&').forEach(function (deel) {
+        var los = deel.split('=');
+        q[decodeURIComponent(los[0])] = decodeURIComponent((los[1] || '').replace(/\+/g, ' '));
+      });
+    }
+    return q;
+  }
+
+  function bedanktZet(toon, icoon, titel, tekst) {
+    var vak = $('[data-route="bedankt"] .bedankt');
+    if (vak) vak.className = 'bedankt' + (toon ? ' bedankt--' + toon : '');
+    var svg = $('#bedanktIcoon use');
+    if (svg) svg.setAttribute('href', '#' + icoon);
+    $('#bedanktTitel').textContent = titel;
+    $('#bedanktTekst').textContent = tekst;
+  }
+
+  function bedanktOverzicht(order, opslag) {
+    var vak = $('#bedanktOverzicht');
+    if (!vak) return;
+    var unit = (order && order.totals && order.totals.currency_minor_unit);
+    var regels = (order && order.items) ? order.items.map(function (i) {
+      return { naam: i.name, aantal: i.quantity, bedrag: i.totals && i.totals.line_total };
+    }) : (opslag ? opslag.regels : []);
+    var totaal = (order && order.totals && order.totals.total_price) || (opslag && opslag.totaal);
+    if (unit == null && opslag) unit = opslag.unit;
+
+    if (!regels || !regels.length) { vak.hidden = true; return; }
+    vak.innerHTML = '<h2>Wat je besteld hebt</h2>' +
+      regels.map(function (r) {
+        return '<div class="co-line"><span>' + r.aantal + ' × ' + esc(r.naam) + '</span><span>' +
+          (r.bedrag != null ? money(r.bedrag, unit) : '') + '</span></div>';
+      }).join('') +
+      (totaal != null ? '<div class="co-line co-line--total"><span>Totaal</span><span>' +
+        money(totaal, unit) + '</span></div>' : '');
+    vak.hidden = false;
+  }
+
+  function bedanktActies(order, id, sleutel, gelukt) {
+    var vak = $('#bedanktActies');
+    if (!vak) return;
+    var knoppen = [];
+    if (!gelukt && id && sleutel) {
+      knoppen.push('<a class="btn btn--primary" href="' + SHOP + CHECKOUT_PATH + 'order-pay/' + id +
+        '/?pay_for_order=true&key=' + encodeURIComponent(sleutel) + '">Betaling hervatten</a>');
+    }
+    knoppen.push('<a class="btn btn--ghost" href="' + adres('/') + '"' + (PADEN ? ' data-link' : ' data-link') +
+      '>Verder winkelen</a>');
+    vak.innerHTML = knoppen.join('');
+  }
+
+  var bedanktPogingen = 0;
+
+  function toonBedankt() {
+    var q = bedanktParams();
+    var opslag = laatsteBestelling();
+    var id = q.order || (opslag && opslag.id);
+    var sleutel = q.key || (opslag && opslag.key);
+
+    $('#bedanktNummer').textContent = id ? 'Bestelling #' + id : 'Je bestelling';
+    $('#bedanktStappen').hidden = true;
+
+    if (!id) {
+      bedanktZet('', 'ic-check', 'Bedankt voor je bestelling',
+        'We hebben hier geen bestelnummer, maar je bevestiging komt per mail. Staat er niets in je inbox? Kijk even in de spam.');
+      bedanktActies(null, null, null, true);
+      return;
+    }
+
+    /* Vlak na het betalen staat de bestelling soms nog even op "pending", omdat
+       de melding van Mollie nog binnen moet komen. Daarom kijken we een paar
+       keer opnieuw voordat we zeggen dat het misging. */
+    storeGet('/order/' + id + (sleutel ? '?key=' + encodeURIComponent(sleutel) : ''))
+      .then(function (order) {
+        var status = (order && order.status) || 'pending';
+        if (status === 'pending' && bedanktPogingen < 4) {
+          bedanktPogingen++;
+          setTimeout(toonBedankt, 2000);
+          return;
+        }
+        var s = STATUSSEN[status] || STATUSSEN.pending;
+        var gelukt = Boolean(GELUKT[status]);
+        bedanktZet(s.toon, s.icoon, s.titel, s.tekst);
+        bedanktOverzicht(order, opslag);
+        $('#bedanktStappen').hidden = !gelukt;
+        bedanktActies(order, id, sleutel, gelukt);
+        if (gelukt) leegWinkelwagen();
+      })
+      .catch(function () {
+        /* De winkel geeft de bestelling niet terug: oudere WooCommerce, of geen
+           sleutel. Dan bedanken we op basis van wat we zelf opsloegen. */
+        bedanktZet('', 'ic-check', 'Bedankt voor je bestelling',
+          'We hebben je bestelling ontvangen. De bevestiging met alle details komt per mail.');
+        bedanktOverzicht(null, opslag);
+        $('#bedanktStappen').hidden = false;
+        bedanktActies(null, id, sleutel, true);
+        leegWinkelwagen();
+      });
+  }
+
+  function leegWinkelwagen() {
+    if (!cart.length) return;
+    cart = [];
+    renderCart();
   }
 
   /* Laadt het logobestand niet, dan verschijnt het woordmerk als terugval. */

@@ -173,22 +173,57 @@ Los van de verhuizing, maar wel vóór de eerste echte bestelling:
 
 ## De bedankpagina na het betalen
 
-Mollie stuurt de klant na het betalen naar de bedankpagina van WooCommerce, dus
-naar `winkel.soccer-games.nl`. Twee keuzes:
+De bedankpagina staat op deze site: `/bedankt`. Hij vraagt de status van de
+bestelling op bij WooCommerce, want alleen de winkel weet of het geld binnen is,
+en toont per uitkomst iets anders:
 
-1. Laat hem daar en geef hem de huisstijl mee met `assets/woo-checkout.css`.
-   Een uur werk, maar de klant ziet een ander adres in de balk.
-2. Stuur hem terug naar deze site met een filter in het thema:
+| Status in WooCommerce | Wat de klant ziet |
+|---|---|
+| processing | Betaling ontvangen, met de drie stappen die volgen |
+| completed | Je bestelling is onderweg |
+| on-hold | We wachten op je overboeking |
+| pending | Betaling nog niet afgerond, met een knop om te hervatten |
+| failed | Betaling niet gelukt, met een knop om te hervatten |
+| cancelled | Je hebt de betaling afgebroken, met een knop om te hervatten |
+| refunded | Deze bestelling is terugbetaald |
 
-   ```php
-   add_filter( 'woocommerce_get_return_url', function ( $url, $order ) {
-       return 'https://www.soccer-games.nl/bedankt?order=' . $order->get_id()
-            . '&key=' . $order->get_order_key();
-   }, 10, 2 );
-   ```
+Vlak na het betalen staat een bestelling soms nog even op `pending`, omdat de
+melding van Mollie nog binnen moet komen. De pagina kijkt daarom vier keer
+opnieuw, met twee tellen ertussen, voordat hij zegt dat er iets misging.
 
-   Dan bouw ik hier een bedankpagina die met dat ordernummer de bevestiging
-   toont. Een halve dag werk.
+Geeft de winkel de bestelling niet terug (oudere WooCommerce, of een ontbrekende
+sleutel), dan bedankt de pagina op basis van wat de site bij het afrekenen zelf
+opsloeg. De klant staat dus nooit voor een lege pagina.
+
+### Wat jij in WordPress moet zetten
+
+Eén filter in het thema (`functions.php` van je childthema, of via Code
+Snippets). Zonder dit komt de klant na het betalen op de bedankpagina van
+WooCommerce terecht:
+
+```php
+add_filter( 'woocommerce_get_return_url', function ( $url, $order ) {
+    if ( ! $order ) {
+        return $url;
+    }
+    return add_query_arg( array(
+        'order' => $order->get_id(),
+        'key'   => $order->get_order_key(),
+    ), 'https://www.soccer-games.nl/bedankt' );
+}, 10, 2 );
+```
+
+Test je nog op het Vercel-adres, zet daar dan `https://soccer-memo-shop.vercel.app/bedankt`
+neer en pas het aan bij de omzetting.
+
+De sleutel in het adres is de `order_key` die WooCommerce zelf aanmaakt. Zonder
+die sleutel geeft de Store API de bestelling niet vrij, dus kan niemand met een
+gegokt bestelnummer andermans bestelling inzien.
+
+**Bij de testbestelling controleren:** breek de betaling bij Mollie ook een keer
+af. In de meeste opstellingen komt de klant dan op dezelfde bedankpagina uit, met
+de status `cancelled` of `pending`. Stuurt jouw Mollie-instelling de klant naar
+de WooCommerce-winkelwagen, laat het me dan weten; dan vang ik dat adres ook af.
 
 De bevestigingsmail komt hoe dan ook uit WooCommerce.
 

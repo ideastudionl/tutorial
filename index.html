@@ -815,6 +815,33 @@
 </div>
 
 <!-- =========================================================
+     BEDANKT: wat er na het betalen gebeurt
+     ========================================================= -->
+<div data-route="bedankt">
+  <div class="wrap">
+    <section class="bedankt" aria-live="polite">
+      <span class="bedankt__ring" id="bedanktRing" aria-hidden="true">
+        <svg id="bedanktIcoon"><use href="#ic-clock"></use></svg>
+      </span>
+      <p class="eyebrow" id="bedanktNummer">Je bestelling</p>
+      <h1 id="bedanktTitel">Moment, we halen je bestelling op</h1>
+      <p class="lead" id="bedanktTekst">Dit duurt een paar tellen.</p>
+
+      <div class="bedankt__kaart" id="bedanktOverzicht" hidden></div>
+
+      <ol class="bedankt__stappen" id="bedanktStappen" hidden>
+        <li><b>Bevestiging per mail</b><span>Binnen een paar minuten in je inbox, met je bestelnummer.</span></li>
+        <li><b>Wij pakken in</b><span>Voor 22:00 besteld op een werkdag? Dan gaat je pakket vandaag nog weg.</span></li>
+        <li><b>PostNL bezorgt</b><span>Meestal de volgende dag. Je krijgt een track-and-tracecode van PostNL.</span></li>
+      </ol>
+
+      <div class="bedankt__acties" id="bedanktActies"></div>
+      <p class="co-hint" id="bedanktHulp">Iets niet duidelijk? Mail <a href="mailto:hallo@soccer-games.nl">hallo@soccer-games.nl</a> met je bestelnummer erbij.</p>
+    </section>
+  </div>
+</div>
+
+<!-- =========================================================
      SHOP: alle producten uit WooCommerce
      ========================================================= -->
 <div data-route="shop">

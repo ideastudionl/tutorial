@@ -10,7 +10,7 @@
 
 const STORE = process.env.WOO_STORE_URL || 'https://www.soccer-games.nl/wp-json/wc/store/v1';
 const TOKEN_COOKIE = 'cart-token';
-const ALLOWED = /^(cart|checkout|products)(\/|$)/;
+const ALLOWED = /^(cart|checkout|products|order)(\/|$)/;
 
 function readCookie(header, name) {
   return (header || '').split(';')

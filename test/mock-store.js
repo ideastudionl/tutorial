@@ -8,6 +8,7 @@ let shippingChosen = false;
 let coupons = [];
 let items = [];          /* { key, id, quantity } */
 let nextKey = 1;
+let orderStatus = 'processing';   /* te zetten via /status?s=failed */
 
 const discount = () => (coupons.length ? 250 : 0);
 
@@ -114,7 +115,29 @@ http.createServer((req, res) => {
       res.end(JSON.stringify(found));
       return;
     }
-    if (path === '/reset') { items = []; coupons = []; shippingChosen = false; res.end('{}'); return; }
+    if (path === '/reset') { items = []; coupons = []; shippingChosen = false; orderStatus = 'processing'; res.end('{}'); return; }
+    if (path === '/status') {
+      orderStatus = new URL(req.url, 'http://x').searchParams.get('s') || 'processing';
+      res.end(JSON.stringify({ orderStatus }));
+      return;
+    }
+    if (path.startsWith('/order/')) {
+      const id = path.split('/')[2];
+      const sleutel = new URL(req.url, 'http://x').searchParams.get('key');
+      if (sleutel !== 'wc_order_test') {
+        res.writeHead(401).end(JSON.stringify({ message: 'Sleutel klopt niet' }));
+        return;
+      }
+      res.end(JSON.stringify({
+        id: Number(id), status: orderStatus, order_key: sleutel,
+        items: [
+          { name: 'Soccer Memo', quantity: 2, totals: { line_total: '2990', currency_minor_unit: unit } },
+          { name: 'Voetbalpuzzel stadions', quantity: 1, totals: { line_total: '2450', currency_minor_unit: unit } }
+        ],
+        totals: { total_price: '5835', total_shipping: '395', currency_minor_unit: unit }
+      }));
+      return;
+    }
 
     if (path === '/cart/add-item') {
       const line = items.find((i) => i.id === data.id);
@@ -137,8 +160,13 @@ http.createServer((req, res) => {
     if (path === '/cart/remove-coupon') coupons = [];
     if (path === '/checkout') {
       console.log('BESTELLING:', JSON.stringify(data));
-      res.end(JSON.stringify({ order_id: 4242, status: 'pending',
-        payment_result: { payment_status: 'success', redirect_url: 'https://www.mollie.com/checkout/test' } }));
+      res.end(JSON.stringify({
+        order_id: 4242, status: 'pending', order_key: 'wc_order_test',
+        items: items.map((i) => ({ name: CATALOGUS[i.id].name, quantity: i.quantity,
+          totals: lineTotals(i.id, i.quantity) })),
+        totals: cart().totals,
+        payment_result: { payment_status: 'success', redirect_url: 'https://www.mollie.com/checkout/test' }
+      }));
       return;
     }
     res.end(JSON.stringify(cart()));
