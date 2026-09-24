@@ -65,7 +65,10 @@ module.exports = async function handler(req, res) {
     return;
   }
 
-  const fresh = upstream.headers.get('cart-token');
+  /* Op een productverzoek nooit een cookie zetten. Twee redenen: een antwoord
+     met Set-Cookie wordt aan de rand van het netwerk niet bewaard, en de
+     winkelwagen van de bezoeker zou overschreven worden door een verse, lege. */
+  const fresh = leesbaar ? null : upstream.headers.get('cart-token');
   if (fresh && fresh !== token) {
     res.setHeader('Set-Cookie',
       TOKEN_COOKIE + '=' + encodeURIComponent(fresh) + '; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=1209600');
