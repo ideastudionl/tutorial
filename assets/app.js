@@ -108,7 +108,31 @@
   }
 
   function orderable(line) { return (line.units || []).length > 0; }
+
+  /* De winkelwagen stond alleen in het geheugen: wie de pagina verversde, of
+     terugkwam van een mislukte betaling, was zijn mandje kwijt. Nu blijft hij
+     een dag staan in de browser van de bezoeker zelf. */
+  var WAGEN = 'soccer-games-winkelwagen';
+  var WAGEN_DAGEN = 1;
+
+  function bewaarWagen() {
+    try {
+      localStorage.setItem(WAGEN, JSON.stringify({ tijd: Date.now(), regels: cart }));
+    } catch (e) { /* privémodus: dan alleen deze sessie */ }
+  }
+
+  function laadWagen() {
+    try {
+      var ruw = localStorage.getItem(WAGEN);
+      if (!ruw) return;
+      var opslag = JSON.parse(ruw);
+      var oud = Date.now() - (opslag.tijd || 0) > WAGEN_DAGEN * 86400000;
+      if (oud || !Array.isArray(opslag.regels)) { localStorage.removeItem(WAGEN); return; }
+      cart = opslag.regels.filter(function (l) { return l && l.key && l.qty > 0; });
+    } catch (e) { /* onleesbaar: dan beginnen we leeg */ }
+  }
   function renderCart() {
+    bewaarWagen();
     var count = cart.reduce(function (s, l) { return s + l.qty; }, 0);
     $('#cartCount').textContent = count;
 
@@ -150,7 +174,19 @@
       : 'Gelukt! Jouw bestelling wordt gratis verzonden';
     $('#shipFill').style.width = Math.min(100, (total / FREE_SHIPPING) * 100) + '%';
   }
+  /* De eerste call naar de winkel is de traagste: de serverfunctie moet opstarten
+     en WooCommerce moet een winkelwagen aanmaken. Dat doen we alvast zodra de
+     bezoeker zijn eerste artikel in de mand legt, dan is de afrekenpagina
+     straks meteen gevuld. */
+  var warmGedraaid = false;
+  function warmDraaien() {
+    if (warmGedraaid) return;
+    warmGedraaid = true;
+    api('/cart').then(function (data) { rememberCart(data); }).catch(function () { warmGedraaid = false; });
+  }
+
   function openCart() {
+    warmDraaien();
     drawer.classList.add('is-on'); scrim.classList.add('is-on');
     drawer.setAttribute('aria-hidden', 'false');
     $('#drawerClose').focus();
@@ -1153,6 +1189,8 @@
     if (co.busy) return;
     co.busy = true;
     coAlert('');
+    /* Is de winkelwagen al opgehaald, toon dan meteen iets terwijl we bijwerken. */
+    if (co.cart) { renderSummary(); renderShipping(); renderPayment(); }
     /* Vast bedrag in de kop, zodat het overzicht ook dichtgeklapt iets zegt */
     if ($('#coSumTotal')) $('#coSumTotal').textContent = euro.format(cartTotal());
     api('/cart')
@@ -1161,6 +1199,22 @@
            bijwerken, weghalen wat er niet meer in hoort en de rest toevoegen.
            Dat gaat na elkaar, want elke call geeft een nieuw cart-token terug. */
         var want = wooWanted();
+
+        /* Weet deze browser van geen enkel artikel, maar heeft de winkel er nog
+           wel? Dan nemen we die over in plaats van hem leeg te gooien. Dat kan
+           gebeuren na een herstart of vanaf een ander tabblad. */
+        if (!cart.length && (data.items || []).length) {
+          cart = data.items.map(function (i) {
+            var unit = i.prices && i.prices.currency_minor_unit;
+            var img = (i.images || [])[0];
+            return { key: 'p' + i.id, name: i.name, sub: 'Uit je winkelwagen',
+              price: fromMinor(i.prices.price, unit), photo: img && (img.thumbnail || img.src),
+              art: 'art-box', units: [{ id: i.id, per: 1 }], qty: i.quantity };
+          });
+          renderCart();
+          return data;
+        }
+
         var steps = [];
 
         (data.items || []).forEach(function (item) {
@@ -1564,5 +1618,6 @@
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeNav(); });
   narrow.addEventListener && narrow.addEventListener('change', closeNav);
 
+  laadWagen();
   renderCart();
 })();

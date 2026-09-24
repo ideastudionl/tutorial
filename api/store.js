@@ -30,7 +30,14 @@ module.exports = async function handler(req, res) {
     .join('/');
   const ownQuery = cut < 0 ? '' : raw.slice(cut + 1);
 
-  res.setHeader('Cache-Control', 'no-store');
+  /* Een winkelwagen is van één bezoeker en mag nooit bewaard worden. Producten
+     zijn voor iedereen gelijk: die laten we twee minuten aan de rand van het
+     netwerk staan, en daarna nog tien minuten uitserveren terwijl we ze op de
+     achtergrond verversen. Dat scheelt de bezoeker de hele reis naar WordPress. */
+  const leesbaar = req.method === 'GET' && /^products(\/|$)/.test(path);
+  res.setHeader('Cache-Control', leesbaar
+    ? 'public, s-maxage=120, stale-while-revalidate=600'
+    : 'no-store');
 
   if (!ALLOWED.test(path)) {
     res.status(404).json({ message: 'Onbekend pad: ' + path });
