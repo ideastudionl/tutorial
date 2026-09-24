@@ -28,8 +28,17 @@ const serviceSchema = {
   areaServed: { '@type': 'City', name: site.city },
   ...(service.rate ? { offers: { '@type': 'Offer', price: service.rate, priceCurrency: 'EUR', unitText: 'm²' } } : {}),
 };
+
+// Een description van 60 tekens laat de helft van het zoekresultaat leeg.
+// Aanvullen met prijs, garantie en werkgebied brengt hem op zo'n 150.
+const metaDescription = [
+  service.short,
+  service.rate ? `Vanaf ${service.priceLabel}, vaste prijs vooraf` : 'Vaste prijs vooraf',
+  `en ${site.warrantyYears} jaar garantie.`,
+  `Stukadoor in ${site.city} e.o.`,
+].join(' ');
 ---
-<Base title={service.title} description={service.short} crumbs={crumbs} schema={[serviceSchema]} noModal>
+<Base title={service.title} description={metaDescription} crumbs={crumbs} schema={[serviceSchema]} noModal>
   <div class="ifs-page-head">
     <div class="ifs-container">
       <Breadcrumbs items={crumbs} />

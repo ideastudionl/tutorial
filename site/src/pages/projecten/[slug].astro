@@ -18,8 +18,13 @@ const crumbs = [
   { name: 'Projecten', url: '/projecten/' },
   { name: project.title, url: `/projecten/${project.slug}/` },
 ];
+
+// Samenvatting plus de feiten die iemand in een zoekresultaat wil zien.
+const metaDescription =
+  `${project.summary} Uitgevoerd in ${project.city}: ${project.surface} in ${project.duration}. ` +
+  `Bekijk het resultaat.`;
 ---
-<Base title={project.title} description={project.summary} crumbs={crumbs}>
+<Base title={project.title} description={metaDescription} crumbs={crumbs}>
   <div class="ifs-page-head">
     <div class="ifs-container">
       <Breadcrumbs items={crumbs} />

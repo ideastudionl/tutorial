@@ -10,7 +10,7 @@ import { headlineRate } from '../data/services';
 const crumbs = [{ name: 'Home', url: '/' }, { name: 'Offerte aanvragen', url: '/offerte/' }];
 const price = headlineRate.toFixed(2).replace('.', ',');
 ---
-<Base title="Offerte aanvragen" description={`Vraag in drie minuten een vrijblijvende offerte aan voor stucwerk of schilderwerk. Vanaf € ${price} per m².`} crumbs={crumbs} noModal>
+<Base title="Offerte aanvragen" description={`Vraag in drie minuten een vrijblijvende offerte aan voor stucwerk of schilderwerk, vanaf € ${price} per m². Je ziet direct een richtprijs.`} crumbs={crumbs} noModal>
   <div class="ifs-page-head">
     <div class="ifs-container">
       <Breadcrumbs items={crumbs} />

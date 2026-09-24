@@ -35,7 +35,10 @@ const steps = [
 ];
 ---
 <Base
-  title={`Stukadoor ${site.city} — ${site.name}`}
+  // Niet "Stukadoor Amsterdam": die exacte titel hoort bij
+  // /stukadoor/amsterdam/. Twee pagina's met dezelfde titel concurreren met
+  // elkaar in Google in plaats van elkaar te versterken.
+  title={`Stukadoor in ${site.city} en omstreken — ${site.name}`}
   description={`Stukadoor in ${site.city} en omstreken. Glad stucwerk vanaf € ${price} per m², sierpleister, betonlook en schilderwerk. Vaste prijs vooraf en ${site.warrantyYears} jaar garantie.`}
   schema={[faqSchema(faq)]}
   noModal={false}
