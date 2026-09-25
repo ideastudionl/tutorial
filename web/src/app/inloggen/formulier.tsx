@@ -8,10 +8,13 @@ export function InlogFormulier({ verder }: { verder?: string }) {
   const router = useRouter();
   const [bezig, setBezig] = useState(false);
   const [fout, setFout] = useState<string | null>(null);
+  // Tijdelijk, om op afstand te kunnen meekijken. Weghalen voor productie.
+  const [detail, setDetail] = useState<string | null>(null);
 
   async function verstuur(formData: FormData) {
     setBezig(true);
     setFout(null);
+    setDetail(null);
 
     const supabase = createBrowserClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -39,6 +42,8 @@ export function InlogFormulier({ verder }: { verder?: string }) {
           // e-mailadres bestaat.
           : 'E-mailadres of wachtwoord klopt niet.',
       );
+      setDetail(`${error.status ?? '—'} · ${error.code ?? error.name} · ${error.message}`);
+      console.error('inloggen mislukt', error);
       setBezig(false);
       return;
     }
@@ -50,6 +55,11 @@ export function InlogFormulier({ verder }: { verder?: string }) {
   return (
     <form action={verstuur} className="form">
       {fout && <p className="melding melding-fout">{fout}</p>}
+      {detail && (
+        <p style={{ fontSize: '.6875rem', color: 'var(--inkt-60)', fontFamily: 'ui-monospace, monospace', wordBreak: 'break-word' }}>
+          Diagnose: {detail}
+        </p>
+      )}
 
       <div className="veld">
         <label htmlFor="email">E-mailadres</label>
