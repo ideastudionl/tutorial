@@ -45,7 +45,8 @@ alleen een leeg `<div id="root">`, dan is er iets mis.
 
 ## Volgorde
 
-1. Nieuw project in Lovable, `PROMPT.md` als eerste bericht, deze map erbij.
+1. Nieuw project in Lovable met `PROMPT.md` als eerste bericht, en de
+   bestanden van deze map erbij (zie `PROMPT.md` voor hoe).
 2. Supabase aanzetten en `supabase.sql` draaien.
 3. Resend koppelen voor de e-mail.
 4. Deelafbeeldingen en logo erin zetten.

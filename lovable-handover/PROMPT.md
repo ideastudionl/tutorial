@@ -1,10 +1,17 @@
 # Eerste bericht voor Lovable
 
-Plak de tekst hieronder als eerste bericht in een nieuw Lovable-project, en
-sleep de map `lovable-handover/` er als bijlage bij. Alles wat Lovable anders
-zou moeten verzinnen — kleuren, letters, teksten, prijzen, plaatsen, de
-rekenformule — zit in die bestanden. Daardoor hoeft Lovable alleen de opmaak
-te bouwen, en dat scheelt zowel credits als afwijkingen van de huisstijl.
+Plak de tekst hieronder als eerste bericht in een nieuw Lovable-project.
+Alles wat Lovable anders zou moeten verzinnen — kleuren, letters, teksten,
+prijzen, plaatsen, de rekenformule — zit in de bestanden van deze map.
+Daardoor hoeft Lovable alleen de opmaak te bouwen, en dat scheelt zowel
+credits als afwijkingen van de huisstijl.
+
+**De bestanden erbij krijgen.** Via de Lovable-koppeling in Claude kunnen de
+bestanden rechtstreeks worden meegestuurd met dit bericht. Doe je het met de
+hand in Lovable zelf, ga er dan niet van uit dat je `.ts`-bestanden kunt
+slepen — de bijlagefunctie is vooral op afbeeldingen gericht. Plak in dat
+geval de inhoud van `design/tokens.css`, `data/*.ts` en `logica/quote.ts` als
+losse berichten na dit eerste bericht.
 
 ---
 
