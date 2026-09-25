@@ -1,0 +1,158 @@
+{
+  "regions": [
+    "fra1"
+  ],
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    {
+      "source": "/product/:slug",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/shop",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/afrekenen",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/bedankt",
+      "destination": "/index.html"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/wp-admin",
+      "destination": "https://winkel.soccer-games.nl/wp-admin",
+      "permanent": false
+    },
+    {
+      "source": "/wp-admin/:pad*",
+      "destination": "https://winkel.soccer-games.nl/wp-admin/:pad*",
+      "permanent": false
+    },
+    {
+      "source": "/wp-login.php",
+      "destination": "https://winkel.soccer-games.nl/wp-login.php",
+      "permanent": false
+    },
+    {
+      "source": "/mijn-account/:pad*",
+      "destination": "https://winkel.soccer-games.nl/mijn-account/:pad*",
+      "permanent": false
+    },
+    {
+      "source": "/wp-content/:pad*",
+      "destination": "https://winkel.soccer-games.nl/wp-content/:pad*",
+      "permanent": true
+    },
+    {
+      "source": "/wp-includes/:pad*",
+      "destination": "https://winkel.soccer-games.nl/wp-includes/:pad*",
+      "permanent": true
+    },
+    {
+      "source": "/wp-json/:pad*",
+      "destination": "https://winkel.soccer-games.nl/wp-json/:pad*",
+      "permanent": true
+    },
+    {
+      "source": "/algemene-voorwaarden",
+      "destination": "https://winkel.soccer-games.nl/algemene-voorwaarden",
+      "permanent": true
+    },
+    {
+      "source": "/privacy-voorwaarden",
+      "destination": "https://winkel.soccer-games.nl/privacy-voorwaarden",
+      "permanent": true
+    },
+    {
+      "source": "/afrekenen/order-pay/:pad*",
+      "destination": "https://winkel.soccer-games.nl/afrekenen/order-pay/:pad*",
+      "permanent": false
+    },
+    {
+      "source": "/afrekenen/order-received/:pad*",
+      "destination": "https://winkel.soccer-games.nl/afrekenen/order-received/:pad*",
+      "permanent": false
+    },
+    {
+      "source": "/wc-api/:pad*",
+      "destination": "https://winkel.soccer-games.nl/wc-api/:pad*",
+      "permanent": false
+    },
+    {
+      "source": "/winkel",
+      "destination": "/shop",
+      "permanent": true
+    },
+    {
+      "source": "/product-categorie/:pad*",
+      "destination": "/shop",
+      "permanent": true
+    },
+    {
+      "source": "/winkelwagen",
+      "destination": "/",
+      "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=63072000; includeSubDomains; preload"
+        }
+      ]
+    },
+    {
+      "source": "/media/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=2592000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "soccer-memo-shop.vercel.app"
+        }
+      ],
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+dist/*
+!dist/standalone.html
+
+# lokale cache van de meegeleverde foto's
+.media-cache/
