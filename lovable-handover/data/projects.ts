@@ -1,0 +1,8 @@
+export type Project = { slug: string; title: string; city: string; surface: string; duration: string; summary: string; body: string };
+
+/** VOORBEELDEN — vervang door echte projecten met foto's. */
+export const projects: Project[] = [
+  { slug: 'herenhuis-oud-zuid', title: 'Herenhuis Oud-Zuid', city: 'Amsterdam', surface: '240 m²', duration: '9 werkdagen', summary: 'Complete woning gestuukt, inclusief herstel van de originele sierlijsten.', body: '<p>Een herenhuis uit 1912 waarvan de wanden en plafonds na decennia behang toe waren aan een volledige opknapbeurt. We hebben het behang verwijderd, scheuren hersteld en alles sausklaar afgewerkt.</p><p>De originele sierlijsten in de voorkamer zijn behouden en bijgewerkt, zodat het karakter van het pand intact bleef.</p>' },
+  { slug: 'badkamer-in-betonstuc', title: 'Badkamer in betonstuc', city: 'Haarlem', surface: '28 m²', duration: '4 werkdagen', summary: 'Naadloze betonciré op wanden en vloer, zonder een enkele voeg.', body: '<p>De opdrachtgever wilde een badkamer zonder tegels en zonder voegen. Betonstuc op wanden én vloer, met een proefvlak vooraf om de kleur en wolking te kiezen.</p><p>Na afdichting is het geheel waterdicht en makkelijk schoon te houden.</p>' },
+  { slug: 'trappenhuizen-vve', title: 'Trappenhuizen VvE', city: 'Hoofddorp', surface: '410 m²', duration: '3 weken', summary: 'Vier portieken voorzien van nieuwe sierpleister en schilderwerk.', body: '<p>Vier trappenhuizen van een VvE uit de jaren tachtig. De oude sierpleister was op veel plekken beschadigd door verhuizingen.</p><p>We hebben per portiek gewerkt zodat bewoners altijd één trappenhuis konden gebruiken, en vooraf bewonersbrieven verzorgd met de planning.</p>' },
+];
