@@ -126,18 +126,6 @@ button{font:inherit;color:inherit}
   min-width:22px;height:22px;padding-inline:6px;border-radius:999px;background:var(--flame);color:#fff;
   font-family:var(--f-mono);font-size:.75rem;display:grid;place-items:center;
 }
-.demo-chip{
-  font-family:var(--f-mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;
-  border:1px dashed var(--line);border-radius:999px;padding:4px 9px;color:var(--muted);
-}
-.demo-chip.is-live{
-  border-style:solid;border-color:color-mix(in srgb,var(--brand) 50%,transparent);color:var(--pitch);
-}
-.demo-chip.is-live::before{
-  content:"";display:inline-block;width:6px;height:6px;border-radius:50%;
-  background:var(--brand);margin-right:6px;vertical-align:1px;
-}
-
 .nav-toggle{
   display:none;position:relative;width:44px;height:44px;flex:none;padding:0;
   border:2px solid var(--line-strong);border-radius:999px;background:var(--surface);cursor:pointer;
@@ -563,8 +551,6 @@ button{font:inherit;color:inherit}
   .usps{overflow-x:auto;-webkit-overflow-scrolling:touch}
 }
 @media (max-width:560px){
-  /* De demo-chip is voor de klant, niet voor de koper: op kleine schermen weg */
-  .demo-chip{display:none}
   .logo__img{height:32px}
 }
 @media (max-width:460px){

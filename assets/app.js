@@ -774,13 +774,6 @@
       });
     }
 
-    var chip = $('#dataChip');
-    if (chip) {
-      chip.textContent = 'Live uit WooCommerce';
-      chip.title = 'Prijs, voorraad, tekst en foto\'s komen rechtstreeks uit de winkel';
-      chip.classList.add('is-live');
-    }
-
     renderCart();
     paint();
   }
