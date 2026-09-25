@@ -14,6 +14,11 @@ import { supabaseServer } from '@/lib/supabase/server';
  *
  * Er is bewust geen gereedschap dat SQL uitvoert, bestanden schrijft
  * of opmaak aanpast. Wat hier niet staat, kan de chat niet.
+ *
+ * Geen `strict: true` op de schema's: dat stelt eisen aan geneste
+ * objecten met optionele velden waar `velden` niet aan voldoet, en een
+ * 400 zou de hele functie breken. De echte controle zit toch op de
+ * server — zie TOEGESTANE_VELDEN en de uitvoerroute.
  */
 
 export const LEESGEREEDSCHAP = [
@@ -35,7 +40,6 @@ export const LEESGEREEDSCHAP = [
       required: [] as string[],
       additionalProperties: false,
     },
-    strict: true,
   },
   {
     name: 'toon_vacature',
@@ -46,7 +50,6 @@ export const LEESGEREEDSCHAP = [
       required: ['id'],
       additionalProperties: false,
     },
-    strict: true,
   },
   {
     name: 'toon_sectoren',
@@ -57,7 +60,6 @@ export const LEESGEREEDSCHAP = [
       required: [] as string[],
       additionalProperties: false,
     },
-    strict: true,
   },
   {
     name: 'toon_sollicitaties',
@@ -75,7 +77,6 @@ export const LEESGEREEDSCHAP = [
       required: [] as string[],
       additionalProperties: false,
     },
-    strict: true,
   },
 ] satisfies Anthropic.Tool[];
 
@@ -121,7 +122,6 @@ export const SCHRIJFGEREEDSCHAP = [
       required: ['id', 'toelichting', 'velden'],
       additionalProperties: false,
     },
-    strict: true,
   },
 ] satisfies Anthropic.Tool[];
 
