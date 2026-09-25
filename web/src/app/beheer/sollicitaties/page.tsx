@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { supabaseServer } from '@/lib/supabase/server';
 import { datum, SOLLICITATIE_LABEL } from '@/lib/types';
 import type { SollicitatieStatus } from '@/lib/types';
@@ -10,7 +11,7 @@ export default async function Sollicitaties() {
 
   const { data: sollicitaties, error } = await supabase
     .from('sollicitaties')
-    .select('id, naam, telefoon, email, status, bron, bewaren_tot, aangemaakt_op, vacatures(titel, plaats)')
+    .select('id, naam, telefoon, email, status, bron, cv_pad, bewaren_tot, aangemaakt_op, vacatures(titel, plaats)')
     .order('aangemaakt_op', { ascending: false });
 
   return (
@@ -31,7 +32,7 @@ export default async function Sollicitaties() {
               <thead>
                 <tr>
                   <th>Kandidaat</th><th>Vacature</th><th>Status</th>
-                  <th>Bron</th><th>Binnen</th><th>Bewaren tot</th>
+                  <th>Cv</th><th>Binnen</th><th>Bewaren tot</th>
                 </tr>
               </thead>
               <tbody>
@@ -40,7 +41,9 @@ export default async function Sollicitaties() {
                   return (
                     <tr key={s.id}>
                       <td>
-                        <span className="rij-titel">{s.naam}</span>
+                        <Link href={`/beheer/sollicitaties/${s.id}`} className="rij-titel">
+                          {s.naam}
+                        </Link>
                         <span className="rij-sub">{s.telefoon}{s.email ? ` · ${s.email}` : ''}</span>
                       </td>
                       <td>{v ? `${v.titel} — ${v.plaats}` : <span className="rij-sub">Open sollicitatie</span>}</td>
@@ -49,7 +52,7 @@ export default async function Sollicitaties() {
                           {SOLLICITATIE_LABEL[s.status as SollicitatieStatus]}
                         </span>
                       </td>
-                      <td className="rij-sub">{s.bron}</td>
+                      <td className="rij-sub">{s.cv_pad ? 'ja' : '—'}</td>
                       <td className="num">{datum(s.aangemaakt_op)}</td>
                       <td className="num rij-sub">{datum(s.bewaren_tot)}</td>
                     </tr>
@@ -62,8 +65,8 @@ export default async function Sollicitaties() {
           <div className="leeg">
             <p style={{ fontWeight: 600, color: 'var(--inkt)' }}>Nog geen sollicitaties</p>
             <p style={{ fontSize: '.875rem', marginTop: '.4rem' }}>
-              Het sollicitatieformulier op de site is nog niet aangesloten.
-              Dat is het volgende blok: formulier → database → bevestigingsmail.
+              Zodra iemand op de site solliciteert, verschijnt het hier — met cv,
+              motivatie en een bevestigingsmail naar de kandidaat.
             </p>
           </div>
         )}

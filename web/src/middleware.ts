@@ -6,8 +6,8 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    // alles behalve statische bestanden en afbeeldingen
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
-  ],
+  // Alleen waar een sessie toe doet. De publieke site heeft geen
+  // ingelogde gebruiker, dus daar zou elke aanvraag onnodig een
+  // controle bij Supabase doen en de pagina dynamisch maken.
+  matcher: ['/beheer/:path*', '/inloggen', '/uitloggen', '/api/chat/:path*'],
 };
