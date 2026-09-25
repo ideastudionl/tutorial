@@ -7,6 +7,7 @@ const LINKS = [
   { href: '/beheer', label: 'Dashboard', telling: null },
   { href: '/beheer/vacatures', label: 'Vacatures', telling: 'vacatures' },
   { href: '/beheer/sollicitaties', label: 'Sollicitaties', telling: 'sollicitaties' },
+  { href: '/beheer/chat', label: 'Assistent', telling: null },
 ] as const;
 
 export function Zijnav({ vacatures, sollicitaties }: { vacatures: number; sollicitaties: number }) {
