@@ -130,7 +130,9 @@ if (PRODUCTIE) {
   /* De bedankpagina hoort bij één klant, niet in de zoekresultaten. */
   await writeFile('dist/robots.txt',
     `User-agent: *\nAllow: /\nDisallow: /bedankt\nDisallow: /afrekenen\n\nSitemap: ${SITE_URL}/sitemap.xml\n`);
-  const paginas = ['/', '/product/soccer-memo', '/shop'];
+  /* De shoppagina staat uit (SHOP_AAN in app.js); een adres in de sitemap dat
+     nergens heen gaat is een gebroken belofte aan Google. */
+  const paginas = ['/', '/product/soccer-memo'];
   await writeFile('dist/sitemap.xml',
     '<?xml version="1.0" encoding="UTF-8"?>\n' +
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
