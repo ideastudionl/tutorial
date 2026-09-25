@@ -43,16 +43,20 @@
       {%- if p.vendor != blank -%}<div style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#A8884E;font-weight:600">{{ p.vendor }}{% if p.type != blank %} · {{ p.type }}{% endif %}</div>{%- endif -%}
       <h1>{{ p.title }}</h1>
 
-      <div class="pdp__stars" role="img" aria-label="Beoordeeld met 5 van 5 sterren">
-        <span class="pdp__starrow" aria-hidden="true">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg>
-        </span>
-        <span class="pdp__starcount">5,0 · Uitstekend beoordeeld</span>
-      </div>
+      {%- assign bm_rating = p.metafields.reviews.rating -%}
+      {%- assign bm_rating_count = p.metafields.reviews.rating_count.value | default: 0 | plus: 0 -%}
+      {%- if bm_rating != blank and bm_rating_count > 0 -%}
+        {%- assign bm_rv = bm_rating.value.value | default: bm_rating.value -%}
+        {%- assign bm_full = bm_rv | round -%}
+        <div class="pdp__stars" role="img" aria-label="Beoordeeld met {{ bm_rv }} van 5 sterren">
+          <span class="pdp__starrow" aria-hidden="true">
+            {%- for i in (1..5) -%}
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="{% if i <= bm_full %}currentColor{% else %}none{% endif %}" stroke="currentColor" stroke-width="1.3"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg>
+            {%- endfor -%}
+          </span>
+          <span class="pdp__starcount">{{ bm_rv }} · {{ bm_rating_count }} beoordelingen</span>
+        </div>
+      {%- endif -%}
 
       <div class="pdp__price" style="display:flex;align-items:baseline;gap:12px">
         <span>{{ cur.price | money }}</span>
@@ -551,6 +555,32 @@ document.getElementById('sample-add-btn').addEventListener('click', function() {
   @media(max-width:900px){ .pdp-recs > *{ flex:0 0 calc((100% - 20px) / 2); } .pdp-recs-navs{ display:none; } }
   @media(max-width:520px){ .pdp-recs > *{ flex:0 0 82%; } }
 </style>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Product",
+  "name": {{ p.title | json }},
+  "url": {{ shop.url | append: p.url | json }}
+  {%- if p.featured_image != blank %},
+  "image": {{ p.featured_image | image_url: width: 1400 | json }}{% endif %}
+  {%- if p.description != blank %},
+  "description": {{ p.description | strip_html | truncate: 500 | json }}{% endif %}
+  {%- if p.vendor != blank %},
+  "brand": { "@type": "Brand", "name": {{ p.vendor | json }} }{% endif %}
+  {%- if cur.sku != blank %},
+  "sku": {{ cur.sku | json }}{% endif %}
+  {%- if bm_rating != blank and bm_rating_count > 0 %},
+  "aggregateRating": { "@type": "AggregateRating", "ratingValue": {{ bm_rv }}, "reviewCount": {{ bm_rating_count }} }{% endif %},
+  "offers": {
+    "@type": "Offer",
+    "price": {{ cur.price | divided_by: 100.0 }},
+    "priceCurrency": {{ shop.currency | json }},
+    "availability": "https://schema.org/{% if p.available %}InStock{% else %}OutOfStock{% endif %}",
+    "url": {{ shop.url | append: p.url | json }}
+  }
+}
+</script>
 
 {% schema %}
 {
