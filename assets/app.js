@@ -1199,12 +1199,38 @@
     };
   }
 
+  /* Het adres doorgeven aan de winkel kost een volledig WordPress-verzoek en is
+     daarmee het traagste wat de afrekenpagina doet. Het dient maar één doel: de
+     verzendkosten en de btw laten kloppen, en die hangen aan land, postcode en
+     plaats. Naam, huisnummer, e-mail en telefoon veranderen er niets aan; die
+     gaan bij het afrekenen zelf alsnog volledig mee.
+
+     Daarom sturen we alleen als dat drietal echt verandert. En omdat de velden
+     zowel op 'change' als op 'blur' afgaan, wachten we een lopend verzoek af in
+     plaats van er een tweede naast te zetten. */
+  var klantBezig = false, klantWacht = false, klantLaatst = '';
+
+  function verzendVinger(a) {
+    return JSON.stringify([a.country, a.postcode, a.city]);
+  }
+
   function refreshCustomer() {
     var a = addressFromForm();
     if (!a.postcode || !a.country) return Promise.resolve();
+
+    var vinger = verzendVinger(a);
+    if (vinger === klantLaatst) return Promise.resolve();
+    if (klantBezig) { klantWacht = true; return Promise.resolve(); }
+
+    klantBezig = true;
+    klantLaatst = vinger;
     return api('/cart/update-customer', 'POST', { billing_address: a, shipping_address: a })
       .then(function (data) { rememberCart(data); co.rate = null; renderShipping(); renderPayment(); renderSummary(); })
-      .catch(function () { /* stil: de klant is nog aan het typen */ });
+      .catch(function () { klantLaatst = ''; /* stil: de klant is nog aan het typen */ })
+      .then(function () {
+        klantBezig = false;
+        if (klantWacht) { klantWacht = false; return refreshCustomer(); }
+      });
   }
 
   function startCheckout() {

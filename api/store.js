@@ -52,6 +52,11 @@ module.exports = async function handler(req, res) {
   if (token) headers['Cart-Token'] = token;
   if (req.headers.nonce) headers.Nonce = req.headers.nonce;
 
+  /* Hoe lang WordPress erover doet, is het enige getal dat telt als iemand
+     vraagt waarom het afrekenen traag voelt. We meten het hier en zetten het in
+     het logboek en in een Server-Timing-kop, zodat het meetbaar is zonder dat
+     er iemand met een stopwatch naast de winkel hoeft te staan. */
+  const begin = Date.now();
   let upstream;
   try {
     upstream = await fetch(STORE + '/' + path + (rest ? '?' + rest : ''), {
@@ -61,9 +66,14 @@ module.exports = async function handler(req, res) {
         : JSON.stringify(req.body === undefined ? {} : req.body)
     });
   } catch (err) {
+    console.log('winkel ' + req.method + ' /' + path + ' onbereikbaar na ' + (Date.now() - begin) + 'ms');
     res.status(502).json({ message: 'De winkel is niet bereikbaar: ' + err.message });
     return;
   }
+
+  const duur = Date.now() - begin;
+  console.log('winkel ' + req.method + ' /' + path + ' ' + upstream.status + ' in ' + duur + 'ms');
+  res.setHeader('Server-Timing', 'winkel;dur=' + duur);
 
   /* Op een productverzoek nooit een cookie zetten. Twee redenen: een antwoord
      met Set-Cookie wordt aan de rand van het netwerk niet bewaard, en de
