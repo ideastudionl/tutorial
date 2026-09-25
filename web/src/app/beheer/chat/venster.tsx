@@ -10,8 +10,9 @@ type Beurt =
 const VOORBEELDEN = [
   'Welke spoedvacatures staan er open?',
   'Zet de heftruckvacature in Tilburg op vervuld',
-  'Verhoog het uurloon van de lasser in Dordrecht met een euro',
-  'Hoeveel sollicitaties staan er op nieuw?',
+  'Maak een vacature voor een heftruckchauffeur in Breda, 40 uur, 15 tot 17 euro',
+  'Maak een pagina Werken in de techniek met drie alinea\u2019s',
+  'Herschrijf de intro van de pagina Over Clover korter',
 ];
 
 const veldnaam: Record<string, string> = {
@@ -20,14 +21,44 @@ const veldnaam: Record<string, string> = {
   uurloon_max: 'Uurloon tot', spoed: 'Spoed', rijbewijs: 'Rijbewijs nodig',
   ploegendienst: 'Ploegendienst', status: 'Status', vervalt_op: 'Verloopt op',
   taken: 'Wat ga je doen', vraag: 'Wat vragen we', bieden: 'Wat bieden we',
+  sector_id: 'Sector', dienstverband: 'Dienstverband', contract: 'Contractvorm',
+  opleiding: 'Opleidingsniveau', secties: 'Secties',
+  meta_titel: 'Titel voor Google', meta_omschrijving: 'Omschrijving voor Google',
+};
+
+const SOORTLABEL: Record<string, string> = {
+  'nieuw-vacature': 'Nieuwe vacature',
+  'nieuw-pagina': 'Nieuwe pagina',
+  'wijziging-vacature': 'Wijziging vacature',
+  'wijziging-pagina': 'Wijziging pagina',
 };
 
 const toon = (w: unknown): string => {
   if (w === null || w === undefined || w === '') return '—';
   if (typeof w === 'boolean') return w ? 'ja' : 'nee';
-  if (Array.isArray(w)) return w.join(' · ');
+  if (Array.isArray(w)) {
+    return w
+      .map((r) =>
+        r && typeof r === 'object'
+          ? `${(r as { kop?: string }).kop ?? ''}: ${(r as { tekst?: string }).tekst ?? ''}`
+          : String(r),
+      )
+      .join(' · ');
+  }
   return String(w);
 };
+
+function Regel({ veld, children }: { veld: string; children: React.ReactNode }) {
+  return (
+    <div style={{
+      display: 'grid', gridTemplateColumns: 'minmax(90px, auto) 1fr',
+      gap: '.3rem .7rem', alignItems: 'baseline',
+    }}>
+      <b>{veldnaam[veld] ?? veld}</b>
+      <span>{children}</span>
+    </div>
+  );
+}
 
 export function ChatVenster() {
   const [beurten, setBeurten] = useState<Beurt[]>([]);
@@ -134,8 +165,10 @@ export function ChatVenster() {
                   display: 'grid', gap: '.7rem',
                 }}>
                   <div>
-                    <span className="pil" style={{ background: 'var(--wit)' }}>Voorstel</span>{' '}
-                    <b style={{ fontSize: '.875rem' }}>{v.nummer} — {v.titel}</b>
+                    <span className="pil" style={{ background: 'var(--wit)' }}>
+                      {SOORTLABEL[`${v.soort}-${v.entiteit}`] ?? 'Voorstel'}
+                    </span>{' '}
+                    <b style={{ fontSize: '.875rem' }}>{v.label}</b>
                     {v.toelichting && (
                       <p style={{ fontSize: '.8125rem', color: 'var(--inkt-60)', marginTop: '.2rem' }}>
                         {v.toelichting}
@@ -144,20 +177,26 @@ export function ChatVenster() {
                   </div>
 
                   <div style={{ display: 'grid', gap: '.4rem', fontSize: '.8125rem' }}>
-                    {v.wijzigingen.map((w) => (
-                      <div key={w.veld} style={{
-                        display: 'grid', gridTemplateColumns: 'minmax(90px, auto) 1fr',
-                        gap: '.3rem .7rem', alignItems: 'baseline',
-                      }}>
-                        <b>{veldnaam[w.veld] ?? w.veld}</b>
-                        <span>
-                          <s style={{ color: 'var(--inkt-60)' }}>{toon(w.voor)}</s>
-                          {' → '}
-                          <b>{toon(w.na)}</b>
-                        </span>
-                      </div>
-                    ))}
+                    {v.soort === 'wijziging'
+                      ? v.wijzigingen.map((w) => (
+                          <Regel key={w.veld} veld={w.veld}>
+                            <s style={{ color: 'var(--inkt-60)' }}>{toon(w.voor)}</s>
+                            {' → '}
+                            <b>{toon(w.na)}</b>
+                          </Regel>
+                        ))
+                      : Object.entries(v.velden).map(([veld, waarde]) => (
+                          <Regel key={veld} veld={veld}>
+                            <b>{toon(waarde)}</b>
+                          </Regel>
+                        ))}
                   </div>
+
+                  {v.soort === 'nieuw' && (
+                    <p style={{ fontSize: '.75rem', color: 'var(--inkt-60)', margin: 0 }}>
+                      Wordt als concept aangemaakt. Nalezen en zelf online zetten.
+                    </p>
+                  )}
 
                   {staat === 'klaar' ? (
                     <p className="melding melding-goed" style={{ margin: 0 }}>
@@ -215,8 +254,9 @@ export function ChatVenster() {
       </form>
 
       <p style={{ fontSize: '.75rem', color: 'var(--inkt-60)' }}>
-        De assistent kan vacatures lezen en wijzigingen voorstellen. Doorvoeren gebeurt
-        alleen na jouw akkoord, en gaat met voor- en na-waarde het logboek in.
+        De assistent kan vacatures en pagina’s lezen, wijzigen en aanmaken — altijd
+        als voorstel. Doorvoeren gebeurt pas na jouw akkoord, en gaat met voor- en
+        na-waarde het logboek in. Nieuw werk komt als concept binnen, nooit direct online.
       </p>
     </div>
   );
