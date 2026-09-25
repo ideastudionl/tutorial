@@ -107,6 +107,49 @@ Nu pas verhuist de naam van WordPress zelf.
 Vanaf nu is `winkel.soccer-games.nl` het echte adres van je winkel. `www` doet
 nog steeds hetzelfde als altijd, want het DNS staat nog ongewijzigd.
 
+### Blijft WooCommerce gewoon bestaan?
+
+Ja. Er wordt bij deze stap niets weggegooid en niets opnieuw opgebouwd.
+WooCommerce is een plugin in je WordPress-installatie, en je producten,
+bestellingen, klanten, kortingscodes en instellingen staan in de database van
+die installatie. Die installatie blijft precies waar hij staat, op dezelfde
+schijf, met dezelfde database.
+
+Wat verandert, is één ding: de naam waaronder WordPress zichzelf kent. Nu is
+dat `www.soccer-games.nl`, straks `winkel.soccer-games.nl`. De zoek-en-vervang
+over de database verandert dus geen gegevens, alleen de adressen die ergens in
+een tekst of instelling staan: de link naar een foto in een productomschrijving,
+het adres in de betaalinstellingen, dat soort dingen. Bestelling #1234 blijft
+bestelling #1234, met hetzelfde bedrag en dezelfde klant.
+
+| Blijft ongewijzigd | Verandert van adres |
+|---|---|
+| Producten, voorraad, prijzen | het beheer: `winkel.soccer-games.nl/wp-admin` |
+| Alle bestellingen en hun geschiedenis | winkelwagen, afrekenen, mijn account |
+| Klanten en accounts | de links in nieuwe bestelmails |
+| Kortingscodes | de voorwaarden- en privacypagina |
+| Plugins en hun instellingen | de Store API waar deze site mee praat |
+| Mollie, en de betaalgeschiedenis | |
+| De opmaak van de bevestigingsmails | |
+
+Drie dingen om wel even op te letten:
+
+1. **Maak eerst een volledige back-up**, database en bestanden. Een
+   zoek-en-vervang kun je niet ongedaan maken.
+2. **Premium plugins met een licentie op het domein** kunnen na de omzetting om
+   een nieuwe activatie vragen. Meestal is dat een kwestie van de licentiesleutel
+   opnieuw opslaan.
+3. **Oude links blijven werken.** Een klant met een bestelmail van vorig jaar
+   klikt op `www.soccer-games.nl/afrekenen/order-received/1234`. Zolang het DNS
+   nog niet om is, komt hij gewoon uit bij WordPress. Daarna vangt deze site dat
+   adres af en stuurt hem door naar het subdomein. Hetzelfde geldt voor de
+   terugmeldingen van Mollie: die worden doorgestuurd met behoud van de methode,
+   dus een betaling die tijdens de omzetting nog loopt, komt alsnog binnen.
+
+Wat je aan de kant van WooCommerce wél merkt na de omzetting: bezoekers zien de
+WooCommerce-winkel niet meer. Die draait nog, hij is alleen niet meer het adres
+waar mensen binnenkomen. Jij werkt er nog dagelijks in; de klant ziet deze site.
+
 ## Stap 5. Domein in Vercel zetten — ik
 
 Ik voeg `www.soccer-games.nl` en `soccer-games.nl` toe aan het project. Vercel

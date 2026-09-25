@@ -69,6 +69,21 @@
       "permanent": true
     },
     {
+      "source": "/afrekenen/order-pay/:pad*",
+      "destination": "https://winkel.soccer-games.nl/afrekenen/order-pay/:pad*",
+      "permanent": false
+    },
+    {
+      "source": "/afrekenen/order-received/:pad*",
+      "destination": "https://winkel.soccer-games.nl/afrekenen/order-received/:pad*",
+      "permanent": false
+    },
+    {
+      "source": "/wc-api/:pad*",
+      "destination": "https://winkel.soccer-games.nl/wc-api/:pad*",
+      "permanent": false
+    },
+    {
       "source": "/winkel",
       "destination": "/shop",
       "permanent": true
