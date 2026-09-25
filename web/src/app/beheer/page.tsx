@@ -106,7 +106,7 @@ export default async function Dashboard() {
             <p className="leeg">
               Nog geen sollicitaties binnen.<br />
               <span style={{ fontSize: '.8125rem' }}>
-                Het sollicitatieformulier wordt in het volgende blok aangesloten.
+                Zodra iemand via de site solliciteert, verschijnt het hier.
               </span>
             </p>
           )}
