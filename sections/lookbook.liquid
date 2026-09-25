@@ -1,0 +1,48 @@
+<section class="section">
+  <div class="wrap">
+    <div class="section__head">
+      {%- if section.settings.eyebrow != blank -%}<div class="eyebrow">{{ section.settings.eyebrow }}</div>{%- endif -%}
+      <h2>{{ section.settings.heading }}</h2>
+    </div>
+    <div class="look-grid">
+      {%- for block in section.blocks -%}
+        {%- assign img = block.settings.image -%}
+        <a href="{{ block.settings.link | default: '#' }}" class="look-card" {{ block.shopify_attributes }}>
+          {%- if img != blank -%}
+            <img src="{{ img | image_url: width: 800 }}" alt="{{ block.settings.caption | escape }}" loading="lazy">
+          {%- elsif block.settings.fallback_image != blank -%}
+            <img src="{{ block.settings.fallback_image | asset_url }}" alt="{{ block.settings.caption | escape }}" loading="lazy">
+          {%- endif -%}
+          <div class="grad"></div>
+          {%- if block.settings.caption != blank -%}<div class="cap">{{ block.settings.caption }}</div>{%- endif -%}
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Lookbook",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Bovenschrift", "default": "Styling inspiratie" },
+    { "type": "text", "id": "heading", "label": "Kop", "default": "Zo combineer je het" }
+  ],
+  "blocks": [
+    { "type": "look", "name": "Beeld", "settings": [
+      { "type": "image_picker", "id": "image", "label": "Afbeelding" },
+      { "type": "text", "id": "fallback_image", "label": "Theme-asset bestandsnaam" },
+      { "type": "text", "id": "caption", "label": "Bijschrift", "default": "Hotel chic woonkamer" },
+      { "type": "url", "id": "link", "label": "Link" }
+    ] }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    { "name": "Lookbook", "blocks": [
+      { "type": "look", "settings": { "caption": "Hotel chic woonkamer", "fallback_image": "kussen-07.jpg" } },
+      { "type": "look", "settings": { "caption": "Warme aardetinten", "fallback_image": "kussen-02.jpg" } },
+      { "type": "look", "settings": { "caption": "Wanddecoratie & kunst", "fallback_image": "wandkunst-lifestyle.jpg" } }
+    ] }
+  ]
+}
+{% endschema %}

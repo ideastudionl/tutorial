@@ -1,0 +1,63 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "general": {
+    "page": "Pagina",
+    "skip_to_content": "Ga naar inhoud",
+    "search": "Zoeken",
+    "account": "Account",
+    "cart": "Winkelmand",
+    "menu": "Menu"
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "In winkelmand",
+      "added_to_cart": "toegevoegd aan winkelmand",
+      "sold_out": "Uitverkocht",
+      "from": "Vanaf",
+      "regular_price": "Prijs"
+    }
+  },
+  "collections": {
+    "general": {
+      "no_products": "Er zijn nog geen producten in deze collectie.",
+      "sort_by": "Sorteer op"
+    },
+    "sorting": {
+      "featured": "Aanbevolen",
+      "best_selling": "Best verkocht",
+      "title_ascending": "Naam A–Z",
+      "title_descending": "Naam Z–A",
+      "price_ascending": "Prijs laag–hoog",
+      "price_descending": "Prijs hoog–laag",
+      "created_descending": "Nieuwste eerst"
+    }
+  },
+  "cart": {
+    "general": {
+      "title": "Winkelmand",
+      "empty": "Je winkelmand is leeg.",
+      "subtotal": "Subtotaal",
+      "checkout": "Afrekenen",
+      "continue_shopping": "Verder winkelen",
+      "remove": "Verwijderen"
+    }
+  },
+  "newsletter": {
+    "label": "E-mailadres",
+    "button": "Inschrijven",
+    "success": "Bedankt! Check je inbox voor je kortingscode."
+  },
+  "404": {
+    "title": "Pagina niet gevonden",
+    "subtext": "De pagina die je zoekt bestaat niet.",
+    "link": "Terug naar home"
+  }
+}

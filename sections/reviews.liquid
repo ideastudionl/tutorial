@@ -1,0 +1,22 @@
+{% schema %}
+{
+  "name": "Reviews",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Kop", "default": "4.9 / 5 — door 1.240+ klanten" }
+  ],
+  "blocks": [
+    { "type": "review", "name": "Review", "settings": [
+      { "type": "textarea", "id": "quote", "label": "Citaat" },
+      { "type": "text", "id": "name", "label": "Naam · plaats" }
+    ] }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    { "name": "Reviews", "blocks": [
+      { "type": "review", "settings": { "quote": "De sierkussens voelen écht luxe — zwaar, mooi geweven en de kleuren kloppen precies met de foto. Mijn bank is compleet.", "name": "Sanne · Amsterdam" } },
+      { "type": "review", "settings": { "quote": "Snel geleverd en wat een verpakking! Als cadeau gekocht voor mijn moeder, ze was sprakeloos. Echt een premium ervaring.", "name": "Mark · Eindhoven" } },
+      { "type": "review", "settings": { "quote": "Eindelijk woonaccessoires die kwaliteit uitstralen zonder kil te zijn. Warm, tijdloos en perfect af te wisselen.", "name": "Laura · Rotterdam" } }
+    ] }
+  ]
+}
+{% endschema %}

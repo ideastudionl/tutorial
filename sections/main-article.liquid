@@ -1,0 +1,9 @@
+<article class="wrap" style="max-width:760px;min-height:50vh">
+  <div class="page-head">
+    <div class="eyebrow">{{ article.published_at | date: '%d %B %Y' }}</div>
+    <h1>{{ article.title }}</h1>
+  </div>
+  {%- if article.image -%}<img src="{{ article.image | image_url: width: 1200 }}" alt="{{ article.title | escape }}" style="border-radius:3px;margin-bottom:36px">{%- endif -%}
+  <div class="rte" style="font-size:16px;line-height:1.9;color:#3A352E;padding-bottom:60px">{{ article.content }}</div>
+</article>
+{% schema %}{ "name": "Artikel", "settings": [] }{% endschema %}

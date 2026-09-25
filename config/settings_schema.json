@@ -1,0 +1,50 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "BelaMonte",
+    "theme_version": "1.0.0",
+    "theme_author": "BelaMonte",
+    "theme_documentation_url": "https://belamonte.nl",
+    "theme_support_url": "https://belamonte.nl"
+  },
+  {
+    "name": "Merk",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon"
+      },
+      {
+        "type": "text",
+        "id": "logo_text",
+        "label": "Logo tekst",
+        "default": "BELAMONTE"
+      },
+      {
+        "type": "text",
+        "id": "logo_tagline",
+        "label": "Logo subtitel",
+        "default": "Interior & Living"
+      }
+    ]
+  },
+  {
+    "name": "Kleuren",
+    "settings": [
+      { "type": "color", "id": "color_ink", "label": "Inkt / zwart", "default": "#16130F" },
+      { "type": "color", "id": "color_gold", "label": "Goud", "default": "#C49A4A" },
+      { "type": "color", "id": "color_gold_bright", "label": "Goud helder", "default": "#D4AF37" },
+      { "type": "color", "id": "color_cream", "label": "Crème (achtergrond)", "default": "#F7F4EF" },
+      { "type": "color", "id": "color_panel", "label": "Paneel", "default": "#EFEAE1" }
+    ]
+  },
+  {
+    "name": "Sociale media",
+    "settings": [
+      { "type": "url", "id": "social_instagram", "label": "Instagram" },
+      { "type": "url", "id": "social_pinterest", "label": "Pinterest" },
+      { "type": "url", "id": "social_facebook", "label": "Facebook" }
+    ]
+  }
+]

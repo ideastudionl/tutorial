@@ -1,0 +1,108 @@
+{%- liquid
+  assign coll = collections[section.settings.collection]
+  assign products_to_show = coll.products
+  assign limit = section.settings.products_to_show
+-%}
+<section class="section" id="{{ section.settings.anchor | default: 'sierkussens' }}">
+  <div class="wrap">
+    <div class="section__bar">
+      <div>
+        {%- if section.settings.eyebrow != blank -%}<div class="eyebrow">{{ section.settings.eyebrow }}</div>{%- endif -%}
+        <h2>{{ section.settings.heading }}</h2>
+      </div>
+      <div class="feat-bar-right">
+        {%- if coll.url != blank -%}
+          <a href="{{ coll.url }}" class="link-arrow">{{ section.settings.link_label | default: 'Bekijk alles' }}
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><line x1="4" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg>
+          </a>
+        {%- endif -%}
+        <div class="feat-navs">
+          <button type="button" data-feat-prev="{{ section.id }}" aria-label="Vorige"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="15 6 9 12 15 18"/></svg></button>
+          <button type="button" data-feat-next="{{ section.id }}" aria-label="Volgende"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="9 6 15 12 9 18"/></svg></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="prod-grid prod-carousel" data-feat-track="{{ section.id }}">
+      {%- if products_to_show.size > 0 -%}
+        {%- for product in products_to_show limit: limit -%}
+          {%- render 'product-card', product: product -%}
+        {%- endfor -%}
+      {%- else -%}
+        {%- comment -%} Demo fallback so the homepage looks complete before products are added {%- endcomment -%}
+        {%- assign demo_imgs = "kussen-01.jpg,kussen-05.jpg,kussen-06.jpg,kussen-09.jpg,kussen-08.jpg,kussen-07.jpg" | split: "," -%}
+        {%- assign demo_names = "Bronze Weave,Champagne Velvet,Linnen Noir,Pearl Chenille,Silver Croco,Sand Fringe" | split: "," -%}
+        {%- assign demo_mat = "Geweven jacquard,Velours,Linnenlook · bies,Chenille,Velvet · reliëf,Geweven · franje" | split: "," -%}
+        {%- assign demo_size = "45 × 45 cm,50 × 50 cm,45 × 45 cm,50 × 50 cm,40 × 60 cm,50 × 50 cm" | split: "," -%}
+        {%- assign demo_price = "€ 49,95,€ 44,95,€ 39,95,€ 42,95,€ 47,95,€ 45,95" | split: "," -%}
+        {%- for img in demo_imgs limit: limit -%}
+          {%- assign idx = forloop.index0 -%}
+          <div class="prod-card">
+            <span class="prod-card__media">
+              <img src="{{ img | asset_url }}" alt="{{ demo_names[idx] }}" loading="lazy">
+              {%- if idx == 0 -%}<span class="prod-card__tag">Nieuw</span>{%- elsif idx == 3 -%}<span class="prod-card__tag">Bestseller</span>{%- endif -%}
+            </span>
+            <div class="prod-card__body">
+              <div class="prod-card__cat">{{ demo_mat[idx] }}</div>
+              <h3 class="prod-card__name">{{ demo_names[idx] }}</h3>
+              <div class="prod-card__sub">{{ demo_size[idx] }}</div>
+              <div class="swatches">
+                <span class="swatch" style="background:#7A5A39"></span>
+                <span class="swatch" style="background:#C9A36B"></span>
+                <span class="swatch" style="background:#E6DAC5"></span>
+              </div>
+              <div class="prod-card__foot">
+                <span class="prod-card__price">{{ demo_price[idx] }}</span>
+                <span class="btn-add" style="opacity:.5">In mand</span>
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+    {%- if products_to_show.size == 0 -%}
+      <p style="text-align:center;color:var(--muted);font-size:13px;margin-top:24px">Voorbeeldweergave — koppel een collectie in de editor om je eigen sierkussens te tonen.</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{%- assign _a = section.settings.anchor | default: 'sierkussens' -%}
+<style>
+  #{{ _a }} .prod-carousel{ display:flex; gap:24px; overflow-x:auto; scroll-snap-type:x mandatory; scroll-behavior:smooth; padding-bottom:10px; -ms-overflow-style:none; scrollbar-width:thin; }
+  #{{ _a }} .prod-carousel::-webkit-scrollbar{ height:6px; }
+  #{{ _a }} .prod-carousel::-webkit-scrollbar-thumb{ background:#DCD3C4; border-radius:3px; }
+  #{{ _a }} .prod-carousel > *{ flex:0 0 calc((100% - 96px) / 4.3); scroll-snap-align:start; }
+  #{{ _a }} .feat-bar-right{ display:flex; align-items:center; gap:16px; }
+  #{{ _a }} .feat-navs{ display:flex; gap:8px; }
+  #{{ _a }} .feat-navs button{ width:38px; height:38px; display:inline-flex; align-items:center; justify-content:center; border:1px solid var(--line); border-radius:50%; background:#fff; color:#5C5345; cursor:pointer; transition:border-color .2s,color .2s; }
+  #{{ _a }} .feat-navs button:hover{ border-color:var(--gold); color:var(--gold); }
+  @media(max-width:900px){ #{{ _a }} .prod-carousel > *{ flex:0 0 calc((100% - 48px) / 2.3); } }
+  @media(max-width:520px){ #{{ _a }} .prod-carousel > *{ flex:0 0 82%; } #{{ _a }} .feat-navs{ display:none; } }
+</style>
+<script>
+  (function(){
+    var id = {{ section.id | json }};
+    var track = document.querySelector('[data-feat-track="' + id + '"]');
+    if(!track) return;
+    function step(){ var c = track.querySelector('.prod-card'); return (c ? c.offsetWidth : 260) + 24; }
+    var prev = document.querySelector('[data-feat-prev="' + id + '"]');
+    var next = document.querySelector('[data-feat-next="' + id + '"]');
+    if(prev) prev.addEventListener('click', function(){ track.scrollBy({ left: -step() * 2, behavior: 'smooth' }); });
+    if(next) next.addEventListener('click', function(){ track.scrollBy({ left: step() * 2, behavior: 'smooth' }); });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Uitgelichte collectie",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Bovenschrift", "default": "Nieuw binnen · Woonkamer" },
+    { "type": "text", "id": "heading", "label": "Kop", "default": "De Sierkussens collectie" },
+    { "type": "collection", "id": "collection", "label": "Collectie" },
+    { "type": "range", "id": "products_to_show", "min": 2, "max": 12, "step": 1, "label": "Aantal producten", "default": 8 },
+    { "type": "text", "id": "link_label", "label": "Link-label", "default": "Alle sierkussens" },
+    { "type": "text", "id": "anchor", "label": "Anker-id", "default": "sierkussens" }
+  ],
+  "presets": [{ "name": "Uitgelichte collectie" }]
+}
+{% endschema %}
