@@ -15,10 +15,18 @@
   /* units zegt hoeveel stuks van welk WooCommerce-product er in één regel
      zitten. Een lege lijst betekent: bestaat nog niet in de winkel en gaat dus
      niet mee naar de kassa. */
+  /* Bundelkorting in euro's. WooCommerce kent de bundels niet: daar liggen
+     gewoon twee of drie losse spellen in de winkelwagen, tegen de volle prijs.
+     Zolang dat zo is staat de korting hier op 0, zodat de site nooit een bedrag
+     toont dat de kassa niet rekent. Bestaat de korting straks wel in de winkel,
+     als bundelproduct of als kortingscode, zet hem dan hier en zeg het erbij,
+     dan koppel ik hem aan de kassa. */
+  var BUNDELKORTING = { duo: 0, trio: 0 };
+
   var CATALOG = {
     memo:   { name: 'Soccer MeMo', sub: '48 kaarten · 24 paren', price: 14.95, art: 'art-box', photo: 'https://www.soccer-games.nl/wp-content/uploads/2022/07/Soccer-Memo.jpg', units: [{ id: 65, per: 1 }] },
-    duo:    { name: 'Duo-pack',    sub: '2 spellen',             price: 24.95, art: 'art-fan', photo: 'https://www.soccer-games.nl/wp-content/uploads/2022/07/Voetbal-Memory-Spel.png', units: [{ id: 65, per: 2 }] },
-    trio:   { name: 'Trio-pack',   sub: '3 spellen',             price: 34.95, art: 'art-fan', photo: 'https://www.soccer-games.nl/wp-content/uploads/2022/07/Voetbal-Memory-Kopen.png', units: [{ id: 65, per: 3 }] },
+    duo:    { name: 'Duo-pack',    sub: '2 spellen',             price: 29.90, art: 'art-fan', photo: 'https://www.soccer-games.nl/wp-content/uploads/2022/07/Voetbal-Memory-Spel.png', units: [{ id: 65, per: 2 }] },
+    trio:   { name: 'Trio-pack',   sub: '3 spellen',             price: 44.85, art: 'art-fan', photo: 'https://www.soccer-games.nl/wp-content/uploads/2022/07/Voetbal-Memory-Kopen.png', units: [{ id: 65, per: 3 }] },
     gift:   { name: 'Cadeauverpakking',       sub: 'Lint + kaartje',        price:  2.95, art: 'art-giftbox', units: [] },
     poster: { name: 'Poster "Elftal" A2',     sub: 'Dik papier',            price:  9.95, art: 'art-poster', units: [] }
   };
@@ -154,7 +162,8 @@
     var note = $('#handoffNote');
     if (note) {
       var lines = [];
-      if (cart.some(function (l) { return l.key === 'duo' || l.key === 'trio'; })) {
+      var metKorting = cart.some(function (l) { return BUNDELKORTING[l.key] > 0; });
+      if (metKorting) {
         lines.push('Het bundelvoordeel bestaat nog niet in WooCommerce. Bij de kassa reken je de losse spellen af.');
       }
       var extras = cart.filter(function (l) { return !orderable(l); })
@@ -659,6 +668,24 @@
     if (was > now) { el.insertAdjacentHTML('beforeend', '<s>' + euro.format(was) + '</s>'); }
   }
 
+  /* Houdt alles wat over de bundels gaat gelijk aan wat de kassa rekent: de
+     prijzen op de losse kaarten, de "bespaar"-vlag en de labels. Zonder korting
+     verdwijnen die claims, want dan valt er niets te besparen. */
+  function toonBundelvoordeel() {
+    $$('[data-prijs]').forEach(function (el) {
+      var sleutel = el.getAttribute('data-prijs');
+      if (CATALOG[sleutel]) el.textContent = euro.format(CATALOG[sleutel].price);
+    });
+    $$('[data-voordeel]').forEach(function (el) {
+      var korting = BUNDELKORTING[el.getAttribute('data-voordeel')] || 0;
+      el.hidden = korting <= 0;
+      if (korting > 0) el.textContent = 'Bespaar ' + euro.format(korting);
+    });
+    $$('[data-label]').forEach(function (el) {
+      el.hidden = (BUNDELKORTING[el.getAttribute('data-label')] || 0) <= 0;
+    });
+  }
+
   function cleanDescription(html) {
     var box = document.createElement('div');
     box.innerHTML = html;
@@ -678,10 +705,11 @@
     var now = fromMinor(p.prices.price, unit);
     var was = fromMinor(p.prices.regular_price, unit);
 
-    /* Bundelkortingen blijven het voorstel; ze rekenen mee met de echte prijs. */
+    /* De bundels zijn een aantal keer hetzelfde product, dus hun prijs volgt de
+       echte prijs. De korting eraf gaat alleen als hij in de winkel bestaat. */
     CATALOG.memo.price = now;
-    CATALOG.duo.price = Math.round((now * 2 - 4.95) * 100) / 100;
-    CATALOG.trio.price = Math.round((now * 3 - 9.9) * 100) / 100;
+    CATALOG.duo.price = Math.round((now * 2 - BUNDELKORTING.duo) * 100) / 100;
+    CATALOG.trio.price = Math.round((now * 3 - BUNDELKORTING.trio) * 100) / 100;
 
     if ($('#heroPrice')) $('#heroPrice').textContent = euro.format(now);
     if ($('#cardPrice')) $('#cardPrice').textContent = euro.format(now);
@@ -693,6 +721,7 @@
       var id = b.getAttribute('data-bundle');
       if (CATALOG[id]) b.setAttribute('data-price', CATALOG[id].price.toFixed(2));
     });
+    toonBundelvoordeel();
 
     if (p.name && $('#pdpTitle')) $('#pdpTitle').textContent = p.name;
 
