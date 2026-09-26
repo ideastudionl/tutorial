@@ -83,7 +83,11 @@ export async function solliciteren(fd: FormData): Promise<Uitkomst> {
   }
 
   // ---- opslaan -------------------------------------------------------
-  const { data: rij, error } = await supabase
+  // Bewust geen .select() hierachter. Dat maakt er een INSERT ... RETURNING
+  // van, en teruglezen vraagt een SELECT-recht dat de bezoeker niet heeft en
+  // ook niet hoort te hebben: in deze tabel staan andermans persoonsgegevens.
+  // De hele insert faalt dan, niet alleen het teruglezen.
+  const { error } = await supabase
     .from('sollicitaties')
     .insert({
       vacature_id: vacatureId,
@@ -94,9 +98,7 @@ export async function solliciteren(fd: FormData): Promise<Uitkomst> {
       motivatie: motivatie || null,
       cv_pad: cvPad,
       akkoord_privacy: true,
-    })
-    .select('id')
-    .single();
+    });
 
   if (error) {
     console.error('sollicitatie opslaan mislukt:', error.message);
