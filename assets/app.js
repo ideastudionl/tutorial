@@ -1233,10 +1233,21 @@
       });
   }
 
+  /* Het wachtblok vertelt waar we zijn. De teksten volgen echte stappen, geen
+     tijdklok: liegen over voortgang is nog vervelender dan wachten. */
+  function laden(tekst) {
+    var blok = $('#coLaden'), regel = $('#coLadenTekst');
+    if (!blok) return;
+    if (tekst === false) { blok.hidden = true; return; }
+    if (regel && tekst) regel.textContent = tekst;
+    blok.hidden = false;
+  }
+
   function startCheckout() {
     if (co.busy) return;
     co.busy = true;
     coAlert('');
+    laden(co.cart ? 'Bijna klaar, we werken je bestelling bij' : 'Je winkelwagen wordt opgehaald');
     /* Is de winkelwagen al opgehaald, toon dan meteen iets terwijl we bijwerken. */
     if (co.cart) { renderSummary(); renderShipping(); renderPayment(); }
     /* Vast bedrag in de kop, zodat het overzicht ook dichtgeklapt iets zegt */
@@ -1278,15 +1289,21 @@
           if (n > 0) steps.push(function () { return api('/cart/add-item', 'POST', { id: parseInt(id, 10), quantity: n }); });
         });
 
+        laden(steps.length
+          ? 'Bijna klaar, we zetten je winkelwagen gelijk met de winkel'
+          : 'Bijna klaar, we halen de betaalmethoden op');
+
         return steps.reduce(function (chain, step) { return chain.then(step); }, Promise.resolve(data));
       })
       .then(function (data) {
         rememberCart(data);
         co.ready = true;
         renderSummary(); renderShipping(); renderPayment();
+        laden(false);
       })
       .catch(function (err) {
         co.ready = false;
+        laden(false);
         if (!window.__STORE_PROXY__ && location.hostname.indexOf('vercel.app') < 0) {
           coAlert('Deze afrekenpagina heeft de winkelwagen-proxy nodig en draait alleen op ' +
             '<a href="https://soccer-memo-shop.vercel.app/#/afrekenen">soccer-memo-shop.vercel.app</a>. ' +

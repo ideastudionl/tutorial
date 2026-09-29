@@ -666,8 +666,11 @@
       </div>
     </section>
 
-    <!-- Cross-sell -->
-    <section class="section" data-memo>
+    <!-- Cross-sell. Verborgen: cadeauverpakking en poster bestaan niet in
+         WooCommerce, dus ze verdwenen stilletjes bij de kassa. Terugzetten is
+         hidden weghalen én data-memo terugzetten; dat attribuut laat een blok
+         alleen bij het eigen spel zien, en zou hidden hier anders overrulen. -->
+    <section class="section" id="cross-sell" hidden>
       <div class="section__head"><div class="stack"><p class="eyebrow">Vaak samen besteld</p><h2>Maak het af</h2></div></div>
       <div class="cols cols--3">
         <article class="pcard">
@@ -716,6 +719,17 @@
       </div>
       <a class="co-back" href="#/product" data-link>← Verder winkelen</a>
     </header>
+
+    <!-- Wachtblok. De winkel doet er ruim een seconde over per antwoord; dit
+         laat zien dat er iets gebeurt en waar we zijn. Verdwijnt zodra het
+         overzicht en de betaalmethoden er staan. -->
+    <div class="co-laden" id="coLaden" role="status" aria-live="polite">
+      <span class="co-laden__veld" aria-hidden="true">
+        <svg class="co-laden__bal" viewBox="0 0 24 24"><use href="#ic-ball"></use></svg>
+        <span class="co-laden__schaduw"></span>
+      </span>
+      <span class="co-laden__tekst" id="coLadenTekst">Je winkelwagen wordt opgehaald</span>
+    </div>
 
     <div class="checkout">
       <aside class="checkout__summary">
@@ -882,7 +896,7 @@
         </a>
         <p style="margin-top:12px;max-width:34ch;font-size:.92rem">Spellen die voetbalgekke kinderen scherp houden. Bedacht, getekend en gedrukt in Nederland.</p>
       </div>
-      <div><h4>Shop</h4><ul><li><a href="#/product" data-link>Soccer MeMo</a></li><li><a href="#/product" data-link>Duo-pack</a></li><li><a href="#cadeau" data-link>Cadeauverpakking</a></li></ul></div>
+      <!-- Shop-kolom tijdelijk verborgen. --><div hidden><h4>Shop</h4><ul><li><a href="#/product" data-link>Soccer MeMo</a></li><li><a href="#/product" data-link>Duo-pack</a></li><li><a href="#cadeau" data-link>Cadeauverpakking</a></li></ul></div>
       <div><h4>Klantenservice</h4><ul><li><a href="#faq" data-link>Veelgestelde vragen</a></li><li><a href="#faq" data-link>Verzending &amp; retour</a></li><!-- Contactgegevens tijdelijk verborgen: dit zijn nog voorbeeldwaarden. Haal hidden weg zodra het echte adres en nummer bekend zijn. --><li hidden><a href="mailto:hallo@soccer-games.nl">hallo@soccer-games.nl</a></li><li hidden><a href="tel:+31381234567">038 – 123 45 67</a></li></ul></div>
       <div><h4>Over ons</h4><ul><li><a href="#waarom" data-link>Het verhaal</a></li><li><a href="#cadeau" data-link>Teams &amp; verenigingen</a></li><li><a href="#reviews" data-link>Beoordelingen</a></li><li><a href="#faq" data-link>Privacy &amp; voorwaarden</a></li></ul></div>
     </div>

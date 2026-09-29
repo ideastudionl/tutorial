@@ -633,6 +633,39 @@ body.is-checkout .nav,
 body.is-checkout .footer{display:none}
 body.is-checkout .header{border-bottom:1px solid var(--line)}
 
+/* Wachtblok op de afrekenpagina: een stuiterende bal terwijl de winkel
+   antwoordt. Het blok gaat boven de kolommen staan en blokkeert niets, zodat
+   iemand alvast zijn e-mailadres kan intypen. */
+.co-laden{
+  display:flex;align-items:center;gap:14px;
+  margin:0 0 20px;padding:14px 18px;
+  border:1px solid var(--line);border-radius:14px;background:var(--surface-2);
+}
+.co-laden[hidden]{display:none}
+.co-laden__veld{position:relative;width:34px;height:36px;flex:none}
+.co-laden__bal{
+  position:absolute;left:3px;top:0;width:28px;height:28px;color:var(--pitch);
+  animation:co-stuit .85s cubic-bezier(.34,0,.66,1) infinite;
+}
+.co-laden__schaduw{
+  position:absolute;left:6px;bottom:2px;width:22px;height:5px;border-radius:50%;
+  background:currentColor;opacity:.22;
+  animation:co-schaduw .85s cubic-bezier(.34,0,.66,1) infinite;
+}
+.co-laden__tekst{font-size:.95rem;color:var(--ink)}
+@keyframes co-stuit{
+  0%,100%{transform:translateY(6px) rotate(0deg)}
+  50%    {transform:translateY(-8px) rotate(180deg)}
+}
+@keyframes co-schaduw{
+  0%,100%{transform:scaleX(1);opacity:.22}
+  50%    {transform:scaleX(.55);opacity:.08}
+}
+@media (prefers-reduced-motion:reduce){
+  .co-laden__bal,.co-laden__schaduw{animation:none}
+  .co-laden__bal{transform:translateY(4px)}
+}
+
 .co-top{
   display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px;
   padding:clamp(20px,3vw,32px) 0 18px;border-bottom:1px solid var(--line);margin-bottom:clamp(18px,3vw,28px);
