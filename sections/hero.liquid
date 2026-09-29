@@ -3,12 +3,30 @@
     {%- liquid
       assign img = block.settings.image
       assign align = block.settings.alignment | default: 'left'
+      assign hv = block.settings.hero_video
+      assign hero_img = img
+      if hero_img == blank and hv != blank and hv.preview_image != blank
+        assign hero_img = hv.preview_image
+      endif
     -%}
     <div class="hero-slide{% if forloop.first %} is-active{% endif %}" data-slide {{ block.shopify_attributes }}>
-      {%- if img != blank -%}
-        <img class="hero-slide__img" src="{{ img | image_url: width: 2400 }}" alt="{{ img.alt | escape }}" {% if forloop.first %}loading="eager"{% else %}loading="lazy"{% endif %} width="2400" height="1350">
+      {%- if hero_img != blank -%}
+        <img class="hero-slide__img" src="{{ hero_img | image_url: width: 2400 }}" alt="{{ hero_img.alt | escape | default: 'BelaMonte' }}" {% if forloop.first %}loading="eager"{% else %}loading="lazy"{% endif %} width="2400" height="1350">
       {%- else -%}
         <img class="hero-slide__img" src="{{ 'kussen-03.jpg' | asset_url }}" alt="BelaMonte sierkussens" loading="eager">
+      {%- endif -%}
+      {%- if hv != blank -%}
+        {%- assign hv_src = '' -%}
+        {%- assign hv_h = 0 -%}
+        {%- for source in hv.sources -%}
+          {%- if source.mime_type == 'video/mp4' and source.height <= 720 and source.height > hv_h -%}{%- assign hv_h = source.height -%}{%- assign hv_src = source.url -%}{%- endif -%}
+        {%- endfor -%}
+        {%- if hv_src == '' -%}{%- for source in hv.sources -%}{%- if source.mime_type == 'video/mp4' and hv_src == '' -%}{%- assign hv_src = source.url -%}{%- endif -%}{%- endfor -%}{%- endif -%}
+        {%- if hv_src != '' -%}
+        <video class="hero-slide__video" autoplay muted loop playsinline preload="metadata"{% if hero_img != blank %} poster="{{ hero_img | image_url: width: 1600 }}"{% endif %}>
+          <source src="{{ hv_src }}" type="video/mp4">
+        </video>
+        {%- endif -%}
       {%- endif -%}
       <div class="hero__overlay"></div>
       <div class="wrap" style="position:relative">
@@ -46,6 +64,8 @@
   #heroslider-{{ section.id }} .hero-slide{ position:absolute; inset:0; display:flex; align-items:center; opacity:0; visibility:hidden; transition:opacity .9s ease; z-index:1; }
   #heroslider-{{ section.id }} .hero-slide.is-active{ opacity:1; visibility:visible; z-index:2; }
   #heroslider-{{ section.id }} .hero-slide__img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.72; transform:scale(1.06); transform-origin:58% 50%; will-change:transform; }
+  #heroslider-{{ section.id }} .hero-slide__video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.72; }
+  @media(prefers-reduced-motion:reduce){ #heroslider-{{ section.id }} .hero-slide__video{ display:none; } }
   @media(prefers-reduced-motion:no-preference){ #heroslider-{{ section.id }} .hero-slide.is-active .hero-slide__img{ animation:bmHeroZoom 22s ease-in-out infinite alternate; } }
   #heroslider-{{ section.id }} .wrap{ width:100%; }
   #heroslider-{{ section.id }} .hero-align-center{ margin-left:auto; margin-right:auto; text-align:center; }
@@ -106,6 +126,7 @@
       "name": "Slide",
       "settings": [
         { "type": "image_picker", "id": "image", "label": "Achtergrondafbeelding" },
+        { "type": "video", "id": "hero_video", "label": "Achtergrondvideo (optioneel)", "info": "Stille auto-loop; vervangt de afbeelding. Stel ook een afbeelding in als fallback (mobiel / trage verbinding / reduced-motion)." },
         { "type": "select", "id": "alignment", "label": "Uitlijning tekst", "default": "left",
           "options": [
             { "value": "left", "label": "Links" },
