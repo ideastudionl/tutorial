@@ -15,17 +15,18 @@
         "slide1": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/Banner_Belamonte.png",
+            "image": "shopify://shop_images/belamonte-hero-img.webp",
+            "hero_video": "gid://shopify/Video/75135062933829",
             "alignment": "left",
             "eyebrow": "Waar luxe thuiskomt",
             "heading": "Breng tijdloze luxe in jouw",
             "heading_accent": "interieur",
             "heading_after": "",
             "text": "Ontdek de exclusieve collectie woonaccessoires van Belamonte, waar verfijnd design, hoogwaardige materialen en warme natuurlijke tinten samenkomen. Elk item is zorgvuldig geselecteerd om een interieur te creëren dat rust, elegantie en een gevoel van tijdloze luxe uitstraalt.",
-            "button_label": "Shop sierkussens",
+            "button_label": "",
             "button_link": "shopify://collections/sierkussens",
             "button2_label": "Ontdek de collectie",
-            "button2_link": "shopify://collections/behang"
+            "button2_link": "shopify://collections"
           }
         }
       },
@@ -83,7 +84,6 @@
     },
     "subcats": {
       "type": "category-carousel",
-      "disabled": true,
       "blocks": {
         "n6": {
           "type": "category",
@@ -103,7 +103,7 @@
         },
         "n2": {
           "type": "category",
-                    "settings": {
+          "settings": {
             "collection": "vazen",
             "label": "",
             "link": ""
@@ -111,7 +111,7 @@
         },
         "n3": {
           "type": "category",
-                    "settings": {
+          "settings": {
             "collection": "onderzetters",
             "label": "",
             "link": ""
@@ -119,16 +119,15 @@
         },
         "n4": {
           "type": "category",
-          "disabled": true,
           "settings": {
             "collection": "spiegels",
-            "label": "",
+            "label": "Badkamerspiegels",
             "link": ""
           }
         },
         "n5": {
           "type": "category",
-                    "settings": {
+          "settings": {
             "collection": "kaarsen-houders",
             "label": "",
             "link": ""
@@ -136,7 +135,7 @@
         },
         "category_pJVRWk": {
           "type": "category",
-                    "settings": {
+          "settings": {
             "collection": "keuken-accessoires",
             "label": "Keukenrolhouders",
             "image": "shopify://shop_images/81ae259e-a452-40f7-84f3-775de498411b.png",
@@ -154,7 +153,7 @@
         },
         "n16": {
           "type": "category",
-                    "settings": {
+          "settings": {
             "collection": "dienbladen",
             "label": "",
             "image": "shopify://shop_images/dienblad.jpg",
@@ -163,7 +162,7 @@
         },
         "category_CBwTff": {
           "type": "category",
-                    "settings": {
+          "settings": {
             "collection": "badkamer-accessoires",
             "label": "Zeepdispensers & Tandborstelhouders",
             "image": "shopify://shop_images/d621353e-3dff-4aef-93cd-e503a55b3c89.jpg",
@@ -172,7 +171,7 @@
         },
         "n8": {
           "type": "category",
-                    "settings": {
+          "settings": {
             "collection": "badmatten",
             "label": "",
             "image": "shopify://shop_images/Foto_9.png",
@@ -263,6 +262,7 @@
         "n14",
         "n15"
       ],
+      "disabled": true,
       "settings": {
         "eyebrow": "Categorieën",
         "heading": "Ontdek per categorie",
@@ -296,6 +296,17 @@
             "link": ""
           }
         },
+        "category_eajTPg": {
+          "type": "category",
+          "settings": {
+            "collection": "spiegels",
+            "heading": "Badkamerspiegels",
+            "subtitle": "",
+            "badge": "Nieuw",
+            "fallback_image": "",
+            "link": ""
+          }
+        },
         "c2": {
           "type": "category",
           "settings": {
@@ -303,6 +314,7 @@
             "heading": "Aanbiedingen",
             "subtitle": "Tijdelijk voordeel · op = op",
             "badge": "Sale",
+            "image": "shopify://shop_images/1_f307a1c4-e6b5-47d4-bf6f-c035bc3403e6.png",
             "fallback_image": "wandkunst-lifestyle.jpg",
             "link": ""
           }
@@ -317,13 +329,62 @@
             "fallback_image": "kussen-08.jpg",
             "link": ""
           }
+        },
+        "category_Fx3Lpx": {
+          "type": "category",
+          "settings": {
+            "collection": "vazen",
+            "heading": "Vazen",
+            "subtitle": "Sfeervolle kunst voor je woonruimte",
+            "badge": "Nieuw",
+            "fallback_image": "",
+            "link": ""
+          }
+        },
+        "category_HgDjza": {
+          "type": "category",
+          "settings": {
+            "collection": "kaarsen-houders",
+            "heading": "Kaarsen & Houders",
+            "subtitle": "Breng warmte, stijl en sfeer in huis",
+            "badge": "Nieuw",
+            "fallback_image": "",
+            "link": ""
+          }
+        },
+        "category_jUTehd": {
+          "type": "category",
+          "settings": {
+            "collection": "dienbladen",
+            "heading": "",
+            "subtitle": "",
+            "badge": "",
+            "fallback_image": "",
+            "link": ""
+          }
+        },
+        "category_br6Hab": {
+          "type": "category",
+          "settings": {
+            "collection": "badkamer-accessoires",
+            "heading": "",
+            "subtitle": "",
+            "badge": "",
+            "fallback_image": "",
+            "link": ""
+          }
         }
       },
       "block_order": [
         "c1",
         "category_mcdGKc",
+        "category_eajTPg",
         "c2",
-        "c3"
+        "c3",
+        "category_Fx3Lpx",
+        "category_HgDjza",
+        "category_jUTehd",
+        "category_br6Hab"
       ],
       "custom_css": [],
       "settings": {
@@ -449,7 +510,7 @@
       "settings": {
         "eyebrow": "BelaMonte nieuwsbrief",
         "heading": "Nieuwe items, inspiratie & aanbiedingen",
-        "text": "Schrijf je in voor de BelaMonte nieuwsbrief en mis niets — nieuwe binnenkomers, seizoensgebonden styling-tips en exclusieve voordelen voor abonnees, als eerste in je inbox."
+        "text": "Schrijf je in voor de Belamonte nieuwsbrief en mis niets — nieuwe binnenkomers, seizoensgebonden styling-tips en exclusieve voordelen voor abonnees, als eerste in je inbox."
       }
     }
   },
