@@ -1,0 +1,44 @@
+<section class="section" style="background-color:#F5EFE6;background-image:radial-gradient(circle,rgba(180,155,120,.18) 1px,transparent 1px);background-size:22px 22px;">
+  <div class="wrap">
+    <div class="style-band">
+      <div style="max-width:360px">
+        {%- if section.settings.eyebrow != blank -%}<div class="eyebrow">{{ section.settings.eyebrow }}</div>{%- endif -%}
+        <h2 style="font-size:clamp(26px,3vw,38px);margin-top:12px">{{ section.settings.heading }}</h2>
+        {%- if section.settings.text != blank -%}<p>{{ section.settings.text }}</p>{%- endif -%}
+      </div>
+      <div class="style-pills">
+        {%- for block in section.blocks -%}
+          <a href="{{ block.settings.link | default: '#' }}" class="pill" {{ block.shopify_attributes }}><span class="d"></span>{{ block.settings.label }}</a>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Shop op stijl",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Bovenschrift", "default": "Vind jouw look" },
+    { "type": "text", "id": "heading", "label": "Kop", "default": "Shop op interieurstijl" },
+    { "type": "textarea", "id": "text", "label": "Tekst", "default": "Van strak modern tot warm landelijk — filter het assortiment op de stijl die bij jouw huis past." }
+  ],
+  "blocks": [
+    { "type": "style", "name": "Stijl", "settings": [
+      { "type": "text", "id": "label", "label": "Label", "default": "Modern" },
+      { "type": "url", "id": "link", "label": "Link" }
+    ] }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    { "name": "Shop op stijl", "blocks": [
+      { "type": "style", "settings": { "label": "Modern" } },
+      { "type": "style", "settings": { "label": "Scandinavisch" } },
+      { "type": "style", "settings": { "label": "Landelijk" } },
+      { "type": "style", "settings": { "label": "Hotel chic" } },
+      { "type": "style", "settings": { "label": "Japandi" } },
+      { "type": "style", "settings": { "label": "Nordic" } }
+    ] }
+  ]
+}
+{% endschema %}

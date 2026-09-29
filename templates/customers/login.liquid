@@ -1,0 +1,12 @@
+<div class="wrap" style="max-width:440px;min-height:60vh">
+  <div class="page-head"><h1>Inloggen</h1></div>
+  {%- form 'customer_login' -%}
+    {%- if form.errors -%}<p style="color:#b00;margin-bottom:14px">{{ form.errors | default_errors }}</p>{%- endif -%}
+    <label class="lbl" style="display:block;font-size:12px;text-transform:uppercase;letter-spacing:.12em;margin-bottom:6px">E-mail</label>
+    <input type="email" name="customer[email]" required style="width:100%;padding:14px;border:1px solid var(--line);border-radius:2px;margin-bottom:16px">
+    <label class="lbl" style="display:block;font-size:12px;text-transform:uppercase;letter-spacing:.12em;margin-bottom:6px">Wachtwoord</label>
+    <input type="password" name="customer[password]" required style="width:100%;padding:14px;border:1px solid var(--line);border-radius:2px;margin-bottom:20px">
+    <button type="submit" class="btn btn--dark" style="width:100%;justify-content:center">Inloggen</button>
+  {%- endform -%}
+  <p style="margin-top:20px;font-size:13px;color:var(--muted)">Nog geen account? <a href="{{ routes.account_register_url }}" style="text-decoration:underline">Registreren</a></p>
+</div>

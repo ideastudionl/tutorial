@@ -1,0 +1,13 @@
+<div class="wrap" style="min-height:60vh">
+  <div class="page-head"><h1>Mijn adressen</h1></div>
+  <div style="max-width:620px;margin:0 auto 60px">
+    <p style="margin-bottom:20px"><a href="{{ routes.account_url }}" class="link-arrow">Terug naar account</a></p>
+    {%- for address in customer.addresses -%}
+      <div style="border:1px solid var(--line);border-radius:3px;padding:20px;margin-bottom:14px">
+        {{ address | format_address }}
+      </div>
+    {%- else -%}
+      <p style="color:var(--muted)">Je hebt nog geen adressen opgeslagen.</p>
+    {%- endfor -%}
+  </div>
+</div>

@@ -1,0 +1,17 @@
+<div class="wrap">
+  <div class="page-head"><h1>Collecties</h1></div>
+  <div class="cat-grid" style="padding-bottom:60px">
+    {%- for collection in collections -%}
+      <a href="{{ collection.url }}" class="cat-card">
+        {%- if collection.featured_image -%}
+          <img src="{{ collection.featured_image | image_url: width: 700 }}" alt="{{ collection.title | escape }}" loading="lazy">
+        {%- else -%}
+          <div class="ph"><span>{{ collection.title }}</span></div>
+        {%- endif -%}
+        <div class="grad"></div>
+        <div class="meta"><div class="name">{{ collection.title }}</div><div class="sub">{{ collection.products_count }} producten</div></div>
+      </a>
+    {%- endfor -%}
+  </div>
+</div>
+{% schema %}{ "name": "Collectielijst", "settings": [] }{% endschema %}

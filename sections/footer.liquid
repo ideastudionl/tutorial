@@ -1,0 +1,131 @@
+<footer class="site-footer">
+  <div class="wrap footer__grid">
+    <div class="footer__col footer__brand">
+      <div class="logo__name">{{ settings.logo_text | default: 'BELAMONTE' }}</div>
+      {%- if settings.logo_tagline != blank -%}<div class="logo__sub">{{ settings.logo_tagline }}</div>{%- endif -%}
+      {%- if section.settings.about != blank -%}<p>{{ section.settings.about }}</p>{%- endif -%}
+      <div class="footer__contact">
+        {%- if section.settings.phone != blank -%}<div>{{ section.settings.phone }}</div>{%- endif -%}
+        {%- if section.settings.hours != blank -%}<div>{{ section.settings.hours }}</div>{%- endif -%}
+        {%- if section.settings.email != blank -%}<div>E-mail: <a href="mailto:{{ section.settings.email }}">{{ section.settings.email }}</a></div>{%- endif -%}
+      </div>
+      {%- assign ig = section.settings.social_instagram | default: settings.social_instagram -%}
+      {%- assign pi = section.settings.social_pinterest | default: settings.social_pinterest -%}
+      {%- assign fb = section.settings.social_facebook | default: settings.social_facebook -%}
+      {%- assign tk = section.settings.social_tiktok -%}
+      {%- if ig != blank or pi != blank or fb != blank or tk != blank -%}
+      <div class="footer__social">
+        {%- if ig != blank -%}<a href="{{ ig }}" aria-label="Instagram"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>{%- endif -%}
+        {%- if pi != blank -%}<a href="{{ pi }}" aria-label="Pinterest"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 19c-.5-1.5-.2-3 .4-5 .3-1 .8-3 .8-3s-.4-.8-.4-2c0-1.8 1-3.2 2.4-3.2 1.1 0 1.7.85 1.7 1.9 0 1.1-.7 2.8-1.1 4.4-.3 1.3.7 2.4 2 2.4 2.4 0 4-3 4-6.6C19.8 6.6 17.6 4 13.8 4 9.6 4 7 7 7 10.2c0 1.2.5 2.5 1.1 3.2"/></svg></a>{%- endif -%}
+        {%- if fb != blank -%}<a href="{{ fb }}" aria-label="Facebook"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M14 8.5h2.5V5.5H14c-2 0-3.2 1.3-3.2 3.4V11H8v3h2.8v6h3v-6h2.4l.5-3h-2.9V9.4c0-.6.3-.9 1.1-.9Z"/></svg></a>{%- endif -%}
+        {%- if tk != blank -%}<a href="{{ tk }}" aria-label="TikTok"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M16 3c.3 2 1.6 3.4 3.5 3.6V9c-1.3 0-2.5-.4-3.5-1.1V15a5.5 5.5 0 1 1-5.5-5.5c.3 0 .6 0 .9.1v2.4a3.1 3.1 0 1 0 2.2 3V3H16z"/></svg></a>{%- endif -%}
+      </div>
+      {%- endif -%}
+    </div>
+
+    <div class="footer__col">
+      <div class="h">Shop</div>
+      <div class="links">
+        <a href="{{ collections['sierkussens'].url }}">Sierkussens</a>
+        <a href="{{ collections['behang'].url }}">Behang</a>
+        <a href="{{ collections['onderzetters'].url }}">Onderzetters</a>
+        <a href="{{ collections['speciale-aanbiedingen'].url }}">Aanbiedingen</a>
+        <a href="{{ routes.all_products_collection_url }}">Alle producten</a>
+      </div>
+    </div>
+
+    <div class="footer__col">
+      <div class="h">Klantenservice</div>
+      <div class="links">
+        <a href="{{ pages['faq'].url }}">Veelgestelde vragen</a>
+        <a href="{{ pages['verzending'].url }}">Verzending &amp; levertijden</a>
+        <a href="{{ pages['retourneren'].url }}">Retourneren &amp; ruilen</a>
+        <a href="{{ routes.account_url }}">Mijn account</a>
+        {%- if section.settings.email != blank -%}<a href="mailto:{{ section.settings.email }}">Contact</a>{%- endif -%}
+      </div>
+    </div>
+
+    <div class="footer__col">
+      <div class="h">Over BelaMonte</div>
+      <div class="links">
+        <a href="{{ pages['over-ons'].url }}">Over ons</a>
+        <a href="{{ pages['verzending'].url }}">Verzendkosten</a>
+        <a href="{{ pages['retourneren'].url }}">14 dagen retourtermijn</a>
+        <a href="{{ routes.search_url }}">Zoeken</a>
+      </div>
+    </div>
+
+    <div class="footer__col">
+      <div class="h">Juridisch</div>
+      <div class="links">
+        <a href="{{ pages['privacybeleid'].url }}">Privacybeleid</a>
+        <a href="{{ pages['algemene-voorwaarden'].url }}">Algemene voorwaarden</a>
+        <a href="{{ pages['privacybeleid'].url }}">Cookiebeleid</a>
+        <a href="{{ pages['retourneren'].url }}">Herroepingsrecht</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap footer__payrow">
+    <div class="footer__paygroup">
+      <div class="h">Veilig betalen met</div>
+      <div class="footer__pay">
+        <span class="pay-logo"><img src="{{ 'pay-ideal-wero.png' | asset_url }}" alt="iDEAL en Wero" style="height:24px;width:auto;display:block" loading="lazy"></span>
+        <span class="pay-logo"><img src="{{ 'pay-klarna.png' | asset_url }}" alt="Klarna" style="height:18px;width:auto;display:block" loading="lazy"></span>
+        <span class="pay-logo"><img src="{{ 'pay-mastercard.webp' | asset_url }}" alt="Mastercard" style="height:20px;width:auto;display:block" loading="lazy"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap footer__bottom">
+    <div class="copy">&copy; {{ 'now' | date: '%Y' }} {{ shop.name }} &middot; Alle prijzen incl. btw</div>
+    <div class="footer__legal">
+      <a href="{{ pages['privacybeleid'].url }}">Privacy</a>
+      <a href="{{ pages['algemene-voorwaarden'].url }}">Voorwaarden</a>
+      <a href="{{ pages['retourneren'].url }}">Retour</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  /* Crème footer — huisstijl */
+  .site-footer{ background:#EFEAE1; color:#5C5345; }
+  .site-footer .footer__brand .logo__name{ color:var(--ink); }
+  .site-footer .footer__brand p{ color:#7C7263; }
+  .site-footer .footer__col .h{ color:#A8884E; }
+  .site-footer .footer__col .links a{ color:#5C5345; }
+  .site-footer .footer__col .links a:hover{ color:var(--ink); }
+  .site-footer .footer__social a{ border-color:#D9CFBF; color:#6F6658; }
+  .site-footer .footer__social a:hover{ border-color:var(--gold); color:var(--gold); }
+  .site-footer .footer__bottom{ border-top-color:#E0D7C8; }
+  .site-footer .footer__bottom .copy{ color:#8B8273; }
+
+  .footer__contact{ font-size:13px; line-height:1.85; color:#7C7263; margin-top:18px; }
+  .footer__contact a{ color:#5C5345; transition:color .25s; }
+  .footer__contact a:hover{ color:var(--ink); }
+  .footer__payrow{ padding:24px 32px 0; display:flex; }
+  .footer__paygroup .h{ font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:#A8884E; margin-bottom:14px; }
+  .footer__pay{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+  .pay-logo{ display:inline-flex; align-items:center; height:30px; padding:0 8px; background:#fff; border:1px solid #E2D9CA; border-radius:4px; }
+  .footer__legal{ display:flex; gap:18px; flex-wrap:wrap; font-size:12px; }
+  .footer__legal a{ color:#8B8273; transition:color .25s; }
+  .footer__legal a:hover{ color:var(--ink); }
+  @media(max-width:560px){ .footer__payrow{ padding:20px 20px 0; } }
+</style>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    { "type": "textarea", "id": "about", "label": "Over-tekst", "default": "Tijdloze woonaccessoires van hoogwaardige materialen. Met liefde samengesteld in Nederland." },
+    { "type": "text", "id": "phone", "label": "Telefoon", "default": "+31 (0)20 123 4567" },
+    { "type": "text", "id": "hours", "label": "Openingstijden", "default": "Ma–Vr 09:00–17:00 uur" },
+    { "type": "text", "id": "email", "label": "E-mail", "default": "info@belamonte.nl" },
+    { "type": "header", "content": "Social media" },
+    { "type": "url", "id": "social_instagram", "label": "Instagram URL" },
+    { "type": "url", "id": "social_pinterest", "label": "Pinterest URL" },
+    { "type": "url", "id": "social_facebook", "label": "Facebook URL" },
+    { "type": "url", "id": "social_tiktok", "label": "TikTok URL" }
+  ]
+}
+{% endschema %}

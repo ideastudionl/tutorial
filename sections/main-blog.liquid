@@ -1,0 +1,16 @@
+<div class="wrap" style="min-height:50vh">
+  <div class="page-head"><h1>{{ blog.title }}</h1></div>
+  <div class="prod-grid" style="padding-bottom:60px">
+    {%- for article in blog.articles -%}
+      <a href="{{ article.url }}" class="prod-card" style="display:block">
+        {%- if article.image -%}<span class="prod-card__media"><img src="{{ article.image | image_url: width: 600 }}" alt="{{ article.title | escape }}"></span>{%- endif -%}
+        <div class="prod-card__body">
+          <div class="prod-card__cat">{{ article.published_at | date: '%d %b %Y' }}</div>
+          <h3 class="prod-card__name">{{ article.title }}</h3>
+          <p class="prod-card__sub" style="margin-top:10px;line-height:1.6">{{ article.excerpt_or_content | strip_html | truncate: 110 }}</p>
+        </div>
+      </a>
+    {%- endfor -%}
+  </div>
+</div>
+{% schema %}{ "name": "Blog", "settings": [] }{% endschema %}

@@ -1,0 +1,31 @@
+<section class="section">
+  <div class="wrap">
+    <div class="newsletter">
+      {%- if section.settings.eyebrow != blank -%}<div class="eyebrow">{{ section.settings.eyebrow }}</div>{%- endif -%}
+      <h2>{{ section.settings.heading }}</h2>
+      {%- if section.settings.text != blank -%}<p>{{ section.settings.text }}</p>{%- endif -%}
+      {%- form 'customer' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        {%- if form.posted_successfully? -%}
+          <div class="newsletter__done"><span style="color:var(--gold)">&#10038;</span> {{ 'newsletter.success' | t }}</div>
+        {%- else -%}
+          <label class="visually-hidden" for="nl-email">{{ 'newsletter.label' | t }}</label>
+          <input id="nl-email" type="email" name="contact[email]" placeholder="Je e-mailadres" required>
+          <button type="submit">{{ 'newsletter.button' | t }}</button>
+        {%- endif -%}
+      {%- endform -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Nieuwsbrief",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Bovenschrift", "default": "BelaMonte nieuwsbrief" },
+    { "type": "text", "id": "heading", "label": "Kop", "default": "Ontvang 10% op je eerste bestelling" },
+    { "type": "textarea", "id": "text", "label": "Tekst", "default": "Schrijf je in voor styling-inspiratie, nieuwe collecties en exclusieve aanbiedingen." }
+  ],
+  "presets": [{ "name": "Nieuwsbrief" }]
+}
+{% endschema %}

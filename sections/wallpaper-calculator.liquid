@@ -1,0 +1,116 @@
+{% if product.type == 'Behang' %}
+<div class="wallpaper-calculator">
+  <h3 class="calculator-title">Bereken uw benodigde rollen</h3>
+  <div class="calculator-fields">
+    <div class="calc-field">
+      <label for="wall-width">Muurbreedte (m)</label>
+      <input type="number" id="wall-width" min="0" step="0.1" placeholder="bijv. 4.5">
+    </div>
+    <div class="calc-field">
+      <label for="wall-height">Muurhoogte (m)</label>
+      <input type="number" id="wall-height" min="0" step="0.1" placeholder="bijv. 2.6">
+    </div>
+    <div class="calc-field">
+      <label for="openings">Aantal deuren/ramen</label>
+      <input type="number" id="openings" min="0" step="1" placeholder="bijv. 1">
+    </div>
+  </div>
+  <div class="calc-result" id="calc-result" style="display:none;">
+    <span class="result-label">U heeft</span>
+    <span class="result-number" id="result-number">0</span>
+    <span class="result-label">rollen nodig</span>
+  </div>
+</div>
+
+<style>
+.wallpaper-calculator {
+  border: 1px solid #d4c5a9;
+  padding: 2rem;
+  margin: 2rem 0;
+  background: #faf8f5;
+}
+.calculator-title {
+  font-size: 1.1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  color: #1a1a1a;
+}
+.calculator-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.calc-field label {
+  display: block;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #666;
+  margin-bottom: 0.4rem;
+}
+.calc-field input {
+  width: 100%;
+  border: 1px solid #d4c5a9;
+  padding: 0.6rem 0.8rem;
+  background: #fff;
+  font-size: 1rem;
+  color: #1a1a1a;
+  outline: none;
+}
+.calc-field input:focus {
+  border-color: #1a1a1a;
+}
+.calc-result {
+  border-top: 1px solid #d4c5a9;
+  padding-top: 1.2rem;
+  text-align: center;
+  font-size: 1rem;
+  color: #1a1a1a;
+  letter-spacing: 0.03em;
+}
+.result-number {
+  font-size: 2rem;
+  font-weight: 600;
+  margin: 0 0.4rem;
+  color: #1a1a1a;
+}
+</style>
+
+<script>
+(function() {
+  const ROLL_WIDTH = 0.53;
+  const ROLL_LENGTH = 10;
+  const MARGIN = 1.10;
+
+  function calculate() {
+    const width = parseFloat(document.getElementById('wall-width').value);
+    const height = parseFloat(document.getElementById('wall-height').value);
+    const openings = parseInt(document.getElementById('openings').value) || 0;
+    const resultEl = document.getElementById('calc-result');
+    const numberEl = document.getElementById('result-number');
+
+    if (!width || !height || width <= 0 || height <= 0) {
+      resultEl.style.display = 'none';
+      return;
+    }
+
+    const stripsPerRoll = Math.floor(ROLL_LENGTH / height);
+    if (stripsPerRoll <= 0) { resultEl.style.display = 'none'; return; }
+
+    const totalStrips = Math.ceil(width / ROLL_WIDTH);
+    const netStrips = Math.max(0, totalStrips - openings);
+    const rollsBase = Math.ceil(netStrips / stripsPerRoll);
+    const rollsFinal = Math.ceil(rollsBase * MARGIN);
+
+    numberEl.textContent = rollsFinal;
+    resultEl.style.display = 'block';
+  }
+
+  document.getElementById('wall-width').addEventListener('input', calculate);
+  document.getElementById('wall-height').addEventListener('input', calculate);
+  document.getElementById('openings').addEventListener('input', calculate);
+})();
+</script>
+{% endif %}

@@ -1,0 +1,66 @@
+{%- capture icon_diamond -%}<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1"><path d="M9 7h6l4 0-7 13L5 7h4Z"/><line x1="5" y1="7" x2="19" y2="7"/><path d="M9 7l3-4 3 4"/></svg>{%- endcapture -%}
+{%- capture icon_truck -%}<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1"><rect x="1" y="6" width="14" height="11" rx="1"/><path d="M15 9h4l3 3v5h-7z"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg>{%- endcapture -%}
+{%- capture icon_gift -%}<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1"><rect x="3" y="8" width="18" height="13" rx="1"/><path d="M3 12h18M12 8v13"/><path d="M12 8S9.5 3 7.5 4.5 9 8 12 8Zm0 0s2.5-5 4.5-3.5S15 8 12 8Z"/></svg>{%- endcapture -%}
+{%- capture icon_shield -%}<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3Z"/><polyline points="8.5 12 11 14.5 16 9"/></svg>{%- endcapture -%}
+{%- capture icon_heart -%}<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1"><path d="M12 20s-7-4.6-7-9.6A3.6 3.6 0 0 1 12 7a3.6 3.6 0 0 1 7 3.4c0 5-7 9.6-7 9.6Z"/></svg>{%- endcapture -%}
+{%- capture icon_leaf -%}<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1"><path d="M5 18c0-7 5-12 14-12 0 9-5 13-12 13a6 6 0 0 1-2-1Z"/><path d="M9 17c2-4 5-6 8-7"/></svg>{%- endcapture -%}
+
+<div class="usp">
+  <div class="wrap usp__grid">
+    {%- for block in section.blocks -%}
+      <div class="usp__item" {{ block.shopify_attributes }}>
+        <span class="ico">
+          {%- case block.settings.icon -%}
+            {%- when 'truck' -%}{{ icon_truck }}
+            {%- when 'gift' -%}{{ icon_gift }}
+            {%- when 'shield' -%}{{ icon_shield }}
+            {%- when 'heart' -%}{{ icon_heart }}
+            {%- when 'leaf' -%}{{ icon_leaf }}
+            {%- else -%}{{ icon_diamond }}
+          {%- endcase -%}
+        </span>
+        <div>
+          <div class="t">{{ block.settings.title }}</div>
+          {%- if block.settings.subtitle != blank -%}<div class="s">{{ block.settings.subtitle }}</div>{%- endif -%}
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "USP-balk",
+  "blocks": [
+    {
+      "type": "item",
+      "name": "USP",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icoon", "default": "diamond",
+          "options": [
+            { "value": "diamond", "label": "Diamant" },
+            { "value": "truck", "label": "Vrachtwagen" },
+            { "value": "gift", "label": "Cadeau" },
+            { "value": "shield", "label": "Schild" },
+            { "value": "heart", "label": "Hart" },
+            { "value": "leaf", "label": "Blad" }
+          ] },
+        { "type": "text", "id": "title", "label": "Titel", "default": "Premium kwaliteit" },
+        { "type": "text", "id": "subtitle", "label": "Subtitel", "default": "Zorgvuldig geselecteerde stoffen" }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "USP-balk",
+      "blocks": [
+        { "type": "item", "settings": { "icon": "diamond", "title": "Premium kwaliteit", "subtitle": "Zorgvuldig geselecteerde stoffen" } },
+        { "type": "item", "settings": { "icon": "truck", "title": "Gratis verzending v.a. € 49", "subtitle": "Morgen in huis bij NL & BE" } },
+        { "type": "item", "settings": { "icon": "gift", "title": "Luxe cadeauverpakking", "subtitle": "Gratis bij elk cadeau" } },
+        { "type": "item", "settings": { "icon": "shield", "title": "14 dagen bedenktijd", "subtitle": "Veilig betalen & gratis retour" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

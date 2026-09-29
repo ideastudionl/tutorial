@@ -1,0 +1,105 @@
+<section class="catcar section" id="catcar-{{ section.id }}">
+  <div class="wrap">
+    <div class="catcar__head">
+      <div>
+        {%- if section.settings.eyebrow != blank -%}<div class="eyebrow">{{ section.settings.eyebrow }}</div>{%- endif -%}
+        <h2>{{ section.settings.heading }}</h2>
+      </div>
+      {%- if section.settings.link_label != blank -%}
+        <a href="{{ section.settings.link | default: routes.collections_url }}" class="link-arrow">{{ section.settings.link_label }}
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><line x1="4" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg>
+        </a>
+      {%- endif -%}
+    </div>
+    <div class="catcar__viewport">
+      <button class="catcar__nav catcar__nav--prev" aria-label="Vorige" data-catcar-prev type="button"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <div class="catcar__track" data-catcar-track>
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign coll = collections[block.settings.collection]
+            assign img = block.settings.image
+            if img == blank and coll.featured_image != blank
+              assign img = coll.featured_image
+            endif
+            assign title = block.settings.label
+            if title == blank
+              assign title = coll.title
+            endif
+            assign url = coll.url | default: block.settings.link | default: '#'
+          -%}
+          <a href="{{ url }}" class="catcar__item" {{ block.shopify_attributes }}>
+            <div class="catcar__circle">
+              {%- if img != blank -%}
+              <img src="{{ img | image_url: width: 440 }}" alt="{{ title | escape }}" loading="lazy" width="440" height="440">
+              {%- else -%}
+                <div class="catcar__ph"></div>
+              {%- endif -%}
+            </div>
+            <div class="catcar__label">{{ title }}</div>
+          </a>
+        {%- endfor -%}
+      </div>
+      <button class="catcar__nav catcar__nav--next" aria-label="Volgende" data-catcar-next type="button"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><polyline points="9 18 15 12 9 6"/></svg></button>
+    </div>
+  </div>
+</section>
+
+<style>
+  #catcar-{{ section.id }}.catcar{ padding:84px 0 4px; }
+  #catcar-{{ section.id }} .catcar__head{ display:flex; align-items:flex-end; justify-content:space-between; gap:24px; flex-wrap:wrap; margin-bottom:38px; }
+  #catcar-{{ section.id }} .catcar__head h2{ font-size:clamp(30px,3.6vw,48px); margin-top:14px; }
+  #catcar-{{ section.id }} .catcar__viewport{ position:relative; }
+  #catcar-{{ section.id }} .catcar__track{ display:flex; gap:clamp(20px,2.6vw,44px); overflow-x:auto; scroll-snap-type:x mandatory; scroll-behavior:smooth; padding:6px 2px 10px; -ms-overflow-style:none; scrollbar-width:none; }
+  #catcar-{{ section.id }} .catcar__track::-webkit-scrollbar{ display:none; }
+  #catcar-{{ section.id }} .catcar__item{ flex:0 0 auto; scroll-snap-align:start; width:clamp(140px,15vw,200px); text-align:center; }
+  #catcar-{{ section.id }} .catcar__circle{ position:relative; width:100%; aspect-ratio:1; border-radius:0; overflow:hidden; background:var(--panel); border:1px solid var(--line); transition:transform .4s ease, box-shadow .4s ease; }
+  #catcar-{{ section.id }} .catcar__item:hover .catcar__circle{ transform:translateY(-5px); box-shadow:0 22px 44px -24px rgba(22,19,15,.55); }
+  #catcar-{{ section.id }} .catcar__circle img{ width:100%; height:100%; object-fit:cover; }
+  #catcar-{{ section.id }} .catcar__ph{ position:absolute; inset:0; background:repeating-linear-gradient(45deg,#EDE7DC 0 14px,#E5DDD0 14px 28px); }
+  #catcar-{{ section.id }} .catcar__label{ margin-top:16px; font-family:'Playfair Display',Georgia,serif; font-size:clamp(15px,1.4vw,19px); color:var(--ink); line-height:1.25; }
+  #catcar-{{ section.id }} .catcar__nav{ position:absolute; top:38%; transform:translateY(-50%); width:46px; height:46px; border-radius:50%; border:1px solid var(--line); background:rgba(255,255,255,.94); color:var(--ink); cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:3; transition:background .25s,color .25s,border-color .25s; box-shadow:0 12px 26px -14px rgba(0,0,0,.35); }
+  #catcar-{{ section.id }} .catcar__nav:hover{ background:var(--ink); color:var(--cream); border-color:var(--ink); }
+  #catcar-{{ section.id }} .catcar__nav--prev{ left:-8px; }
+  #catcar-{{ section.id }} .catcar__nav--next{ right:-8px; }
+  @media(max-width:760px){ #catcar-{{ section.id }} .catcar__nav{ display:none; } #catcar-{{ section.id }} .catcar__track{ gap:18px; } }
+</style>
+
+
+<script>
+  (function(){
+    var root=document.getElementById('catcar-{{ section.id }}');
+    if(!root) return;
+    var track=root.querySelector('[data-catcar-track]');
+    var prev=root.querySelector('[data-catcar-prev]');
+    var next=root.querySelector('[data-catcar-next]');
+    function step(){ var it=track.querySelector('.catcar__item'); var w=it?it.getBoundingClientRect().width:200; return (w+34)*2; }
+    if(next) next.addEventListener('click',function(){ track.scrollBy({left:step(),behavior:'smooth'}); });
+    if(prev) prev.addEventListener('click',function(){ track.scrollBy({left:-step(),behavior:'smooth'}); });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Categorie-carousel",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Bovenschrift", "default": "Categorieën" },
+    { "type": "text", "id": "heading", "label": "Kop", "default": "Ontdek alle categorieën" },
+    { "type": "text", "id": "link_label", "label": "Link-tekst", "default": "Alle collecties" },
+    { "type": "url", "id": "link", "label": "Link" }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Categorie",
+      "settings": [
+        { "type": "collection", "id": "collection", "label": "Collectie" },
+        { "type": "text", "id": "label", "label": "Label (overschrijft collectienaam)" },
+        { "type": "image_picker", "id": "image", "label": "Afbeelding (overschrijft collectie)" },
+        { "type": "url", "id": "link", "label": "Link (indien geen collectie)" }
+      ]
+    }
+  ],
+  "max_blocks": 30,
+  "presets": [{ "name": "Categorie-carousel" }]
+}
+{% endschema %}

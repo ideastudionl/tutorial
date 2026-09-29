@@ -1,0 +1,25 @@
+<div class="wrap" style="min-height:50vh">
+  <div class="page-head">
+    <h1>Zoeken</h1>
+    <form action="{{ routes.search_url }}" method="get" role="search" style="max-width:520px;margin:24px auto 0;display:flex;gap:10px">
+      <input type="search" name="q" value="{{ search.terms | escape }}" placeholder="Zoek producten…" style="flex:1;padding:15px 18px;border:1px solid var(--line);border-radius:2px;font-size:14px">
+      <button type="submit" class="btn btn--dark">Zoek</button>
+    </form>
+  </div>
+
+  {%- if search.performed -%}
+    <p class="count" style="text-align:center;color:var(--muted);margin-bottom:24px">{{ search.results_count }} resultaten voor &ldquo;{{ search.terms }}&rdquo;</p>
+    {%- if search.results.size > 0 -%}
+      <div class="prod-grid" style="padding-bottom:60px">
+        {%- for item in search.results -%}
+          {%- if item.object_type == 'product' -%}
+            {%- render 'product-card', product: item -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <p style="text-align:center;color:var(--muted);padding-bottom:60px">Geen resultaten gevonden.</p>
+    {%- endif -%}
+  {%- endif -%}
+</div>
+{% schema %}{ "name": "Zoeken", "settings": [] }{% endschema %}
