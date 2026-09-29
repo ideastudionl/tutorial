@@ -518,8 +518,11 @@
     </div>
   </section>
 
-  <!-- Nieuwsbrief -->
-  <section class="section">
+  <!-- Nieuwsbrief. Verborgen: het formulier verstuurt niets, bewaart geen adres
+       en die kortingscode van 3 euro bestaat niet in WooCommerce. Haal het
+       hidden-attribuut pas weg als er een e-maildienst achter zit en de coupon
+       echt is aangemaakt. -->
+  <section class="section" id="nieuwsbrief" hidden>
     <div class="wrap news">
       <div class="stack">
         <p class="eyebrow">Nieuwsbrief</p>
