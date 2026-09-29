@@ -17,6 +17,7 @@
      SITE_URL  het eigen adres. Gezet = productie: indexeerbaar, met sitemap.
 */
 import { mkdir, readFile, writeFile, cp, rm, access } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
 import { join, basename } from 'node:path';
 
 const WP_BASE = (process.env.WP_BASE || 'https://www.soccer-games.nl').replace(/\/+$/, '');
@@ -80,6 +81,17 @@ script = herschrijf(script);
 /* Absolute paden naar de bestanden: op /product/soccer-memo zou een relatief
    pad in /product/assets/ gaan zoeken. */
 bron = bron.split('href="assets/').join('href="/assets/').split('src="assets/').join('src="/assets/');
+
+/* Een vingerafdruk achter de stylesheet en het script. Zonder dit haalt een
+   browser na een uitrol wel de nieuwe HTML op, maar houdt hij de opmaak en het
+   script nog een uur uit zijn cache: nieuwe markup met oude stijlen. Verandert
+   de inhoud, dan verandert het adres, en dan is er niets meer te verwarren. */
+const stijl = await readFile('assets/styles.css', 'utf8');
+const merk = (tekst) => createHash('sha1').update(tekst).digest('hex').slice(0, 8);
+
+bron = bron
+  .split('href="/assets/styles.css"').join(`href="/assets/styles.css?v=${merk(stijl)}"`)
+  .split('src="/assets/app.js"').join(`src="/assets/app.js?v=${merk(script)}"`);
 
 const title = 'Soccer MeMo, het voetbal-memoryspel';
 const desc = 'Soccer MeMo: het voetbal-memoryspel met 48 kaarten en 24 paren. Voor 22:00 besteld, morgen in huis.';
