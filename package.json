@@ -1,0 +1,7 @@
+{
+  "name": "soccer-memo-shop",
+  "private": true,
+  "scripts": {
+    "build": "node prepare.mjs"
+  }
+}
