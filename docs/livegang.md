@@ -270,6 +270,72 @@ de WooCommerce-winkelwagen, laat het me dan weten; dan vang ik dat adres ook af.
 
 De bevestigingsmail komt hoe dan ook uit WooCommerce.
 
+## Bezoekers op winkel.soccer-games.nl doorsturen
+
+Het subdomein toont nog de oude WordPress-site. Wie daar per ongeluk belandt,
+hoort op de nieuwe site uit te komen. Maar een botte "stuur alles door" maakt de
+winkel stuk, want deze site stuurt zelf een aantal paden juist naar het
+subdomein toe. Die zouden dan heen en weer blijven kaatsen:
+
+| Pad | Waarom het naar winkel gaat |
+|---|---|
+| `/wp-admin`, `/wp-login.php` | jouw beheer |
+| `/wp-json/…` | de Store API waar de winkel op draait |
+| `/wp-content/…` | oude afbeeldingslinks uit Google |
+| `/mijn-account/…` | het klantaccount van WooCommerce |
+| `/algemene-voorwaarden`, `/privacy-voorwaarden` | staan op WordPress |
+| `/afrekenen/order-pay/…`, `/afrekenen/order-received/…` | betaallinks uit oude mails |
+| `/wc-api/…` | terugmeldingen van Mollie |
+
+Daarom stuurt het onderstaande alleen door wat echt dubbel is: de voorpagina,
+de productpagina's en de winkelpagina. Al het andere laat het met rust. Dat is
+veiliger dan een lijst met uitzonderingen, want vergeet je er daar één, dan
+merk je dat pas als een klant niet kan betalen.
+
+In Code Snippets, een nieuw snippet, "Alleen frontend uitvoeren":
+
+```php
+add_action( 'template_redirect', function () {
+    if ( is_admin() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
+        return;
+    }
+    if ( 'winkel.soccer-games.nl' !== strtolower( $_SERVER['HTTP_HOST'] ?? '' ) ) {
+        return;
+    }
+
+    $naar = null;
+    if ( is_front_page() || is_home() ) {
+        $naar = '/';
+    } elseif ( function_exists( 'is_product' ) && is_product() ) {
+        $naar = '/product/' . get_post_field( 'post_name', get_queried_object_id() );
+    } elseif ( function_exists( 'is_shop' ) && is_shop() ) {
+        $naar = '/';
+    }
+
+    if ( ! $naar ) {
+        return;
+    }
+
+    wp_redirect( 'https://www.soccer-games.nl' . $naar, 302 );
+    exit;
+}, 1 );
+```
+
+Let op `wp_redirect` en niet `wp_safe_redirect`: die laatste weigert een ander
+domein en stuurt je dan naar het beheer.
+
+Het is een 302, dus tijdelijk. Zo kun je het zonder gevolgen terugdraaien.
+Bevalt het na een week, zet er dan 301 van, dan onthoudt Google het ook.
+
+Na het plaatsen controleren:
+
+- [ ] `winkel.soccer-games.nl` komt uit op `www.soccer-games.nl`
+- [ ] `winkel.soccer-games.nl/wp-admin` blijft gewoon je beheer
+- [ ] `winkel.soccer-games.nl/wp-json/wc/store/v1/products` geeft nog JSON
+- [ ] Een product in het mandje leggen en afrekenen werkt nog
+- [ ] `www.soccer-games.nl/algemene-voorwaarden` komt uit op de voorwaarden en
+      kaatst niet heen en weer
+
 ## Over vindbaarheid, eerlijk
 
 De nieuwe site heeft echte adressen (`/product/soccer-memo`), een sitemap en
