@@ -7,19 +7,19 @@
   "rewrites": [
     {
       "source": "/product/:slug",
-      "destination": "/index.html"
+      "destination": "/"
     },
     {
       "source": "/shop",
-      "destination": "/index.html"
+      "destination": "/"
     },
     {
       "source": "/afrekenen",
-      "destination": "/index.html"
+      "destination": "/"
     },
     {
       "source": "/bedankt",
-      "destination": "/index.html"
+      "destination": "/"
     }
   ],
   "redirects": [
