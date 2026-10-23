@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="Soccer Games">
+  <mask id="sgFigure">
+    <rect width="120" height="120" fill="#fff"/>
+    <g fill="#000">
+      <circle cx="66" cy="27" r="10"/>
+      <path d="M97 44 L104 52 L36 47 L4 34 Z"/>
+      <path d="M52 40 L74 50 L68 74 L46 64 Z"/>
+      <path d="M46 62 L62 70 L44 106 L27 99 Z"/>
+      <path d="M62 68 L76 72 L74 100 L60 101 Z"/>
+      <path d="M2 70 L48 84 L34 96 L4 82 Z"/>
+      <circle cx="90" cy="100" r="9"/>
+    </g>
+  </mask>
+  <circle cx="60" cy="60" r="58" fill="#22C55E" mask="url(#sgFigure)"/>
+</svg>

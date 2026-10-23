@@ -1,0 +1,39 @@
+{
+  "id": 65,
+  "name": "Soccer Memo",
+  "slug": "soccer-memo",
+  "type": "simple",
+  "permalink": "https://www.soccer-games.nl/product/soccer-memo/",
+  "description": "<h1 class=\"hero-title\">Het enige echte voetbal memory spel</h1>\n<p class=\"hero-text\">Waar kinderen worden geprikkeld met alle afleidingen die de wereld te bieden heeft, helpt Soccer Memo de kleine voetballiefhebber om beter te concentreren, scherper te onthouden en met plezier gefocust te blijven spelen.</p>\n<h2 class=\"section-title\">Herkennen, onthouden en als eerste de juiste paren vinden</h2>\n<p>Soccer Memo is een memo spel met 48 voetbal kaarten. Tijdens het spelen trainen kinderen hun concentratie en geheugen, terwijl ze proberen zoveel mogelijk twee gelijke afbeeldingen bij elkaar te zoeken.</p>\n<p>Kinderen zijn actief bezig en moeten tegelijkertijd goed opletten. Daardoor is het niet alleen leuk om te spelen, maar ook waardevol voor het ontwikkelen van focus, aandacht en geheugen.</p>\n<p>Door het herkenbare voetbalthema maken jonge voetballiefhebbers kennis met elementen die zij ook tijdens trainingen en wedstrijden tegenkomen.</p>",
+  "on_sale": true,
+  "prices": {
+    "price": "1495",
+    "regular_price": "1995",
+    "sale_price": "1495",
+    "currency_code": "EUR",
+    "currency_minor_unit": 2,
+    "currency_decimal_separator": ",",
+    "currency_thousand_separator": "."
+  },
+  "average_rating": "0",
+  "review_count": 0,
+  "images": [
+    { "id": 66, "src": "https://www.soccer-games.nl/wp-content/uploads/2022/07/Soccer-Memo.jpg", "thumbnail": "https://www.soccer-games.nl/wp-content/uploads/2022/07/Soccer-Memo-247x296.jpg", "name": "Soccer Memo", "alt": "Soccer Memo" },
+    { "id": 81, "src": "https://www.soccer-games.nl/wp-content/uploads/2022/07/Voetbal-Memory-Spel.png", "thumbnail": "https://www.soccer-games.nl/wp-content/uploads/2022/07/Voetbal-Memory-Spel-247x296.png", "name": "Voetbal Memory Spel", "alt": "" },
+    { "id": 88, "src": "https://www.soccer-games.nl/wp-content/uploads/2022/07/Memory-Soccer-Theme.png", "thumbnail": "https://www.soccer-games.nl/wp-content/uploads/2022/07/Memory-Soccer-Theme-247x296.png", "name": "Memory Soccer Theme", "alt": "" },
+    { "id": 89, "src": "https://www.soccer-games.nl/wp-content/uploads/2022/07/Memory-Spel-Voetbal-Thema.png", "thumbnail": "https://www.soccer-games.nl/wp-content/uploads/2022/07/Memory-Spel-Voetbal-Thema-247x296.png", "name": "Memory Spel Voetbal Thema", "alt": "" },
+    { "id": 87, "src": "https://www.soccer-games.nl/wp-content/uploads/2022/07/Memory-Football-Theme.png", "thumbnail": "https://www.soccer-games.nl/wp-content/uploads/2022/07/Memory-Football-Theme-247x296.png", "name": "Memory Football Theme", "alt": "" },
+    { "id": 86, "src": "https://www.soccer-games.nl/wp-content/uploads/2022/07/Memory-Voetbal.png", "thumbnail": "https://www.soccer-games.nl/wp-content/uploads/2022/07/Memory-Voetbal-247x296.png", "name": "Memory Voetbal", "alt": "" },
+    { "id": 85, "src": "https://www.soccer-games.nl/wp-content/uploads/2022/07/Voetbal-Memory-Kopen.png", "thumbnail": "https://www.soccer-games.nl/wp-content/uploads/2022/07/Voetbal-Memory-Kopen-247x296.png", "name": "Voetbal Memory Kopen", "alt": "" }
+  ],
+  "categories": [],
+  "attributes": [],
+  "variations": [],
+  "is_purchasable": true,
+  "is_in_stock": true,
+  "low_stock_remaining": null,
+  "stock_availability": { "text": "39 op voorraad", "class": "in-stock" },
+  "weight": "",
+  "dimensions": { "length": "", "width": "", "height": "" },
+  "add_to_cart": { "minimum": 1, "maximum": 39, "multiple_of": 1 }
+}

@@ -1,0 +1,14 @@
+[
+ {"id":65,"name":"Soccer Memo","type":"simple","permalink":"https://www.soccer-games.nl/product/soccer-memo/","on_sale":true,
+  "prices":{"price":"1495","regular_price":"1995","price_range":null,"currency_minor_unit":2},
+  "images":[{"src":"https://www.soccer-games.nl/wp-content/uploads/2022/07/Soccer-Memo.jpg","thumbnail":"https://www.soccer-games.nl/wp-content/uploads/2022/07/Soccer-Memo-247x296.jpg"}],
+  "is_in_stock":true},
+ {"id":662,"name":"WK 2026 Limited Edition Puzzel – 300 stuks","type":"simple","permalink":"https://www.soccer-games.nl/product/puzzel/","on_sale":false,
+  "prices":{"price":"9947","regular_price":"9947","price_range":null,"currency_minor_unit":2},
+  "images":[{"src":"https://ae01.alicdn.com/kf/x.jpg","thumbnail":"https://ae01.alicdn.com/kf/x.jpg"}],
+  "is_in_stock":true},
+ {"id":696,"name":"Kingsday Shirt","type":"variable","permalink":"https://www.soccer-games.nl/product/kingsday-shirt/","on_sale":false,
+  "prices":{"price":"507","regular_price":"507","price_range":{"min_amount":"507","max_amount":"1073"},"currency_minor_unit":2},
+  "images":[{"src":"https://ae01.alicdn.com/kf/y.png","thumbnail":"https://ae01.alicdn.com/kf/y.png"}],
+  "is_in_stock":false}
+]
